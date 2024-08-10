@@ -8,7 +8,8 @@ module.exports = withMT({
     extend: {
       colors: {
         primary: "#3BB77E",
-        secondary: "#e5f3f3"
+        secondary: "#e5f3f3",
+        textColor: "#253D4E"
       },
       fontFamily: {
         sans: ["Quicksand", "sans-serif"],
