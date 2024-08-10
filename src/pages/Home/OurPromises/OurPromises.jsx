@@ -1,8 +1,3 @@
-import { BiSupport } from "react-icons/bi";
-import { FaExpeditedssl, FaShippingFast } from "react-icons/fa";
-import { IoPricetagOutline } from "react-icons/io5";
-import { MdOutlineVerified } from "react-icons/md";
-
 import svg1 from "../../../assets/promises/icon-1.svg";
 import svg2 from "../../../assets/promises/icon-2.svg";
 import svg3 from "../../../assets/promises/icon-3.svg";
@@ -20,7 +15,7 @@ const OurPromises = () => {
                         <img className="w-12" src={svg1} alt="Best prices & offers" />
 
                         <div className="space-y-1">
-                            <h4 className="font-sans text-sm font-semibold">Best prices & offers</h4>
+                            <h4 className="font-sans text-sm font-semibold">Best prices</h4>
                             <p className="font-serif text-xs text-[#adadad]">Orders $50 or more</p>
                         </div>
                     </div>
@@ -42,7 +37,7 @@ const OurPromises = () => {
                         <img className="w-12" src={svg3} alt="Best prices & offers" />
 
                         <div className="space-y-1">
-                            <h4 className="font-sans text-sm font-semibold">Best prices & offers</h4>
+                            <h4 className="font-sans text-sm font-semibold">Best prices</h4>
                             <p className="font-serif text-xs text-[#adadad]">Orders $50 or more</p>
                         </div>
                     </div>
@@ -53,7 +48,7 @@ const OurPromises = () => {
                         <img className="w-12" src={svg4} alt="Best prices & offers" />
 
                         <div className="space-y-1">
-                            <h4 className="font-sans text-sm font-semibold">Best prices & offers</h4>
+                            <h4 className="font-sans text-sm font-semibold">Best prices</h4>
                             <p className="font-serif text-xs text-[#adadad]">Orders $50 or more</p>
                         </div>
                     </div>
@@ -64,7 +59,7 @@ const OurPromises = () => {
                         <img className="w-12" src={svg5} alt="Best prices & offers" />
 
                         <div className="space-y-1">
-                            <h4 className="font-sans text-sm font-semibold">Best prices & offers</h4>
+                            <h4 className="font-sans text-sm font-semibold">Best prices</h4>
                             <p className="font-serif text-xs text-[#adadad]">Orders $50 or more</p>
                         </div>
                     </div>

@@ -34,27 +34,17 @@ const Hero = () => {
                         disableOnInteraction: false,
                     }}
                     modules={[Autoplay]}
-                    className="mySwiper"
                 >
 
                     {
                         banners?.map(banner => (
                             <SwiperSlide key={banner?._id}>
-                                <img className='w-full h-[50vh] object-cover' src={banner?.image} alt="banner img" />
+                                <img className='w-full h-[70vh] object-cover rounded-2xl' src={banner?.image} alt="banner img" />
                             </SwiperSlide>
                         ))
                     }
 
                 </Swiper>
-
-                <div className='flex justify-between items-center gap-5 mt-5'>
-                    <div>
-                        <img src="https://cholo-bazar-e-commerce.web.app/assets/banner-10-52b8935d.png" alt="" />
-                    </div>
-                    <div>
-                        <img src="https://ds.rokomari.store/rokomari110/banner/DESKTOPa4b7030c-6d82-44a5-8993-322a8e6621a5.png" alt="" />
-                    </div>
-                </div>
             </div>
 
             <WelcomeModal open={open} handleOpen={handleOpen} />

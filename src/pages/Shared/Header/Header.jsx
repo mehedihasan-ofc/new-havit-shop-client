@@ -91,14 +91,14 @@ const Header = () => {
                                 <input
                                     type="text"
                                     placeholder="Search..."
-                                    className="px-5 w-full outline-none text-base h-10 rounded-l-sm border"
+                                    className="px-5 w-full outline-none text-base h-10 rounded-l-lg border"
                                     value={searchValue}
                                     onChange={handleSearchChange}
                                     required
                                 />
                                 <button
                                     type="submit"
-                                    className="px-3 bg-primary outline-none text-base text-white h-10 rounded-r-sm"
+                                    className="px-3 bg-primary outline-none text-base text-white h-10 rounded-r-lg"
                                 >
                                     <MdOutlineSearch size={18} />
                                 </button>
