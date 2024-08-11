@@ -7,9 +7,8 @@ import LinkedinIcon from "../../../assets/social/linkedin.png";
 import DiscordIcon from "../../../assets/social/discord.png";
 import TelegramIcon from "../../../assets/social/telegram.png";
 import TiktokIcon from "../../../assets/social/tiktok.png";
-import { SlLocationPin } from "react-icons/sl";
-import { TfiEmail } from "react-icons/tfi";
-import { MdLocalPhone } from "react-icons/md";
+import { SlEarphonesAlt, SlLocationPin } from "react-icons/sl";
+import { GrSend } from "react-icons/gr";
 
 const Footer = () => {
 
@@ -27,7 +26,7 @@ const Footer = () => {
                     </div>
 
                     <div>
-                        <h4 className="font-sans font-semibold text-base">Company</h4>
+                        <h4 className="font-sans font-bold text-lg">Company</h4>
 
                         <div className="space-y-2 font-serif text-sm mt-5">
                             <p className="hover:underline transition-all duration-300"><Link to="/terms-conditions">Terms & Conditions</Link></p>
@@ -36,7 +35,7 @@ const Footer = () => {
                         </div>
                     </div>
                     <div>
-                        <h4 className="font-sans font-semibold text-base">Get to Know Us</h4>
+                        <h4 className="font-sans font-bold text-lg">Get to Know Us</h4>
 
                         <div className="space-y-2 font-serif text-sm mt-5">
                             <p className="hover:underline transition-all duration-300"><Link to="/faq">FAQ</Link></p>
@@ -45,21 +44,21 @@ const Footer = () => {
                         </div>
                     </div>
                     <div>
-                        <h4 className="font-sans font-semibold text-base">Contact Info</h4>
+                        <h4 className="font-sans font-bold text-lg">Contact Info</h4>
 
                         <div className="space-y-2 font-serif text-sm mt-5">
                             <div className="flex items-center gap-2">
-                                <SlLocationPin />
+                                <SlLocationPin size={18} className="text-primary" />
                                 <p>1086 Mukti Palli Road, Vatara Gulshan</p>
                             </div>
 
                             <div className="flex items-center gap-2">
-                                <TfiEmail />
+                                <GrSend size={16} className="text-primary" />
                                 <p>havitshopp@gmail.com </p>
                             </div>
 
                             <div className="flex items-center gap-2">
-                                <MdLocalPhone />
+                                <SlEarphonesAlt size={16} className="text-primary" />
                                 <p>+8801744991003 & +8801892138932</p>
                             </div>
                         </div>

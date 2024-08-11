@@ -21,9 +21,7 @@ const Categories = () => {
         <div className="my-container">
 
             <div className='flex justify-between items-center'>
-                <h4 className='text-2xl font-sans font-bold'>Featured Categories</h4>
-                {/* <button className='font-serif'>See All</button> */}
-
+                <h4 className='text-xl font-sans font-bold'>Featured Categories</h4>
                 <Button variant="text" className="flex items-center gap-2 font-serif px-4 py-2 rounded">
                     See All
                     <FaArrowRightLong />
@@ -38,6 +36,7 @@ const Categories = () => {
                         pagination={{
                             clickable: true,
                         }}
+                        loop={true}
                         breakpoints={{
                             640: {
                                 slidesPerView: 2,
@@ -61,7 +60,7 @@ const Categories = () => {
                                         style={{ backgroundColor: getRandomColor() }}
                                     >
                                         <img className='w-16 mx-auto' src={category?.image} alt={category?.name} />
-                                        <p className='text-sm font-semibold font-sans'>{category?.name}</p>
+                                        <p className='text-xs font-semibold font-sans mt-1'>{category?.name}</p>
                                     </div>
                                 </SwiperSlide>
                             ))
