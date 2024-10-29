@@ -14,7 +14,7 @@ const ReadBlog = () => {
     const { data: blog = {}, isLoading: loading } = useQuery({
         queryKey: ['blog'],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/blogs/${id}`);
+            const res = await fetch(`https://new-havit-shop-server.vercel.app/blogs/${id}`);
             return res.json();
         }
     });

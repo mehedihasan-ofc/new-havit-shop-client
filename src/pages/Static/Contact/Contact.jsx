@@ -43,7 +43,7 @@ const Contact = () => {
                 createdAt: new Date().toISOString()
             }
 
-            const response = await axios.post('http://localhost:5000/message', newMessage);
+            const response = await axios.post('https://new-havit-shop-server.vercel.app/message', newMessage);
             if (response.data.message === 'Email already exists!') {
                 toast.error('This email has already sent a message!', {
                     position: "top-right",

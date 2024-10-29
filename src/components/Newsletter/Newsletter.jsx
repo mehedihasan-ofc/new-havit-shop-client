@@ -18,7 +18,7 @@ const Newsletter = () => {
                 createdAt: new Date().toISOString()
             }
 
-            const response = await axios.post('http://localhost:5000/subscription', newSubscription);
+            const response = await axios.post('https://new-havit-shop-server.vercel.app/subscription', newSubscription);
             if (response.data.message === 'Email already exists!') {
                 toast.error('This email is already subscribed.', {
                     position: "top-right",
