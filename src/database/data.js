@@ -207,3 +207,294 @@ export const nowOffers = [
         categoryImage: "https://s3-ap-southeast-1.amazonaws.com/com.meenabazaronline.v1.01/homeBanner/2024/9/11/u4XZnBL9jKhLChiwPKLmEp5AtmQdUKgXq2hv1vWF___h2xl.webp"
     },
 ]
+
+export const products = [
+    {
+        _id: 1,
+        name: "Organic Almonds",
+        categoryId: "cat001",
+        subcategoryId: "subcat001",
+        regularPrice: 15.99,
+        price: 12.99,
+        availableStock: 50,
+        rating: 4.8,
+        description: "Raw organic almonds, rich in nutrients and perfect for snacking.",
+        brand: "Nature's Best",
+        images: [
+            {
+                _id: 1,
+                url: "https://wp.alithemes.com/html/nest/demo/assets/imgs/shop/product-1-2.jpg",
+                description: "Organic Almonds - Front View"
+            },
+            {
+                _id: 2,
+                url: "https://wp.alithemes.com/html/nest/demo/assets/imgs/shop/product-1-2.jpg",
+                description: "Organic Almonds - Packaging"
+            }
+        ]
+    },
+    {
+        _id: 2,
+        name: "Organic Quinoa",
+        categoryId: "cat002",
+        subcategoryId: "subcat001",
+        regularPrice: 9.99,
+        price: 7.99,
+        availableStock: 100,
+        rating: 4.5,
+        description: "Nutritious organic quinoa, a gluten-free grain packed with protein.",
+        brand: "Grain Goodness",
+        images: [
+            {
+                _id: 3,
+                url: "https://wp.alithemes.com/html/nest/demo/assets/imgs/shop/product-2-2.jpg",
+                description: "Organic Quinoa - Raw"
+            },
+            {
+                _id: 4,
+                url: "https://wp.alithemes.com/html/nest/demo/assets/imgs/shop/product-2-2.jpg",
+                description: "Organic Quinoa - Cooked"
+            }
+        ]
+    },
+    {
+        _id: 3,
+        name: "Whole Wheat Pasta",
+        categoryId: "cat002",
+        subcategoryId: "subcat002",
+        regularPrice: 3.99,
+        price: 2.99,
+        availableStock: 80,
+        rating: 4.3,
+        description: "Healthy whole wheat pasta, perfect for a wholesome meal.",
+        brand: "Pasta Perfection",
+        images: [
+            {
+                _id: 5,
+                url: "https://wp.alithemes.com/html/nest/demo/assets/imgs/shop/product-3-2.jpg",
+                description: "Whole Wheat Pasta - Dry"
+            },
+            {
+                _id: 6,
+                url: "https://wp.alithemes.com/html/nest/demo/assets/imgs/shop/product-3-2.jpg",
+                description: "Whole Wheat Pasta - Cooked"
+            }
+        ]
+    },
+    {
+        _id: 4,
+        name: "Extra Virgin Olive Oil",
+        categoryId: "cat003",
+        subcategoryId: "subcat001",
+        regularPrice: 18.99,
+        price: 16.99,
+        availableStock: 30,
+        rating: 4.7,
+        description: "Premium extra virgin olive oil, perfect for cooking or dressing.",
+        brand: "Mediterranean Gold",
+        images: [
+            {
+                _id: 7,
+                url: "https://wp.alithemes.com/html/nest/demo/assets/imgs/shop/product-4-2.jpg",
+                description: "Extra Virgin Olive Oil - Bottle"
+            },
+            {
+                _id: 8,
+                url: "https://wp.alithemes.com/html/nest/demo/assets/imgs/shop/product-4-2.jpg",
+                description: "Extra Virgin Olive Oil - Drizzling"
+            }
+        ]
+    },
+    {
+        _id: 5,
+        name: "Dark Chocolate Bar",
+        categoryId: "cat004",
+        subcategoryId: "subcat001",
+        regularPrice: 2.99,
+        price: 2.49,
+        availableStock: 150,
+        rating: 4.9,
+        description: "Rich dark chocolate with 70% cocoa, perfect for a guilt-free treat.",
+        brand: "Choco Delight",
+        images: [
+            {
+                _id: 9,
+                url: "https://wp.alithemes.com/html/nest/demo/assets/imgs/shop/product-5-2.jpg",
+                description: "Dark Chocolate Bar - Wrapper"
+            },
+            {
+                _id: 10,
+                url: "https://wp.alithemes.com/html/nest/demo/assets/imgs/shop/product-5-2.jpg",
+                description: "Dark Chocolate Bar - Close-up"
+            }
+        ]
+    },
+    {
+        _id: 6,
+        name: "Green Tea Bags",
+        categoryId: "cat005",
+        subcategoryId: "subcat001",
+        regularPrice: 5.99,
+        price: 4.99,
+        availableStock: 200,
+        rating: 4.6,
+        description: "Premium organic green tea bags, rich in antioxidants.",
+        brand: "Tea Harmony",
+        images: [
+            {
+                _id: 11,
+                url: "https://wp.alithemes.com/html/nest/demo/assets/imgs/shop/product-6-2.jpg",
+                description: "Green Tea Bags - Packaging"
+            },
+            {
+                _id: 12,
+                url: "https://wp.alithemes.com/html/nest/demo/assets/imgs/shop/product-6-2.jpg",
+                description: "Green Tea Bags - Brewed"
+            }
+        ]
+    },
+    {
+        _id: 7,
+        name: "Chia Seeds",
+        categoryId: "cat001",
+        subcategoryId: "subcat002",
+        regularPrice: 7.99,
+        price: 6.99,
+        availableStock: 75,
+        rating: 4.4,
+        description: "High-quality chia seeds, perfect for smoothies and baking.",
+        brand: "Seed Power",
+        images: [
+            {
+                _id: 13,
+                url: "https://wp.alithemes.com/html/nest/demo/assets/imgs/shop/product-1-2.jpg",
+                description: "Chia Seeds - Package"
+            },
+            {
+                _id: 14,
+                url: "https://wp.alithemes.com/html/nest/demo/assets/imgs/shop/product-1-2.jpg",
+                description: "Chia Seeds - Close-up"
+            }
+        ]
+    },
+    {
+        _id: 8,
+        name: "Almond Butter",
+        categoryId: "cat001",
+        subcategoryId: "subcat002",
+        regularPrice: 8.99,
+        price: 7.49,
+        availableStock: 60,
+        rating: 4.7,
+        description: "Creamy almond butter made from organic almonds.",
+        brand: "Nutty Goodness",
+        images: [
+            {
+                _id: 15,
+                url: "https://wp.alithemes.com/html/nest/demo/assets/imgs/shop/product-2-2.jpg",
+                description: "Almond Butter - Jar"
+            },
+            {
+                _id: 16,
+                url: "https://wp.alithemes.com/html/nest/demo/assets/imgs/shop/product-2-2.jpg",
+                description: "Almond Butter - Spread"
+            }
+        ]
+    },
+    {
+        _id: 9,
+        name: "Organic Coconut Oil",
+        categoryId: "cat003",
+        subcategoryId: "subcat001",
+        regularPrice: 9.99,
+        price: 8.99,
+        availableStock: 40,
+        rating: 4.8,
+        description: "Cold-pressed organic coconut oil for cooking and beauty.",
+        brand: "Coco Bliss",
+        images: [
+            {
+                _id: 17,
+                url: "https://wp.alithemes.com/html/nest/demo/assets/imgs/shop/product-3-2.jpg",
+                description: "Coconut Oil - Bottle"
+            },
+            {
+                _id: 18,
+                url: "https://wp.alithemes.com/html/nest/demo/assets/imgs/shop/product-3-2.jpg",
+                description: "Coconut Oil - Pouring"
+            }
+        ]
+    },
+    {
+        _id: 10,
+        name: "Herbal Tea Blend",
+        categoryId: "cat005",
+        subcategoryId: "subcat002",
+        regularPrice: 6.99,
+        price: 5.99,
+        availableStock: 120,
+        rating: 4.5,
+        description: "A soothing blend of herbal teas for relaxation.",
+        brand: "Herbal Harmony",
+        images: [
+            {
+                _id: 19,
+                url: "https://wp.alithemes.com/html/nest/demo/assets/imgs/shop/product-4-2.jpg",
+                description: "Herbal Tea Blend - Box"
+            },
+            {
+                _id: 20,
+                url: "https://wp.alithemes.com/html/nest/demo/assets/imgs/shop/product-4-2.jpg",
+                description: "Herbal Tea Blend - Brewed"
+            }
+        ]
+    },
+    {
+        _id: 11,
+        name: "Peanut Butter",
+        categoryId: "cat001",
+        subcategoryId: "subcat001",
+        regularPrice: 4.99,
+        price: 3.99,
+        availableStock: 90,
+        rating: 4.6,
+        description: "Smooth and creamy peanut butter made from organic peanuts.",
+        brand: "NutriSpread",
+        images: [
+            {
+                _id: 21,
+                url: "https://wp.alithemes.com/html/nest/demo/assets/imgs/shop/product-5-2.jpg",
+                description: "Peanut Butter - Jar"
+            },
+            {
+                _id: 22,
+                url: "https://wp.alithemes.com/html/nest/demo/assets/imgs/shop/product-5-2.jpg",
+                description: "Peanut Butter - Spread"
+            }
+        ]
+    },
+    {
+        _id: 12,
+        name: "Basmati Rice",
+        categoryId: "cat002",
+        subcategoryId: "subcat001",
+        regularPrice: 12.99,
+        price: 10.99,
+        availableStock: 70,
+        rating: 4.7,
+        description: "Premium basmati rice, fragrant and long-grained.",
+        brand: "Grain Masters",
+        images: [
+            {
+                _id: 23,
+                url: "https://wp.alithemes.com/html/nest/demo/assets/imgs/shop/product-6-2.jpg",
+                description: "Basmati Rice - Pack"
+            },
+            {
+                _id: 24,
+                url: "https://wp.alithemes.com/html/nest/demo/assets/imgs/shop/product-6-2.jpg",
+                description: "Basmati Rice - Cooked"
+            }
+        ]
+    }
+];

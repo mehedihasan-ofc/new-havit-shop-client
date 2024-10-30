@@ -39,7 +39,7 @@ const Hero = () => {
                     {
                         banners?.map(banner => (
                             <SwiperSlide key={banner?._id}>
-                                <img className='w-full h-[70vh] object-cover rounded-2xl' src={banner?.image} alt="banner img" />
+                                <img className='w-full h-[400px] object-cover rounded-2xl' src={banner?.image} alt="banner img" />
                             </SwiperSlide>
                         ))
                     }
