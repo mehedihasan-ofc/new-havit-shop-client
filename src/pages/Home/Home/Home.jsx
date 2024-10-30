@@ -1,5 +1,6 @@
 import Categories from "../Categories/Categories";
 import Hero from "../Hero/Hero";
+import NowOffers from "../NowOffers/NowOffers";
 import OurPromises from "../OurPromises/OurPromises";
 
 const Home = () => {
@@ -7,6 +8,7 @@ const Home = () => {
         <>
             <Hero />
             <OurPromises />
+            <NowOffers />
             <Categories />
         </>
     );
