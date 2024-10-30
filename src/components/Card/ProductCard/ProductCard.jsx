@@ -9,7 +9,7 @@ const ProductCard = ({ product }) => {
             <h5 className="text-lg font-semibold mt-2">{product.name}</h5>
             <p className="text-gray-700">{product.description}</p>
             <div className="flex justify-between items-center mt-2">
-                <span className="text-lg font-bold">${product.price.toFixed(2)}</span>
+                <span className="text-lg font-bold">Tk {product.price.toFixed(2)}</span>
                 <button className="bg-blue-500 text-white py-1 px-3 rounded">Add to Cart</button>
             </div>
         </div>
