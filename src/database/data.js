@@ -188,3 +188,22 @@ export const sidebarMenus = {
         },
     ]
 }
+
+// ---------------------------------------------------- dummy data
+export const nowOffers = [
+    {
+        _id: "1",
+        categoryName: "Offer 1",
+        categoryImage: "https://s3-ap-southeast-1.amazonaws.com/com.meenabazaronline.v1.01/homeBanner/2024/9/11/WD8XRB7Wy72S6JVX5WdX46tnMdKf3UUZQiu1GgAJ___h2xl.webp"
+    },
+    {
+        _id: "2",
+        categoryName: "Offer 2",
+        categoryImage: "https://s3-ap-southeast-1.amazonaws.com/com.meenabazaronline.v1.01/homeBanner/2024/9/18/jE0UcmuWwAS03H1GHEFmUwXTkl5viCvncF2Zo5R7___h2xl.webp"
+    },
+    {
+        _id: "3",
+        categoryName: "Offer 3",
+        categoryImage: "https://s3-ap-southeast-1.amazonaws.com/com.meenabazaronline.v1.01/homeBanner/2024/9/11/u4XZnBL9jKhLChiwPKLmEp5AtmQdUKgXq2hv1vWF___h2xl.webp"
+    },
+]
