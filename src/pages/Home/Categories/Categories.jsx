@@ -56,10 +56,10 @@ const Categories = () => {
                         {
                             categories?.map(category => (
                                 <SwiperSlide key={category?._id}>
-                                    <div className='h-36 text-center cursor-pointer border border-[#F4F6FA] hover:border-primary rounded-lg px-2 py-4 transition duration-300'
+                                    <div className='h-28 text-center cursor-pointer border border-[#F4F6FA] hover:border-primary rounded-lg px-2 py-4 transition duration-300'
                                         style={{ backgroundColor: getRandomColor() }}
                                     >
-                                        <img className='w-16 mx-auto' src={category?.image} alt={category?.name} />
+                                        <img className='w-14 mx-auto' src={category?.image} alt={category?.name} />
                                         <p className='text-xs font-semibold font-sans mt-1'>{category?.name}</p>
                                     </div>
                                 </SwiperSlide>

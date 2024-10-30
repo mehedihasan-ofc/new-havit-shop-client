@@ -10,7 +10,7 @@ const OurPromises = () => {
             
             <div className="flex justify-between items-center gap-5">
 
-                <div className="bg-[#F4F6FA] px-4 py-5 rounded">
+                <div className="bg-[#F4F6FA] px-4 py-5 rounded shadow">
                     <div className="flex justify-between items-center gap-4">
                         <img className="w-12" src={svg1} alt="Best prices & offers" />
 
@@ -21,7 +21,7 @@ const OurPromises = () => {
                     </div>
                 </div>
 
-                <div className="bg-[#F4F6FA] px-4 py-5 rounded">
+                <div className="bg-[#F4F6FA] px-4 py-5 rounded shadow">
                     <div className="flex justify-between items-center gap-4">
                         <img className="w-12" src={svg2} alt="Best prices & offers" />
 
@@ -32,7 +32,7 @@ const OurPromises = () => {
                     </div>
                 </div>
 
-                <div className="bg-[#F4F6FA] px-4 py-5 rounded">
+                <div className="bg-[#F4F6FA] px-4 py-5 rounded shadow">
                     <div className="flex justify-between items-center gap-4">
                         <img className="w-12" src={svg3} alt="Best prices & offers" />
 
@@ -43,7 +43,7 @@ const OurPromises = () => {
                     </div>
                 </div>
 
-                <div className="bg-[#F4F6FA] px-4 py-5 rounded">
+                <div className="bg-[#F4F6FA] px-4 py-5 rounded shadow">
                     <div className="flex justify-between items-center gap-4">
                         <img className="w-12" src={svg4} alt="Best prices & offers" />
 
@@ -54,7 +54,7 @@ const OurPromises = () => {
                     </div>
                 </div>
 
-                <div className="bg-[#F4F6FA] px-4 py-5 rounded">
+                <div className="bg-[#F4F6FA] px-4 py-5 rounded shadow">
                     <div className="flex justify-between items-center gap-4">
                         <img className="w-12" src={svg5} alt="Best prices & offers" />
 
