@@ -5,8 +5,6 @@ import ProductCard from "../../../components/Card/ProductCard/ProductCard";
 
 const PopularProducts = () => {
 
-    console.log(products);
-
     return (
         <div className="my-container my-10">
 
@@ -18,9 +16,7 @@ const PopularProducts = () => {
                 </Button>
             </div>
 
-            <div className="mt-5">Coming Soon...</div>
-
-            <div className="mt-5 grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="mt-5 grid grid-cols-1 md:grid-cols-4 gap-5">
                 {products.map(product => (
                     <ProductCard key={product._id} product={product} />
                 ))}
