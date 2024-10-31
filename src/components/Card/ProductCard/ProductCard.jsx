@@ -32,7 +32,7 @@ const ProductCard = ({ product }) => {
                     {product.name}
                 </h5>
 
-                <div className="flex items-center gap-2 my-1">
+                <div className="flex items-center gap-2 mt-1 mb-2">
                     <Rating
                         style={{ maxWidth: 70 }}
                         value={product?.rating}
