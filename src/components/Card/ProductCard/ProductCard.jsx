@@ -1,5 +1,3 @@
-// ProductCard.js
-
 import { Button } from "@material-tailwind/react";
 import { BsCartPlus } from "react-icons/bs";
 
@@ -14,8 +12,8 @@ const ProductCard = ({ product }) => {
                 <div className="pl-4 pt-4 pr-4 pb-2">
                     <img
                         src={product.images[0].url}
-                        alt={product.images[0].description}
-                        className="w-full h-36 object-contain transform transition-transform duration-300 ease-in-out group-hover:scale-110"
+                        alt={product.images[0].name}
+                        className="w-full h-36 object-contain transform transition-transform duration-300 ease-in-out group-hover:scale-105"
                     />
                 </div>
 
@@ -27,7 +25,7 @@ const ProductCard = ({ product }) => {
             </div>
 
             <div className="pl-4 pb-4 pr-4">
-                <h5 className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">{product.brand}</h5>
+                <h5 className="text-[10px] font-semibold text-gray-500 uppercase">{product.brand}</h5>
 
                 <h5 className="text-[14px] font-semibold mt-1 text-gray-800 group-hover:text-primary truncate transition-all duration-300">
                     {product.name}
@@ -41,10 +39,6 @@ const ProductCard = ({ product }) => {
                             <span className="text-sm text-gray-400 line-through">Tk {product.regularPrice.toFixed(2)}</span>
                         )}
                     </div>
-
-                    {/* <button className="text-sm font-medium py-2 rounded-lg mt-4 transition-all duration-300">
-                        Add to Cart
-                    </button> */}
 
                     <Button variant="filled" size="sm" className="flex items-center gap-2 rounded bg-primary py-1 px-2 capitalize font-medium text-xs">
                         <BsCartPlus size={14} />
