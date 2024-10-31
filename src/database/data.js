@@ -217,7 +217,7 @@ export const products = [
         regularPrice: 15.99,
         price: 12.99,
         availableStock: 50,
-        rating: 4.8,
+        rating: 3.5,
         description: "Raw organic almonds, rich in nutrients and perfect for snacking.",
         brand: "Nature's Best",
         images: [

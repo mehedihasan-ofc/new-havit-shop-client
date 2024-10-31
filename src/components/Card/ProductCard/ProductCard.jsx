@@ -1,5 +1,6 @@
 import { Button } from "@material-tailwind/react";
 import { BsCartPlus } from "react-icons/bs";
+import { Rating } from '@smastrom/react-rating';
 
 const ProductCard = ({ product }) => {
     const hasDiscount = product.price < product.regularPrice;
@@ -31,8 +32,20 @@ const ProductCard = ({ product }) => {
                     {product.name}
                 </h5>
 
+                <div className="flex items-center gap-2 my-1">
+                    <Rating
+                        style={{ maxWidth: 70 }}
+                        value={product?.rating}
+                        readOnly
+                    />
+
+                    <div>
+                        <span className="text-sm text-gray-400">({product?.rating})</span>
+                    </div>
+                </div>
+
                 <div className="flex justify-between items-center">
-                    <div className="flex items-baseline space-x-2 mt-2">
+                    <div className="flex items-baseline space-x-2">
                         <span className="text-base font-bold text-primary">Tk {product.price.toFixed(2)}</span>
 
                         {hasDiscount && (
