@@ -1,9 +1,11 @@
 import { Button } from "@material-tailwind/react";
 import { FaArrowRightLong } from "react-icons/fa6";
-import { products } from '../../../database/data';
 import ProductCard from "../../../components/Card/ProductCard/ProductCard";
+import useProducts from "../../../hooks/useProducts";
 
 const PopularProducts = () => {
+
+    const [products, loading, refetch] = useProducts();
 
     return (
         <div className="my-container my-10">
