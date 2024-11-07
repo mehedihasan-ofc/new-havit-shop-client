@@ -16,7 +16,7 @@ const SubcategoryList = () => {
     const [subcategories, loading, refetch] = useSubcategories();
     const [axiosSecure] = useAxiosSecure();
 
-    const handleDeleteCategory = (id) => {
+    const handleDeleteSubcategory = (id) => {
 
         Swal.fire({
             title: "Are you sure?",
@@ -133,7 +133,7 @@ const SubcategoryList = () => {
                                                     <CiEdit className="text-amber-800" size={20} />
                                                 </IconButton>
 
-                                                <IconButton onClick={() => handleDeleteCategory(_id)} size="sm" variant="text" className="rounded-full">
+                                                <IconButton onClick={() => handleDeleteSubcategory(_id)} size="sm" variant="text" className="rounded-full">
                                                     <AiOutlineDelete className="text-red-600" size={20} />
                                                 </IconButton>
                                             </td>

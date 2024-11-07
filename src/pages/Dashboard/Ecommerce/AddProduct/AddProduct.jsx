@@ -63,11 +63,11 @@ const AddProduct = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-    
+
         try {
             // Upload multiple images
             const downloadURLs = await uploadMultipleImagesToStorage(formData.images);
-    
+
             const newProduct = {
                 name: formData.name,
                 categoryId: formData.categoryId,
@@ -78,22 +78,23 @@ const AddProduct = () => {
                 rating: parseFloat(formData.rating),
                 description: formData.description,
                 brand: formData.brand,
+                createdAt: new Date().toISOString(),
                 images: downloadURLs.map((url, index) => ({
-                    _id: new Date().getTime() + index, // Unique ID for each image
+                    _id: new Date().getTime() + index,
                     url: url
                 }))
             };
-    
+
             // Make an API call to send the data to the database
             const { data } = await axiosSecure.post('/product', newProduct);
-    
+
             if (data.insertedId) {
                 toast.success('New Product Added successfully!', {
                     position: "top-right",
                     autoClose: 1000,
                     pauseOnHover: false,
                 });
-    
+
                 // Reset form data after successful upload
                 setFormData({
                     name: '',
@@ -110,13 +111,16 @@ const AddProduct = () => {
                 });
                 fileInputRef.current.value = null; // Clear file input
             }
-    
+            else {
+                console.error("No insertedId in response");
+            }
+
         } catch (error) {
-            console.error('Error uploading images:', error);
+            console.error("Error during API call:", error);
         } finally {
             setLoading(false);
         }
-    };    
+    };
 
     return (
         <div className="border shadow max-w-3xl mx-auto">
@@ -297,7 +301,7 @@ const AddProduct = () => {
                         />
                     </div>
 
-                    <div className='text-center'>
+                    <div className='flex items-center justify-center'>
                         <Button type="submit" loading={loading} className='rounded-none bg-primary font-medium px-10'>
                             {loading ? 'Adding Product...' : 'Add Product'}
                         </Button>
