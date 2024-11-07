@@ -38,7 +38,7 @@ const AllCategories = () => {
                                 src={category?.image}
                                 alt={category?.name}
                             />
-                            <p className="text-sm font-semibold text-gray-700 mt-1">{category?.name}</p>
+                            <p className="text-sm font-medium">{category?.name}</p>
                         </div>
                     ))
                 }
