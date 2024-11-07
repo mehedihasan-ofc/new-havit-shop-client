@@ -37,6 +37,7 @@ import SubcategoryList from "../pages/Dashboard/Subcategory/SubcategoryList/Subc
 import AddProduct from "../pages/Dashboard/Ecommerce/AddProduct/AddProduct";
 import ProductList from "../pages/Dashboard/Ecommerce/ProductList/ProductList";
 import AllCategories from "../pages/AllCategories/AllCategories";
+import ProductsByCategory from "../pages/ProductsByCategory/ProductsByCategory";
 
 const router = createBrowserRouter([
     {
@@ -47,10 +48,23 @@ const router = createBrowserRouter([
                 path: "/",
                 element: <Home />
             },
+
+
+
+            // ============================================>
             {
                 path: "/categories/all",
                 element: <AllCategories />
             },
+            {
+                path: "/products/categories/:categoryId",
+                element: <ProductsByCategory />
+            },
+
+
+
+
+
             // Static
             {
                 path: "/terms-conditions",

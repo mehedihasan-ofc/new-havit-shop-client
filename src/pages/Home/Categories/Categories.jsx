@@ -4,7 +4,7 @@ import 'swiper/css';
 
 import useCategories from '../../../hooks/useCategories';
 import { FaArrowRightLong } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Categories = () => {
 
@@ -58,12 +58,14 @@ const Categories = () => {
                         {
                             categories?.map(category => (
                                 <SwiperSlide key={category?._id}>
-                                    <div className='h-28 text-center cursor-pointer border border-[#F4F6FA] hover:border-primary rounded-lg px-2 py-4 transition duration-300'
-                                        style={{ backgroundColor: getRandomColor() }}
-                                    >
-                                        <img className='w-14 mx-auto' src={category?.image} alt={category?.name} />
-                                        <p className='text-xs font-semibold font-sans mt-1'>{category?.name}</p>
-                                    </div>
+                                    <Link to={`/products/categories/${category?._id}`}>
+                                        <div className='h-28 text-center cursor-pointer border border-[#F4F6FA] hover:border-primary rounded-lg px-2 py-4 transition duration-300'
+                                            style={{ backgroundColor: getRandomColor() }}
+                                        >
+                                            <img className='w-14 mx-auto' src={category?.image} alt={category?.name} />
+                                            <p className='text-xs font-semibold font-sans mt-1'>{category?.name}</p>
+                                        </div>
+                                    </Link>
                                 </SwiperSlide>
                             ))
                         }
