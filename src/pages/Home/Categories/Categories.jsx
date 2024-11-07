@@ -4,10 +4,12 @@ import 'swiper/css';
 
 import useCategories from '../../../hooks/useCategories';
 import { FaArrowRightLong } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 const Categories = () => {
 
     const [categories] = useCategories();
+    const navigate = useNavigate();
 
     // Define your color palette
     const colors = ['#F2FCE4', '#FFFCEB', '#ECFFEC', '#FEEFEA', '#FFF3EB', '#FFF3FF'];
@@ -22,7 +24,7 @@ const Categories = () => {
 
             <div className='flex justify-between items-center'>
                 <h4 className='text-xl font-sans font-bold'>Featured Categories</h4>
-                <Button variant="text" className="flex items-center gap-2 font-serif px-4 py-2 rounded">
+                <Button onClick={() => navigate("/categories/all")} variant="text" className="flex items-center gap-2 font-serif px-4 py-2 rounded">
                     See All
                     <FaArrowRightLong />
                 </Button>

@@ -3,7 +3,7 @@ import useSubcategories from "../../../../hooks/useSubcategories";
 import { Link } from "react-router-dom";
 import { TbCategoryPlus } from "react-icons/tb";
 import { AiOutlineDelete } from "react-icons/ai";
-import { CiEdit } from "react-icons/ci";
+// import { CiEdit } from "react-icons/ci";
 import { formattedDate } from "../../../../utils";
 import MySpinner from "../../../../components/Shared/MySpinner/MySpinner";
 import Swal from "sweetalert2";
@@ -129,9 +129,9 @@ const SubcategoryList = () => {
                                                 </Typography>
                                             </td>
                                             <td className={classes}>
-                                                <IconButton size="sm" variant="text" className="rounded-full">
+                                                {/* <IconButton size="sm" variant="text" className="rounded-full">
                                                     <CiEdit className="text-amber-800" size={20} />
-                                                </IconButton>
+                                                </IconButton> */}
 
                                                 <IconButton onClick={() => handleDeleteSubcategory(_id)} size="sm" variant="text" className="rounded-full">
                                                     <AiOutlineDelete className="text-red-600" size={20} />

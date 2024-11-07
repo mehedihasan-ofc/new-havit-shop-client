@@ -10,7 +10,7 @@ import {
 import useCategories from "../../../../hooks/useCategories";
 import MySpinner from "../../../../components/Shared/MySpinner/MySpinner";
 import { formattedDate } from "../../../../utils";
-import { CiEdit } from "react-icons/ci";
+// import { CiEdit } from "react-icons/ci";
 import { AiOutlineDelete } from "react-icons/ai";
 import { TbCategoryPlus } from "react-icons/tb";
 import { Link } from "react-router-dom";
@@ -140,9 +140,9 @@ const CategoryList = () => {
                                                 </Typography>
                                             </td>
                                             <td className={classes}>
-                                                <IconButton size="sm" variant="text" className="rounded-full">
+                                                {/* <IconButton size="sm" variant="text" className="rounded-full">
                                                     <CiEdit className="text-amber-800" size={20} />
-                                                </IconButton>
+                                                </IconButton> */}
 
                                                 <IconButton onClick={() => handleDeleteCategory(_id)} size="sm" variant="text" className="rounded-full">
                                                     <AiOutlineDelete className="text-red-600" size={20} />

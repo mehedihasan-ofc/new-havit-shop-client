@@ -36,6 +36,7 @@ import NewSubcategory from "../pages/Dashboard/Subcategory/NewSubcategory/NewSub
 import SubcategoryList from "../pages/Dashboard/Subcategory/SubcategoryList/SubcategoryList";
 import AddProduct from "../pages/Dashboard/Ecommerce/AddProduct/AddProduct";
 import ProductList from "../pages/Dashboard/Ecommerce/ProductList/ProductList";
+import AllCategories from "../pages/AllCategories/AllCategories";
 
 const router = createBrowserRouter([
     {
@@ -46,6 +47,11 @@ const router = createBrowserRouter([
                 path: "/",
                 element: <Home />
             },
+            {
+                path: "/categories/all",
+                element: <AllCategories />
+            },
+            // Static
             {
                 path: "/terms-conditions",
                 element: <TermsConditions />
