@@ -61,7 +61,7 @@ const NewCategory = () => {
 
                     toast.success('Category created successfully!', {
                         position: "top-right",
-                        autoClose: 1600,
+                        autoClose: 1000,
                         pauseOnHover: false,
                     });
 

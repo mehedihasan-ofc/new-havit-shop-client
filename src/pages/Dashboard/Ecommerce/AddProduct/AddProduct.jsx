@@ -4,6 +4,9 @@ import { Button } from '@material-tailwind/react';
 import useCategories from '../../../../hooks/useCategories';
 import useSubcategories from '../../../../hooks/useSubcategories';
 import useAxiosSecure from '../../../../hooks/useAxiosSecure';
+import { AiOutlineCloseCircle } from 'react-icons/ai';
+import { uploadMultipleImagesToStorage } from '../../../../utils';
+import { toast } from 'react-toastify';
 
 const AddProduct = () => {
     const [categories] = useCategories();
@@ -49,19 +52,71 @@ const AddProduct = () => {
         setFormData((prev) => ({ ...prev, images: files, imagePreviews: previews }));
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(formData);
-
-        setLoading(true);
-
-        // Upload the image and get the download URL
-
-        const newProduct = {
-            ...formData,
-            createdAt: new Date().toISOString(),
-        }
+    const handleDeleteImage = (index) => {
+        setFormData((prev) => {
+            const newImages = prev.images.filter((_, i) => i !== index);
+            const newPreviews = prev.imagePreviews.filter((_, i) => i !== index);
+            return { ...prev, images: newImages, imagePreviews: newPreviews };
+        });
     };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+    
+        try {
+            // Upload multiple images
+            const downloadURLs = await uploadMultipleImagesToStorage(formData.images);
+    
+            const newProduct = {
+                name: formData.name,
+                categoryId: formData.categoryId,
+                subcategoryId: formData.subcategoryId,
+                regularPrice: parseFloat(formData.regularPrice),
+                price: parseFloat(formData.price),
+                availableStock: parseInt(formData.availableStock, 10),
+                rating: parseFloat(formData.rating),
+                description: formData.description,
+                brand: formData.brand,
+                images: downloadURLs.map((url, index) => ({
+                    _id: new Date().getTime() + index, // Unique ID for each image
+                    url: url
+                }))
+            };
+    
+            // Make an API call to send the data to the database
+            const { data } = await axiosSecure.post('/product', newProduct);
+    
+            if (data.insertedId) {
+                toast.success('New Product Added successfully!', {
+                    position: "top-right",
+                    autoClose: 1000,
+                    pauseOnHover: false,
+                });
+    
+                // Reset form data after successful upload
+                setFormData({
+                    name: '',
+                    categoryId: '',
+                    subcategoryId: '',
+                    regularPrice: '',
+                    price: '',
+                    availableStock: '',
+                    rating: '',
+                    description: '',
+                    brand: '',
+                    images: [],
+                    imagePreviews: []
+                });
+                fileInputRef.current.value = null; // Clear file input
+            }
+    
+        } catch (error) {
+            console.error('Error uploading images:', error);
+        } finally {
+            setLoading(false);
+        }
+    };    
 
     return (
         <div className="border shadow max-w-3xl mx-auto">
@@ -81,6 +136,7 @@ const AddProduct = () => {
                             onChange={handleFileChange}
                             className="w-full text-gray-900 focus:outline-none"
                             multiple
+                            required
                         />
                         <p className="mt-2 text-sm text-gray-500">
                             Upload multiple images to showcase the product.
@@ -90,12 +146,21 @@ const AddProduct = () => {
                     {formData.imagePreviews.length > 0 && (
                         <div className="mt-4 grid grid-cols-3 gap-4">
                             {formData.imagePreviews.map((src, index) => (
-                                <img
-                                    key={index}
-                                    src={src}
-                                    alt="Product Preview"
-                                    className="h-32 w-full object-cover rounded-md border border-gray-300"
-                                />
+                                <div key={index} className="relative">
+                                    <img
+                                        src={src}
+                                        alt="Product Preview"
+                                        className="h-32 w-full object-cover rounded-md border border-gray-300"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => handleDeleteImage(index)}
+                                        className="absolute top-1 right-1 bg-red-600 text-white rounded-full p-1 hover:bg-red-700"
+                                        title="Delete image"
+                                    >
+                                        <AiOutlineCloseCircle />
+                                    </button>
+                                </div>
                             ))}
                         </div>
                     )}
@@ -109,6 +174,7 @@ const AddProduct = () => {
                             value={formData.name}
                             onChange={handleChange}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                            required
                         />
                     </div>
 
@@ -139,7 +205,8 @@ const AddProduct = () => {
                                 value={formData.subcategoryId}
                                 onChange={handleChange}
                                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
-                                disabled={!formData.categoryId}  // Disable until category is selected
+                                disabled={!formData.categoryId}
+                                required
                             >
                                 <option value="" disabled>Select a subcategory</option>
                                 {filteredSubcategories.map(subcategory => (
@@ -173,6 +240,7 @@ const AddProduct = () => {
                                 value={formData.price}
                                 onChange={handleChange}
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                                required
                             />
                         </div>
                     </div>
@@ -187,6 +255,7 @@ const AddProduct = () => {
                                 value={formData.availableStock}
                                 onChange={handleChange}
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                                required
                             />
                         </div>
                         <div>
@@ -198,6 +267,7 @@ const AddProduct = () => {
                                 value={formData.rating}
                                 onChange={handleChange}
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                                required
                             />
                         </div>
                     </div>
@@ -211,6 +281,7 @@ const AddProduct = () => {
                             value={formData.brand}
                             onChange={handleChange}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                            required
                         />
                     </div>
 
@@ -222,6 +293,7 @@ const AddProduct = () => {
                             value={formData.description}
                             onChange={handleChange}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                            required
                         />
                     </div>
 

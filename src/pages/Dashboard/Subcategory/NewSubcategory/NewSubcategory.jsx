@@ -41,7 +41,7 @@ const NewSubcategory = () => {
             if (data.insertedId) {
                 toast.success('Subcategory created successfully!', {
                     position: "top-right",
-                    autoClose: 1600,
+                    autoClose: 1000,
                     pauseOnHover: false,
                 });
 
