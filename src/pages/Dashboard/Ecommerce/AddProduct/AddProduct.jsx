@@ -1,12 +1,16 @@
 import { useState, useRef } from 'react';
 import SVG from "../../../../assets/svg/img-status-7.svg";
 import { Button } from '@material-tailwind/react';
+import useCategories from '../../../../hooks/useCategories';
+import useSubcategories from '../../../../hooks/useSubcategories';
+import useAxiosSecure from '../../../../hooks/useAxiosSecure';
 
 const AddProduct = () => {
+    const [categories] = useCategories();
+    const [subcategories] = useSubcategories();
+    const [axiosSecure] = useAxiosSecure();
 
-    // todo
     const [loading, setLoading] = useState(false);
-
 
     const [formData, setFormData] = useState({
         name: '',
@@ -27,7 +31,17 @@ const AddProduct = () => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
+
+        // Clear subcategory selection if category changes
+        if (name === 'categoryId') {
+            setFormData((prev) => ({ ...prev, subcategoryId: '' }));
+        }
     };
+
+    // Filter subcategories based on selected category ID
+    const filteredSubcategories = subcategories.filter(
+        (sub) => sub.categoryId === formData.categoryId
+    );
 
     const handleFileChange = (e) => {
         const files = Array.from(e.target.files);
@@ -38,6 +52,15 @@ const AddProduct = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(formData);
+
+        setLoading(true);
+
+        // Upload the image and get the download URL
+
+        const newProduct = {
+            ...formData,
+            createdAt: new Date().toISOString(),
+        }
     };
 
     return (
@@ -90,29 +113,43 @@ const AddProduct = () => {
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
+
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Category ID</label>
-                            <input
-                                type="text"
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Select Category</label>
+                            <select
                                 name="categoryId"
-                                placeholder="Enter category ID"
                                 value={formData.categoryId}
                                 onChange={handleChange}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-                            />
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                                required
+                            >
+                                <option value="" disabled>Select a category</option>
+                                {categories.map(category => (
+                                    <option key={category._id} value={category._id}>
+                                        {category.name}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Subcategory ID</label>
-                            <input
-                                type="text"
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Select Subcategory</label>
+                            <select
                                 name="subcategoryId"
-                                placeholder="Enter subcategory ID"
                                 value={formData.subcategoryId}
                                 onChange={handleChange}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-                            />
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                                disabled={!formData.categoryId}  // Disable until category is selected
+                            >
+                                <option value="" disabled>Select a subcategory</option>
+                                {filteredSubcategories.map(subcategory => (
+                                    <option key={subcategory._id} value={subcategory._id}>
+                                        {subcategory.name}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
+
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
@@ -132,7 +169,7 @@ const AddProduct = () => {
                             <input
                                 type="number"
                                 name="price"
-                                placeholder="Enter price"
+                                placeholder="Enter price BDT"
                                 value={formData.price}
                                 onChange={handleChange}
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
@@ -157,7 +194,7 @@ const AddProduct = () => {
                             <input
                                 type="number"
                                 name="rating"
-                                placeholder="Enter rating"
+                                placeholder="Enter rating like 4.5"
                                 value={formData.rating}
                                 onChange={handleChange}
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
@@ -188,14 +225,7 @@ const AddProduct = () => {
                         />
                     </div>
 
-                    {/* <button
-                        type="submit"
-                        className="block w-full bg-primary text-white py-2 rounded-md font-medium hover:bg-primary-dark"
-                    >
-                        Add Product
-                    </button> */}
-
-                    <div>
+                    <div className='text-center'>
                         <Button type="submit" loading={loading} className='rounded-none bg-primary font-medium px-10'>
                             {loading ? 'Adding Product...' : 'Add Product'}
                         </Button>
