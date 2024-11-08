@@ -4,7 +4,6 @@ import axios from "axios";
 import { useState } from "react";
 import MySpinner from "../../components/Shared/MySpinner/MySpinner";
 import { Rating } from "@smastrom/react-rating";
-import { Button } from "@material-tailwind/react";
 import { BsCartPlus } from "react-icons/bs";
 import { FaMinus, FaPlus } from "react-icons/fa6";
 
@@ -22,7 +21,7 @@ const ProductDetails = () => {
     });
 
     if (isLoading) return <MySpinner />;
-    if (!product) return <div>Product not found</div>;
+    if (!product) return <div className="text-center mt-10 text-lg text-gray-500">Product not found</div>;
 
     const hasDiscount = product.price < product.regularPrice;
     const discountPercentage = hasDiscount
@@ -30,72 +29,89 @@ const ProductDetails = () => {
         : 0;
 
     const handleAddToCart = () => {
-        // Implement your add-to-cart logic here
         console.log(`Added ${quantity} of ${product.name} to the cart.`);
     };
 
     return (
         <div className="my-container my-10">
-            <div className="grid grid-cols-2 gap-5">
-                <div>
-                    {/* Display product images here */}
-                    images
+            {/* Product Card */}
+            <div className="grid gap-8 md:grid-cols-2 bg-white dark:bg-gray-900 rounded-lg shadow overflow-hidden transition-all duration-300">
+
+                {/* Image Section */}
+                <div className="flex justify-center items-center bg-gray-100 dark:bg-gray-700 p-5 rounded-lg overflow-hidden">
+                    <div className="aspect-w-1 aspect-h-1 w-full max-w-lg">
+                        <div className="flex items-center justify-center text-gray-500 dark:text-gray-400 text-3xl">
+                            {/* Image placeholder */}
+                            Image Placeholder
+                        </div>
+                    </div>
                 </div>
 
-                <div className="space-y-3">
-                    <h2 className="font-bold text-4xl">{product.name}</h2>
-                    <div className="flex items-center gap-2">
+                {/* Details Section */}
+                <div className="p-6 lg:p-8 space-y-6">
+                    <h2 className="text-2xl lg:text-3xl font-semibold text-gray-900 dark:text-gray-50">{product.name}</h2>
+
+                    {/* Rating */}
+                    <div className="flex items-center gap-3">
                         <Rating style={{ maxWidth: 100 }} value={product.rating} readOnly />
-                        <span className="text-sm text-gray-400">({product.rating})</span>
+                        <span className="text-sm text-gray-500 dark:text-gray-400">({product.rating})</span>
                     </div>
-                    <div className="flex items-baseline space-x-2">
-                        <span className="text-2xl font-bold text-primary">Tk {product.price.toFixed(2)}</span>
+
+                    {/* Price */}
+                    <div className="flex items-center gap-3 text-xl font-bold text-primary dark:text-white">
+                        <span>Tk {product.price.toFixed(2)}</span>
                         {hasDiscount && (
                             <>
-                                <span className="text-base text-gray-400 line-through">Tk {product.regularPrice.toFixed(2)}</span>
-                                <span className="text-sm text-red-500 font-semibold">{discountPercentage}% OFF</span>
+                                <span className="text-gray-400 line-through text-base">Tk {product.regularPrice.toFixed(2)}</span>
+                                <span className="text-sm text-red-500 font-medium">{discountPercentage}% OFF</span>
                             </>
                         )}
                     </div>
-                    <div>
-                        <p className="text-gray-700">{product.brand}</p>
-                        <p className="text-gray-500">Available Stock: {product.availableStock}</p>
+
+                    {/* Additional Details */}
+                    <div className="text-gray-700 dark:text-gray-300 space-y-1">
+                        <p>Brand: <span className="font-medium">{product.brand}</span></p>
+                        <p>Stock: <span className="font-medium">{product.availableStock}</span></p>
                     </div>
 
-                    {/* Quantity and Add to Cart Button */}
-                    <div className="flex items-center space-x-4 mt-5">
-                        <div className="flex items-center border rounded">
+                    {/* Quantity & Add to Cart */}
+                    <div className="flex items-center space-x-4">
+                        <div className="flex items-center border border-gray-300 dark:border-gray-700 rounded-md overflow-hidden shadow-sm">
                             <button
                                 onClick={() => setQuantity(prev => Math.max(prev - 1, 1))}
-                                className="p-4 text-gray-600 hover:text-primary transition"
+                                className="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
                             >
-                                <FaMinus size={12} />
+                                <FaMinus size={14} />
                             </button>
                             <input
                                 type="number"
                                 value={quantity}
                                 onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value)))}
-                                className="w-12 text-center outline-none"
+                                className="w-12 text-center text-gray-900 dark:text-white bg-transparent outline-none"
                             />
                             <button
                                 onClick={() => setQuantity(prev => prev + 1)}
-                                className="p-4 text-gray-600 hover:text-primary transition"
+                                className="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
                             >
-                                <FaPlus size={12} />
+                                <FaPlus size={14} />
                             </button>
                         </div>
 
-                        <Button onClick={handleAddToCart} variant="filled" size="sm" className="flex items-center gap-2 rounded bg-primary capitalize font-medium py-3">
+                        <button
+                            onClick={handleAddToCart}
+                            className="flex items-center gap-2 bg-primary text-white rounded-lg px-5 py-2 transition-transform duration-200 transform hover:scale-105 shadow-lg"
+                        >
                             <BsCartPlus size={18} />
                             Add to Cart
-                        </Button>
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <div className="border border-gray-200 bg-gray-50 p-6 mt-10 rounded-lg shadow-sm">
-                <h3 className="text-lg font-semibold text-gray-800 mb-3">Product Description</h3>
-                <p className="text-gray-700 leading-relaxed">{product.description}</p>
+            {/* Description */}
+            <div className="mt-10 bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow">
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Product Description</h3>
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{product.description}</p>
             </div>
         </div>
     );
