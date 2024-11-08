@@ -6,11 +6,13 @@ import MySpinner from "../../components/Shared/MySpinner/MySpinner";
 import { Rating } from "@smastrom/react-rating";
 import { BsCartPlus } from "react-icons/bs";
 import { FaMinus, FaPlus } from "react-icons/fa6";
+import ProductImageGallery from "../../components/ProductImageGallery/ProductImageGallery";
 
 const ProductDetails = () => {
     const { productId } = useParams();
     const [quantity, setQuantity] = useState(1);
 
+    // Fetch product data
     const { data: product, isLoading } = useQuery({
         queryKey: ['product', productId],
         queryFn: async () => {
@@ -33,19 +35,12 @@ const ProductDetails = () => {
     };
 
     return (
-        <div className="my-container my-10">
+        <div className="my-container my-5">
             {/* Product Card */}
-            <div className="grid gap-8 md:grid-cols-2 bg-white dark:bg-gray-900 rounded-lg shadow overflow-hidden transition-all duration-300">
-
-                {/* Image Section */}
-                <div className="flex justify-center items-center bg-gray-100 dark:bg-gray-700 p-5 rounded-lg overflow-hidden">
-                    <div className="aspect-w-1 aspect-h-1 w-full max-w-lg">
-                        <div className="flex items-center justify-center text-gray-500 dark:text-gray-400 text-3xl">
-                            {/* Image placeholder */}
-                            Image Placeholder
-                        </div>
-                    </div>
-                </div>
+            <div className="grid gap-5 md:grid-cols-2 bg-white dark:bg-gray-900 rounded-lg shadow border overflow-hidden transition-all duration-300">
+                
+                {/* Product Image Gallery */}
+                <ProductImageGallery images={product.images} />
 
                 {/* Details Section */}
                 <div className="p-6 lg:p-8 space-y-6">
