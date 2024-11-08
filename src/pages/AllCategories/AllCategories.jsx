@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import MySpinner from "../../components/Shared/MySpinner/MySpinner";
 import PageHeader from "../../components/Shared/PageHeader/PageHeader";
 import useCategories from "../../hooks/useCategories";
@@ -28,17 +29,20 @@ const AllCategories = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
                 {
                     categories?.map(category => (
-                        <div
-                            key={category?._id}
-                            className="flex flex-col items-center justify-center h-32 text-center cursor-pointer border border-[#F4F6FA] hover:border-[#3BB77E] rounded-lg p-4 transition duration-300"
-                            style={{ backgroundColor: getRandomColor() }}
-                        >
-                            <img
-                                className="w-16 h-16 mb-2 object-contain transition-transform duration-200 transform hover:scale-110"
-                                src={category?.image}
-                                alt={category?.name}
-                            />
-                            <p className="text-sm font-medium">{category?.name}</p>
+                        <div key={category?._id}>
+                            <Link to={`/products/categories/${category?._id}`}>
+                                <div
+                                    className="flex flex-col items-center justify-center h-32 text-center cursor-pointer border border-[#F4F6FA] hover:border-[#3BB77E] rounded-lg p-4 transition duration-300"
+                                    style={{ backgroundColor: getRandomColor() }}
+                                >
+                                    <img
+                                        className="w-16 h-16 mb-2 object-contain transition-transform duration-200 transform hover:scale-110"
+                                        src={category?.image}
+                                        alt={category?.name}
+                                    />
+                                    <p className="text-sm font-medium">{category?.name}</p>
+                                </div>
+                            </Link>
                         </div>
                     ))
                 }
