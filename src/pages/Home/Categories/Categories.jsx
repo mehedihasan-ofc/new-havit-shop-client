@@ -11,6 +11,8 @@ const Categories = () => {
     const [categories] = useCategories();
     const navigate = useNavigate();
 
+    const enableLoopMode = categories?.length > 1;
+
     // Define your color palette
     const colors = ['#F2FCE4', '#FFFCEB', '#ECFFEC', '#FEEFEA', '#FFF3EB', '#FFF3FF'];
 
@@ -38,7 +40,7 @@ const Categories = () => {
                         pagination={{
                             clickable: true,
                         }}
-                        loop={true}
+                        loop={enableLoopMode}
                         breakpoints={{
                             640: {
                                 slidesPerView: 3,
