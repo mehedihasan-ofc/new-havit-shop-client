@@ -5,7 +5,7 @@ import useProducts from "../../../hooks/useProducts";
 
 const PopularProducts = () => {
 
-    const [products, loading, refetch] = useProducts();
+    const [products] = useProducts();
 
     return (
         <div className="my-container my-10">
