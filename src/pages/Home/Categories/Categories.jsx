@@ -33,7 +33,7 @@ const Categories = () => {
             <div className='mt-5'>
                 <>
                     <Swiper
-                        slidesPerView={1}
+                        slidesPerView={2}
                         spaceBetween={10}
                         pagination={{
                             clickable: true,
@@ -41,7 +41,7 @@ const Categories = () => {
                         loop={true}
                         breakpoints={{
                             640: {
-                                slidesPerView: 2,
+                                slidesPerView: 3,
                                 spaceBetween: 20,
                             },
                             768: {
