@@ -39,6 +39,7 @@ import ProductList from "../pages/Dashboard/Ecommerce/ProductList/ProductList";
 import AllCategories from "../pages/AllCategories/AllCategories";
 import ProductsByCategory from "../pages/ProductsByCategory/ProductsByCategory";
 import ProductDetails from "../pages/ProductDetails/ProductDetails";
+import AllProducts from "../pages/AllProducts/AllProducts";
 
 const router = createBrowserRouter([
     {
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
             {
                 path: "/categories/all",
                 element: <AllCategories />
+            },
+            {
+                path: "/products/all",
+                element: <AllProducts />
             },
             {
                 path: "/products/categories/:categoryId",
