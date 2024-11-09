@@ -7,6 +7,7 @@ import { Rating } from "@smastrom/react-rating";
 import { BsCartPlus } from "react-icons/bs";
 import { FaMinus, FaPlus } from "react-icons/fa6";
 import ProductImageGallery from "../../components/ProductImageGallery/ProductImageGallery";
+import RelatedProducts from "../../components/RelatedProducts/RelatedProducts";
 
 const ProductDetails = () => {
     const { productId } = useParams();
@@ -108,6 +109,9 @@ const ProductDetails = () => {
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Product Description</h3>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{product.description}</p>
             </div>
+
+            {/* Related Products */}
+            <RelatedProducts categoryId={product?.categoryId} />
         </div>
     );
 };
