@@ -9,7 +9,7 @@ import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import MySpinner from "../../../../components/Shared/MySpinner/MySpinner";
 import Swal from "sweetalert2";
 
-const TABLE_HEAD = ["#", "Name", "Image", "Category", "Sub Category", "Created At", "Action"];
+const TABLE_HEAD = ["#", "Code", "Name", "Image", "Category", "Sub Category", "Created At", "Action"];
 
 const ProductList = () => {
 
@@ -92,7 +92,7 @@ const ProductList = () => {
                     </thead>
                     <tbody>
                         {products.map(
-                            ({ _id, name, images, category, subcategory, createdAt }, index) => {
+                            ({ _id, skuCode, name, images, category, subcategory, createdAt }, index) => {
                                 const isLast = index === products.length - 1;
                                 const classes = isLast
                                     ? "p-4"
@@ -107,6 +107,15 @@ const ProductList = () => {
                                                 className="font-normal"
                                             >
                                                 {index + 1}
+                                            </Typography>
+                                        </td>
+                                        <td className={classes}>
+                                            <Typography
+                                                variant="small"
+                                                color="blue-gray"
+                                                className="font-normal"
+                                            >
+                                                {skuCode}
                                             </Typography>
                                         </td>
                                         <td className={classes}>
