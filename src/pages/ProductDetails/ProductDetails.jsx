@@ -68,6 +68,7 @@ const ProductDetails = () => {
                     <div className="text-gray-700 dark:text-gray-300 space-y-1">
                         <p>Brand: <span className="font-medium">{product.brand}</span></p>
                         <p>Stock: <span className="font-medium">{product.availableStock}</span></p>
+                        <p>Made In: <span className="font-medium">{product.madeIn}</span></p>
                     </div>
 
                     {/* Quantity & Add to Cart */}

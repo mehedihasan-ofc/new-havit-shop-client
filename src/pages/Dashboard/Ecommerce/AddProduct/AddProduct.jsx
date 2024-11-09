@@ -16,6 +16,7 @@ const AddProduct = () => {
     const [loading, setLoading] = useState(false);
 
     const [formData, setFormData] = useState({
+        skuCode: '',
         name: '',
         categoryId: '',
         subcategoryId: '',
@@ -25,6 +26,7 @@ const AddProduct = () => {
         rating: '',
         description: '',
         brand: '',
+        madeIn: '',
         images: [],
         imagePreviews: [],
     });
@@ -78,6 +80,8 @@ const AddProduct = () => {
                 rating: parseFloat(formData.rating),
                 description: formData.description,
                 brand: formData.brand,
+                madeIn: formData.madeIn,   // Include new field
+                skuCode: formData.skuCode, // Include new field
                 createdAt: new Date().toISOString(),
                 images: downloadURLs.map((url, index) => ({
                     _id: new Date().getTime() + index,
@@ -168,6 +172,20 @@ const AddProduct = () => {
                             ))}
                         </div>
                     )}
+
+                    {/* Product SKU Code */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">SKU Code</label>
+                        <input
+                            type="text"
+                            name="skuCode"
+                            placeholder="Enter product SKU code"
+                            value={formData.skuCode}
+                            onChange={handleChange}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                            required
+                        />
+                    </div>
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">Product Name</label>
@@ -276,17 +294,33 @@ const AddProduct = () => {
                         </div>
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Brand</label>
-                        <input
-                            type="text"
-                            name="brand"
-                            placeholder="Enter brand"
-                            value={formData.brand}
-                            onChange={handleChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-                            required
-                        />
+                    <div className='grid grid-cols-2 gap-4'>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Made In</label>
+                            <input
+                                type="text"
+                                name="madeIn"
+                                placeholder="Enter country of origin"
+                                value={formData.madeIn}
+                                onChange={handleChange}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Brand</label>
+                            <input
+                                type="text"
+                                name="brand"
+                                placeholder="Enter brand"
+                                value={formData.brand}
+                                onChange={handleChange}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                                required
+                            />
+                        </div>
                     </div>
 
                     <div>
