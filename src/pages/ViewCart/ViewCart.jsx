@@ -5,9 +5,12 @@ import MySpinner from "../../components/Shared/MySpinner/MySpinner";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { TbLogout } from "react-icons/tb";
 import ViewCartTableRow from "../../components/ViewCartTableRow/ViewCartTableRow";
+import { useNavigate } from "react-router-dom";
 
 const ViewCart = () => {
     const [cart, isLoading] = useCart();
+
+    const navigate = useNavigate();
 
     if (isLoading) return <MySpinner />;
 
@@ -57,7 +60,7 @@ const ViewCart = () => {
             </div>
 
             <div className="flex justify-between items-center mt-5">
-                <Button className="rounded-none bg-primary flex items-center gap-2">
+                <Button onClick={() => navigate("/")} className="rounded-none bg-primary flex items-center gap-2">
                     <FaArrowLeftLong size={16} />
                     Continue Shopping
                 </Button>
