@@ -1,17 +1,29 @@
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import MySpinner from "../../components/Shared/MySpinner/MySpinner";
 import { Rating } from "@smastrom/react-rating";
 import { BsCartPlus } from "react-icons/bs";
 import { FaMinus, FaPlus } from "react-icons/fa6";
 import ProductImageGallery from "../../components/ProductImageGallery/ProductImageGallery";
 import RelatedProducts from "../../components/RelatedProducts/RelatedProducts";
+import { AuthContext } from "../../provider/AuthProvider";
+import useCart from "../../hooks/useCart";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
+import { Button } from "@material-tailwind/react";
 
 const ProductDetails = () => {
+    const { user } = useContext(AuthContext);
+    const [, refetch] = useCart();
+
+    const navigate = useNavigate();
+    const location = useLocation();
+
     const { productId } = useParams();
     const [quantity, setQuantity] = useState(1);
+    const [loading, setLoading] = useState(false);
 
     // Fetch product data
     const { data: product, isLoading } = useQuery({
@@ -31,15 +43,57 @@ const ProductDetails = () => {
         ? Math.round(((product.regularPrice - product.price) / product.regularPrice) * 100)
         : 0;
 
-    const handleAddToCart = () => {
-        console.log(`Added ${quantity} of ${product.name} to the cart.`);
+    const handleAddToCart = async (productId) => {
+
+        if (user && user.email) {
+
+            const newCart = {
+                productId,
+                quantity,
+                userEmail: user.email
+            };
+
+            setLoading(true);
+
+            try {
+                const response = await axios.post("https://new-havit-shop-server.vercel.app/carts", newCart);
+
+                if (response.status === 200) {
+                    refetch();
+                    toast.success(`${product?.name} added to cart!`);
+                }
+
+            } catch (error) {
+                console.error("Error adding product to cart:", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed to add to cart',
+                    text: 'Something went wrong. Please try again later.',
+                });
+            } finally {
+                setLoading(false);
+            }
+        } else {
+            Swal.fire({
+                title: 'Please Login',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Login Now'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate('/login', { state: { from: location } });
+                }
+            });
+        }
     };
 
     return (
         <div className="my-container my-5">
             {/* Product Card */}
             <div className="grid gap-5 md:grid-cols-2 bg-white dark:bg-gray-900 rounded-lg shadow border overflow-hidden transition-all duration-300">
-                
+
                 {/* Product Image Gallery */}
                 <ProductImageGallery images={product.images} />
 
@@ -73,7 +127,7 @@ const ProductDetails = () => {
 
                     {/* Quantity & Add to Cart */}
                     <div className="flex items-center space-x-4">
-                        <div className="flex items-center border border-gray-300 dark:border-gray-700 rounded-md overflow-hidden shadow-sm">
+                        <div className="flex items-center border border-gray-300 dark:border-gray-700 rounded-none overflow-hidden shadow-sm">
                             <button
                                 onClick={() => setQuantity(prev => Math.max(prev - 1, 1))}
                                 className="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
@@ -94,13 +148,21 @@ const ProductDetails = () => {
                             </button>
                         </div>
 
-                        <button
-                            onClick={handleAddToCart}
-                            className="flex items-center gap-2 bg-primary text-white rounded-lg px-5 py-2 transition-transform duration-200 transform hover:scale-105 shadow-lg"
+                        <Button
+                            onClick={() => handleAddToCart(product?._id)}
+                            loading={loading}
+                            variant="filled"
+                            className="flex items-center gap-2 rounded-none bg-primary py-2 font-medium text-xs"
                         >
-                            <BsCartPlus size={18} />
-                            Add to Cart
-                        </button>
+                            {loading ? (
+                                <span>Adding to Cart</span>
+                            ) : (
+                                <>
+                                    <BsCartPlus size={18} />
+                                    Add to Cart
+                                </>
+                            )}
+                        </Button>
                     </div>
                 </div>
             </div>

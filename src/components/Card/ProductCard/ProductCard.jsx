@@ -2,7 +2,7 @@ import { Button } from "@material-tailwind/react";
 import { BsCartPlus } from "react-icons/bs";
 import { Rating } from '@smastrom/react-rating';
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../../provider/AuthProvider";
 import Swal from "sweetalert2";
 import axios from "axios";
@@ -13,8 +13,10 @@ const ProductCard = ({ product }) => {
 
     const { user } = useContext(AuthContext);
     const [, refetch] = useCart();
+
     const navigate = useNavigate();
     const location = useLocation();
+    const [loading, setLoading] = useState(false);
 
     const hasDiscount = product.price < product.regularPrice;
     const discountPercentage = Math.round(((product.regularPrice - product.price) / product.regularPrice) * 100);
@@ -27,6 +29,8 @@ const ProductCard = ({ product }) => {
                 quantity: 1,
                 userEmail: user.email
             };
+
+            setLoading(true);
 
             try {
                 const response = await axios.post("https://new-havit-shop-server.vercel.app/carts", newCart);
@@ -43,6 +47,8 @@ const ProductCard = ({ product }) => {
                     title: 'Failed to add to cart',
                     text: 'Something went wrong. Please try again later.',
                 });
+            } finally {
+                setLoading(false);
             }
         } else {
             Swal.fire({
@@ -61,12 +67,9 @@ const ProductCard = ({ product }) => {
     };
 
     return (
-
         <div className="relative border rounded-lg shadow hover:shadow-md transition-all duration-300 group font-sans">
-
             <Link to={`/products/product-details/${product?._id}`}>
                 <div className="relative overflow-hidden rounded-lg h-44">
-
                     <div className="pl-4 pt-4 pr-4 pb-2">
                         <img
                             src={product.images[0].url}
@@ -74,7 +77,6 @@ const ProductCard = ({ product }) => {
                             className="w-full h-36 object-contain transform transition-transform duration-300 ease-in-out group-hover:scale-105"
                         />
                     </div>
-
                     {hasDiscount && (
                         <span className="absolute top-0 left-0 bg-[#f74b81] text-white text-xs font-semibold px-2 py-1 rounded-br-lg">
                             {discountPercentage}% OFF
@@ -96,7 +98,6 @@ const ProductCard = ({ product }) => {
                         value={product?.rating}
                         readOnly
                     />
-
                     <div>
                         <span className="text-sm text-gray-400">({product?.rating})</span>
                     </div>
@@ -105,15 +106,26 @@ const ProductCard = ({ product }) => {
                 <div className="flex justify-between items-center">
                     <div className="flex items-baseline space-x-2">
                         <span className="text-base font-bold text-primary">Tk {product.price.toFixed(2)}</span>
-
                         {hasDiscount && (
                             <span className="text-sm text-gray-400 line-through">Tk {product.regularPrice.toFixed(2)}</span>
                         )}
                     </div>
 
-                    <Button onClick={() => handleAddToCart(product?._id)} variant="filled" size="sm" className="flex items-center gap-2 rounded bg-primary py-1 px-2 capitalize font-medium text-xs">
-                        <BsCartPlus size={14} />
-                        Add
+                    <Button 
+                        onClick={() => handleAddToCart(product?._id)} 
+                        loading={loading} 
+                        variant="filled" 
+                        size="sm" 
+                        className="flex items-center gap-2 rounded bg-primary py-1 px-2 capitalize font-medium text-xs"
+                    >
+                        {loading ? (
+                            <span>Wait</span>
+                        ) : (
+                            <>
+                                <BsCartPlus size={14} />
+                                Add
+                            </>
+                        )}
                     </Button>
                 </div>
             </div>
