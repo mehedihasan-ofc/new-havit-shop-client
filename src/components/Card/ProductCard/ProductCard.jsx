@@ -12,7 +12,7 @@ import useCart from "../../../hooks/useCart";
 const ProductCard = ({ product }) => {
 
     const { user } = useContext(AuthContext);
-    const [, refetch] = useCart();
+    const [, , refetch] = useCart();
 
     const navigate = useNavigate();
     const location = useLocation();

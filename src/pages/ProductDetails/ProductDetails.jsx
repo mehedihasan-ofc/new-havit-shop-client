@@ -16,7 +16,7 @@ import { Button } from "@material-tailwind/react";
 
 const ProductDetails = () => {
     const { user } = useContext(AuthContext);
-    const [, refetch] = useCart();
+    const [, , refetch] = useCart();
 
     const navigate = useNavigate();
     const location = useLocation();
