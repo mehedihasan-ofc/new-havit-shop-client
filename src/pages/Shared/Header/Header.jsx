@@ -6,7 +6,7 @@ import { Avatar, Badge, Collapse, IconButton, Navbar } from "@material-tailwind/
 import { HiOutlineShoppingCart } from "react-icons/hi2";
 import NavList from "../../../components/NavbarWithMegaMenu/NavList";
 import { FaBars, FaXmark } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../provider/AuthProvider";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { RiMapPin2Line } from "react-icons/ri";
@@ -32,7 +32,7 @@ import useCart from "../../../hooks/useCart";
 const Header = () => {
     const { user, logOut } = useContext(AuthContext);
     const [cart] = useCart();
-
+    const navigate = useNavigate();
     const [searchValue, setSearchValue] = useState("");
     const [openNav, setOpenNav] = useState(false);
 
@@ -112,7 +112,8 @@ const Header = () => {
                         </div>
 
                         <div className="flex items-center gap-8">
-                            <div className="flex items-end gap-1 font-serif">
+                            
+                            <div onClick={() => navigate("/view-cart")} className="flex items-end gap-1 font-serif cursor-pointer">
                                 <Badge className="bg-primary min-w-[20px] min-h-[20px]" content={cart?.length} overlap="circular">
                                     <PiShoppingCartSimpleLight size={28} />
                                 </Badge>

@@ -40,6 +40,7 @@ import AllCategories from "../pages/AllCategories/AllCategories";
 import ProductsByCategory from "../pages/ProductsByCategory/ProductsByCategory";
 import ProductDetails from "../pages/ProductDetails/ProductDetails";
 import AllProducts from "../pages/AllProducts/AllProducts";
+import ViewCart from "../pages/ViewCart/ViewCart";
 
 const router = createBrowserRouter([
     {
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
             {
                 path: "/products/product-details/:productId",
                 element: <ProductDetails />
+            },
+            {
+                path: "/view-cart",
+                element: <ViewCart />
             },
 
 
