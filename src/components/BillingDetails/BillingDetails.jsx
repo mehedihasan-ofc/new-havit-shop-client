@@ -1,8 +1,17 @@
 import { Button } from "@material-tailwind/react";
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import axios from "axios";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { AuthContext } from "../../provider/AuthProvider";
+import { toast } from "react-toastify";
 
 const BillingDetails = () => {
+    const { user } = useContext(AuthContext);
+    const [axiosSecure] = useAxiosSecure();
+
     const [isLoading, setIsLoading] = useState(false);
+    const [cities, setCities] = useState([]);
+    const [areas, setAreas] = useState([]);
     const [billingDetails, setBillingDetails] = useState({
         name: "",
         phoneNumber: "",
@@ -10,8 +19,38 @@ const BillingDetails = () => {
         city: "",
         area: "",
         address: "",
-        additionalInfo: ""
+        additionalInfo: "",
+        userEmail: user?.email,
+        createdAt: new Date().toISOString(),
     });
+
+    useEffect(() => {
+        // Fetch cities data on component mount
+        const fetchCities = async () => {
+            try {
+                const response = await axios.get("https://bdapis.com/api/v1.2/districts");
+                setCities(response.data.data);
+            } catch (error) {
+                console.error("Error fetching cities:", error);
+            }
+        };
+        fetchCities();
+    }, []);
+
+    useEffect(() => {
+        // Fetch areas based on the selected city
+        const fetchAreas = async () => {
+            if (billingDetails.city) {
+                try {
+                    const response = await axios.get(`https://bdapis.com/api/v1.2/district/${billingDetails.city}`);
+                    setAreas(response.data.data[0].upazillas);
+                } catch (error) {
+                    console.error("Error fetching areas:", error);
+                }
+            }
+        };
+        fetchAreas();
+    }, [billingDetails.city]);
 
     const handleBillingChange = (e) => {
         setBillingDetails({
@@ -20,12 +59,24 @@ const BillingDetails = () => {
         });
     };
 
-    const handleSaveBilling = (e) => {
+    const handleSaveBilling = async (e) => {
         e.preventDefault();
-
         setIsLoading(true);
 
-        console.log("Billing Details:", billingDetails);
+        try {
+            const response = await axiosSecure.post("/billing-details", billingDetails);
+
+            if (response.status === 200) {
+                toast.success(response?.data?.message, {
+                    position: "top-right",
+                    autoClose: 1000,
+                });
+            }
+        } catch (error) {
+            console.error("Error saving billing details:", error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -66,8 +117,11 @@ const BillingDetails = () => {
                     required
                 >
                     <option value="">Select City</option>
-                    <option value="City1">City1</option>
-                    <option value="City2">City2</option>
+                    {cities.map((city) => (
+                        <option key={city.district} value={city.district}>
+                            {city.district}
+                        </option>
+                    ))}
                 </select>
                 <select
                     name="area"
@@ -77,8 +131,11 @@ const BillingDetails = () => {
                     required
                 >
                     <option value="">Select Area</option>
-                    <option value="Area1">Area1</option>
-                    <option value="Area2">Area2</option>
+                    {areas.map((area) => (
+                        <option key={area} value={area}>
+                            {area}
+                        </option>
+                    ))}
                 </select>
                 <input
                     type="text"
@@ -97,9 +154,7 @@ const BillingDetails = () => {
                 value={billingDetails.additionalInfo}
                 onChange={handleBillingChange}
             />
-            {/* Save Button */}
-
-            <Button loading={isLoading} type="submit" className='rounded-none bg-primary font-medium px-10'>
+            <Button loading={isLoading} type="submit" className="rounded-none bg-primary font-medium px-10">
                 {isLoading ? "Saving Billing Address" : "Save Billing Address"}
             </Button>
         </form>
