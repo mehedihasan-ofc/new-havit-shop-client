@@ -41,6 +41,7 @@ import ProductsByCategory from "../pages/ProductsByCategory/ProductsByCategory";
 import ProductDetails from "../pages/ProductDetails/ProductDetails";
 import AllProducts from "../pages/AllProducts/AllProducts";
 import ViewCart from "../pages/ViewCart/ViewCart";
+import Checkout from "../pages/Checkout/Checkout";
 
 const router = createBrowserRouter([
     {
@@ -74,6 +75,10 @@ const router = createBrowserRouter([
             {
                 path: "/view-cart",
                 element: <ViewCart />
+            },
+            {
+                path: "/checkout",
+                element: <Checkout />
             },
 
 
