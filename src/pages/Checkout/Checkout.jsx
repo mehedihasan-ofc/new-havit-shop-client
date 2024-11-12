@@ -1,29 +1,14 @@
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
+import BillingDetails from "../../components/BillingDetails/BillingDetails";
 
 const Checkout = () => {
     const location = useLocation();
     const { total, products } = location.state?.checkoutData || { total: 0, products: [] };
     const [couponCode, setCouponCode] = useState("");
-    const [billingDetails, setBillingDetails] = useState({
-        name: "",
-        phoneNumber: "",
-        altPhoneNumber: "",
-        city: "",
-        area: "",
-        address: "",
-        additionalInfo: ""
-    });
 
     const handleCouponChange = (e) => {
         setCouponCode(e.target.value);
-    };
-
-    const handleBillingChange = (e) => {
-        setBillingDetails({
-            ...billingDetails,
-            [e.target.name]: e.target.value
-        });
     };
 
     const handlePlaceOrder = () => {
@@ -31,7 +16,7 @@ const Checkout = () => {
             total,
             products,
             couponCode,
-            billingDetails
+            // billingDetails
         };
         console.log("Order Data:", orderData);
         // Add your order submission logic here
@@ -47,62 +32,8 @@ const Checkout = () => {
 
             <div className="grid grid-cols-3 gap-8">
                 {/* Billing Details Section */}
-                <div className="col-span-2 border p-6 rounded-lg shadow-md space-y-4">
-                    <h2 className="text-xl font-semibold">Billing Details</h2>
-                    <div className="grid grid-cols-2 gap-4">
-                        <input
-                            type="text"
-                            name="name"
-                            placeholder="Name *"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary col-span-2"
-                            onChange={handleBillingChange}
-                        />
-                        <input
-                            type="text"
-                            name="phoneNumber"
-                            placeholder="Phone Number *"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-                            onChange={handleBillingChange}
-                        />
-                        <input
-                            type="text"
-                            name="altPhoneNumber"
-                            placeholder="Alternative Phone Number"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-                            onChange={handleBillingChange}
-                        />
-                        <select
-                            name="city"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-                            onChange={handleBillingChange}
-                        >
-                            <option value="">Select City</option>
-                            <option value="City1">City1</option>
-                            <option value="City2">City2</option>
-                        </select>
-                        <select
-                            name="area"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-                            onChange={handleBillingChange}
-                        >
-                            <option value="">Select Area</option>
-                            <option value="Area1">Area1</option>
-                            <option value="Area2">Area2</option>
-                        </select>
-                        <input
-                            type="text"
-                            name="address"
-                            placeholder="Address"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary col-span-2"
-                            onChange={handleBillingChange}
-                        />
-                    </div>
-                    <textarea
-                        name="additionalInfo"
-                        placeholder="Additional Information"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary mt-4 h-24"
-                        onChange={handleBillingChange}
-                    />
+                <div className="col-span-2">
+                    <BillingDetails />
                 </div>
 
                 {/* Order Summary Section */}
