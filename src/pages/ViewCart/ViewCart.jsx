@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@material-tailwind/react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import useCart from "../../hooks/useCart";
@@ -9,13 +10,35 @@ import { useNavigate } from "react-router-dom";
 
 const ViewCart = () => {
     const [cart, isLoading] = useCart();
-
+    const [quantities, setQuantities] = useState(cart?.map(item => item.quantity));
     const navigate = useNavigate();
 
     if (isLoading) return <MySpinner />;
 
-    // Calculate total amount
-    const totalAmount = cart?.reduce((total, item) => total + item.productDetails.price * item.quantity, 0);
+    const handleQuantityChange = (index, change) => {
+        setQuantities(prevQuantities => {
+            const updatedQuantities = [...prevQuantities];
+            updatedQuantities[index] = Math.max(1, updatedQuantities[index] + change);
+            return updatedQuantities;
+        });
+    };
+
+    const calculateTotalAmount = () =>
+        cart?.reduce((total, item, index) => total + item.productDetails.price * quantities[index], 0);
+
+    const handleProceedToCheckout = () => {
+
+        const checkoutData = {
+            total: calculateTotalAmount(),
+            products: cart.map((item, index) => ({
+                ...item.productDetails,
+                productId: item.productId,
+                quantity: quantities[index],
+            }))
+        };
+        navigate("/checkout", { state: { checkoutData } });
+    };
+
 
     return (
         <div className="max-w-5xl w-full mx-auto px-6 my-5">
@@ -31,9 +54,8 @@ const ViewCart = () => {
                 </Button>
             </div>
 
+            {/* Cart Table */}
             <div className="shadow border">
-
-                {/* Cart Table */}
                 <div className="overflow-x-auto">
                     <table className="min-w-full table-auto border-collapse text-left font-sans">
                         <thead>
@@ -47,14 +69,22 @@ const ViewCart = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {cart?.map((item, index) => <ViewCartTableRow key={item?._id} item={item} index={index} /> )}
+                            {cart?.map((item, index) => (
+                                <ViewCartTableRow
+                                    key={item._id}
+                                    item={item}
+                                    index={index}
+                                    quantity={quantities[index]}
+                                    onQuantityChange={(change) => handleQuantityChange(index, change)}
+                                />
+                            ))}
                         </tbody>
                     </table>
                 </div>
 
                 <div className="flex justify-end mr-44 py-5">
                     <div className="text-xl font-semibold">
-                        Total: <span className="text-primary">৳{totalAmount.toFixed(2)}</span>
+                        Total: <span className="text-primary">৳{calculateTotalAmount().toFixed(2)}</span>
                     </div>
                 </div>
             </div>
@@ -65,7 +95,7 @@ const ViewCart = () => {
                     Continue Shopping
                 </Button>
 
-                <Button className="rounded-none bg-primary flex items-center gap-2">
+                <Button onClick={handleProceedToCheckout} className="rounded-none bg-primary flex items-center gap-2">
                     Proceed To Checkout
                     <TbLogout size={18} />
                 </Button>

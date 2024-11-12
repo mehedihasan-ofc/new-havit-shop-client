@@ -1,16 +1,16 @@
 import { IconButton } from "@material-tailwind/react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
-const ViewCartTableRow = ({item, index}) => {
-    
-    const subtotal = item?.productDetails?.price * item?.quantity;
+const ViewCartTableRow = ({ item, index, quantity, onQuantityChange }) => {
+    const subtotal = item.productDetails.price * quantity;
 
     const handleDelete = (productId) => {
-        console.log(productId);
-    }
+        // Implement delete functionality here
+        console.log("Delete product with ID:", productId);
+    };
 
     return (
-        <tr key={item._id} className="border-b">
+        <tr className="border-b">
             <td className="px-4 py-2">{index + 1}</td>
 
             {/* Product Details */}
@@ -30,20 +30,20 @@ const ViewCartTableRow = ({item, index}) => {
             <td className="px-4 py-2">
                 <div className="flex items-center space-x-2">
                     <button
-                        onClick={() => handleQuantityChange(item.productId, -1)}
+                        onClick={() => onQuantityChange(-1)}
                         className="px-2 py-1 bg-gray-300 rounded"
-                        disabled={item.quantity <= 1}
+                        disabled={quantity <= 1}
                     >
                         -
                     </button>
                     <input
                         type="number"
-                        value={item.quantity}
+                        value={quantity}
                         className="w-16 text-center border rounded"
                         readOnly
                     />
                     <button
-                        onClick={() => handleQuantityChange(item.productId, 1)}
+                        onClick={() => onQuantityChange(1)}
                         className="px-2 py-1 bg-gray-300 rounded"
                     >
                         +
@@ -56,7 +56,7 @@ const ViewCartTableRow = ({item, index}) => {
 
             {/* Remove Button */}
             <td className="px-4 py-2">
-                <IconButton onClick={() => handleDelete(item?._id)} color="red" variant="text" className="rounded-full">
+                <IconButton onClick={() => handleDelete(item._id)} color="red" variant="text" className="rounded-full">
                     <IoIosCloseCircleOutline size={22} />
                 </IconButton>
             </td>
