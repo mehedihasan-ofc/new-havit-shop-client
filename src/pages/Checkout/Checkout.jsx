@@ -6,14 +6,12 @@ const Checkout = () => {
     const { total, products } = location.state?.checkoutData || { total: 0, products: [] };
     const [couponCode, setCouponCode] = useState("");
     const [billingDetails, setBillingDetails] = useState({
-        firstName: "",
-        lastName: "",
-        address1: "",
-        address2: "",
+        name: "",
+        phoneNumber: "",
+        altPhoneNumber: "",
         city: "",
-        postcode: "",
-        phone: "",
-        email: "",
+        area: "",
+        address: "",
         additionalInfo: ""
     });
 
@@ -41,7 +39,7 @@ const Checkout = () => {
     return (
         <div className="max-w-6xl mx-auto px-6 my-5">
             <div className="space-y-1">
-                <h2 className="text-4xl font-extrabold tracking-wide font-sans">Your Cart</h2>
+                <h2 className="text-4xl font-extrabold tracking-wide font-sans">Checkout</h2>
                 <p>There are <span className="text-primary">{products?.length}</span> products in your cart!</p>
             </div>
 
@@ -53,65 +51,57 @@ const Checkout = () => {
                         <div className="grid grid-cols-2 gap-4">
                             <input
                                 type="text"
-                                name="firstName"
-                                placeholder="First name"
-                                className="input-field"
+                                name="name"
+                                placeholder="Name *"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary col-span-2"
                                 onChange={handleBillingChange}
                             />
                             <input
                                 type="text"
-                                name="lastName"
-                                placeholder="Last name"
-                                className="input-field"
+                                name="phoneNumber"
+                                placeholder="Phone Number *"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                                 onChange={handleBillingChange}
                             />
                             <input
                                 type="text"
-                                name="address1"
-                                placeholder="Address 1"
-                                className="input-field col-span-2"
+                                name="altPhoneNumber"
+                                placeholder="Alternative Phone Number"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                                 onChange={handleBillingChange}
                             />
-                            <input
-                                type="text"
-                                name="address2"
-                                placeholder="Address 2"
-                                className="input-field col-span-2"
-                                onChange={handleBillingChange}
-                            />
-                            <input
-                                type="text"
+                            <select
                                 name="city"
-                                placeholder="City/Town"
-                                className="input-field"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                                 onChange={handleBillingChange}
-                            />
+                            >
+                                <option value="">Select City</option>
+                                <option value="City1">City1</option>
+                                <option value="City2">City2</option>
+                                {/* Add more options as needed */}
+                            </select>
+                            <select
+                                name="area"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                                onChange={handleBillingChange}
+                            >
+                                <option value="">Select Area</option>
+                                <option value="Area1">Area1</option>
+                                <option value="Area2">Area2</option>
+                                {/* Add more options as needed */}
+                            </select>
                             <input
                                 type="text"
-                                name="postcode"
-                                placeholder="Postcode/ZIP"
-                                className="input-field"
-                                onChange={handleBillingChange}
-                            />
-                            <input
-                                type="text"
-                                name="phone"
-                                placeholder="Phone"
-                                className="input-field"
-                                onChange={handleBillingChange}
-                            />
-                            <input
-                                type="email"
-                                name="email"
-                                placeholder="Email address"
-                                className="input-field"
+                                name="address"
+                                placeholder="Address"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary col-span-2"
                                 onChange={handleBillingChange}
                             />
                         </div>
                         <textarea
                             name="additionalInfo"
                             placeholder="Additional Information"
-                            className="input-field mt-4 w-full h-24"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary mt-4 h-24"
                             onChange={handleBillingChange}
                         />
                     </div>
