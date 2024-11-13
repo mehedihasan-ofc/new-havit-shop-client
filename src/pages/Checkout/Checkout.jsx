@@ -12,28 +12,34 @@ const Checkout = () => {
     const [couponCode, setCouponCode] = useState("");
     const [loading, setLoading] = useState(false);
 
-    console.log(billingDetails);
+    // Determine shipping charge based on the billing city, or 0 if no billing address
+    const shippingCharge = billingDetails?.city?.toLowerCase() === "dhaka" ? 100 : billingDetails ? 150 : 0;
+    const payableTotal = total + shippingCharge;
 
     const handleCouponChange = (e) => {
         setCouponCode(e.target.value);
     };
 
     const handlePlaceOrder = () => {
+        if (!billingDetails) {
+            alert("Please add a shipping address to proceed.");
+            return;
+        }
+        
         setLoading(true);
         const orderData = {
-            total,
+            total: payableTotal,
             products,
             couponCode,
             billingDetails,
         };
         console.log("Order Data:", orderData);
 
-        // Simulate order submission delay
         setTimeout(() => {
             setLoading(false);
             console.log("Order placed successfully!");
-            // Navigate or show success message here if needed
-        }, 2000); // Adjust the delay as needed
+            // Add navigation or success message here if needed
+        }, 2000);
     };
 
     return (
@@ -52,14 +58,12 @@ const Checkout = () => {
                             <div className="space-y-1">
                                 <p className="text-gray-700"><span className="font-semibold">Name:</span> {billingDetails.name}</p>
                                 <p className="text-gray-700"><span className="font-semibold">Phone:</span> {billingDetails.phoneNumber}</p>
-
                                 <div className="text-gray-700 space-y-1">
                                     <p className="font-semibold">Address:</p>
                                     <p>{billingDetails.address}</p>
                                     <p>{billingDetails.area}, {billingDetails.city}</p>
                                 </div>
                             </div>
-
                             <Button onClick={() => navigate("/add-address")} className="rounded-full" variant="outlined">Edit Shipping Address</Button>
                         </div>
                     ) : (
@@ -79,16 +83,16 @@ const Checkout = () => {
                     </div>
                     <div className="flex justify-between items-center">
                         <p className="text-gray-700">Shipping <span className="text-sm text-blue-500 cursor-pointer">(Changeable)</span></p>
-                        <p className="text-gray-700 font-semibold">৳107</p> {/* Dynamic value can be added */}
+                        <p className="text-gray-700 font-semibold">৳{shippingCharge}</p>
                     </div>
                     <div className="flex justify-between">
                         <p className="text-gray-700">Total</p>
-                        <p className="text-gray-700 font-semibold">৳{(total + 107).toFixed(2)}</p>
+                        <p className="text-gray-700 font-semibold">৳{payableTotal.toFixed(2)}</p>
                     </div>
                 </div>
                 <div className="flex justify-between items-center pt-4">
                     <p className="text-lg font-semibold">Payable Total</p>
-                    <p className="text-lg font-bold text-primary">৳{(total + 107).toFixed(2)}</p>
+                    <p className="text-lg font-bold text-primary">৳{payableTotal.toFixed(2)}</p>
                 </div>
 
                 {/* Voucher or Promo Code Section */}
@@ -128,7 +132,8 @@ const Checkout = () => {
                     type="button"
                     className="w-full rounded-none bg-primary font-medium py-2"
                     onClick={handlePlaceOrder}
-                    disabled={loading}
+                    disabled={!billingDetails}
+                    loading={loading}
                 >
                     {loading ? "Placing Order..." : "Place an Order"}
                 </Button>
