@@ -45,23 +45,29 @@ const Checkout = () => {
 
             <div className="border p-6 rounded-lg shadow-md space-y-4">
                 {/* Shipping Address Section */}
-                <div className="border p-4 rounded-lg shadow-md bg-white space-y-2">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-2">Shipping Address</h3>
+                <h2 className="text-xl font-semibold">Shipping Address</h2>
+                <div className="space-y-2 border-b border-gray-300 pb-4">
+                    {billingDetails ? (
+                        <div className="flex justify-between items-center">
+                            <div className="space-y-1">
+                                <p className="text-gray-700"><span className="font-semibold">Name:</span> {billingDetails.name}</p>
+                                <p className="text-gray-700"><span className="font-semibold">Phone:</span> {billingDetails.phoneNumber}</p>
 
-                    <div className="flex flex-col space-y-1">
-                        <p className="text-gray-700">
-                            <span className="font-semibold">Name:</span> {billingDetails.name}
-                        </p>
-                        <p className="text-gray-700">
-                            <span className="font-semibold">Phone:</span> {billingDetails.phoneNumber}
-                        </p>
+                                <div className="text-gray-700 space-y-1">
+                                    <p className="font-semibold">Address:</p>
+                                    <p>{billingDetails.address}</p>
+                                    <p>{billingDetails.area}, {billingDetails.city}</p>
+                                </div>
+                            </div>
 
-                        <div className="text-gray-700 space-y-1">
-                            <p className="font-semibold">Address:</p>
-                            <p>{billingDetails.address}</p>
-                            <p>{billingDetails.area}, {billingDetails.city}</p>
+                            <Button onClick={() => navigate("/add-address")} className="rounded-full" variant="outlined">Edit Shipping Address</Button>
                         </div>
-                    </div>
+                    ) : (
+                        <div className="flex justify-between items-center">
+                            <p className="text-red-500">No shipping address found!</p>
+                            <Button onClick={() => navigate("/add-address")} className="rounded-full" variant="outlined">Add Shipping Address</Button>
+                        </div>
+                    )}
                 </div>
 
                 {/* Order Summary Section */}
