@@ -44,7 +44,7 @@ const PromoCodes = () => {
                         <div>
                             <Button onClick={handleOpen} size="sm" className="flex items-center gap-2 rounded-none bg-primary font-medium">
                                 <TbCategoryPlus size={20} />
-                                Add Modal
+                                New Promo Code
                             </Button>
                         </div>
                     </div>

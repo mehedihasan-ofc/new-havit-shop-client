@@ -60,7 +60,7 @@ const NewPromoModal = ({ open, handleOpen }) => {
     };
 
     return (
-        <Dialog open={open} handler={handleOpen}>
+        <Dialog size="lg" className="rounded p-5" open={open} handler={handleOpen}>
             <DialogHeader>Create New Promo Code</DialogHeader>
             <DialogBody>
                 <form className="space-y-4">
