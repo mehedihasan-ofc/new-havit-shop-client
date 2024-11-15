@@ -42,6 +42,7 @@ import ProductDetails from "../pages/ProductDetails/ProductDetails";
 import AllProducts from "../pages/AllProducts/AllProducts";
 import ViewCart from "../pages/ViewCart/ViewCart";
 import Checkout from "../pages/Checkout/Checkout";
+import PromoCodes from "../pages/Dashboard/PromoCodes/PromoCodes";
 
 const router = createBrowserRouter([
     {
@@ -207,6 +208,11 @@ const router = createBrowserRouter([
             {
                 path: "product-list",
                 element: <ProductList />
+            },
+            // promo codes
+            {
+                path: "promo-codes",
+                element: <PromoCodes />
             },
             // Users
             {

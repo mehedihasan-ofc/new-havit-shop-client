@@ -256,12 +256,14 @@ const Sidebar = () => {
                     </AccordionBody>
                 </Accordion>
 
-                <ListItem>
-                    <ListItemPrefix>
-                        <TbMapDiscount size={20} />
-                    </ListItemPrefix>
-                    Promo Codes
-                </ListItem>
+                <Link to="promo-codes">
+                    <ListItem>
+                        <ListItemPrefix>
+                            <TbMapDiscount size={20} />
+                        </ListItemPrefix>
+                        Promo Codes
+                    </ListItem>
+                </Link>
 
                 <hr className="border-blue-gray-50" />
 
