@@ -52,9 +52,7 @@ const CategoryList = () => {
         });
     }
 
-    if (loading) {
-        return <MySpinner />
-    }
+    if (loading) return <MySpinner />
 
     return (
         <>

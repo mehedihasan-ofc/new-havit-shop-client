@@ -6,18 +6,18 @@ import {
     Typography,
     Button,
     CardBody,
-    Avatar,
     IconButton,
 } from "@material-tailwind/react";
 import { TbCategoryPlus } from "react-icons/tb";
 import { AiOutlineDelete } from "react-icons/ai";
 import { formattedDate } from "../../../utils";
+import usePromoCodes from "../../../hooks/usePromoCodes";
+import MySpinner from "../../../components/Shared/MySpinner/MySpinner";
 
-const TABLE_HEAD = ["#", "Name", "Image", "Created At", "Action"];
+const TABLE_HEAD = ["#", "Code", "Discount Type", "Discount", "Created", "Expired", "Action"];
 
 const PromoCodes = () => {
-
-    const categories = [];
+    const [promoCodes, isLoading, refetch] = usePromoCodes();
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(!open);
@@ -26,6 +26,8 @@ const PromoCodes = () => {
         console.log(promoCodeId);
     }
 
+    if (isLoading) return <MySpinner />
+
     return (
         <>
             <Card className="h-full w-full">
@@ -33,7 +35,7 @@ const PromoCodes = () => {
                     <div className="flex items-center justify-between gap-8">
                         <div>
                             <Typography variant="h5" color="blue-gray">
-                                Promo Code list ({categories?.length})
+                                Promo Code list ({promoCodes?.length})
                             </Typography>
                             <Typography color="gray" className="mt-1 font-normal">
                                 See information about all promo codes
@@ -68,9 +70,9 @@ const PromoCodes = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {categories.map(
-                                ({ _id, name, image, createdAt }, index) => {
-                                    const isLast = index === categories.length - 1;
+                            {promoCodes.map(
+                                ({ _id, promoCode, discountType, discount, createdAt, expiryDate }, index) => {
+                                    const isLast = index === promoCodes.length - 1;
                                     const classes = isLast
                                         ? "p-4"
                                         : "p-4 border-b border-blue-gray-50";
@@ -92,11 +94,17 @@ const PromoCodes = () => {
                                                     color="blue-gray"
                                                     className="font-normal"
                                                 >
-                                                    {name}
+                                                    {promoCode}
                                                 </Typography>
                                             </td>
                                             <td className={classes}>
-                                                <Avatar src={image} alt={name} size="sm" />
+                                                <Typography
+                                                    variant="small"
+                                                    color="blue-gray"
+                                                    className="font-normal capitalize"
+                                                >
+                                                    {discountType}
+                                                </Typography>
                                             </td>
                                             <td className={classes}>
                                                 <Typography
@@ -104,7 +112,26 @@ const PromoCodes = () => {
                                                     color="blue-gray"
                                                     className="font-normal"
                                                 >
+                                                    {discount}
+                                                </Typography>
+                                            </td>
+                                            
+                                            <td className={classes}>
+                                                <Typography
+                                                    variant="small"
+                                                    color="blue-gray"
+                                                    className="font-normal"
+                                                >
                                                     {formattedDate(createdAt)}
+                                                </Typography>
+                                            </td>
+                                            <td className={classes}>
+                                                <Typography
+                                                    variant="small"
+                                                    color="blue-gray"
+                                                    className="font-normal"
+                                                >
+                                                    {formattedDate(expiryDate)}
                                                 </Typography>
                                             </td>
                                             <td className={classes}>
