@@ -13,18 +13,53 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { formattedDate } from "../../../utils";
 import usePromoCodes from "../../../hooks/usePromoCodes";
 import MySpinner from "../../../components/Shared/MySpinner/MySpinner";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const TABLE_HEAD = ["#", "Code", "Discount Type", "Discount", "Created", "Expired", "Action"];
 
 const PromoCodes = () => {
     const [promoCodes, isLoading, refetch] = usePromoCodes();
+    const [axiosSecure] = useAxiosSecure();
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(!open);
 
-    const handleDeletePromo = promoCodeId => {
-        console.log(promoCodeId);
-    }
+    const handleDeletePromo = (promoCodeId) => {
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+    
+                axiosSecure.delete(`/promo-codes/${promoCodeId}`)
+                    .then(res => {
+                        if (res.data.deletedCount > 0) {
+                            refetch();
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "The promo code has been deleted.",
+                                icon: "success"
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error deleting promo code:", error);
+                        Swal.fire({
+                            title: "Error!",
+                            text: "There was an issue deleting the promo code.",
+                            icon: "error"
+                        });
+                    });
+            }
+        });
+    };    
 
     if (isLoading) return <MySpinner />
 
