@@ -43,6 +43,8 @@ import AllProducts from "../pages/AllProducts/AllProducts";
 import ViewCart from "../pages/ViewCart/ViewCart";
 import Checkout from "../pages/Checkout/Checkout";
 import PromoCodes from "../pages/Dashboard/PromoCodes/PromoCodes";
+import BkashPayment from "../pages/BkashPayment/BkashPayment";
+import OrderSuccess from "../pages/OrderSuccess/OrderSuccess";
 
 const router = createBrowserRouter([
     {
@@ -80,6 +82,14 @@ const router = createBrowserRouter([
             {
                 path: "/checkout",
                 element: <Checkout />
+            },
+            {
+                path: "/bkash-payment",
+                element: <BkashPayment />
+            },
+            {
+                path: "/order-success",
+                element: <OrderSuccess />
             },
 
 

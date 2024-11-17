@@ -2,44 +2,83 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import useBillingDetails from "../../hooks/useBillingDetails";
 import { Button } from "@material-tailwind/react";
+import usePromoCodes from "../../hooks/usePromoCodes";
+import { toast } from "react-toastify";
 
 const Checkout = () => {
     const [billingDetails] = useBillingDetails();
+    const [promoCodes] = usePromoCodes();
+
     const location = useLocation();
     const navigate = useNavigate();
 
     const { total, products } = location.state?.checkoutData || { total: 0, products: [] };
     const [couponCode, setCouponCode] = useState("");
+    const [discount, setDiscount] = useState(0);
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
+    
     const [loading, setLoading] = useState(false);
 
-    // Determine shipping charge based on the billing city, or 0 if no billing address
     const shippingCharge = billingDetails?.city?.toLowerCase() === "dhaka" ? 100 : billingDetails ? 150 : 0;
-    const payableTotal = total + shippingCharge;
+    const payableTotal = total - discount + shippingCharge;
 
     const handleCouponChange = (e) => {
         setCouponCode(e.target.value);
     };
 
+    const handleApplyCoupon = () => {
+        const validPromo = promoCodes.find(promo => promo.promoCode === couponCode);
+
+        if (validPromo) {
+            let discountAmount = 0;
+
+            if (validPromo.discountType === "percent") {
+                discountAmount = (total * parseFloat(validPromo.discount)) / 100;
+            } else if (validPromo.discountType === "amount") {
+                discountAmount = parseFloat(validPromo.discount);
+            }
+
+            setDiscount(discountAmount);
+            toast.success(`Promo code applied! You get a discount of ৳${discountAmount.toFixed(2)}`);
+        } else {
+            setCouponCode("");
+            setDiscount(0);
+            toast.error("Invalid promo code");
+        }
+    };
+
+    const handlePaymentChange = (e) => {
+        setSelectedPaymentMethod(e.target.value);
+    };
+
     const handlePlaceOrder = () => {
         if (!billingDetails) {
-            alert("Please add a shipping address to proceed.");
+            toast.error("Please add a shipping address to proceed.");
             return;
         }
-        
-        setLoading(true);
-        const orderData = {
-            total: payableTotal,
-            products,
-            couponCode,
-            billingDetails,
-        };
-        console.log("Order Data:", orderData);
 
-        setTimeout(() => {
-            setLoading(false);
-            console.log("Order placed successfully!");
-            // Add navigation or success message here if needed
-        }, 2000);
+        if (!selectedPaymentMethod) {
+            toast.error("Please select a payment method.");
+            return;
+        }
+
+        const orderDetails = {
+            billingDetails,
+            products,
+            total,
+            discount,
+            couponCode,
+            shippingCharge,
+            payableTotal,
+            paymentMethod: selectedPaymentMethod,
+        };
+
+        if (selectedPaymentMethod === "cash-on-delivery") {
+            console.log("Order Details:", orderDetails);
+            toast.success("Order placed successfully!");
+        } else if (selectedPaymentMethod === "bkash-payment") {
+            navigate("/bkash-payment", { state: { orderDetails } });
+        }
     };
 
     return (
@@ -81,8 +120,14 @@ const Checkout = () => {
                         <p className="text-gray-700">Subtotal</p>
                         <p className="text-gray-700 font-semibold">৳{total.toFixed(2)}</p>
                     </div>
+                    <div className="flex justify-between">
+                        <p className="text-gray-700">Discount</p>
+                        <p className={`text-gray-700 font-semibold ${discount > 0 ? "text-green-600" : ""}`}>
+                            {discount > 0 ? `-৳${discount.toFixed(2)}` : "৳0.00"}
+                        </p>
+                    </div>
                     <div className="flex justify-between items-center">
-                        <p className="text-gray-700">Shipping <span className="text-sm text-blue-500 cursor-pointer">(Changeable)</span></p>
+                        <p className="text-gray-700">Shipping</p>
                         <p className="text-gray-700 font-semibold">৳{shippingCharge}</p>
                     </div>
                     <div className="flex justify-between">
@@ -106,7 +151,7 @@ const Checkout = () => {
                             value={couponCode}
                             onChange={handleCouponChange}
                         />
-                        <button className="bg-primary text-white px-4 rounded-r-md font-semibold">
+                        <button onClick={handleApplyCoupon} className="bg-primary text-white px-4 rounded-r-md font-semibold">
                             Apply
                         </button>
                     </div>
@@ -117,11 +162,25 @@ const Checkout = () => {
                     <h3 className="text-lg font-semibold">Payment</h3>
                     <div className="space-y-2">
                         <div className="flex items-center space-x-2">
-                            <input type="radio" id="cash-on-delivery" name="payment" />
+                            <input
+                                type="radio"
+                                id="cash-on-delivery"
+                                name="payment"
+                                value="cash-on-delivery"
+                                onChange={handlePaymentChange}
+                                checked={selectedPaymentMethod === "cash-on-delivery"}
+                            />
                             <label htmlFor="cash-on-delivery">Cash on Delivery</label>
                         </div>
                         <div className="flex items-center space-x-2">
-                            <input type="radio" id="bkash-payment" name="payment" />
+                            <input
+                                type="radio"
+                                id="bkash-payment"
+                                name="payment"
+                                value="bkash-payment"
+                                onChange={handlePaymentChange}
+                                checked={selectedPaymentMethod === "bkash-payment"}
+                            />
                             <label htmlFor="bkash-payment">Bkash Online Payment</label>
                         </div>
                     </div>
@@ -129,13 +188,11 @@ const Checkout = () => {
 
                 {/* Place Order Button */}
                 <Button
-                    type="button"
                     className="w-full rounded-none bg-primary font-medium py-2"
                     onClick={handlePlaceOrder}
                     disabled={!billingDetails}
-                    loading={loading}
                 >
-                    {loading ? "Placing Order..." : "Place an Order"}
+                    Place an Order
                 </Button>
             </div>
         </div>

@@ -7,6 +7,7 @@ import {
     Button,
     CardBody,
     IconButton,
+    Chip,
 } from "@material-tailwind/react";
 import { TbCategoryPlus } from "react-icons/tb";
 import { AiOutlineDelete } from "react-icons/ai";
@@ -16,7 +17,7 @@ import MySpinner from "../../../components/Shared/MySpinner/MySpinner";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
-const TABLE_HEAD = ["#", "Code", "Discount Type", "Discount", "Created", "Expired", "Action"];
+const TABLE_HEAD = ["#", "Code", "Discount Type", "Discount", "Status", "Created", "Expired", "Action"];
 
 const PromoCodes = () => {
     const [promoCodes, isLoading, refetch] = usePromoCodes();
@@ -37,7 +38,7 @@ const PromoCodes = () => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-    
+
                 axiosSecure.delete(`/promo-codes/${promoCodeId}`)
                     .then(res => {
                         if (res.data.deletedCount > 0) {
@@ -59,7 +60,7 @@ const PromoCodes = () => {
                     });
             }
         });
-    };    
+    };
 
     if (isLoading) return <MySpinner />
 
@@ -106,7 +107,7 @@ const PromoCodes = () => {
                         </thead>
                         <tbody>
                             {promoCodes.map(
-                                ({ _id, promoCode, discountType, discount, createdAt, expiryDate }, index) => {
+                                ({ _id, promoCode, discountType, discount, status, createdAt, expiryDate }, index) => {
                                     const isLast = index === promoCodes.length - 1;
                                     const classes = isLast
                                         ? "p-4"
@@ -150,7 +151,18 @@ const PromoCodes = () => {
                                                     {discount}
                                                 </Typography>
                                             </td>
-                                            
+
+                                            <td className={classes}>
+                                                <div className="w-max">
+                                                    <Chip
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        value={status}
+                                                        color={status === "active" ? "green" : "red"}
+                                                    />
+                                                </div>
+                                            </td>
+
                                             <td className={classes}>
                                                 <Typography
                                                     variant="small"
@@ -183,7 +195,7 @@ const PromoCodes = () => {
                 </CardBody>
             </Card>
 
-            <NewPromoModal open={open} handleOpen={handleOpen} />
+            <NewPromoModal open={open} handleOpen={handleOpen} refetch={refetch} />
         </>
     );
 };

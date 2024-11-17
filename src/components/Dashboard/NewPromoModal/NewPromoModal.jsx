@@ -3,7 +3,7 @@ import { Button, Dialog, DialogBody, DialogFooter, DialogHeader, Radio } from "@
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 
-const NewPromoModal = ({ open, handleOpen }) => {
+const NewPromoModal = ({ open, handleOpen, refetch }) => {
     const [axiosSecure] = useAxiosSecure();
     
     const [promoCode, setPromoCode] = useState("");
@@ -28,6 +28,7 @@ const NewPromoModal = ({ open, handleOpen }) => {
             const { data } = await axiosSecure.post("/promo-code", newPromo);
 
             if (data.insertedId) {
+                refetch();
                 toast.success("Promo Code Created Successfully!", {
                     position: "top-right",
                     autoClose: 1000,
