@@ -1,13 +1,17 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import useBillingDetails from "../../hooks/useBillingDetails";
 import { Button } from "@material-tailwind/react";
 import usePromoCodes from "../../hooks/usePromoCodes";
 import { toast } from "react-toastify";
+import { AuthContext } from "../../provider/AuthProvider";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Checkout = () => {
+    const { user } = useContext(AuthContext);
     const [billingDetails] = useBillingDetails();
     const [promoCodes] = usePromoCodes();
+    const [axiosSecure] = useAxiosSecure();
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -16,8 +20,9 @@ const Checkout = () => {
     const [couponCode, setCouponCode] = useState("");
     const [discount, setDiscount] = useState(0);
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
-    
+
     const [loading, setLoading] = useState(false);
+    const [promoLoading, setPromoLoading] = useState(false);
 
     const shippingCharge = billingDetails?.city?.toLowerCase() === "dhaka" ? 100 : billingDetails ? 150 : 0;
     const payableTotal = total - discount + shippingCharge;
@@ -26,24 +31,40 @@ const Checkout = () => {
         setCouponCode(e.target.value);
     };
 
-    const handleApplyCoupon = () => {
-        const validPromo = promoCodes.find(promo => promo.promoCode === couponCode);
+    const handleApplyCoupon = async () => {
+        setPromoLoading(true);
+        try {
+            const validPromo = promoCodes.find(promo => promo.promoCode === couponCode);
 
-        if (validPromo) {
-            let discountAmount = 0;
+            if (validPromo) {
+                const currentDate = new Date();
+                const expiryDate = new Date(validPromo.expiryDate);
 
-            if (validPromo.discountType === "percent") {
-                discountAmount = (total * parseFloat(validPromo.discount)) / 100;
-            } else if (validPromo.discountType === "amount") {
-                discountAmount = parseFloat(validPromo.discount);
+                if (expiryDate < currentDate) {
+                    setCouponCode("");
+                    setDiscount(0);
+                    toast.error("This promo code has expired.");
+                } else {
+                    let discountAmount = 0;
+
+                    if (validPromo.discountType === "percent") {
+                        discountAmount = (total * parseFloat(validPromo.discount)) / 100;
+                    } else if (validPromo.discountType === "amount") {
+                        discountAmount = parseFloat(validPromo.discount);
+                    }
+
+                    setDiscount(discountAmount);
+                    toast.success(`Promo code applied! You get a discount of ৳${discountAmount.toFixed(2)}`);
+                }
+            } else {
+                setCouponCode("");
+                setDiscount(0);
+                toast.error("Invalid promo code.");
             }
-
-            setDiscount(discountAmount);
-            toast.success(`Promo code applied! You get a discount of ৳${discountAmount.toFixed(2)}`);
-        } else {
-            setCouponCode("");
-            setDiscount(0);
-            toast.error("Invalid promo code");
+        } catch (error) {
+            toast.error("Failed to apply promo code. Please try again.");
+        } finally {
+            setPromoLoading(false);
         }
     };
 
@@ -51,7 +72,7 @@ const Checkout = () => {
         setSelectedPaymentMethod(e.target.value);
     };
 
-    const handlePlaceOrder = () => {
+    const handlePlaceOrder = async () => {
         if (!billingDetails) {
             toast.error("Please add a shipping address to proceed.");
             return;
@@ -62,22 +83,49 @@ const Checkout = () => {
             return;
         }
 
-        const orderDetails = {
-            billingDetails,
-            products,
-            total,
-            discount,
-            couponCode,
-            shippingCharge,
-            payableTotal,
-            paymentMethod: selectedPaymentMethod,
-        };
+        setLoading(true);
+        try {
+            // Prepare the data
+            const orderDetails = {
+                userEmail: user.email,
+                billingDetailsId: billingDetails._id,
+                products: products.map(product => ({
+                    productId: product._id,
+                    quantity: product.quantity,
+                })),
+                total,
+                discount,
+                couponCode,
+                shippingCharge,
+                payableTotal,
+                paymentMethod: selectedPaymentMethod,
+                status: "Pending",
+                paymentStatus: "pending",
+                orderDate: new Date().toISOString(),
+            };
 
-        if (selectedPaymentMethod === "cash-on-delivery") {
-            console.log("Order Details:", orderDetails);
-            toast.success("Order placed successfully!");
-        } else if (selectedPaymentMethod === "bkash-payment") {
-            navigate("/bkash-payment", { state: { orderDetails } });
+            if (selectedPaymentMethod === "cash-on-delivery") {
+                console.log("Order Details:", orderDetails);
+
+                const { data } = await axiosSecure.post('/orders', orderDetails);
+
+                if (data?.insertedId) {
+                    toast.success("Order placed successfully!");
+                    // navigate(`/order-confirmation/${data.orderId}`);
+
+                    navigate("/order-success", { state: { orderId: data?.insertedId } });
+                } else {
+                    toast.error("Failed to place order.");
+                }
+            } else if (selectedPaymentMethod === "bkash-payment") {
+                navigate("/bkash-payment", { state: { orderDetails } });
+            }
+
+        } catch (error) {
+            console.error("Error placing order:", error);
+            toast.error("An error occurred while placing the order. Please try again.");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -151,8 +199,12 @@ const Checkout = () => {
                             value={couponCode}
                             onChange={handleCouponChange}
                         />
-                        <button onClick={handleApplyCoupon} className="bg-primary text-white px-4 rounded-r-md font-semibold">
-                            Apply
+                        <button
+                            onClick={handleApplyCoupon}
+                            className={`bg-primary text-white px-4 rounded-r-md font-semibold ${promoLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                            disabled={promoLoading}
+                        >
+                            {promoLoading ? "Applying..." : "Apply"}
                         </button>
                     </div>
                 </div>
@@ -190,10 +242,11 @@ const Checkout = () => {
                 <Button
                     className="w-full rounded-none bg-primary font-medium py-2"
                     onClick={handlePlaceOrder}
-                    disabled={!billingDetails}
+                    loading={!billingDetails || loading}
                 >
-                    Place an Order
+                    {loading ? "Placing Order..." : "Place an Order"}
                 </Button>
+
             </div>
         </div>
     );
