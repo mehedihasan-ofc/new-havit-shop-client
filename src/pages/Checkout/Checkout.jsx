@@ -105,15 +105,12 @@ const Checkout = () => {
             };
 
             if (selectedPaymentMethod === "cash-on-delivery") {
-                console.log("Order Details:", orderDetails);
 
                 const { data } = await axiosSecure.post('/orders', orderDetails);
 
-                if (data?.insertedId) {
+                if (data?.result?.insertedId) {
                     toast.success("Order placed successfully!");
-                    // navigate(`/order-confirmation/${data.orderId}`);
-
-                    navigate("/order-success", { state: { orderId: data?.insertedId } });
+                    navigate("/order-success", { state: { orderId: data?.result?.insertedId } });
                 } else {
                     toast.error("Failed to place order.");
                 }
@@ -239,13 +236,15 @@ const Checkout = () => {
                 </div>
 
                 {/* Place Order Button */}
-                <Button
-                    className="w-full rounded-none bg-primary font-medium py-2"
-                    onClick={handlePlaceOrder}
-                    loading={!billingDetails || loading}
-                >
-                    {loading ? "Placing Order..." : "Place an Order"}
-                </Button>
+                <div className='flex items-center justify-center'>
+                    <Button
+                        className="w-full rounded-none bg-primary font-medium py-2"
+                        onClick={handlePlaceOrder}
+                        loading={!billingDetails || loading}
+                    >
+                        {loading ? "Placing Order..." : "Place an Order"}
+                    </Button>
+                </div>
 
             </div>
         </div>
