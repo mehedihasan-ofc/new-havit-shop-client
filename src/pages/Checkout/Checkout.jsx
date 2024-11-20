@@ -6,10 +6,11 @@ import usePromoCodes from "../../hooks/usePromoCodes";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../provider/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import MySpinner from "../../components/Shared/MySpinner/MySpinner";
 
 const Checkout = () => {
     const { user } = useContext(AuthContext);
-    const [billingDetails] = useBillingDetails();
+    const [billingDetails, isLoading] = useBillingDetails();
     const [promoCodes] = usePromoCodes();
     const [axiosSecure] = useAxiosSecure();
 
@@ -115,7 +116,7 @@ const Checkout = () => {
                     toast.error("Failed to place order.");
                 }
             } else if (selectedPaymentMethod === "bkash-payment") {
-                navigate("/bkash-payment", { state: { orderDetails } });
+                navigate("/bkash-payment", { state: { orderDetails, billingDetails } });
             }
 
         } catch (error) {
@@ -125,6 +126,8 @@ const Checkout = () => {
             setLoading(false);
         }
     };
+
+    if(isLoading) return <MySpinner />;
 
     return (
         <div className="max-w-5xl mx-auto px-6 my-5">
