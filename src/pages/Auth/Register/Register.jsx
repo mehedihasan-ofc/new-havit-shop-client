@@ -59,7 +59,7 @@ const Register = () => {
                                 fullName,
                                 email,
                                 role: 'customer',
-                                status: 'active',
+                                // status: 'active',
                                 createdAt: new Date().toISOString()
                             };
                             saveUser(userInfo);

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
     Card,
     Typography,
@@ -27,10 +27,14 @@ import { FiMessageCircle } from "react-icons/fi";
 import useRole from "../../../hooks/useRole";
 import useSubscriptions from "../../../hooks/useSubscriptions";
 import useMessages from "../../../hooks/useMessages";
+import { AuthContext } from "../../../provider/AuthProvider";
+import Swal from "sweetalert2";
 
 const Sidebar = () => {
 
     const [role] = useRole();
+
+    const { logOut } = useContext(AuthContext);
 
     // count
     const [subscriptions] = useSubscriptions();
@@ -41,6 +45,30 @@ const Sidebar = () => {
     const handleOpen = (value) => {
         setOpen(open === value ? 0 : value);
     };
+
+    const handleLogOut = () => {
+        Swal.fire({
+            title: "Are you sure want to sign out?",
+            text: "You will need to log in again to access your account.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, sign out!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                logOut()
+                    .then(() => {
+                        Swal.fire({
+                            title: "Signed Out",
+                            text: "You have successfully signed out.",
+                            icon: "success"
+                        });
+                    })
+                    .catch(err => console.log(err.message));
+            }
+        });
+    }
 
     return (
         <Card className="h-screen rounded-none shadow p-4 overflow-y-auto">
@@ -344,7 +372,7 @@ const Sidebar = () => {
 
                 <hr className="border-blue-gray-50" />
 
-                <ListItem>
+                <ListItem onClick={handleLogOut}>
                     <ListItemPrefix>
                         <PowerIcon className="h-5 w-5" />
                     </ListItemPrefix>

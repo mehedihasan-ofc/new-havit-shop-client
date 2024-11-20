@@ -13,7 +13,7 @@ import UserImg from "../../../../assets/user.jpg";
 import { formattedDate } from "../../../../utils";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
-const TABLE_HEAD = ["Name", "Email", "Status", "Registration"];
+const TABLE_HEAD = ["Name", "Email", "Registration"];
 
 const Customers = () => {
 
@@ -40,13 +40,13 @@ const Customers = () => {
                         </Typography>
                     </div>
 
-                    <div className="w-full md:w-72">
+                    {/* <div className="w-full md:w-72">
                         <Input
                             label="Search Customer"
                             color="teal"
                             icon={<MagnifyingGlassIcon color="teal" className="h-5 w-5" />}
                         />
-                    </div>
+                    </div> */}
                 </div>
             </CardHeader>
 
@@ -101,16 +101,16 @@ const Customers = () => {
                                                 {email}
                                             </Typography>
                                         </td>
-                                        <td className={classes}>
+                                        {/* <td className={classes}>
                                             <div className="w-max">
                                                 <Chip
                                                     variant="ghost"
                                                     size="sm"
                                                     value={status}
-                                                    color={status === "active" ? "green" : "red"}
+                                                    color="green"
                                                 />
                                             </div>
-                                        </td>
+                                        </td> */}
                                         <td className={classes}>
                                             <Typography
                                                 variant="small"

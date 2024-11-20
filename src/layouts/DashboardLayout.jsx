@@ -34,7 +34,7 @@ const DashboardLayout = () => {
             <Sidebar />
 
             <div className="flex-1 h-screen overflow-y-auto">
-                <div className="flex justify-between items-center shadow  py-3 px-10">
+                <div className="flex justify-between items-center shadow  py-4 px-10">
 
                     <div className="flex items-center gap-2">
                         <p>Home</p>
@@ -42,14 +42,14 @@ const DashboardLayout = () => {
                         <p className="capitalize">{formatPathname(pathname)}</p>
                     </div>
 
-                    <div className="flex items-center gap-3">
+                    {/* <div className="flex items-center gap-3">
                         <Avatar size="sm" src="https://docs.material-tailwind.com/img/face-2.jpg" alt="avatar" />
 
                         <div>
                             <h4 className="text-sm">Mehedi Hasan</h4>
                             <p className="text-xs text-gray-700">System Admin</p>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className="p-5">
