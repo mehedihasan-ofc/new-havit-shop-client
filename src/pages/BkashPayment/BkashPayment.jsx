@@ -122,6 +122,7 @@ const BkashPayment = () => {
                 <div className="flex space-x-4">
                     <Button
                         onClick={handleConfirmPayment}
+                        loading={loading}
                         disabled={
                             loading ||
                             transactionId.length !== 10 ||
