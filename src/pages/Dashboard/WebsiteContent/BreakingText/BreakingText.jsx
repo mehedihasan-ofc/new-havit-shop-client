@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@material-tailwind/react";
 import SVG from "../../../../assets/svg/img-status-7.svg";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { toast } from "react-toastify";
+import { useQuery } from "@tanstack/react-query";
 
 const BreakingText = () => {
     
@@ -11,38 +12,60 @@ const BreakingText = () => {
     const [text, setText] = useState("");
     const [loading, setLoading] = useState(false);
 
+    const { data: breakingTextData = {}, isLoading } = useQuery({
+        queryKey: ['breakingTextData'],
+        queryFn: async () => {
+            const res = await fetch('https://new-havit-shop-server.vercel.app/breaking-text');
+            return res.json();
+        }
+    });
+
+    useEffect(() => {
+        if (breakingTextData?.breakingText) {
+            setText(breakingTextData.breakingText);  // Populate text with existing breaking text
+        }
+    }, [breakingTextData]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
 
         try {
-
-            const newBreakingText = {
+            const breakingTextPayload = {
                 breakingText: text,
                 createdAt: new Date().toISOString()
             };
 
-            // Make an API call to send the data to the database
-            const { data } = await axiosSecure.post('/breaking-text', newBreakingText);
+            // If breaking text exists, update it, otherwise create new
+            if (breakingTextData?._id) {
+                // Update the existing breaking text
+                const { data } = await axiosSecure.put(`/breaking-text/${breakingTextData._id}`, breakingTextPayload);
+                
+                if (data.modifiedCount > 0) {
+                    toast.success('Breaking text updated successfully!', {
+                        position: "top-right",
+                        autoClose: 1000,
+                        pauseOnHover: false,
+                    });
+                }
+            } else {
+                // Create new breaking text
+                const { data } = await axiosSecure.post('/breaking-text', breakingTextPayload);
 
-            if (data.insertedId) {
-                toast.success('Breaking text created successfully!', {
-                    position: "top-right",
-                    autoClose: 1000,
-                    pauseOnHover: false,
-                });
-
-                // Reset form state
-                setText("");
+                if (data.insertedId) {
+                    toast.success('Breaking text created successfully!', {
+                        position: "top-right",
+                        autoClose: 1000,
+                        pauseOnHover: false,
+                    });
+                }
             }
-
         } catch (error) {
-            console.error('Error creating breaking text:', error);
-            toast.error('Failed to create breaking text. Please try again.');
+            console.error('Error saving breaking text:', error);
+            toast.error('Failed to save breaking text. Please try again.');
         } finally {
             setLoading(false);  // Reset loading state
         }
-
     };
 
     return (
@@ -72,7 +95,7 @@ const BreakingText = () => {
 
                     <div>
                         <Button type="submit" loading={loading} className="rounded-none bg-primary font-medium px-10">
-                            {loading ? "Submitting..." : "Submit"}
+                            {loading ? "Submitting..." : breakingTextData?._id ? "Update Breaking Text" : "Create Breaking Text"}
                         </Button>
                     </div>
                 </form>
