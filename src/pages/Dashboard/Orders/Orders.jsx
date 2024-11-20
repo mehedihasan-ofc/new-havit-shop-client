@@ -1,20 +1,15 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 import {
     Card,
     CardHeader,
     Input,
     Typography,
-    Button,
     CardBody,
     Chip,
-    CardFooter,
     Tabs,
     TabsHeader,
     Tab,
-    Avatar,
     IconButton,
-    Tooltip,
 } from "@material-tailwind/react";
 import { useQuery } from "@tanstack/react-query";
 import { useContext, useState } from "react";
@@ -22,6 +17,9 @@ import { AuthContext } from "../../../provider/AuthProvider";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import MySpinner from "../../../components/Shared/MySpinner/MySpinner";
 import { formattedDate } from "../../../utils";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { AiOutlineDelete } from "react-icons/ai";
+import Swal from "sweetalert2";
 
 const TABS = [
     {
@@ -68,7 +66,33 @@ const Orders = () => {
         },
     });
 
-    console.log(orders);
+    const handleDelete = async (orderId) => {
+        
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                axiosSecure.delete(`/orders/${orderId}`)
+                    .then(res => {
+                        if (res.data.deletedCount > 0) {
+                            refetch();
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your file has been deleted.",
+                                icon: "success"
+                            });
+                        }
+                    })
+            }
+        });
+    };
 
     const getStatusColor = (status) => {
         switch (status.toLowerCase()) {
@@ -89,16 +113,16 @@ const Orders = () => {
 
     const getPaymentStatusColor = (status) => {
         switch (status.toLowerCase()) {
-          case "pending":
-            return "amber";  // Yellowish color for pending
-          case "paid":
-            return "green";  // Green for paid
-          case "unpaid":
-            return "red";    // Red for unpaid
-          default:
-            return "gray";   // Default color for unknown statuses
+            case "pending":
+                return "amber";
+            case "paid":
+                return "green";
+            case "unpaid":
+                return "red"; 
+            default:
+                return "gray";  
         }
-      };      
+    };
 
 
     return (
@@ -250,11 +274,15 @@ const Orders = () => {
                                             </td>
 
                                             <td className={classes}>
-                                                <Tooltip content="Edit User">
-                                                    <IconButton variant="text">
-                                                        <PencilIcon className="h-4 w-4" />
+                                                <div>
+                                                    <IconButton variant="text" className="rounded-full">
+                                                        <MdOutlineRemoveRedEye size={18} />
                                                     </IconButton>
-                                                </Tooltip>
+                                                    
+                                                    <IconButton onClick={() => handleDelete(_id)} variant="text" className="rounded-full">
+                                                        <AiOutlineDelete size={18} />
+                                                    </IconButton>
+                                                </div>
                                             </td>
                                         </tr>
                                     );
