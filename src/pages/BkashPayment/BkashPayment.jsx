@@ -47,7 +47,7 @@ const BkashPayment = () => {
         try {
             const orderData = {
                 ...orderDetails,
-                phoneNumber,
+                paymentNumber: phoneNumber,
                 transactionId,
             };
 

@@ -20,6 +20,7 @@ import { formattedDate } from "../../../utils";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { AiOutlineDelete } from "react-icons/ai";
 import Swal from "sweetalert2";
+import ViewOrderModal from "../../../components/Modal/ViewOrderModal/ViewOrderModal";
 
 const TABS = [
     {
@@ -57,6 +58,10 @@ const Orders = () => {
     const token = localStorage.getItem('access-token');
     const [axiosSecure] = useAxiosSecure();
 
+    // Modal Data
+    const [orderId, setOrderId] = useState();
+    const [open, setOpen] = useState(false);
+
     const { data: orders = [], isLoading, refetch } = useQuery({
         queryKey: ['orders', user?.email, activeTab],
         enabled: !!user?.email && !!token,
@@ -66,8 +71,15 @@ const Orders = () => {
         },
     });
 
+    const handleOpen = () => setOpen(!open);
+
+    const handleViewOrder = (id) => {
+        setOrderId(id);
+        handleOpen();
+    }
+
     const handleDelete = async (orderId) => {
-        
+
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -118,181 +130,185 @@ const Orders = () => {
             case "paid":
                 return "green";
             case "unpaid":
-                return "red"; 
+                return "red";
             default:
-                return "gray";  
+                return "gray";
         }
     };
 
 
     return (
-        <Card className="h-full w-full">
-            <CardHeader floated={false} shadow={false} className="rounded-none">
-                <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-                    <Tabs value={activeTab} className="w-full md:w-max">
-                        <TabsHeader
-                            className="rounded-none"
-                            indicatorProps={{
-                                className: "rounded-none",
-                            }}
-                        >
-                            {TABS.map(({ label, value }) => (
-                                <Tab
-                                    onClick={() => setActiveTab(value)}
-                                    key={value}
-                                    value={value}
-                                    className="text-sm"
-                                >
-                                    &nbsp;&nbsp;{label}&nbsp;&nbsp;
-                                </Tab>
-                            ))}
-                        </TabsHeader>
-                    </Tabs>
-
-                    <div className="w-full md:w-72">
-                        <Input
-                            label="Search"
-                            icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-                        />
-                    </div>
-                </div>
-            </CardHeader>
-            {isLoading ? (
-                <MySpinner />
-            ) : (
-                <CardBody className="px-0 overflow-x-auto">
-                    <table className="mt-4 w-full min-w-max table-auto text-left">
-                        <thead>
-                            <tr>
-                                {TABLE_HEAD.map((head) => (
-                                    <th
-                                        key={head}
-                                        className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4"
+        <>
+            <Card className="h-full w-full">
+                <CardHeader floated={false} shadow={false} className="rounded-none">
+                    <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+                        <Tabs value={activeTab} className="w-full md:w-max">
+                            <TabsHeader
+                                className="rounded-none"
+                                indicatorProps={{
+                                    className: "rounded-none",
+                                }}
+                            >
+                                {TABS.map(({ label, value }) => (
+                                    <Tab
+                                        onClick={() => setActiveTab(value)}
+                                        key={value}
+                                        value={value}
+                                        className="text-sm"
                                     >
-                                        <Typography
-                                            variant="small"
-                                            color="blue-gray"
-                                            className="font-normal leading-none opacity-70"
-                                        >
-                                            {head}
-                                        </Typography>
-                                    </th>
+                                        &nbsp;&nbsp;{label}&nbsp;&nbsp;
+                                    </Tab>
                                 ))}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {orders.map(
-                                (
-                                    {
-                                        _id,
-                                        orderDate,
-                                        paymentMethod,
-                                        deliveryStatus,
-                                        payableTotal,
-                                        paymentStatus,
-                                    },
-                                    index
-                                ) => {
-                                    const isLast = index === orders.length - 1;
-                                    const classes = isLast
-                                        ? "p-4"
-                                        : "p-4 border-b border-blue-gray-50";
+                            </TabsHeader>
+                        </Tabs>
 
-                                    return (
-                                        <tr key={_id} className="text-sm">
-                                            <td className={classes}>
-                                                <Typography
-                                                    variant="small"
-                                                    color="blue-gray"
-                                                    className="font-normal"
-                                                >
-                                                    {index + 1}
-                                                </Typography>
-                                            </td>
+                        <div className="w-full md:w-72">
+                            <Input
+                                label="Search"
+                                icon={<MagnifyingGlassIcon className="h-5 w-5" />}
+                            />
+                        </div>
+                    </div>
+                </CardHeader>
+                {isLoading ? (
+                    <MySpinner />
+                ) : (
+                    <CardBody className="px-0 overflow-x-auto">
+                        <table className="mt-4 w-full min-w-max table-auto text-left">
+                            <thead>
+                                <tr>
+                                    {TABLE_HEAD.map((head) => (
+                                        <th
+                                            key={head}
+                                            className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4"
+                                        >
+                                            <Typography
+                                                variant="small"
+                                                color="blue-gray"
+                                                className="font-normal leading-none opacity-70"
+                                            >
+                                                {head}
+                                            </Typography>
+                                        </th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {orders.map(
+                                    (
+                                        {
+                                            _id,
+                                            orderDate,
+                                            paymentMethod,
+                                            deliveryStatus,
+                                            payableTotal,
+                                            paymentStatus,
+                                        },
+                                        index
+                                    ) => {
+                                        const isLast = index === orders.length - 1;
+                                        const classes = isLast
+                                            ? "p-4"
+                                            : "p-4 border-b border-blue-gray-50";
 
-                                            <td className={classes}>
-                                                <Typography
-                                                    variant="small"
-                                                    color="blue-gray"
-                                                    className="font-normal"
-                                                >
-                                                    {_id}
-                                                </Typography>
-                                            </td>
+                                        return (
+                                            <tr key={_id} className="text-sm">
+                                                <td className={classes}>
+                                                    <Typography
+                                                        variant="small"
+                                                        color="blue-gray"
+                                                        className="font-normal"
+                                                    >
+                                                        {index + 1}
+                                                    </Typography>
+                                                </td>
 
-                                            <td className={classes}>
-                                                <Typography
-                                                    variant="small"
-                                                    color="blue-gray"
-                                                    className="font-normal"
-                                                >
-                                                    {formattedDate(orderDate)}
-                                                </Typography>
-                                            </td>
+                                                <td className={classes}>
+                                                    <Typography
+                                                        variant="small"
+                                                        color="blue-gray"
+                                                        className="font-normal"
+                                                    >
+                                                        {_id}
+                                                    </Typography>
+                                                </td>
 
-                                            <td className={classes}>
-                                                <Typography
-                                                    variant="small"
-                                                    color="blue-gray"
-                                                    className="font-normal capitalize"
-                                                >
-                                                    {paymentMethod}
-                                                </Typography>
-                                            </td>
+                                                <td className={classes}>
+                                                    <Typography
+                                                        variant="small"
+                                                        color="blue-gray"
+                                                        className="font-normal"
+                                                    >
+                                                        {formattedDate(orderDate)}
+                                                    </Typography>
+                                                </td>
 
-                                            <td className={classes}>
-                                                <div className="w-max">
-                                                    <Chip
-                                                        size="sm"
-                                                        variant="ghost"
-                                                        value={deliveryStatus}
-                                                        color={getStatusColor(deliveryStatus)}
-                                                    />
-                                                </div>
-                                            </td>
+                                                <td className={classes}>
+                                                    <Typography
+                                                        variant="small"
+                                                        color="blue-gray"
+                                                        className="font-normal capitalize"
+                                                    >
+                                                        {paymentMethod}
+                                                    </Typography>
+                                                </td>
+
+                                                <td className={classes}>
+                                                    <div className="w-max">
+                                                        <Chip
+                                                            size="sm"
+                                                            variant="ghost"
+                                                            value={deliveryStatus}
+                                                            color={getStatusColor(deliveryStatus)}
+                                                        />
+                                                    </div>
+                                                </td>
 
 
-                                            <td className={classes}>
-                                                <Typography
-                                                    variant="small"
-                                                    color="blue-gray"
-                                                    className="font-normal"
-                                                >
-                                                    ৳{payableTotal}
-                                                </Typography>
-                                            </td>
+                                                <td className={classes}>
+                                                    <Typography
+                                                        variant="small"
+                                                        color="blue-gray"
+                                                        className="font-normal"
+                                                    >
+                                                        ৳{payableTotal}
+                                                    </Typography>
+                                                </td>
 
-                                            <td className={classes}>
-                                                <div className="w-max">
-                                                    <Chip
-                                                        size="sm"
-                                                        variant="ghost"
-                                                        value={paymentStatus}
-                                                        color={getPaymentStatusColor(paymentStatus)}
-                                                    />
-                                                </div>
-                                            </td>
+                                                <td className={classes}>
+                                                    <div className="w-max">
+                                                        <Chip
+                                                            size="sm"
+                                                            variant="ghost"
+                                                            value={paymentStatus}
+                                                            color={getPaymentStatusColor(paymentStatus)}
+                                                        />
+                                                    </div>
+                                                </td>
 
-                                            <td className={classes}>
-                                                <div>
-                                                    <IconButton variant="text" className="rounded-full">
-                                                        <MdOutlineRemoveRedEye size={18} />
-                                                    </IconButton>
-                                                    
-                                                    <IconButton onClick={() => handleDelete(_id)} variant="text" className="rounded-full">
-                                                        <AiOutlineDelete size={18} />
-                                                    </IconButton>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    );
-                                }
-                            )}
-                        </tbody>
-                    </table>
-                </CardBody>
-            )}
-        </Card>
+                                                <td className={classes}>
+                                                    <div>
+                                                        <IconButton onClick={()=> handleViewOrder(_id)} variant="text" className="rounded-full">
+                                                            <MdOutlineRemoveRedEye size={18} />
+                                                        </IconButton>
+
+                                                        <IconButton onClick={() => handleDelete(_id)} variant="text" className="rounded-full">
+                                                            <AiOutlineDelete size={18} />
+                                                        </IconButton>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        );
+                                    }
+                                )}
+                            </tbody>
+                        </table>
+                    </CardBody>
+                )}
+            </Card>
+
+            <ViewOrderModal open={open} handleOpen={handleOpen} orderId={orderId} onRefetch={refetch} />
+        </>
     );
 };
 
