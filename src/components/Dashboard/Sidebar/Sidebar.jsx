@@ -118,15 +118,14 @@ const Sidebar = () => {
 
                 <hr className="border-blue-gray-50" />
 
-                <ListItem>
-                    <ListItemPrefix>
-                        <HiOutlineShoppingBag size={20} />
-                    </ListItemPrefix>
-                    Order
-                    <ListItemSuffix>
-                        <Chip value="14" size="sm" variant="ghost" color="teal" className="rounded-full" />
-                    </ListItemSuffix>
-                </ListItem>
+                <Link to="orders">
+                    <ListItem>
+                        <ListItemPrefix>
+                            <HiOutlineShoppingBag size={20} />
+                        </ListItemPrefix>
+                        Orders
+                    </ListItem>
+                </Link>
 
                 <Accordion
                     open={open === 3}

@@ -243,7 +243,7 @@ const Checkout = () => {
                     <Button
                         className="w-full rounded-none bg-primary font-medium py-2"
                         onClick={handlePlaceOrder}
-                        loading={!billingDetails || loading}
+                        disabled={!billingDetails || loading}
                     >
                         {loading ? "Placing Order..." : "Place an Order"}
                     </Button>

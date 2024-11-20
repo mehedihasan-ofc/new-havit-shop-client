@@ -37,7 +37,9 @@ const ProductCard = ({ product }) => {
 
                 if (response.status === 200) {
                     refetch();
-                    toast.success(`${product?.name} added to cart!`);
+                    toast.success(`${product?.name} added to cart!`, {
+                        autoClose: 1000,
+                    });
                 }
 
             } catch (error) {

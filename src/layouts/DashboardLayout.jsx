@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "../components/Dashboard/Sidebar/Sidebar";
 import { Avatar } from "@material-tailwind/react";
 import { MdOutlineArrowForward } from "react-icons/md";
@@ -7,10 +7,16 @@ import { MdOutlineArrowForward } from "react-icons/md";
 const DashboardLayout = () => {
 
     const { pathname } = useLocation();
+    const navigate = useNavigate();
 
     useEffect(() => {
         window.scrollTo(0, 0);
-    }, [pathname]);
+
+        if(pathname === "/dashboard" || pathname === "/dashboard/") {
+            navigate("dashboard-home")
+        }
+
+    }, [pathname, navigate]);
 
     const formatPathname = (pathname) => {
         const formattedPathname = pathname

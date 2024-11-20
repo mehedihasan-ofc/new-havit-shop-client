@@ -21,7 +21,7 @@ const BkashPayment = () => {
 
     useEffect(() => {
         if (!orderDetails) {
-            toast.error("No order details found! Redirecting to checkout...");
+            toast.error("No order details found!");
             navigate("/");
         }
     }, [orderDetails, navigate]);

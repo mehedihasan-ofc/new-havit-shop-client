@@ -1,10 +1,19 @@
+import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const OrderSuccess = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const orderId = location.state?.orderId || "Unknown";
+    const orderId = location.state?.orderId;
+
+    useEffect(() => {
+        if (!orderId) {
+            toast.error("No order details found!", { autoClose: 1000 });
+            navigate("/");
+        }
+    }, [orderId, navigate]);
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6 py-12">
