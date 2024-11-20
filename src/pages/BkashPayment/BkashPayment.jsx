@@ -2,12 +2,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import bkashPayment from "../../assets/payment/bkashPayment.jpg";
+import { Button } from "@material-tailwind/react";
 
 const BkashPayment = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
     const [transactionId, setTransactionId] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
 
     // Access the order details from state
     const orderDetails = location.state?.orderDetails;
@@ -20,7 +22,17 @@ const BkashPayment = () => {
         }
     }, [orderDetails, navigate]);
 
+    // Validate phone number: must start with 01 and be 11 digits long
+    const validatePhoneNumber = (number) => {
+        return /^01\d{9}$/.test(number); // Matches 01XXXXXXXXX format
+    };
+
     const handleConfirmPayment = () => {
+        if (!validatePhoneNumber(phoneNumber)) {
+            toast.error("Please enter a valid phone number (e.g., 01XXXXXXXXX).");
+            return;
+        }
+
         if (transactionId.length !== 10) {
             toast.error("Transaction ID must be 10 characters long.");
             return;
@@ -28,7 +40,7 @@ const BkashPayment = () => {
 
         // Simulate payment confirmation logic
         toast.success("Payment confirmed! Thank you for your order.");
-        navigate("/order-success", { state: { orderId: "12345", ...orderDetails, transactionId } });
+        navigate("/order-success", { state: { orderId: "12345", ...orderDetails, transactionId, phoneNumber } });
     };
 
     const handleCancelPayment = () => {
@@ -54,7 +66,7 @@ const BkashPayment = () => {
                     <li>Open your Bkash app and go to *Payment*.</li>
                     <li>Scan the QR code provided below.</li>
                     <li>Send the amount of ৳{orderDetails.payableTotal.toFixed(2)}.</li>
-                    <li>Enter the Transaction ID below to confirm your payment.</li>
+                    <li>Enter your phone number and transaction ID below to confirm your payment.</li>
                 </ul>
             </div>
 
@@ -69,6 +81,13 @@ const BkashPayment = () => {
             <div className="mt-6 space-y-4">
                 <input
                     type="text"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    placeholder="Enter Phone Number (e.g., 01XXXXXXXXX)"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                />
+                <input
+                    type="text"
                     value={transactionId}
                     onChange={(e) => setTransactionId(e.target.value)}
                     maxLength={10}
@@ -76,20 +95,23 @@ const BkashPayment = () => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                 />
                 <div className="flex space-x-4">
-                    <button
+                    <Button
                         onClick={handleConfirmPayment}
-                        disabled={transactionId.length !== 10}
-                        className={`px-4 py-2 rounded-lg font-semibold text-white ${transactionId.length === 10 ? "bg-primary" : "bg-gray-400 cursor-not-allowed"
-                            }`}
+                        disabled={
+                            transactionId.length !== 10 || !validatePhoneNumber(phoneNumber)
+                        }
+                        className='rounded-none bg-primary font-medium'
                     >
                         Confirm Payment
-                    </button>
-                    <button
+                    </Button>
+
+
+                    <Button
                         onClick={handleCancelPayment}
-                        className="bg-red-500 text-white px-4 py-2 rounded-lg font-semibold"
+                        className="bg-red-500 rounded-none font-medium"
                     >
                         Cancel Payment
-                    </button>
+                    </Button>
                 </div>
             </div>
         </div>
