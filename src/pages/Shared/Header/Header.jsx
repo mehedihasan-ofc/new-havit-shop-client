@@ -78,6 +78,7 @@ const Header = () => {
 
     return (
         <>
+        <BreakingMarquee />
             {/* Header Top */}
             <div className="border-b py-1">
                 <div className="my-container">
@@ -208,8 +209,6 @@ const Header = () => {
                     <NavList />
                 </Collapse>
             </Navbar>
-
-            {/* <BreakingMarquee /> */}
         </>
     );
 };

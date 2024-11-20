@@ -140,6 +140,24 @@ const Sidebar = () => {
                                 </ListItem>
                             </Link>
 
+                            <Link to="blog-management">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    Breaking Text
+                                </ListItem>
+                            </Link>
+
+                            <Link to="blog-management">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    Welcome Modal
+                                </ListItem>
+                            </Link>
+
                         </List>
                     </AccordionBody>
                 </Accordion>

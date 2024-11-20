@@ -2,10 +2,10 @@ import Marquee from "react-fast-marquee";
 
 const BreakingMarquee = () => {
     return (
-        <div className="py-2 bg-secondary">
+        <div className="py-2 bg-primary text-white">
             <div className="my-container">
                 <Marquee>
-                    I can be a React component, multiple React components, or just some text.
+                    Havit Shop is your go-to online store for quality electronics, fashion, and more, offering secure payments, fast delivery, and great deals.
                 </Marquee>
             </div>
         </div>
