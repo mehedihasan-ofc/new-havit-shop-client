@@ -100,7 +100,7 @@ const Checkout = () => {
                 shippingCharge,
                 payableTotal,
                 paymentMethod: selectedPaymentMethod,
-                status: "Pending",
+                deliveryStatus: "pending",
                 paymentStatus: "pending",
                 orderDate: new Date().toISOString(),
             };

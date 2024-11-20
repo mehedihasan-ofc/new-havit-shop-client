@@ -3,13 +3,17 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import bkashPayment from "../../assets/payment/bkashPayment.jpg";
 import { Button } from "@material-tailwind/react";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const BkashPayment = () => {
+    const [axiosSecure] = useAxiosSecure();
+
     const location = useLocation();
     const navigate = useNavigate();
 
     const [transactionId, setTransactionId] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
+    const [loading, setLoading] = useState(false);
 
     // Access the order details from state
     const orderDetails = location.state?.orderDetails;
@@ -18,7 +22,7 @@ const BkashPayment = () => {
     useEffect(() => {
         if (!orderDetails) {
             toast.error("No order details found! Redirecting to checkout...");
-            navigate("/checkout");
+            navigate("/");
         }
     }, [orderDetails, navigate]);
 
@@ -27,7 +31,7 @@ const BkashPayment = () => {
         return /^01\d{9}$/.test(number); // Matches 01XXXXXXXXX format
     };
 
-    const handleConfirmPayment = () => {
+    const handleConfirmPayment = async () => {
         if (!validatePhoneNumber(phoneNumber)) {
             toast.error("Please enter a valid phone number (e.g., 01XXXXXXXXX).");
             return;
@@ -38,9 +42,28 @@ const BkashPayment = () => {
             return;
         }
 
-        // Simulate payment confirmation logic
-        toast.success("Payment confirmed! Thank you for your order.");
-        navigate("/order-success", { state: { orderId: "12345", ...orderDetails, transactionId, phoneNumber } });
+        setLoading(true); // Start loading
+
+        try {
+            const orderData = {
+                ...orderDetails,
+                phoneNumber,
+                transactionId,
+            };
+
+            const { data } = await axiosSecure.post("/orders", orderData);
+
+            if (data?.result?.insertedId) {
+                toast.success("Order placed successfully!");
+                navigate("/order-success", { state: { orderId: data.result.insertedId } });
+            } else {
+                throw new Error("Failed to place order.");
+            }
+        } catch (error) {
+            toast.error(error.message || "Something went wrong!");
+        } finally {
+            setLoading(false); // Stop loading
+        }
     };
 
     const handleCancelPayment = () => {
@@ -48,7 +71,7 @@ const BkashPayment = () => {
         navigate("/");
     };
 
-    if (!orderDetails) return null;
+    if (!orderDetails) return;
 
     return (
         <div className="max-w-3xl mx-auto p-6">
@@ -85,6 +108,7 @@ const BkashPayment = () => {
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     placeholder="Enter Phone Number (e.g., 01XXXXXXXXX)"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                    disabled={loading}
                 />
                 <input
                     type="text"
@@ -93,22 +117,28 @@ const BkashPayment = () => {
                     maxLength={10}
                     placeholder="Enter Transaction ID"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                    disabled={loading}
                 />
                 <div className="flex space-x-4">
                     <Button
                         onClick={handleConfirmPayment}
                         disabled={
-                            transactionId.length !== 10 || !validatePhoneNumber(phoneNumber)
+                            loading ||
+                            transactionId.length !== 10 ||
+                            !validatePhoneNumber(phoneNumber)
                         }
-                        className='rounded-none bg-primary font-medium'
+                        className={`rounded-none font-medium ${loading
+                                ? "bg-gray-400 cursor-not-allowed"
+                                : "bg-primary"
+                            }`}
                     >
-                        Confirm Payment
+                        {loading ? "Processing..." : "Confirm Payment"}
                     </Button>
-
 
                     <Button
                         onClick={handleCancelPayment}
                         className="bg-red-500 rounded-none font-medium"
+                        disabled={loading}
                     >
                         Cancel Payment
                     </Button>
