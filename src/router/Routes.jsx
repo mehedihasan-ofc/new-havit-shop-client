@@ -46,6 +46,7 @@ import PromoCodes from "../pages/Dashboard/PromoCodes/PromoCodes";
 import BkashPayment from "../pages/BkashPayment/BkashPayment";
 import OrderSuccess from "../pages/OrderSuccess/OrderSuccess";
 import Orders from "../pages/Dashboard/Orders/Orders";
+import BreakingText from "../pages/Dashboard/WebsiteContent/BreakingText/BreakingText";
 
 const router = createBrowserRouter([
     {
@@ -192,6 +193,10 @@ const router = createBrowserRouter([
             {
                 path: "create-blog",
                 element: <CreateBlog />
+            },
+            {
+                path: "breaking-text",
+                element: <BreakingText />
             },
             {
                 path: "orders",

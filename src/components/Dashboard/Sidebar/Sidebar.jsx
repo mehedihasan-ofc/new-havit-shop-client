@@ -140,7 +140,7 @@ const Sidebar = () => {
                                 </ListItem>
                             </Link>
 
-                            <Link to="blog-management">
+                            <Link to="breaking-text">
                                 <ListItem>
                                     <ListItemPrefix>
                                         <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
