@@ -162,12 +162,12 @@ const Orders = () => {
                             </TabsHeader>
                         </Tabs>
 
-                        <div className="w-full md:w-72">
+                        {/* <div className="w-full md:w-72">
                             <Input
                                 label="Search"
                                 icon={<MagnifyingGlassIcon className="h-5 w-5" />}
                             />
-                        </div>
+                        </div> */}
                     </div>
                 </CardHeader>
                 {isLoading ? (
@@ -194,112 +194,125 @@ const Orders = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {orders.map(
-                                    (
-                                        {
-                                            _id,
-                                            orderDate,
-                                            paymentMethod,
-                                            deliveryStatus,
-                                            payableTotal,
-                                            paymentStatus,
-                                        },
-                                        index
-                                    ) => {
-                                        const isLast = index === orders.length - 1;
-                                        const classes = isLast
-                                            ? "p-4"
-                                            : "p-4 border-b border-blue-gray-50";
+                                {orders.length === 0 ? (
+                                    <tr>
+                                        <td colSpan={TABLE_HEAD.length} className="p-4 text-center">
+                                            <Typography
+                                                variant="small"
+                                                color="blue-gray"
+                                                className="font-normal opacity-70"
+                                            >
+                                                No orders found.
+                                            </Typography>
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    orders.map(
+                                        (
+                                            {
+                                                _id,
+                                                orderDate,
+                                                paymentMethod,
+                                                deliveryStatus,
+                                                payableTotal,
+                                                paymentStatus,
+                                            },
+                                            index
+                                        ) => {
+                                            const isLast = index === orders.length - 1;
+                                            const classes = isLast
+                                                ? "p-4"
+                                                : "p-4 border-b border-blue-gray-50";
 
-                                        return (
-                                            <tr key={_id} className="text-sm">
-                                                <td className={classes}>
-                                                    <Typography
-                                                        variant="small"
-                                                        color="blue-gray"
-                                                        className="font-normal"
-                                                    >
-                                                        {index + 1}
-                                                    </Typography>
-                                                </td>
+                                            return (
+                                                <tr key={_id} className="text-sm">
+                                                    <td className={classes}>
+                                                        <Typography
+                                                            variant="small"
+                                                            color="blue-gray"
+                                                            className="font-normal"
+                                                        >
+                                                            {index + 1}
+                                                        </Typography>
+                                                    </td>
 
-                                                <td className={classes}>
-                                                    <Typography
-                                                        variant="small"
-                                                        color="blue-gray"
-                                                        className="font-normal"
-                                                    >
-                                                        {_id}
-                                                    </Typography>
-                                                </td>
+                                                    <td className={classes}>
+                                                        <Typography
+                                                            variant="small"
+                                                            color="blue-gray"
+                                                            className="font-normal"
+                                                        >
+                                                            {_id}
+                                                        </Typography>
+                                                    </td>
 
-                                                <td className={classes}>
-                                                    <Typography
-                                                        variant="small"
-                                                        color="blue-gray"
-                                                        className="font-normal"
-                                                    >
-                                                        {formattedDate(orderDate)}
-                                                    </Typography>
-                                                </td>
+                                                    <td className={classes}>
+                                                        <Typography
+                                                            variant="small"
+                                                            color="blue-gray"
+                                                            className="font-normal"
+                                                        >
+                                                            {formattedDate(orderDate)}
+                                                        </Typography>
+                                                    </td>
 
-                                                <td className={classes}>
-                                                    <Typography
-                                                        variant="small"
-                                                        color="blue-gray"
-                                                        className="font-normal capitalize"
-                                                    >
-                                                        {paymentMethod}
-                                                    </Typography>
-                                                </td>
+                                                    <td className={classes}>
+                                                        <Typography
+                                                            variant="small"
+                                                            color="blue-gray"
+                                                            className="font-normal capitalize"
+                                                        >
+                                                            {paymentMethod}
+                                                        </Typography>
+                                                    </td>
 
-                                                <td className={classes}>
-                                                    <div className="w-max">
-                                                        <Chip
-                                                            size="sm"
-                                                            variant="ghost"
-                                                            value={deliveryStatus}
-                                                            color={getStatusColor(deliveryStatus)}
-                                                        />
-                                                    </div>
-                                                </td>
+                                                    <td className={classes}>
+                                                        <div className="w-max">
+                                                            <Chip
+                                                                size="sm"
+                                                                variant="ghost"
+                                                                value={deliveryStatus}
+                                                                color={getStatusColor(deliveryStatus)}
+                                                            />
+                                                        </div>
+                                                    </td>
 
+                                                    <td className={classes}>
+                                                        <Typography
+                                                            variant="small"
+                                                            color="blue-gray"
+                                                            className="font-normal"
+                                                        >
+                                                            ৳{payableTotal}
+                                                        </Typography>
+                                                    </td>
 
-                                                <td className={classes}>
-                                                    <Typography
-                                                        variant="small"
-                                                        color="blue-gray"
-                                                        className="font-normal"
-                                                    >
-                                                        ৳{payableTotal}
-                                                    </Typography>
-                                                </td>
+                                                    <td className={classes}>
+                                                        <div className="w-max">
+                                                            <Chip
+                                                                size="sm"
+                                                                variant="ghost"
+                                                                value={paymentStatus}
+                                                                color={getPaymentStatusColor(paymentStatus)}
+                                                            />
+                                                        </div>
+                                                    </td>
 
-                                                <td className={classes}>
-                                                    <div className="w-max">
-                                                        <Chip
-                                                            size="sm"
-                                                            variant="ghost"
-                                                            value={paymentStatus}
-                                                            color={getPaymentStatusColor(paymentStatus)}
-                                                        />
-                                                    </div>
-                                                </td>
+                                                    <td className={classes}>
+                                                        <div>
+                                                            <IconButton onClick={() => handleViewOrder(_id)} variant="text" className="rounded-full">
+                                                                <MdOutlineRemoveRedEye size={18} />
+                                                            </IconButton>
 
-                                                <td className={classes}>
-                                                    <div>
-                                                        <IconButton onClick={()=> handleViewOrder(_id)} variant="text" className="rounded-full">
-                                                            <MdOutlineRemoveRedEye size={18} />
-                                                        </IconButton>
-
-                                                        <IconButton onClick={() => handleDelete(_id)} variant="text" className="rounded-full">
-                                                            <AiOutlineDelete size={18} />
-                                                        </IconButton>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        );
-                                    }
+                                                            <IconButton onClick={() => handleDelete(_id)} variant="text" className="rounded-full">
+                                                                <AiOutlineDelete size={18} />
+                                                            </IconButton>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        }
+                                    )
                                 )}
                             </tbody>
                         </table>
