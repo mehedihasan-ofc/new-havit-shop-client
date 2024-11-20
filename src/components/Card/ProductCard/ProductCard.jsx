@@ -107,9 +107,9 @@ const ProductCard = ({ product }) => {
 
                 <div className="flex justify-between items-center">
                     <div className="flex items-baseline space-x-2">
-                        <span className="text-base font-bold text-primary">Tk {product.price.toFixed(2)}</span>
+                        <span className="text-base font-bold text-primary">৳{product.price.toFixed(2)}</span>
                         {hasDiscount && (
-                            <span className="text-sm text-gray-400 line-through">Tk {product.regularPrice.toFixed(2)}</span>
+                            <span className="text-sm text-gray-400 line-through">৳{product.regularPrice.toFixed(2)}</span>
                         )}
                     </div>
 
