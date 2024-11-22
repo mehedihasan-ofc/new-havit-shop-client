@@ -18,10 +18,10 @@ const Footer = () => {
     return (
         <footer className="bg-white border-t border-gray-200">
             {/* Main Footer Section */}
-            <div className="my-container py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="my-container py-10 grid grid-cols-1 text-center md:text-start sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div className="space-y-4">
                     {/* Brand Logo */}
-                    <img src={Logo} alt="Havit Shop Logo" className="w-32 h-auto" />
+                    <img src={Logo} alt="Havit Shop Logo" className="w-32 h-auto mx-auto md:mx-0" />
 
                     {/* Brand Description */}
                     <p className="text-sm text-gray-600 leading-relaxed">
@@ -95,15 +95,15 @@ const Footer = () => {
                 <div>
                     <h4 className="font-semibold text-lg text-gray-800">Contact Info</h4>
                     <div className="space-y-4 mt-4 text-sm text-gray-600">
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center justify-center md:justify-start gap-2">
                             <SlLocationPin className="text-primary" />
                             <p>1086 Mukti Palli Road, Vatara Gulshan</p>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center justify-center md:justify-start gap-2">
                             <GrSend className="text-primary" />
                             <p>havitshopp@gmail.com</p>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center justify-center md:justify-start gap-2">
                             <SlEarphonesAlt className="text-primary" />
                             <p>+8801744991003 & +8801892138932</p>
                         </div>
@@ -163,7 +163,7 @@ const Footer = () => {
                 {/* Payment Methods */}
                 <div>
                     <img
-                        className="w-full max-w-sm h-auto object-contain"
+                        className="w-full max-w-sm h-12 object-contain"
                         src={PaymentImg}
                         alt="Payment Methods"
                     />
