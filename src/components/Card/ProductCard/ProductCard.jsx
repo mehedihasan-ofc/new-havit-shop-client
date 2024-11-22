@@ -113,12 +113,12 @@ const ProductCard = ({ product }) => {
                         )}
                     </div>
 
-                    <Button 
-                        onClick={() => handleAddToCart(product?._id)} 
-                        loading={loading} 
-                        variant="filled" 
-                        size="sm" 
-                        className="flex items-center gap-2 rounded shadow-none bg-secondary text-primary py-1 px-3 capitalize text-sm hover:bg-primary hover:text-white hover:shadow-none"
+                    <Button
+                        onClick={() => handleAddToCart(product?._id)}
+                        loading={loading}
+                        variant="filled"
+                        size="sm"
+                        className="flex items-center gap-2 rounded bg-primary py-2 px-3 capitalize font-medium text-xs"
                     >
                         {loading ? (
                             <span>Wait</span>
