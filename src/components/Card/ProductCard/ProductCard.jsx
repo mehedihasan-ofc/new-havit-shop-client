@@ -118,7 +118,7 @@ const ProductCard = ({ product }) => {
                         loading={loading} 
                         variant="filled" 
                         size="sm" 
-                        className="flex items-center gap-2 rounded bg-primary py-1 px-2 capitalize font-medium text-xs"
+                        className="flex items-center gap-2 rounded shadow-none bg-secondary text-primary py-1 px-3 capitalize text-sm hover:bg-primary hover:text-white hover:shadow-none"
                     >
                         {loading ? (
                             <span>Wait</span>

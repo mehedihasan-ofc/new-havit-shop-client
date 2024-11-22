@@ -12,9 +12,9 @@ const BreakingMarquee = () => {
     });
 
     return (
-        <div className="py-2 bg-primary text-white">
+        <div className="py-2 bg-primary">
             <div className="my-container">
-                <Marquee>
+                <Marquee speed={30} className="text-white text-sm md:text-base">
                     {isLoading ? "Loading..." : breakingTextData?.breakingText || "No breaking text available"}
                 </Marquee>
             </div>

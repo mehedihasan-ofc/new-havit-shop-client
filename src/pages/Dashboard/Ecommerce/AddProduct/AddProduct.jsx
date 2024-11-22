@@ -101,6 +101,7 @@ const AddProduct = () => {
 
                 // Reset form data after successful upload
                 setFormData({
+                    skuCode: '',
                     name: '',
                     categoryId: '',
                     subcategoryId: '',

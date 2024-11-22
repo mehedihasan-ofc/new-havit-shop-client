@@ -13,14 +13,14 @@ const PopularProducts = () => {
         <div className="my-container my-10">
 
             <div className='flex justify-between items-center'>
-                <h4 className='text-xl font-sans font-bold'>Popular Products</h4>
+                <h4 className="text-base md:text-xl font-sans font-bold">Popular Products</h4>
                 <Button onClick={() => navigate("/products/all")} variant="text" className="flex items-center gap-2 font-serif px-4 py-2 rounded">
                     See All
                     <FaArrowRightLong />
                 </Button>
             </div>
 
-            <div className="mt-5 grid grid-cols-2 md:grid-cols-4 gap-5">
+            <div className="mt-5 grid grid-cols-1 md:grid-cols-4 gap-5">
                 {products.map(product => (
                     <ProductCard key={product._id} product={product} />
                 ))}
