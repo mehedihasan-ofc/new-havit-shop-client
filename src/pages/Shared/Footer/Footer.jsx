@@ -9,88 +9,167 @@ import TelegramIcon from "../../../assets/social/telegram.png";
 import TiktokIcon from "../../../assets/social/tiktok.png";
 import { SlEarphonesAlt, SlLocationPin } from "react-icons/sl";
 import { GrSend } from "react-icons/gr";
+import Logo from "../../../assets/logo.png";
 
 const Footer = () => {
 
-    // Get the current year
     const currentYear = new Date().getFullYear();
 
     return (
-        <div>
-            <div>
-                
-                <div className="my-container flex justify-between items-center gap-5 py-10">
+        <footer className="bg-white border-t border-gray-200">
+            {/* Main Footer Section */}
+            <div className="my-container py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div className="space-y-4">
+                    {/* Brand Logo */}
+                    <img src={Logo} alt="Havit Shop Logo" className="w-32 h-auto" />
 
-                    <div className="space-y-2">
-                        <h4 className="font-semibold text-lg">Havit Shop</h4>
-                    </div>
+                    {/* Brand Description */}
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                        Discover the best deals and quality products curated just for you.
+                    </p>
+                </div>
 
-                    <div>
-                        <h4 className="font-sans font-bold text-lg">Company</h4>
+                {/* Company Section */}
+                <div>
+                    <h4 className="font-semibold text-lg text-gray-800">Company</h4>
+                    <ul className="space-y-3 mt-4 text-sm">
+                        <li>
+                            <Link
+                                to="/terms-conditions"
+                                className="text-gray-600 hover:text-primary transition"
+                            >
+                                Terms & Conditions
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                to="/privacy-policy"
+                                className="text-gray-600 hover:text-primary transition"
+                            >
+                                Privacy Policy
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                to="/return-policy"
+                                className="text-gray-600 hover:text-primary transition"
+                            >
+                                Return Policy
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
 
-                        <div className="space-y-2 font-serif text-sm mt-5">
-                            <p className="hover:underline transition-all duration-300"><Link to="/terms-conditions">Terms & Conditions</Link></p>
-                            <p className="hover:underline transition-all duration-300"><Link to="/privacy-policy">Privacy Policy</Link></p>
-                            <p className="hover:underline transition-all duration-300"><Link to="/return-policy">Return Policy</Link></p>
+                {/* Get to Know Us Section */}
+                <div>
+                    <h4 className="font-semibold text-lg text-gray-800">Get to Know Us</h4>
+                    <ul className="space-y-3 mt-4 text-sm">
+                        <li>
+                            <Link
+                                to="/faq"
+                                className="text-gray-600 hover:text-primary transition"
+                            >
+                                FAQ
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                to="/our-blog"
+                                className="text-gray-600 hover:text-primary transition"
+                            >
+                                Our Blog
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                to="/about"
+                                className="text-gray-600 hover:text-primary transition"
+                            >
+                                About Us
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
+
+                {/* Contact Info Section */}
+                <div>
+                    <h4 className="font-semibold text-lg text-gray-800">Contact Info</h4>
+                    <div className="space-y-4 mt-4 text-sm text-gray-600">
+                        <div className="flex items-center gap-2">
+                            <SlLocationPin className="text-primary" />
+                            <p>1086 Mukti Palli Road, Vatara Gulshan</p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <GrSend className="text-primary" />
+                            <p>havitshopp@gmail.com</p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <SlEarphonesAlt className="text-primary" />
+                            <p>+8801744991003 & +8801892138932</p>
                         </div>
                     </div>
-                    <div>
-                        <h4 className="font-sans font-bold text-lg">Get to Know Us</h4>
-
-                        <div className="space-y-2 font-serif text-sm mt-5">
-                            <p className="hover:underline transition-all duration-300"><Link to="/faq">FAQ</Link></p>
-                            <p className="hover:underline transition-all duration-300"><Link to="/our-blog">Our Blog</Link></p>
-                            <p className="hover:underline transition-all duration-300"><Link to="/about">About Us</Link></p>
-                        </div>
-                    </div>
-                    <div>
-                        <h4 className="font-sans font-bold text-lg">Contact Info</h4>
-
-                        <div className="space-y-2 font-serif text-sm mt-5">
-                            <div className="flex items-center gap-2">
-                                <SlLocationPin size={18} className="text-primary" />
-                                <p>1086 Mukti Palli Road, Vatara Gulshan</p>
-                            </div>
-
-                            <div className="flex items-center gap-2">
-                                <GrSend size={16} className="text-primary" />
-                                <p>havitshopp@gmail.com </p>
-                            </div>
-
-                            <div className="flex items-center gap-2">
-                                <SlEarphonesAlt size={16} className="text-primary" />
-                                <p>+8801744991003 & +8801892138932</p>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
-            
-            <hr />
 
-            <div>
-                <div className="my-container flex justify-between items-center gap-5 py-5">
-                    <div>
-                        <p>&copy; {currentYear} Havit Shop. All Rights Reserved.</p>
-                    </div>
+            {/* Divider */}
+            <div className="border-t border-gray-200"></div>
 
-                    <div className="flex items-center gap-3">
-                        <img className="w-6 h-6 object-contain" src={FacebookIcon} alt="" />
-                        <img className="w-6 h-6 object-contain" src={InstagramIcon} alt="" />
-                        <img className="w-6 h-6 object-contain" src={YoutubeIcon} alt="" />
-                        <img className="w-6 h-6 object-contain" src={LinkedinIcon} alt="" />
-                        <img className="w-6 h-6 object-contain" src={DiscordIcon} alt="" />
-                        <img className="w-6 h-6 object-contain" src={TelegramIcon} alt="" />
-                        <img className="w-6 h-6 object-contain" src={TiktokIcon} alt="" />
-                    </div>
+            {/* Bottom Footer Section */}
+            <div className="my-container py-6 flex flex-col md:flex-row items-center justify-between gap-4">
+                {/* Copyright */}
+                <p className="text-sm text-gray-600">
+                    &copy; {currentYear} Havit Shop. All Rights Reserved.
+                </p>
 
-                    <div>
-                        <img className="w-full h-14 object-contain" src={PaymentImg} alt="" />
-                    </div>
+                {/* Social Icons */}
+                <div className="flex items-center gap-4">
+                    <img
+                        className="w-6 h-6 object-contain hover:opacity-80 transition"
+                        src={FacebookIcon}
+                        alt="Facebook"
+                    />
+                    <img
+                        className="w-6 h-6 object-contain hover:opacity-80 transition"
+                        src={InstagramIcon}
+                        alt="Instagram"
+                    />
+                    <img
+                        className="w-6 h-6 object-contain hover:opacity-80 transition"
+                        src={YoutubeIcon}
+                        alt="YouTube"
+                    />
+                    <img
+                        className="w-6 h-6 object-contain hover:opacity-80 transition"
+                        src={LinkedinIcon}
+                        alt="LinkedIn"
+                    />
+                    <img
+                        className="w-6 h-6 object-contain hover:opacity-80 transition"
+                        src={DiscordIcon}
+                        alt="Discord"
+                    />
+                    <img
+                        className="w-6 h-6 object-contain hover:opacity-80 transition"
+                        src={TelegramIcon}
+                        alt="Telegram"
+                    />
+                    <img
+                        className="w-6 h-6 object-contain hover:opacity-80 transition"
+                        src={TiktokIcon}
+                        alt="TikTok"
+                    />
+                </div>
+
+                {/* Payment Methods */}
+                <div>
+                    <img
+                        className="w-full max-w-sm h-auto object-contain"
+                        src={PaymentImg}
+                        alt="Payment Methods"
+                    />
                 </div>
             </div>
-        </div>
+        </footer>
     );
 };
 
