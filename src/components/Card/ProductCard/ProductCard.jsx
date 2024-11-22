@@ -22,6 +22,7 @@ const ProductCard = ({ product }) => {
     const discountPercentage = Math.round(((product.regularPrice - product.price) / product.regularPrice) * 100);
 
     const handleAddToCart = async (productId) => {
+        
         if (user && user.email) {
 
             const newCart = {
