@@ -5,14 +5,13 @@ import { FiMapPin } from "react-icons/fi";
 import FacebookIcon from "../../../assets/social/facebook.png";
 import InstagramIcon from "../../../assets/social/instagram.png";
 import YoutubeIcon from "../../../assets/social/youtube.png";
-import LinkedinIcon from "../../../assets/social/linkedin.png";
-import DiscordIcon from "../../../assets/social/discord.png";
-import TelegramIcon from "../../../assets/social/telegram.png";
+import SnapchatIcon from "../../../assets/social/snapchat.png";
 import TiktokIcon from "../../../assets/social/tiktok.png";
 import { BiSupport } from "react-icons/bi";
 import { AiOutlineLike } from "react-icons/ai";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 
 const Contact = () => {
@@ -114,13 +113,45 @@ const Contact = () => {
                         </div>
 
                         <div className="flex items-center gap-3">
-                            <img className="w-8 h-8 object-contain" src={FacebookIcon} alt="" />
-                            <img className="w-8 h-8 object-contain" src={InstagramIcon} alt="" />
-                            <img className="w-8 h-8 object-contain" src={YoutubeIcon} alt="" />
-                            <img className="w-8 h-8 object-contain" src={LinkedinIcon} alt="" />
-                            <img className="w-8 h-8 object-contain" src={DiscordIcon} alt="" />
-                            <img className="w-8 h-8 object-contain" src={TelegramIcon} alt="" />
-                            <img className="w-8 h-8 object-contain" src={TiktokIcon} alt="" />
+                            <Link target="_blank" to="https://web.facebook.com/havitshopping">
+                                <img
+                                    className="w-6 h-6 object-contain hover:opacity-80 transition"
+                                    src={FacebookIcon}
+                                    alt="Facebook"
+                                />
+                            </Link>
+
+                            <Link target="_blank" to="https://www.instagram.com/havit_shop/profilecard">
+                                <img
+                                    className="w-6 h-6 object-contain hover:opacity-80 transition"
+                                    src={InstagramIcon}
+                                    alt="Instagram"
+                                />
+                            </Link>
+
+                            <Link target="_blank" to="https://www.youtube.com/@havitshop">
+                                <img
+                                    className="w-6 h-6 object-contain hover:opacity-80 transition"
+                                    src={YoutubeIcon}
+                                    alt="YouTube"
+                                />
+                            </Link>
+
+                            <Link target="_blank" to="https://www.snapchat.com/add/mahamudul_h535">
+                                <img
+                                    className="w-6 h-6 object-contain hover:opacity-80 transition"
+                                    src={SnapchatIcon}
+                                    alt="SnapChat"
+                                />
+                            </Link>
+
+                            <Link target="_blank" to="https://www.tiktok.com/@havit.shop">
+                                <img
+                                    className="w-6 h-6 object-contain hover:opacity-80 transition"
+                                    src={TiktokIcon}
+                                    alt="TikTok"
+                                />
+                            </Link>
                         </div>
                     </div>
                 </div>

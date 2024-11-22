@@ -3,9 +3,7 @@ import PaymentImg from "../../../assets/payment/sslcommerz.png";
 import FacebookIcon from "../../../assets/social/facebook.png";
 import InstagramIcon from "../../../assets/social/instagram.png";
 import YoutubeIcon from "../../../assets/social/youtube.png";
-import LinkedinIcon from "../../../assets/social/linkedin.png";
-import DiscordIcon from "../../../assets/social/discord.png";
-import TelegramIcon from "../../../assets/social/telegram.png";
+import SnapchatIcon from "../../../assets/social/snapchat.png";
 import TiktokIcon from "../../../assets/social/tiktok.png";
 import { SlEarphonesAlt, SlLocationPin } from "react-icons/sl";
 import { GrSend } from "react-icons/gr";
@@ -122,42 +120,47 @@ const Footer = () => {
                 </p>
 
                 {/* Social Icons */}
-                <div className="flex items-center gap-4">
-                    <img
-                        className="w-6 h-6 object-contain hover:opacity-80 transition"
-                        src={FacebookIcon}
-                        alt="Facebook"
-                    />
-                    <img
-                        className="w-6 h-6 object-contain hover:opacity-80 transition"
-                        src={InstagramIcon}
-                        alt="Instagram"
-                    />
-                    <img
-                        className="w-6 h-6 object-contain hover:opacity-80 transition"
-                        src={YoutubeIcon}
-                        alt="YouTube"
-                    />
-                    <img
-                        className="w-6 h-6 object-contain hover:opacity-80 transition"
-                        src={LinkedinIcon}
-                        alt="LinkedIn"
-                    />
-                    <img
-                        className="w-6 h-6 object-contain hover:opacity-80 transition"
-                        src={DiscordIcon}
-                        alt="Discord"
-                    />
-                    <img
-                        className="w-6 h-6 object-contain hover:opacity-80 transition"
-                        src={TelegramIcon}
-                        alt="Telegram"
-                    />
-                    <img
-                        className="w-6 h-6 object-contain hover:opacity-80 transition"
-                        src={TiktokIcon}
-                        alt="TikTok"
-                    />
+                <div className="flex items-center gap-3">
+
+                    <Link target="_blank" to="https://web.facebook.com/havitshopping">
+                        <img
+                            className="w-6 h-6 object-contain hover:opacity-80 transition"
+                            src={FacebookIcon}
+                            alt="Facebook"
+                        />
+                    </Link>
+
+                    <Link target="_blank" to="https://www.instagram.com/havit_shop/profilecard">
+                        <img
+                            className="w-6 h-6 object-contain hover:opacity-80 transition"
+                            src={InstagramIcon}
+                            alt="Instagram"
+                        />
+                    </Link>
+
+                    <Link target="_blank" to="https://www.youtube.com/@havitshop">
+                        <img
+                            className="w-6 h-6 object-contain hover:opacity-80 transition"
+                            src={YoutubeIcon}
+                            alt="YouTube"
+                        />
+                    </Link>
+
+                    <Link target="_blank" to="https://www.snapchat.com/add/mahamudul_h535">
+                        <img
+                            className="w-6 h-6 object-contain hover:opacity-80 transition"
+                            src={SnapchatIcon}
+                            alt="SnapChat"
+                        />
+                    </Link>
+
+                    <Link target="_blank" to="https://www.tiktok.com/@havit.shop">
+                        <img
+                            className="w-6 h-6 object-contain hover:opacity-80 transition"
+                            src={TiktokIcon}
+                            alt="TikTok"
+                        />
+                    </Link>
                 </div>
 
                 {/* Payment Methods */}
