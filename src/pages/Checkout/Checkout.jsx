@@ -110,8 +110,11 @@ const Checkout = () => {
                 const { data } = await axiosSecure.post('/orders', orderDetails);
 
                 if (data?.result?.insertedId) {
-                    toast.success("Order placed successfully!");
-                    navigate("/order-success", { state: { orderId: data?.result?.insertedId } });
+                    toast.success("Order placed successfully!", {
+                        autoClose: 1600,
+                        pauseOnHover: false
+                    });
+                    navigate("/order-success", { state: { orderId: data?.orderId } });
                 } else {
                     toast.error("Failed to place order.");
                 }
@@ -121,7 +124,10 @@ const Checkout = () => {
 
         } catch (error) {
             console.error("Error placing order:", error);
-            toast.error("An error occurred while placing the order. Please try again.");
+            toast.error("An error occurred while placing the order. Please try again.", {
+                autoClose: 1000,
+                pauseOnHover: false
+            });
         } finally {
             setLoading(false);
         }

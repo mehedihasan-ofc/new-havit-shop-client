@@ -91,3 +91,62 @@ export const uploadMultipleImagesToStorage = (images) => {
             });
     });
 };
+
+export const uploadAdsToStorage = (ads) => {
+    return new Promise((resolve, reject) => {
+        const storage = getStorage(app);
+
+        // Create an array of promises for each ad upload
+        const uploadPromises = Object.entries(ads)
+            .filter(([_, file]) => file !== null) // Filter out null ads
+            .map(([adType, file]) => {
+                return new Promise((resolveAd, rejectAd) => {
+                    const fileName = new Date().getTime() + file.name; // Generate a unique file name
+                    const storageRef = ref(storage, `ads/${fileName}`); // Ads folder in Firebase storage
+                    const uploadTask = uploadBytesResumable(storageRef, file); // Start upload
+
+                    // Monitor upload progress
+                    uploadTask.on(
+                        "state_changed",
+                        (snapshot) => {
+                            const progress =
+                                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                            console.log(`Upload is ${Math.round(progress)}% done for ${adType}`);
+                        },
+                        (error) => {
+                            console.error(`Error uploading ad: ${adType}`, error);
+                            rejectAd(error); // Reject the specific ad upload if an error occurs
+                        },
+                        () => {
+                            // Once upload is complete, get the download URL
+                            getDownloadURL(uploadTask.snapshot.ref)
+                                .then((downloadURL) => {
+                                    resolveAd({ adType, downloadURL }); // Resolve with the ad type and its URL
+                                })
+                                .catch((error) => {
+                                    console.error(
+                                        `Error getting download URL for ${adType}`,
+                                        error
+                                    );
+                                    rejectAd(error); // Reject if there's an issue getting the URL
+                                });
+                        }
+                    );
+                });
+            });
+
+        // Wait for all ad uploads to complete
+        Promise.all(uploadPromises)
+            .then((uploadedAds) => {
+                const adURLs = uploadedAds.reduce((acc, { adType, downloadURL }) => {
+                    acc[adType] = downloadURL; // Map ad types to their download URLs
+                    return acc;
+                }, {});
+                resolve(adURLs); // Return an object with all uploaded ad URLs
+            })
+            .catch((error) => {
+                console.error("Error uploading one or more ads:", error);
+                reject(error); // Reject the entire operation if any upload fails
+            });
+    });
+};

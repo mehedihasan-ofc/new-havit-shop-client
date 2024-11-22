@@ -55,7 +55,7 @@ const BkashPayment = () => {
 
             if (data?.result?.insertedId) {
                 toast.success("Order placed successfully!");
-                navigate("/order-success", { state: { orderId: data.result.insertedId } });
+                navigate("/order-success", { state: { orderId: data?.orderId } });
             } else {
                 throw new Error("Failed to place order.");
             }

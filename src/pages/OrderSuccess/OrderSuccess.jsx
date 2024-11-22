@@ -1,19 +1,26 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { GiCheckMark } from "react-icons/gi";
+import { LuCopy } from "react-icons/lu";
 
 const OrderSuccess = () => {
     const location = useLocation();
     const navigate = useNavigate();
-
+    const [copied, setCopied] = useState(false); // State to track copy status
     const orderId = location.state?.orderId;
 
     useEffect(() => {
         if (!orderId) {
-            toast.error("No order details found!", { autoClose: 1000 });
             navigate("/");
         }
     }, [orderId, navigate]);
+
+    const handleCopyOrderId = () => {
+        navigator.clipboard.writeText(orderId).then(() => {
+            setCopied(true); // Set copied to true
+            setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
+        });
+    };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6 py-12">
@@ -36,10 +43,28 @@ const OrderSuccess = () => {
                 </div>
                 <h2 className="text-2xl font-bold text-gray-800 mb-2">Order Placed Successfully!</h2>
                 <p className="text-gray-600 mb-4">
-                    Thank you for your order. Your order has been placed successfully. 
+                    Thank you for your order. Your order has been placed successfully.
                 </p>
-                <div className="bg-gray-100 p-4 rounded-md text-sm text-gray-700 mb-6">
-                    <span className="font-semibold">Order ID:</span> {orderId}
+                <div className="bg-gray-100 p-4 rounded-md text-sm text-gray-700 mb-6 flex items-center justify-between">
+                    <span>
+                        <span className="font-semibold">Order ID:</span> #{orderId}
+                    </span>
+                    <button
+                        onClick={handleCopyOrderId}
+                        className="flex items-center gap-1 text-primary font-semibold hover:underline focus:outline-none"
+                    >
+                        {copied ? (
+                            <>
+                                <GiCheckMark />
+                                Copied!
+                            </>
+                        ) : (
+                            <>
+                                <LuCopy />
+                                Copy
+                            </>
+                        )}
+                    </button>
                 </div>
                 <button
                     onClick={() => navigate("/")}
