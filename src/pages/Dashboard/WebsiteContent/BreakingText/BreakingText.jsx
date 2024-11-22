@@ -22,7 +22,7 @@ const BreakingText = () => {
 
     useEffect(() => {
         if (breakingTextData?.breakingText) {
-            setText(breakingTextData.breakingText);  // Populate text with existing breaking text
+            setText(breakingTextData.breakingText);
         }
     }, [breakingTextData]);
 

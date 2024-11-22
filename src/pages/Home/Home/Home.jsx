@@ -1,5 +1,6 @@
 import Categories from "../Categories/Categories";
 import Hero from "../Hero/Hero";
+import HomePageAd from "../HomePageAd/HomePageAd";
 import NowOffers from "../NowOffers/NowOffers";
 import OurPromises from "../OurPromises/OurPromises";
 import PopularProducts from "../PopularProducts/PopularProducts";
@@ -13,6 +14,7 @@ const Home = () => {
             <NowOffers />
             <Categories />
             <PopularProducts />
+            <HomePageAd />
             <OurPromises />
 
             <FloatingWhatsApp
