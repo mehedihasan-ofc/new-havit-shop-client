@@ -4,7 +4,7 @@ import HomePageAd from "../HomePageAd/HomePageAd";
 import NowOffers from "../NowOffers/NowOffers";
 import OurPromises from "../OurPromises/OurPromises";
 import PopularProducts from "../PopularProducts/PopularProducts";
-
+import AvatarImg from "../../../assets/avator.jpg";
 import { FloatingWhatsApp } from 'react-floating-whatsapp';
 
 const Home = () => {
@@ -18,8 +18,10 @@ const Home = () => {
             <OurPromises />
 
             <FloatingWhatsApp
-                phoneNumber="01705159483"
-                accountName="Mehedi Hasan"
+                phoneNumber="01744991003"
+                accountName="Havit Shop"
+                avatar={AvatarImg}
+                statusMessage="Active Now"
             />
         </>
     );
