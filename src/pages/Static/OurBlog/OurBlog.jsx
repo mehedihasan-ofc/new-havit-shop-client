@@ -1,3 +1,4 @@
+import BlogAd from "../../../components/Ads/BlogAd/BlogAd";
 import BlogCard from "../../../components/Card/BlogCard/BlogCard";
 import Newsletter from "../../../components/Newsletter/Newsletter";
 import MySpinner from "../../../components/Shared/MySpinner/MySpinner";
@@ -20,6 +21,8 @@ const OurBlog = () => {
                         blogs?.map(blog => <BlogCard key={blog?._id} data={blog} />)
                     }
                 </div> : <NoDataFound />}
+
+                <BlogAd />
 
                 <Newsletter />
             </div>

@@ -6,6 +6,7 @@ import { formattedDate } from "../../../utils";
 import { AiOutlineCalendar } from "react-icons/ai";
 import { useQuery } from "@tanstack/react-query";
 import MySpinner from "../../../components/Shared/MySpinner/MySpinner";
+import BlogDetailsAd from "../../../components/Ads/BlogDetailsAd/BlogDetailsAd";
 
 const ReadBlog = () => {
 
@@ -72,6 +73,8 @@ const ReadBlog = () => {
                     </div>
 
                 </div>
+
+                <BlogDetailsAd />
 
                 <Newsletter />
             </div>

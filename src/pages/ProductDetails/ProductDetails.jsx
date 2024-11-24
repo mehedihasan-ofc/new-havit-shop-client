@@ -13,6 +13,7 @@ import useCart from "../../hooks/useCart";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { Button } from "@material-tailwind/react";
+import ProductDetailsAd from "../../components/Ads/ProductDetailsAd/ProductDetailsAd";
 
 const ProductDetails = () => {
     const { user } = useContext(AuthContext);
@@ -168,10 +169,12 @@ const ProductDetails = () => {
             </div>
 
             {/* Description */}
-            <div className="mt-10 bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow">
+            <div className="my-10 bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow">
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Product Description</h3>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{product.description}</p>
             </div>
+
+            <ProductDetailsAd />
 
             {/* Related Products */}
             <RelatedProducts categoryId={product?.categoryId} />
