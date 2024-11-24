@@ -5,19 +5,53 @@ import {
     ListItemPrefix,
     Avatar,
 } from "@material-tailwind/react";
-import { LuLayoutDashboard } from "react-icons/lu";
-import { BsInfoCircle } from "react-icons/bs";
-import { FaOpencart } from "react-icons/fa6";
-import { PiAddressBookTabsLight } from "react-icons/pi";
-import { RiLogoutCircleLine } from "react-icons/ri";
+import { VscSettings } from "react-icons/vsc";
+import { HiOutlineShoppingBag } from "react-icons/hi2";
+import { RiFocus3Line } from "react-icons/ri";
+import { GrLocation } from "react-icons/gr";
+import { BsPerson } from "react-icons/bs";
+import { AiOutlineLogout } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../../provider/AuthProvider";
+import Swal from "sweetalert2";
 
 const ProfileSidebar = () => {
-    return (
-        <Card className="border rounded-md shadow p-2 overflow-y-auto">
 
-            <div className="flex items-center p-4">
-                <Avatar className="mx-auto" src="https://docs.material-tailwind.com/img/face-2.jpg" alt="avatar" size="xxl" />
+    const { user, logOut } = useContext(AuthContext);
+
+    console.log(user);
+
+    const handleLogOut = () => {
+        Swal.fire({
+            title: "Are you sure want to sign out?",
+            text: "You will need to log in again to access your account.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, sign out!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                logOut()
+                    .then(() => {
+                        Swal.fire({
+                            title: "Signed Out",
+                            text: "You have successfully signed out.",
+                            icon: "success"
+                        });
+                    })
+                    .catch(err => console.log(err.message));
+            }
+        });
+    };
+
+    return (
+        // <Card className="h-[calc(100vh-2rem)] w-full max-w-[20rem] p-4 shadow rounded border">
+        <Card className="h-full w-full max-w-[20rem] p-4 shadow rounded border">
+
+            <div className="flex justify-center p-4">
+                <Avatar size="xl" src={user?.photoURL} alt={user?.displayName} />
             </div>
 
             <hr className="border-blue-gray-50" />
@@ -27,45 +61,51 @@ const ProfileSidebar = () => {
                 <Link to="dashboard">
                     <ListItem>
                         <ListItemPrefix>
-                            <LuLayoutDashboard size={20} />
+                            <VscSettings size={18} />
                         </ListItemPrefix>
-
                         Dashboard
-                    </ListItem>
-                </Link>
-
-                <Link to="personal-info">
-                    <ListItem>
-                        <ListItemPrefix>
-                            <BsInfoCircle size={20} />
-                        </ListItemPrefix>
-                        Personal Info
                     </ListItem>
                 </Link>
 
                 <Link to="orders">
                     <ListItem>
                         <ListItemPrefix>
-                            <FaOpencart size={20} />
+                            <HiOutlineShoppingBag size={18} />
                         </ListItemPrefix>
                         Orders
                     </ListItem>
                 </Link>
 
-                <Link to="address">
+                <Link to="track-order">
                     <ListItem>
                         <ListItemPrefix>
-                            <PiAddressBookTabsLight size={20} />
+                            <RiFocus3Line size={20} />
                         </ListItemPrefix>
-                        Address
+                        Track Order
                     </ListItem>
                 </Link>
 
-                <hr className="my-2 border-blue-gray-50" />
+                <Link to="my-address">
+                    <ListItem>
+                        <ListItemPrefix>
+                            <GrLocation size={18} />
+                        </ListItemPrefix>
+                        My Address
+                    </ListItem>
+                </Link>
 
-                <ListItem>
+                <Link to="account-details">
+                    <ListItem>
+                        <ListItemPrefix>
+                            <BsPerson size={18} />
+                        </ListItemPrefix>
+                        Account details
+                    </ListItem>
+                </Link>
+
+                <ListItem onClick={handleLogOut}>
                     <ListItemPrefix>
-                        <RiLogoutCircleLine size={20} />
+                        <AiOutlineLogout size={18} />
                     </ListItemPrefix>
                     Log Out
                 </ListItem>

@@ -76,7 +76,7 @@ const Header = () => {
     }
 
     return (
-        <>
+        <div className="border-b">
             {["/", "/our-blog", "/about", "/contact"].includes(pathname) && <BreakingMarquee />}
             {/* Header Top */}
             <div className="border-b py-1">
@@ -208,7 +208,7 @@ const Header = () => {
                     <NavList />
                 </Collapse>
             </Navbar>
-        </>
+        </div>
     );
 };
 
