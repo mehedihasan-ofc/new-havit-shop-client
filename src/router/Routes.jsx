@@ -48,6 +48,7 @@ import OrderSuccess from "../pages/OrderSuccess/OrderSuccess";
 import Orders from "../pages/Dashboard/Orders/Orders";
 import BreakingText from "../pages/Dashboard/WebsiteContent/BreakingText/BreakingText";
 import ProfileOrderDetails from "../pages/Profile/ProfileOrderDetails/ProfileOrderDetails";
+import ProfileTrackOrder from "../pages/Profile/ProfileTrackOrder/ProfileTrackOrder";
 
 const router = createBrowserRouter([
     {
@@ -161,6 +162,10 @@ const router = createBrowserRouter([
             {
                 path: "orders/order-details/:id",
                 element: <ProfileOrderDetails />
+            },
+            {
+                path: "track-order",
+                element: <ProfileTrackOrder />
             },
             {
                 path: "address",

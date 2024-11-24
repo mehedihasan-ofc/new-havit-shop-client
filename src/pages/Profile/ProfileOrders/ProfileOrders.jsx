@@ -1,14 +1,18 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../../provider/AuthProvider";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { formattedDate } from "../../../utils";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { GiCheckMark } from "react-icons/gi";
+import { LuCopy } from "react-icons/lu";
 
 const ProfileOrders = () => {
     const { user } = useContext(AuthContext);
     const token = localStorage.getItem("access-token");
     const [axiosSecure] = useAxiosSecure();
+
+    const [copiedOrderId, setCopiedOrderId] = useState(false);
     const navigate = useNavigate();
 
     const { data: orders = [], isLoading } = useQuery({
@@ -23,18 +27,24 @@ const ProfileOrders = () => {
     const getStatusColor = (status) => {
         switch (status.toLowerCase()) {
             case "pending":
-                return "text-amber-600"; // Amber for pending
+                return "text-amber-600";
             case "processing":
-                return "text-blue-600"; // Blue for processing
+                return "text-blue-600";
             case "shipped":
-                return "text-indigo-600"; // Indigo for shipped
+                return "text-indigo-600";
             case "delivered":
-                return "text-green-600"; // Green for delivered
+                return "text-green-600";
             case "cancelled":
-                return "text-red-600"; // Red for cancelled
+                return "text-red-600";
             default:
-                return "text-gray-600"; // Default gray color
+                return "text-gray-600";
         }
+    };
+
+    const handleCopyOrderId = (orderId) => {
+        navigator.clipboard.writeText(orderId);
+        setCopiedOrderId(orderId);
+        setTimeout(() => setCopiedOrderId(""), 2000);
     };
 
     if (isLoading) {
@@ -82,8 +92,23 @@ const ProfileOrders = () => {
                                     key={order._id}
                                     className="border-b"
                                 >
-                                    <td className="px-6 py-4 font-medium text-gray-800">
+                                    <td className="px-6 py-4 font-medium text-gray-800 flex items-center gap-2">
                                         #{order.orderId}
+                                        <button
+                                            onClick={() => handleCopyOrderId(order.orderId)} // Pass the order ID here
+                                            className="flex items-center gap-1 text-primary font-semibold hover:underline focus:outline-none"
+                                        >
+                                            {copiedOrderId === order.orderId ? (
+                                                <>
+                                                    <GiCheckMark />
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <LuCopy />
+                                                </>
+                                            )}
+                                        </button>
+
                                     </td>
                                     <td className="px-6 py-4 text-gray-600">
                                         {formattedDate(order.orderDate)}
