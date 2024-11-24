@@ -47,6 +47,7 @@ import BkashPayment from "../pages/BkashPayment/BkashPayment";
 import OrderSuccess from "../pages/OrderSuccess/OrderSuccess";
 import Orders from "../pages/Dashboard/Orders/Orders";
 import BreakingText from "../pages/Dashboard/WebsiteContent/BreakingText/BreakingText";
+import ProfileOrderDetails from "../pages/Profile/ProfileOrderDetails/ProfileOrderDetails";
 
 const router = createBrowserRouter([
     {
@@ -156,6 +157,10 @@ const router = createBrowserRouter([
             {
                 path: "orders",
                 element: <ProfileOrders />
+            },
+            {
+                path: "orders/order-details/:id",
+                element: <ProfileOrderDetails />
             },
             {
                 path: "address",

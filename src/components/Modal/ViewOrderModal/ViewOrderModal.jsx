@@ -249,23 +249,11 @@ const ViewOrderModal = ({ open, handleOpen, orderId, onRefetch }) => {
                     </div>
                 </div>
             </DialogBody>
-            {/* <DialogFooter>
-                <Button
-                    disabled={isUpdating} // Disable button during update
-                    onClick={handleUpdate}
-                    className="bg-blue-500 hover:bg-blue-600 text-white"
-                >
-                    {isUpdating ? "Updating..." : "Update"}
-                </Button>
-                <Button variant="outlined" color="gray" onClick={handleOpen}>
-                    Close
-                </Button>
-            </DialogFooter> */}
 
             <DialogFooter>
                 <Button
                     size="sm"
-                    disabled={isUpdating} // Disable button during update
+                    disabled={isUpdating}
                     onClick={handleUpdate}
                     className="rounded-none bg-primary font-medium mr-5"
                 >
