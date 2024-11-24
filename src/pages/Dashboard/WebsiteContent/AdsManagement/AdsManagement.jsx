@@ -15,6 +15,12 @@ const AdsManagement = () => {
         blogPageAd: null,
         blogDetailsPageAd: null,
     });
+    const [adLinks, setAdLinks] = useState({
+        homePageAd: "",
+        productDetailsPageAd: "",
+        blogPageAd: "",
+        blogDetailsPageAd: "",
+    });
     const [isLoading, setIsLoading] = useState(false);
 
     const handleFileChange = (e, adType) => {
@@ -27,6 +33,14 @@ const AdsManagement = () => {
         }
     };
 
+    const handleLinkChange = (e, adType) => {
+        const link = e.target.value;
+        setAdLinks((prev) => ({
+            ...prev,
+            [adType]: link,
+        }));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
@@ -37,31 +51,23 @@ const AdsManagement = () => {
             const adsPayload = [
                 {
                     name: "Home Page Ad",
-                    adUrl:
-                        uploadedAds.homePageAd ||
-                        adsData?.ads?.find((ad) => ad.name === "Home Page Ad")?.adUrl ||
-                        "",
+                    adUrl: uploadedAds.homePageAd || adsData?.ads?.find((ad) => ad.name === "Home Page Ad")?.adUrl || "",
+                    adLink: adLinks.homePageAd || adsData?.ads?.find((ad) => ad.name === "Home Page Ad")?.adLink || "",
                 },
                 {
                     name: "Product Details Page Ad",
-                    adUrl:
-                        uploadedAds.productDetailsPageAd ||
-                        adsData?.ads?.find((ad) => ad.name === "Product Details Page Ad")?.adUrl ||
-                        "",
+                    adUrl: uploadedAds.productDetailsPageAd || adsData?.ads?.find((ad) => ad.name === "Product Details Page Ad")?.adUrl || "",
+                    adLink: adLinks.productDetailsPageAd || adsData?.ads?.find((ad) => ad.name === "Product Details Page Ad")?.adLink || "",
                 },
                 {
                     name: "Blog Page Ad",
-                    adUrl:
-                        uploadedAds.blogPageAd ||
-                        adsData?.ads?.find((ad) => ad.name === "Blog Page Ad")?.adUrl ||
-                        "",
+                    adUrl: uploadedAds.blogPageAd || adsData?.ads?.find((ad) => ad.name === "Blog Page Ad")?.adUrl || "",
+                    adLink: adLinks.blogPageAd || adsData?.ads?.find((ad) => ad.name === "Blog Page Ad")?.adLink || "",
                 },
                 {
                     name: "Blog Details Page Ad",
-                    adUrl:
-                        uploadedAds.blogDetailsPageAd ||
-                        adsData?.ads?.find((ad) => ad.name === "Blog Details Page Ad")?.adUrl ||
-                        "",
+                    adUrl: uploadedAds.blogDetailsPageAd || adsData?.ads?.find((ad) => ad.name === "Blog Details Page Ad")?.adUrl || "",
+                    adLink: adLinks.blogDetailsPageAd || adsData?.ads?.find((ad) => ad.name === "Blog Details Page Ad")?.adLink || "",
                 },
             ];
 
@@ -184,6 +190,14 @@ const AdsManagement = () => {
                                     onChange={(e) => handleFileChange(e, ad.id)}
                                 />
                             </div>
+                            <input
+                                type="text"
+                                placeholder={`If ${ad.label} link is available, please enter`}
+                                value={adLinks[ad.id] || adsData?.ads?.find((existing) => existing.name === ad.label)?.adLink || ""}
+                                onChange={(e) => handleLinkChange(e, ad.id)}
+                                className="w-full px-3 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                            />
+
                         </div>
                     );
                 })}
