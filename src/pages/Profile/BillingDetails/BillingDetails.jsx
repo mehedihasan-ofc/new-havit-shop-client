@@ -1,8 +1,8 @@
 import { Button } from "@material-tailwind/react";
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
-import { AuthContext } from "../../provider/AuthProvider";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { AuthContext } from "../../../provider/AuthProvider";
 import { toast } from "react-toastify";
 
 const BillingDetails = () => {

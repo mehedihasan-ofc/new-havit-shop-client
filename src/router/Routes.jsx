@@ -21,7 +21,6 @@ import ProfileLayout from "../layouts/ProfileLayout";
 import ProfileDashboard from "../pages/Profile/ProfileDashboard/ProfileDashboard";
 import ProfilePersonalInfo from "../pages/Profile/ProfilePersonalInfo/ProfilePersonalInfo";
 import ProfileOrders from "../pages/Profile/ProfileOrders/ProfileOrders";
-import ProfileAddress from "../pages/Profile/ProfileAddress/ProfileAddress";
 import PrivateRoute from "./PrivateRoute";
 import Customers from "../pages/Dashboard/Users/Customers/Customers";
 import AllRoles from "../pages/Dashboard/Users/AllRoles/AllRoles";
@@ -49,6 +48,8 @@ import Orders from "../pages/Dashboard/Orders/Orders";
 import BreakingText from "../pages/Dashboard/WebsiteContent/BreakingText/BreakingText";
 import ProfileOrderDetails from "../pages/Profile/ProfileOrderDetails/ProfileOrderDetails";
 import ProfileTrackOrder from "../pages/Profile/ProfileTrackOrder/ProfileTrackOrder";
+import BillingDetails from "../pages/Profile/BillingDetails/BillingDetails";
+import ProfileAddress from "../pages/Profile/ProfileAddress/ProfileAddress";
 
 const router = createBrowserRouter([
     {
@@ -95,11 +96,7 @@ const router = createBrowserRouter([
                 path: "/order-success",
                 element: <OrderSuccess />
             },
-
-
-
-
-
+            // ===============================================================================
             // Static
             {
                 path: "/terms-conditions",
@@ -168,7 +165,7 @@ const router = createBrowserRouter([
                 element: <ProfileTrackOrder />
             },
             {
-                path: "address",
+                path: "my-address",
                 element: <ProfileAddress />
             }
         ]

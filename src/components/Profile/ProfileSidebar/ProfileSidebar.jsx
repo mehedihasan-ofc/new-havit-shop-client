@@ -9,7 +9,6 @@ import { VscSettings } from "react-icons/vsc";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { RiFocus3Line } from "react-icons/ri";
 import { GrLocation } from "react-icons/gr";
-import { BsPerson } from "react-icons/bs";
 import { AiOutlineLogout } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
@@ -19,8 +18,6 @@ import Swal from "sweetalert2";
 const ProfileSidebar = () => {
 
     const { user, logOut } = useContext(AuthContext);
-
-    console.log(user);
 
     const handleLogOut = () => {
         Swal.fire({
@@ -90,16 +87,7 @@ const ProfileSidebar = () => {
                         <ListItemPrefix>
                             <GrLocation size={18} />
                         </ListItemPrefix>
-                        My Address
-                    </ListItem>
-                </Link>
-
-                <Link to="account-details">
-                    <ListItem>
-                        <ListItemPrefix>
-                            <BsPerson size={18} />
-                        </ListItemPrefix>
-                        Account details
+                        Billing Details
                     </ListItem>
                 </Link>
 
