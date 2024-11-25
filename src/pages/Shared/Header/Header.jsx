@@ -76,8 +76,6 @@ const Header = () => {
         });
     }
 
-    console.log(role);
-
     return (
         <div className="border-b">
             {["/", "/our-blog", "/about", "/contact"].includes(pathname) && <BreakingMarquee />}

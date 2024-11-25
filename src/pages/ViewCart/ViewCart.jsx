@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Button } from "@material-tailwind/react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import useCart from "../../hooks/useCart";
@@ -7,11 +7,20 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import { TbLogout } from "react-icons/tb";
 import ViewCartTableRow from "../../components/ViewCartTableRow/ViewCartTableRow";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../provider/AuthProvider";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const ViewCart = () => {
-    const [cart, isLoading] = useCart();
+
+    const { user } = useContext(AuthContext);
+    const [axiosSecure] = useAxiosSecure();
+
+    const [cart, isLoading, refetch] = useCart();
     const [quantities, setQuantities] = useState(cart?.map(item => item.quantity));
     const navigate = useNavigate();
+
+    const [allClear, setAllClear] = useState(false);
 
     if (isLoading) return <MySpinner />;
 
@@ -39,6 +48,53 @@ const ViewCart = () => {
         navigate("/checkout", { state: { checkoutData } });
     };
 
+    const handleClearCart = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                // Set loading state
+                setAllClear(true);
+                try {
+                    const { data } = await axiosSecure.delete('/carts', {
+                        data: { userEmail: user?.email },
+                    });
+
+                    if (data.deletedCount > 0) {
+                        refetch(); // Refresh the cart data
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your cart has been cleared.",
+                            icon: "success"
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "No Items Found",
+                            text: "Your cart was already empty.",
+                            icon: "info"
+                        });
+                    }
+                } catch (error) {
+                    console.error("Error clearing cart:", error);
+                    Swal.fire({
+                        title: "Error!",
+                        text: "Failed to clear the cart. Please try again.",
+                        icon: "error"
+                    });
+                } finally {
+                    // Reset loading state
+                    setAllClear(false);
+                }
+            }
+        });
+    };
+
     if (cart?.length === 0) {
         return (
             <div className="max-w-5xl w-full mx-auto px-6 my-5 text-center">
@@ -61,9 +117,8 @@ const ViewCart = () => {
                     <h2 className="text-4xl font-extrabold tracking-wide font-sans">Your Cart</h2>
                     <p>There are <span className="text-primary">{cart?.length}</span> products in your cart!</p>
                 </div>
-                <Button variant="text" className="flex items-center rounded-none p-2 gap-2 text-red-600">
-                    <RiDeleteBin6Line size={16} />
-                    Clear Cart
+                <Button onClick={handleClearCart} variant="text" className="flex items-center rounded-none p-2 gap-2 text-red-600">
+                    {allClear ? "Clearing..." : <><RiDeleteBin6Line size={16} /> Clear Cart</>}
                 </Button>
             </div>
 
