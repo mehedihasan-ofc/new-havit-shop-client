@@ -1,16 +1,10 @@
+import { Button, Dialog, DialogBody, DialogFooter, DialogHeader } from "@material-tailwind/react";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useState } from "react";
-import {
-    Button,
-    Dialog,
-    DialogHeader,
-    DialogBody,
-    DialogFooter,
-} from "@material-tailwind/react";
 import { uploadImageToStorage } from "../../../utils";
 import { toast } from "react-toastify";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
-const CreateBannerModal = ({ open, handleOpen, refetch }) => {
+const CtreateNocModal = ({ open, handleOpen, refetch }) => {
 
     const [axiosSecure] = useAxiosSecure();
 
@@ -40,25 +34,24 @@ const CreateBannerModal = ({ open, handleOpen, refetch }) => {
                 const imageLink = await uploadImageToStorage(selectedFile);
 
                 // Prepare the data to be sent to the API
-                const newBanner = {
+                const newNoc = {
                     image: imageLink,
                     createdAt: new Date().toISOString(),
                 };
 
-                // Make an API call to send the data to the database
-                axiosSecure.post('/banner', newBanner)
-                    .then(data => {
-                        if (data.data.insertedId) {
-                            refetch();
-                            setSelectedImage(null);
-                            setSelectedFile(null);
-                            toast.success('🎉 Banner created successfully!', {
-                                position: "top-right",
-                                autoClose: 1600,
-                                pauseOnHover: false,
-                            });
-                        }
-                    })
+                // Make an API call to send the data to the database\
+                const { data } = await axiosSecure.post("/noc", newNoc);
+
+                if (data.insertedId) {
+                    refetch();
+                    setSelectedImage(null);
+                    setSelectedFile(null);
+                    toast.success('🎉 NOC created successfully!', {
+                        position: "top-right",
+                        autoClose: 1600,
+                        pauseOnHover: false,
+                    });
+                }
 
             } catch (error) {
                 console.error('Error uploading image:', error);
@@ -72,7 +65,7 @@ const CreateBannerModal = ({ open, handleOpen, refetch }) => {
     return (
         <Dialog className="rounded-none" size="lg" open={open} handler={handleOpen}>
             <form onSubmit={handleSubmit}>
-                <DialogHeader className="pb-0">Create a New Banner</DialogHeader>
+                <DialogHeader className="pb-0">Create a New NOC</DialogHeader>
                 <DialogBody>
                     <div className="space-y-4">
                         <div>
@@ -82,19 +75,19 @@ const CreateBannerModal = ({ open, handleOpen, refetch }) => {
                                 accept="image/*"
                                 onChange={handleImageChange}
                                 className="block w-full text-sm text-gray-500
-                                    file:mr-4 file:py-2 file:px-4
-                                    file:rounded-full file:border-0
-                                    file:text-sm file:font-semibold
-                                    file:bg-blue-50 file:text-blue-700
-                                    hover:file:bg-blue-100"
+                            file:mr-4 file:py-2 file:px-4
+                            file:rounded-full file:border-0
+                            file:text-sm file:font-semibold
+                            file:bg-blue-50 file:text-blue-700
+                            hover:file:bg-blue-100"
                                 required
                             />
                             {selectedImage && (
-                                <div className="mt-4">
+                                <div className="mt-4 flex justify-center">
                                     <img
                                         src={selectedImage}
                                         alt="Selected"
-                                        className="w-full h-auto max-h-60 object-cover rounded-md shadow-md"
+                                        className="w-[501px] h-[264px] object-cover rounded-md shadow-md"
                                     />
                                 </div>
                             )}
@@ -102,7 +95,6 @@ const CreateBannerModal = ({ open, handleOpen, refetch }) => {
                     </div>
                 </DialogBody>
 
-                {/* TODO -> BUTTON MODIFY */}
                 <DialogFooter>
                     <Button
                         size="sm"
@@ -122,4 +114,4 @@ const CreateBannerModal = ({ open, handleOpen, refetch }) => {
     );
 };
 
-export default CreateBannerModal;
+export default CtreateNocModal;
