@@ -18,7 +18,7 @@ const Home = () => {
             <OurPromises />
 
             <FloatingWhatsApp
-                phoneNumber="01744991003"
+                phoneNumber="+8801744991003"
                 accountName="Havit Shop"
                 avatar={AvatarImg}
                 statusMessage="Active Now"

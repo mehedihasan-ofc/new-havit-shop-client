@@ -22,7 +22,7 @@ const Hero = () => {
 
     return (
         <>
-            <div className='my-container'>
+            <div className='my-container mt-3'>
                 <Swiper
                     spaceBetween={20}
                     loop={enableLoopMode}
