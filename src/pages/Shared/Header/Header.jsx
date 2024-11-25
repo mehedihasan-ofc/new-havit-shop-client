@@ -6,7 +6,6 @@ import NavList from "../../../components/NavbarWithMegaMenu/NavList";
 import { FaBars, FaXmark } from "react-icons/fa6";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../provider/AuthProvider";
-import { RiMapPin2Line } from "react-icons/ri";
 import { PiShoppingCartSimpleLight } from "react-icons/pi";
 import { HiOutlineUser } from "react-icons/hi2";
 
@@ -25,10 +24,12 @@ import Swal from "sweetalert2";
 import UserImg from "../../../assets/user.jpg";
 import BreakingMarquee from "../../../components/BreakingMarquee/BreakingMarquee";
 import useCart from "../../../hooks/useCart";
+import useRole from "../../../hooks/useRole";
 
 const Header = () => {
     const { user, logOut } = useContext(AuthContext);
     const [cart] = useCart();
+    const [role] = useRole();
 
     const { pathname } = useLocation();
     const navigate = useNavigate();
@@ -75,6 +76,8 @@ const Header = () => {
         });
     }
 
+    console.log(role);
+
     return (
         <div className="border-b">
             {["/", "/our-blog", "/about", "/contact"].includes(pathname) && <BreakingMarquee />}
@@ -106,67 +109,74 @@ const Header = () => {
                             </div>
                         </form>
 
-                        <div className="flex items-center gap-1">
-                            <RiMapPin2Line size={18} />
-                            <p>Bangladesh</p>
-                        </div>
-
                         <div className="flex items-center gap-8">
 
-                            <div onClick={() => navigate("/view-cart")} className="flex items-end gap-1 font-serif cursor-pointer">
-                                <Badge className="bg-primary min-w-[20px] min-h-[20px]" content={cart?.length} overlap="circular">
-                                    <PiShoppingCartSimpleLight size={28} />
-                                </Badge>
-                                <p className="text-xs">Cart</p>
+                            <div className="flex items-end gap-1 font-serif cursor-pointer">
+                                {role === "admin" ? (
+                                    // Show beautiful text for admin users
+                                    <p className="text-sm font-bold text-primary">Welcome, Admin!</p>
+                                ) : (
+                                    // Show the cart for non-admin users
+                                    <div onClick={() => navigate("/view-cart")} className="flex items-end gap-1 cursor-pointer">
+                                        <Badge className="bg-primary min-w-[20px] min-h-[20px]" content={cart?.length} overlap="circular">
+                                            <PiShoppingCartSimpleLight size={28} />
+                                        </Badge>
+                                        <p className="text-xs">Cart</p>
+                                    </div>
+                                )}
                             </div>
 
                             {
                                 user ? (
-                                    <Menu allowHover={true}>
-
-                                        <MenuHandler>
-                                            <div className="cursor-pointer">
-                                                <div className="flex items-end gap-1">
-                                                    <Avatar src={user?.photoURL || UserImg} alt={user?.displayName} size="xs" />
-                                                    <p className="font-serif text-xs">My Account</p>
+                                    role === "admin" ? (
+                                        // Show only avatar for admin
+                                        <div className="cursor-pointer">
+                                            <Avatar src={user?.photoURL || UserImg} alt={user?.displayName} size="xs" />
+                                        </div>
+                                    ) : (
+                                        // Show menu for other roles
+                                        <Menu allowHover={true}>
+                                            <MenuHandler>
+                                                <div className="cursor-pointer">
+                                                    <div className="flex items-end gap-1">
+                                                        <Avatar src={user?.photoURL || UserImg} alt={user?.displayName} size="xs" />
+                                                        <p className="font-serif text-xs">My Account</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </MenuHandler>
+                                            </MenuHandler>
 
-                                        <MenuList>
+                                            <MenuList>
+                                                <Link className="outline-none" to="/profile/dashboard">
+                                                    <MenuItem className="flex items-center gap-2">
+                                                        <LuLayoutDashboard size={18} />
+                                                        <Typography variant="small" className="font-medium">
+                                                            My Dashboard
+                                                        </Typography>
+                                                    </MenuItem>
+                                                </Link>
 
-                                            <Link className="outline-none" to="/profile/dashboard">
-                                                <MenuItem className="flex items-center gap-2">
-                                                    <LuLayoutDashboard size={18} />
+                                                <Link className="outline-none" to="/profile/orders">
+                                                    <MenuItem className="flex items-center gap-2">
+                                                        <FiShoppingCart size={18} />
+                                                        <Typography variant="small" className="font-medium">
+                                                            My Orders
+                                                        </Typography>
+                                                    </MenuItem>
+                                                </Link>
+
+                                                <hr className="my-2 border-blue-gray-50" />
+
+                                                <MenuItem onClick={handleLogOut} className="flex items-center gap-2">
+                                                    <HiLogout size={18} />
                                                     <Typography variant="small" className="font-medium">
-                                                        My Dashboard
+                                                        Sign Out
                                                     </Typography>
                                                 </MenuItem>
-                                            </Link>
-
-                                            <Link className="outline-none" to="/profile/orders">
-                                                <MenuItem className="flex items-center gap-2">
-                                                    <FiShoppingCart size={18} />
-                                                    <Typography variant="small" className="font-medium">
-                                                        My Orders
-                                                    </Typography>
-                                                </MenuItem>
-                                            </Link>
-
-                                            <hr className="my-2 border-blue-gray-50" />
-
-                                            <MenuItem onClick={handleLogOut} className="flex items-center gap-2 ">
-                                                <HiLogout size={18} />
-                                                <Typography variant="small" className="font-medium">
-                                                    Sign Out
-                                                </Typography>
-                                            </MenuItem>
-
-                                        </MenuList>
-                                    </Menu>
-
+                                            </MenuList>
+                                        </Menu>
+                                    )
                                 ) : (
-
+                                    // Show login link for unauthenticated users
                                     <Link to="/login">
                                         <div>
                                             <div className="flex items-end gap-1">

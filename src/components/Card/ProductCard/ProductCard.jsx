@@ -8,8 +8,11 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { toast } from "react-toastify";
 import useCart from "../../../hooks/useCart";
+import useRole from "../../../hooks/useRole";
 
 const ProductCard = ({ product }) => {
+
+    const [role] = useRole();
 
     const { user } = useContext(AuthContext);
     const [, , refetch] = useCart();
@@ -23,51 +26,56 @@ const ProductCard = ({ product }) => {
 
     const handleAddToCart = async (productId) => {
         
+        if (role === "admin") {
+            toast.info("Admins cannot add products to the cart.", {
+                autoClose: 1000,
+            });
+            return; // Prevent further execution
+        }
+    
         if (user && user.email) {
-
             const newCart = {
                 productId,
                 quantity: 1,
-                userEmail: user.email
+                userEmail: user.email,
             };
-
+    
             setLoading(true);
-
+    
             try {
                 const response = await axios.post("https://new-havit-shop-server.vercel.app/carts", newCart);
-
+    
                 if (response.status === 200) {
                     refetch();
                     toast.success(`${product?.name} added to cart!`, {
                         autoClose: 1000,
                     });
                 }
-
             } catch (error) {
                 console.error("Error adding product to cart:", error);
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Failed to add to cart',
-                    text: 'Something went wrong. Please try again later.',
+                    icon: "error",
+                    title: "Failed to add to cart",
+                    text: "Something went wrong. Please try again later.",
                 });
             } finally {
                 setLoading(false);
             }
         } else {
             Swal.fire({
-                title: 'Please Login',
-                icon: 'warning',
+                title: "Please Login",
+                icon: "warning",
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Login Now'
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Login Now",
             }).then((result) => {
                 if (result.isConfirmed) {
-                    navigate('/login', { state: { from: location } });
+                    navigate("/login", { state: { from: location } });
                 }
             });
         }
-    };
+    };    
 
     return (
         <div className="relative border rounded-lg shadow hover:shadow-md transition-all duration-300 group font-sans">

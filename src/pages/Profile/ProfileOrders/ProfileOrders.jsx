@@ -1,29 +1,17 @@
-import { useContext, useState } from "react";
-import { AuthContext } from "../../../provider/AuthProvider";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { formattedDate } from "../../../utils";
 import { useNavigate } from "react-router-dom";
 import { GiCheckMark } from "react-icons/gi";
 import { LuCopy } from "react-icons/lu";
 import MySpinner from "../../../components/Shared/MySpinner/MySpinner";
+import useOrders from "../../../hooks/useOrders";
 
 const ProfileOrders = () => {
-    const { user } = useContext(AuthContext);
-    const token = localStorage.getItem("access-token");
-    const [axiosSecure] = useAxiosSecure();
-
+    
+    const [orders, isLoading] = useOrders();
+    
     const [copiedOrderId, setCopiedOrderId] = useState(false);
     const navigate = useNavigate();
-
-    const { data: orders = [], isLoading } = useQuery({
-        queryKey: ["orders", user?.email],
-        enabled: !!user?.email && !!token,
-        queryFn: async () => {
-            const res = await axiosSecure(`/orders/user/${user?.email}`);
-            return res.data;
-        },
-    });
 
     const getStatusColor = (status) => {
         switch (status.toLowerCase()) {
