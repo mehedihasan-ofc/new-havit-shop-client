@@ -26,8 +26,19 @@ const PromoCodes = () => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(!open);
 
-    const handleDeletePromo = (promoCodeId) => {
+    // Get the current date for comparison
+    const currentDate = new Date();
 
+    // Update the promo codes' status dynamically based on expiration
+    const updatedPromoCodes = promoCodes.map(promo => {
+        const expiryDate = new Date(promo.expiryDate);
+        if (expiryDate < currentDate) {
+            return { ...promo, status: "expired" }; // Set status to expired if the promo code is expired
+        }
+        return promo;
+    });
+
+    const handleDeletePromo = (promoCodeId) => {
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -35,10 +46,9 @@ const PromoCodes = () => {
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
+            confirmButtonText: "Yes, delete it!",
         }).then((result) => {
             if (result.isConfirmed) {
-
                 axiosSecure.delete(`/promo-codes/${promoCodeId}`)
                     .then(res => {
                         if (res.data.deletedCount > 0) {
@@ -46,7 +56,7 @@ const PromoCodes = () => {
                             Swal.fire({
                                 title: "Deleted!",
                                 text: "The promo code has been deleted.",
-                                icon: "success"
+                                icon: "success",
                             });
                         }
                     })
@@ -55,14 +65,14 @@ const PromoCodes = () => {
                         Swal.fire({
                             title: "Error!",
                             text: "There was an issue deleting the promo code.",
-                            icon: "error"
+                            icon: "error",
                         });
                     });
             }
         });
     };
 
-    if (isLoading) return <MySpinner />
+    if (isLoading) return <MySpinner />;
 
     return (
         <>
@@ -71,7 +81,7 @@ const PromoCodes = () => {
                     <div className="flex items-center justify-between gap-8">
                         <div>
                             <Typography variant="h5" color="blue-gray">
-                                Promo Code list ({promoCodes?.length})
+                                Promo Code list ({updatedPromoCodes?.length})
                             </Typography>
                             <Typography color="gray" className="mt-1 font-normal">
                                 See information about all promo codes
@@ -90,15 +100,8 @@ const PromoCodes = () => {
                         <thead>
                             <tr>
                                 {TABLE_HEAD.map((head) => (
-                                    <th
-                                        key={head}
-                                        className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4"
-                                    >
-                                        <Typography
-                                            variant="small"
-                                            color="blue-gray"
-                                            className="font-normal leading-none opacity-70"
-                                        >
+                                    <th key={head} className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                                        <Typography variant="small" color="blue-gray" className="font-normal leading-none opacity-70">
                                             {head}
                                         </Typography>
                                     </th>
@@ -106,9 +109,9 @@ const PromoCodes = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {promoCodes.map(
+                            {updatedPromoCodes.map(
                                 ({ _id, promoCode, discountType, discount, status, createdAt, expiryDate }, index) => {
-                                    const isLast = index === promoCodes.length - 1;
+                                    const isLast = index === updatedPromoCodes.length - 1;
                                     const classes = isLast
                                         ? "p-4"
                                         : "p-4 border-b border-blue-gray-50";
@@ -116,38 +119,22 @@ const PromoCodes = () => {
                                     return (
                                         <tr key={_id}>
                                             <td className={classes}>
-                                                <Typography
-                                                    variant="small"
-                                                    color="blue-gray"
-                                                    className="font-normal"
-                                                >
+                                                <Typography variant="small" color="blue-gray" className="font-normal">
                                                     {index + 1}
                                                 </Typography>
                                             </td>
                                             <td className={classes}>
-                                                <Typography
-                                                    variant="small"
-                                                    color="blue-gray"
-                                                    className="font-normal"
-                                                >
+                                                <Typography variant="small" color="blue-gray" className="font-normal">
                                                     {promoCode}
                                                 </Typography>
                                             </td>
                                             <td className={classes}>
-                                                <Typography
-                                                    variant="small"
-                                                    color="blue-gray"
-                                                    className="font-normal capitalize"
-                                                >
+                                                <Typography variant="small" color="blue-gray" className="font-normal capitalize">
                                                     {discountType}
                                                 </Typography>
                                             </td>
                                             <td className={classes}>
-                                                <Typography
-                                                    variant="small"
-                                                    color="blue-gray"
-                                                    className="font-normal"
-                                                >
+                                                <Typography variant="small" color="blue-gray" className="font-normal">
                                                     {discount}
                                                 </Typography>
                                             </td>
@@ -164,20 +151,12 @@ const PromoCodes = () => {
                                             </td>
 
                                             <td className={classes}>
-                                                <Typography
-                                                    variant="small"
-                                                    color="blue-gray"
-                                                    className="font-normal"
-                                                >
+                                                <Typography variant="small" color="blue-gray" className="font-normal">
                                                     {formattedDate(createdAt)}
                                                 </Typography>
                                             </td>
                                             <td className={classes}>
-                                                <Typography
-                                                    variant="small"
-                                                    color="blue-gray"
-                                                    className="font-normal"
-                                                >
+                                                <Typography variant="small" color="blue-gray" className="font-normal">
                                                     {formattedDate(expiryDate)}
                                                 </Typography>
                                             </td>
@@ -188,7 +167,7 @@ const PromoCodes = () => {
                                             </td>
                                         </tr>
                                     );
-                                },
+                                }
                             )}
                         </tbody>
                     </table>

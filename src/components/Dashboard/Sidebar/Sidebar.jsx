@@ -121,6 +121,15 @@ const Sidebar = () => {
                                     Banner Management
                                 </ListItem>
                             </Link>
+                            
+                            <Link to="noc-management">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    NOC Management
+                                </ListItem>
+                            </Link>
 
                             <Link to="ads-management">
                                 <ListItem>
@@ -149,7 +158,7 @@ const Sidebar = () => {
                                 </ListItem>
                             </Link>
 
-                            <Link to="blog-management">
+                            <Link to="welcome-modal">
                                 <ListItem>
                                     <ListItemPrefix>
                                         <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
