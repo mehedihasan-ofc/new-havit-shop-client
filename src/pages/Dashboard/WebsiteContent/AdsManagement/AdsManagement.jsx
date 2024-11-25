@@ -74,6 +74,8 @@ const AdsManagement = () => {
             if (adsData?._id) {
                 const { data } = await axiosSecure.put(`/ads/${adsData._id}`, { ads: adsPayload });
 
+                console.log(data);
+
                 if (data.modifiedCount > 0) {
                     toast.success("Ads updated successfully!", {
                         position: "top-right",
@@ -188,6 +190,7 @@ const AdsManagement = () => {
                                     accept="image/*"
                                     className="absolute inset-0 opacity-0 cursor-pointer"
                                     onChange={(e) => handleFileChange(e, ad.id)}
+                                    required
                                 />
                             </div>
                             <input

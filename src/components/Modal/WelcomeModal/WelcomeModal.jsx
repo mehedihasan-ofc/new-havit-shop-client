@@ -1,41 +1,73 @@
-import {
-    Button,
-    Dialog,
-    DialogHeader,
-    DialogBody,
-    DialogFooter,
-} from "@material-tailwind/react";
+import { Button, Dialog, DialogBody } from "@material-tailwind/react";
+import useWelcome from "../../../hooks/useWelcome";
 
 const WelcomeModal = ({ open, handleOpen }) => {
+    const [welcomeData, isLoading] = useWelcome();
+
     return (
         <Dialog
             open={open}
             handler={handleOpen}
-            animate={{
-                mount: { scale: 1, y: 0 },
-                unmount: { scale: 0.9, y: -100 },
-            }}
+            className="max-w-xl mx-auto"
         >
-            <DialogHeader>Its a simple dialog.</DialogHeader>
-            <DialogBody>
-                The key to more success is to have a lot of pillows. Put it this way,
-                it took me twenty five years to get these plants, twenty five years of
-                blood sweat and tears, and I&apos;m never giving up, I&apos;m just
-                getting started. I&apos;m up to something. Fan luv.
+            {/* Modal Body */}
+            <DialogBody className="p-0">
+                {/* Top Section - Text & Close Icon */}
+                <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 bg-gray-50">
+                    <h2 className="text-lg font-bold text-primary">Deal of the Day</h2>
+                    <button
+                        onClick={handleOpen}
+                        className="text-gray-400 hover:text-gray-600 focus:outline-none"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-6 h-6"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M6 18L18 6M6 6l12 12"
+                            />
+                        </svg>
+                    </button>
+                </div>
+
+                {/* Middle Section - Image */}
+                <div className="relative">
+                    {isLoading ? (
+                        <div className="flex flex-col items-center justify-center h-[264px] bg-gray-100">
+                            <div className="animate-spin rounded-full border-t-4 border-gray-400 border-4 h-12 w-12 mb-2"></div>
+                            <p className="text-gray-500">Loading... Please wait.</p>
+                        </div>
+                    ) : welcomeData?.image ? (
+                        <img
+                            src={welcomeData.image}
+                            alt="Welcome"
+                            className="w-full h-[264px] object-cover"
+                        />
+                    ) : (
+                        <div className="flex items-center justify-center h-[264px] bg-gray-200">
+                            <p className="text-gray-500">No Image Available</p>
+                        </div>
+                    )}
+                </div>
+
+                {/* Bottom Section - Button */}
+                <div className="flex justify-center py-4 bg-gray-50">
+                    <Button
+                        size="sm"
+                        onClick={handleOpen}
+                        disabled={isLoading}
+                        className="rounded-none bg-primary font-medium"
+                    >
+                        Shop Now
+                    </Button>
+                </div>
             </DialogBody>
-            <DialogFooter>
-                <Button
-                    variant="text"
-                    color="red"
-                    onClick={handleOpen}
-                    className="mr-1"
-                >
-                    <span>Cancel</span>
-                </Button>
-                <Button variant="gradient" color="green" onClick={handleOpen}>
-                    <span>Confirm</span>
-                </Button>
-            </DialogFooter>
         </Dialog>
     );
 };
