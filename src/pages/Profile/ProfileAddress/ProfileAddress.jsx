@@ -1,58 +1,75 @@
+import { Button } from "@material-tailwind/react";
 import useBillingDetails from "../../../hooks/useBillingDetails";
+import { useNavigate } from "react-router-dom";
+import MySpinner from "../../../components/Shared/MySpinner/MySpinner";
 
 const ProfileAddress = () => {
     const [billingDetails, isLoading] = useBillingDetails();
+    const navigate = useNavigate();
 
-    if (isLoading) {
-        return (
-            <div className="flex justify-center items-center h-48">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500"></div>
-            </div>
-        );
-    }
+    if (isLoading) return <MySpinner />
 
     if (!billingDetails) {
         return (
-            <div className="text-center text-gray-600 font-semibold mt-8">
-                No billing details found.
+            <div className="flex flex-col items-center justify-center min-h-[50vh] bg-gradient-to-br from-gray-100 via-white to-gray-200 p-6">
+                <div className="text-center mb-4">
+                    <h2 className="text-xl font-semibold text-gray-800">
+                        No Billing Details Found
+                    </h2>
+                    <p className="text-gray-600 mt-2">
+                        You haven't added your billing address yet. Click the button below to add your address now!
+                    </p>
+                </div>
+                <Button
+                    className="rounded-none py-3 px-6 bg-primary"
+                    onClick={() => navigate("/profile/my-address")}
+                >
+                    Add Address
+                </Button>
             </div>
         );
     }
 
     return (
-        <div className="bg-gradient-to-br from-gray-100 via-white to-gray-200 p-8 min-h-screen">
-            <div className="max-w-4xl mx-auto bg-white shadow-2xl rounded-lg p-6">
-                <h1 className="text-2xl font-extrabold text-gray-800 text-center mb-6">
-                    Billing Details
-                </h1>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="bg-gray-50 p-4 rounded-lg shadow-md">
-                        <h2 className="text-lg font-bold text-gray-700">Personal Info</h2>
-                        <p className="mt-2 text-gray-600"><strong>Name:</strong> {billingDetails.name}</p>
-                        <p className="mt-2 text-gray-600"><strong>Phone Number:</strong> {billingDetails.phoneNumber}</p>
-                        {billingDetails.altPhoneNumber && (
-                            <p className="mt-2 text-gray-600"><strong>Alt Phone:</strong> {billingDetails.altPhoneNumber}</p>
-                        )}
-                        <p className="mt-2 text-gray-600"><strong>Email:</strong> {billingDetails.userEmail}</p>
-                    </div>
+        <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg">
+            <h1 className="text-2xl font-semibold text-gray-800 text-center mb-4">
+                Billing Details
+            </h1>
 
-                    <div className="bg-gray-50 p-4 rounded-lg shadow-md">
-                        <h2 className="text-lg font-bold text-gray-700">Address Info</h2>
-                        <p className="mt-2 text-gray-600"><strong>Address:</strong> {billingDetails.address}</p>
-                        <p className="mt-2 text-gray-600"><strong>Area:</strong> {billingDetails.area}</p>
-                        <p className="mt-2 text-gray-600"><strong>City:</strong> {billingDetails.city}</p>
-                        {billingDetails.additionalInfo && (
-                            <p className="mt-2 text-gray-600"><strong>Additional Info:</strong> {billingDetails.additionalInfo}</p>
-                        )}
-                    </div>
-                </div>
+            <table className="table-auto border-collapse border border-gray-300 w-full">
+                <thead>
+                    <tr>
+                        <th className="border border-gray-300 px-4 py-2 bg-gray-100 text-left">Personal Info</th>
+                        <th className="border border-gray-300 px-4 py-2 bg-gray-100 text-left">Address Info</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td className="border border-gray-300 px-4 py-2 space-y-1">
+                            <p><strong>Name:</strong> {billingDetails.name}</p>
+                            <p><strong>Phone Number:</strong> {billingDetails.phoneNumber}</p>
+                            {billingDetails.altPhoneNumber && (
+                                <p><strong>Alt Phone:</strong> {billingDetails.altPhoneNumber}</p>
+                            )}
+                            <p><strong>Email:</strong> {billingDetails.userEmail}</p>
+                        </td>
+                        <td className="border border-gray-300 px-4 py-2 space-y-1">
+                            <p><strong>Address:</strong> {billingDetails.address}</p>
+                            <p><strong>Area:</strong> {billingDetails.area}</p>
+                            <p><strong>City:</strong> {billingDetails.city}</p>
+                            {billingDetails.additionalInfo && (
+                                <p><strong>Additional Info:</strong> {billingDetails.additionalInfo}</p>
+                            )}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-                <div className="mt-6 text-center">
-                    <button className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition duration-200">
-                        Edit Address
-                    </button>
-                </div>
-            </div>
+            {/* <div className="mt-6 text-center">
+                <Button variant="outlined" className="rounded-none py-3 px-6">
+                    Edit Address
+                </Button>
+            </div> */}
         </div>
     );
 };

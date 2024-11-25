@@ -4,10 +4,12 @@ import axios from "axios";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { AuthContext } from "../../../provider/AuthProvider";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const BillingDetails = () => {
     const { user } = useContext(AuthContext);
     const [axiosSecure] = useAxiosSecure();
+    const navigate = useNavigate();
 
     const [isLoading, setIsLoading] = useState(false);
     const [cities, setCities] = useState([]);
@@ -71,6 +73,7 @@ const BillingDetails = () => {
                     position: "top-right",
                     autoClose: 1000,
                 });
+                navigate("/profile/billing-details")
             }
         } catch (error) {
             console.error("Error saving billing details:", error);
@@ -154,9 +157,12 @@ const BillingDetails = () => {
                 value={billingDetails.additionalInfo}
                 onChange={handleBillingChange}
             />
-            <Button loading={isLoading} type="submit" className="rounded-none bg-primary font-medium px-10">
-                {isLoading ? "Saving Billing Address" : "Save Billing Address"}
-            </Button>
+
+            <div className="text-center">
+                <Button disabled={isLoading} type="submit" className="rounded-none bg-primary font-medium px-10">
+                    {isLoading ? "Saving Billing Address" : "Save Billing Address"}
+                </Button>
+            </div>
         </form>
     );
 };

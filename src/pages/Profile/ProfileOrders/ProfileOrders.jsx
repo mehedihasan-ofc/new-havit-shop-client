@@ -6,6 +6,7 @@ import { formattedDate } from "../../../utils";
 import { useNavigate } from "react-router-dom";
 import { GiCheckMark } from "react-icons/gi";
 import { LuCopy } from "react-icons/lu";
+import MySpinner from "../../../components/Shared/MySpinner/MySpinner";
 
 const ProfileOrders = () => {
     const { user } = useContext(AuthContext);
@@ -47,17 +48,11 @@ const ProfileOrders = () => {
         setTimeout(() => setCopiedOrderId(""), 2000);
     };
 
-    if (isLoading) {
-        return (
-            <div className="text-center text-gray-500 py-6">
-                Loading orders...
-            </div>
-        );
-    }
+    if (isLoading) return <MySpinner />
 
     return (
-        <div className="max-w-5xl mx-auto p-6">
-            <h1 className="text-2xl font-semibold text-gray-800 mb-6">
+        <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg">
+            <h1 className="text-2xl font-semibold text-gray-800 text-center mb-4">
                 Your Orders
             </h1>
             {orders.length === 0 ? (

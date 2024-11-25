@@ -23,8 +23,8 @@ const OrderSuccess = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6 py-12">
-            <div className="bg-white shadow-lg rounded-lg p-8 max-w-md text-center">
+        <div className="flex items-center justify-center my-5">
+            <div className="bg-white shadow-md rounded-lg p-8 max-w-md text-center border">
                 <div className="mb-6">
                     <svg
                         className="w-16 h-16 text-green-500 mx-auto"

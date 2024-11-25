@@ -165,8 +165,12 @@ const router = createBrowserRouter([
                 element: <ProfileTrackOrder />
             },
             {
-                path: "my-address",
+                path: "billing-details",
                 element: <ProfileAddress />
+            },
+            {
+                path: "my-address",
+                element: <BillingDetails />
             }
         ]
     },

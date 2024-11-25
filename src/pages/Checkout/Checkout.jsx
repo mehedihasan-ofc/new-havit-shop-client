@@ -153,8 +153,7 @@ const Checkout = () => {
                                 <p className="text-gray-700"><span className="font-semibold">Phone:</span> {billingDetails.phoneNumber}</p>
                                 <div className="text-gray-700 space-y-1">
                                     <p className="font-semibold">Address:</p>
-                                    <p>{billingDetails.address}</p>
-                                    <p>{billingDetails.area}, {billingDetails.city}</p>
+                                    <p>{billingDetails.address}, {billingDetails.area}, {billingDetails.city}</p>
                                 </div>
                             </div>
                             <Button onClick={() => navigate("/add-address")} className="rounded-full" variant="outlined">Edit Shipping Address</Button>

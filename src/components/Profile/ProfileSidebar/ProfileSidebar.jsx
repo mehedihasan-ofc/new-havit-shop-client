@@ -82,7 +82,7 @@ const ProfileSidebar = () => {
                     </ListItem>
                 </Link>
 
-                <Link to="my-address">
+                <Link to="billing-details">
                     <ListItem>
                         <ListItemPrefix>
                             <GrLocation size={18} />
