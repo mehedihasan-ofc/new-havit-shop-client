@@ -144,6 +144,7 @@ const ViewCart = () => {
                                     index={index}
                                     quantity={quantities[index]}
                                     onQuantityChange={(change) => handleQuantityChange(index, change)}
+                                    refetch={refetch}
                                 />
                             ))}
                         </tbody>

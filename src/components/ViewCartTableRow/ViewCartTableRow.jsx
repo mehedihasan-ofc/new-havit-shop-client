@@ -1,12 +1,51 @@
 import { IconButton } from "@material-tailwind/react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
-const ViewCartTableRow = ({ item, index, quantity, onQuantityChange }) => {
+const ViewCartTableRow = ({ item, index, quantity, onQuantityChange, refetch }) => {
+
     const subtotal = item.productDetails.price * quantity;
+    const [axiosSecure] = useAxiosSecure();
 
-    const handleDelete = (productId) => {
-        // Implement delete functionality here
-        console.log("Delete product with ID:", productId);
+    const handleDelete = async (id, name) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: `You won't be able to revert this!`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const { data } = await axiosSecure.delete(`/carts/${id}`);
+
+                    if (data.deletedCount > 0) {
+                        refetch(); // Refresh the cart data
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: `${name} has been removed from your cart.`,
+                            icon: "success"
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "No Items Found",
+                            text: `${name} was already removed from your cart.`,
+                            icon: "info"
+                        });
+                    }
+                } catch (error) {
+                    console.error("Error clearing cart:", error);
+                    Swal.fire({
+                        title: "Error!",
+                        text: `Failed to remove ${name} from the cart. Please try again.`,
+                        icon: "error"
+                    });
+                }
+            }
+        });
     };
 
     return (
@@ -56,7 +95,7 @@ const ViewCartTableRow = ({ item, index, quantity, onQuantityChange }) => {
 
             {/* Remove Button */}
             <td className="px-4 py-2">
-                <IconButton onClick={() => handleDelete(item._id)} color="red" variant="text" className="rounded-full">
+                <IconButton onClick={() => handleDelete(item._id, item.productDetails.name)} color="red" variant="text" className="rounded-full">
                     <IoIosCloseCircleOutline size={22} />
                 </IconButton>
             </td>
