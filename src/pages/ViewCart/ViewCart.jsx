@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button } from "@material-tailwind/react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import useCart from "../../hooks/useCart";
@@ -17,19 +17,55 @@ const ViewCart = () => {
     const [axiosSecure] = useAxiosSecure();
 
     const [cart, isLoading, refetch] = useCart();
-    const [quantities, setQuantities] = useState(cart?.map(item => item.quantity));
-    const navigate = useNavigate();
+    // const [quantities, setQuantities] = useState(cart?.map(item => item.quantity));
 
+    const [quantities, setQuantities] = useState([]); // To manage product quantities
+    const [total, setTotal] = useState(0); // To calculate the total price
+
+    const navigate = useNavigate();
     const [allClear, setAllClear] = useState(false);
 
-    if (isLoading) return <MySpinner />;
+    // Update quantities and total dynamically when cart data is fetched
+    useEffect(() => {
+        if (cart) {
+            // Initialize quantities based on cart data
+            const initialQuantities = cart.map((item) => item.quantity || 1);
+            setQuantities(initialQuantities);
 
-    const handleQuantityChange = (index, change) => {
-        setQuantities(prevQuantities => {
-            const updatedQuantities = [...prevQuantities];
-            updatedQuantities[index] = Math.max(1, updatedQuantities[index] + change);
-            return updatedQuantities;
-        });
+            // Calculate initial total
+            const initialTotal = cart.reduce(
+                (sum, item, index) => sum + item.productDetails.price * initialQuantities[index],
+                0
+            );
+            setTotal(initialTotal);
+        }
+    }, [cart]);
+
+    // const handleQuantityChange = (index, change) => {
+    //     setQuantities(prevQuantities => {
+    //         const updatedQuantities = [...prevQuantities];
+    //         updatedQuantities[index] = Math.max(1, updatedQuantities[index] + change);
+    //         return updatedQuantities;
+    //     });
+    // };
+
+    // Handle quantity changes for individual products
+    const handleQuantityChange = (index, delta) => {
+        const updatedQuantities = [...quantities];
+        updatedQuantities[index] += delta;
+
+        // Ensure the quantity doesn't go below 1
+        if (updatedQuantities[index] < 1) {
+            updatedQuantities[index] = 1;
+        }
+
+        // Update the quantities and recalculate the total
+        setQuantities(updatedQuantities);
+        const newTotal = cart.reduce(
+            (sum, item, i) => sum + item.productDetails.price * updatedQuantities[i],
+            0
+        );
+        setTotal(newTotal);
     };
 
     const calculateTotalAmount = () =>
@@ -95,6 +131,8 @@ const ViewCart = () => {
         });
     };
 
+    if (isLoading) return <MySpinner />;
+
     if (cart?.length === 0) {
         return (
             <div className="max-w-5xl w-full mx-auto px-6 my-5 text-center">
@@ -107,7 +145,6 @@ const ViewCart = () => {
             </div>
         );
     }
-
 
     return (
         <div className="max-w-5xl w-full mx-auto px-6 my-5">
