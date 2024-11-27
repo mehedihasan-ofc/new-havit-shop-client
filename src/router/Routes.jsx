@@ -62,9 +62,6 @@ const router = createBrowserRouter([
                 path: "/",
                 element: <Home />
             },
-
-
-
             // ============================================>
             {
                 path: "/categories/all",

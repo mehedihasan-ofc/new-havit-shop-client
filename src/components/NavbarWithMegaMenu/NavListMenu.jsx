@@ -9,8 +9,8 @@ const NavListMenu = ({ navListMenuItems }) => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const renderItems = navListMenuItems.map(
         ({ _id, name, image }) => (
-            <Link to={`/todo/${_id}`} key={_id}>
-                <MenuItem className="flex items-center gap-5 rounded-lg">
+            <Link to={`/products/categories/${_id}`} key={_id}>
+                <MenuItem className="flex items-center gap-5 rounded-md border border-transparent hover:border-primary">
                     
                     <div className="flex items-center justify-center rounded-lg">
                         <img className="w-10 h-10 object-contain" src={image} alt="" />
@@ -64,7 +64,7 @@ const NavListMenu = ({ navListMenuItems }) => {
                         </ListItem>
                     </Typography>
                 </MenuHandler>
-                <MenuList className="hidden max-w-screen-xl rounded-xl lg:block">
+                <MenuList className="hidden max-w-screen-xl rounded-md lg:block max-h-72">
                     <ul className="grid grid-cols-3 gap-y-2 outline-none outline-0">
                         {renderItems}
                     </ul>
