@@ -19,8 +19,6 @@ const Welcome = () => {
         }
     };
 
-    console.log(welcomeData);
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);

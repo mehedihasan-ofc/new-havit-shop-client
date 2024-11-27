@@ -10,9 +10,11 @@ import { Autoplay } from 'swiper/modules';
 import { useState } from "react";
 import WelcomeModal from "../../../components/Modal/WelcomeModal/WelcomeModal";
 import useBanners from '../../../hooks/useBanners';
+import useWelcome from '../../../hooks/useWelcome';
 
 const Hero = () => {
 
+    const [welcomeData, isLoading] = useWelcome();
     const [banners] = useBanners();
 
     const [open, setOpen] = useState(true);
@@ -47,7 +49,7 @@ const Hero = () => {
                 </Swiper>
             </div>
 
-            <WelcomeModal open={open} handleOpen={handleOpen} />
+            {!isLoading && <WelcomeModal open={open} handleOpen={handleOpen} welcomeData={welcomeData} />}
         </>
     );
 };

@@ -10,31 +10,32 @@ import { GrSend } from "react-icons/gr";
 import Logo from "../../../assets/logo.png";
 
 const Footer = () => {
-
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="bg-white border-t border-gray-200">
+        <footer className="bg-secondary border-t border-gray-200 text-gray-800">
             {/* Main Footer Section */}
-            <div className="my-container py-10 grid grid-cols-1 text-center md:text-start sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="my-container py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {/* Brand Section */}
                 <div className="space-y-4">
-                    {/* Brand Logo */}
-                    <img src={Logo} alt="Havit Shop Logo" className="w-32 h-auto mx-auto md:mx-0" />
-
-                    {/* Brand Description */}
-                    <p className="text-sm text-gray-600 leading-relaxed">
+                    <img
+                        src={Logo}
+                        alt="Havit Shop Logo"
+                        className="w-32 h-auto mx-auto lg:mx-0"
+                    />
+                    <p className="text-sm leading-relaxed text-center lg:text-left">
                         Discover the best deals and quality products curated just for you.
                     </p>
                 </div>
 
-                {/* Company Section */}
+                {/* Company Links */}
                 <div>
-                    <h4 className="font-semibold text-lg text-gray-800">Company</h4>
-                    <ul className="space-y-3 mt-4 text-sm">
+                    <h4 className="text-lg font-semibold mb-4">Company</h4>
+                    <ul className="space-y-3">
                         <li>
                             <Link
                                 to="/terms-conditions"
-                                className="text-gray-600 hover:text-primary transition"
+                                className="text-sm text-gray-700 hover:text-[#3BB77E] transition"
                             >
                                 Terms & Conditions
                             </Link>
@@ -42,7 +43,7 @@ const Footer = () => {
                         <li>
                             <Link
                                 to="/privacy-policy"
-                                className="text-gray-600 hover:text-primary transition"
+                                className="text-sm text-gray-700 hover:text-[#3BB77E] transition"
                             >
                                 Privacy Policy
                             </Link>
@@ -50,7 +51,7 @@ const Footer = () => {
                         <li>
                             <Link
                                 to="/return-policy"
-                                className="text-gray-600 hover:text-primary transition"
+                                className="text-sm text-gray-700 hover:text-[#3BB77E] transition"
                             >
                                 Return Policy
                             </Link>
@@ -58,14 +59,14 @@ const Footer = () => {
                     </ul>
                 </div>
 
-                {/* Get to Know Us Section */}
+                {/* Get to Know Us */}
                 <div>
-                    <h4 className="font-semibold text-lg text-gray-800">Get to Know Us</h4>
-                    <ul className="space-y-3 mt-4 text-sm">
+                    <h4 className="text-lg font-semibold mb-4">Get to Know Us</h4>
+                    <ul className="space-y-3">
                         <li>
                             <Link
                                 to="/faq"
-                                className="text-gray-600 hover:text-primary transition"
+                                className="text-sm text-gray-700 hover:text-[#3BB77E] transition"
                             >
                                 FAQ
                             </Link>
@@ -73,7 +74,7 @@ const Footer = () => {
                         <li>
                             <Link
                                 to="/our-blog"
-                                className="text-gray-600 hover:text-primary transition"
+                                className="text-sm text-gray-700 hover:text-[#3BB77E] transition"
                             >
                                 Our Blog
                             </Link>
@@ -81,7 +82,7 @@ const Footer = () => {
                         <li>
                             <Link
                                 to="/about"
-                                className="text-gray-600 hover:text-primary transition"
+                                className="text-sm text-gray-700 hover:text-[#3BB77E] transition"
                             >
                                 About Us
                             </Link>
@@ -89,76 +90,93 @@ const Footer = () => {
                     </ul>
                 </div>
 
-                {/* Contact Info Section */}
+                {/* Contact Info */}
                 <div>
-                    <h4 className="font-semibold text-lg text-gray-800">Contact Info</h4>
-                    <div className="space-y-4 mt-4 text-sm text-gray-600">
-                        <div className="flex items-center justify-center md:justify-start gap-2">
-                            <SlLocationPin className="text-primary" />
-                            <p>1086 Mukti Palli Road, Vatara Gulshan</p>
-                        </div>
-                        <div className="flex items-center justify-center md:justify-start gap-2">
-                            <GrSend className="text-primary" />
-                            <p>havitshopp@gmail.com</p>
-                        </div>
-                        <div className="flex items-center justify-center md:justify-start gap-2">
-                            <SlEarphonesAlt className="text-primary" />
-                            <p>+8801744991003 & +8801892138932</p>
-                        </div>
-                    </div>
+                    <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
+                    <ul className="space-y-4">
+                        <li className="flex items-center gap-2">
+                            <SlLocationPin className="text-[#3BB77E]" />
+                            <span className="text-sm">1086 Mukti Palli Road, Vatara Gulshan</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                            <GrSend className="text-[#3BB77E]" />
+                            <span className="text-sm">havitshopp@gmail.com</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                            <SlEarphonesAlt className="text-[#3BB77E]" />
+                            <span className="text-sm">
+                                +8801744991003 & +8801892138932
+                            </span>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
             {/* Divider */}
-            <div className="border-t border-gray-200"></div>
+            <div className="border-t border-gray-300"></div>
 
-            {/* Bottom Footer Section */}
-            <div className="my-container py-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            {/* Bottom Footer */}
+            <div className="my-container py-6 flex flex-col lg:flex-row items-center justify-between gap-6">
                 {/* Copyright */}
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-center lg:text-left">
                     &copy; {currentYear} Havit Shop. All Rights Reserved.
                 </p>
 
-                {/* Social Icons */}
-                <div className="flex items-center gap-3">
-
-                    <Link target="_blank" to="https://web.facebook.com/havitshopping">
+                {/* Social Links */}
+                <div className="flex items-center gap-4">
+                    <Link
+                        target="_blank"
+                        to="https://web.facebook.com/havitshopping"
+                        className="hover:opacity-80 transition"
+                    >
                         <img
-                            className="w-6 h-6 object-contain hover:opacity-80 transition"
                             src={FacebookIcon}
                             alt="Facebook"
+                            className="w-6 h-6 object-contain"
                         />
                     </Link>
-
-                    <Link target="_blank" to="https://www.instagram.com/havit_shop/profilecard">
+                    <Link
+                        target="_blank"
+                        to="https://www.instagram.com/havit_shop/profilecard"
+                        className="hover:opacity-80 transition"
+                    >
                         <img
-                            className="w-6 h-6 object-contain hover:opacity-80 transition"
                             src={InstagramIcon}
                             alt="Instagram"
+                            className="w-6 h-6 object-contain"
                         />
                     </Link>
-
-                    <Link target="_blank" to="https://www.youtube.com/@havitshop">
+                    <Link
+                        target="_blank"
+                        to="https://www.youtube.com/@havitshop"
+                        className="hover:opacity-80 transition"
+                    >
                         <img
-                            className="w-6 h-6 object-contain hover:opacity-80 transition"
                             src={YoutubeIcon}
                             alt="YouTube"
+                            className="w-6 h-6 object-contain"
                         />
                     </Link>
-
-                    <Link target="_blank" to="https://www.snapchat.com/add/mahamudul_h535">
+                    <Link
+                        target="_blank"
+                        to="https://www.snapchat.com/add/mahamudul_h535"
+                        className="hover:opacity-80 transition"
+                    >
                         <img
-                            className="w-6 h-6 object-contain hover:opacity-80 transition"
                             src={SnapchatIcon}
-                            alt="SnapChat"
+                            alt="Snapchat"
+                            className="w-6 h-6 object-contain"
                         />
                     </Link>
-
-                    <Link target="_blank" to="https://www.tiktok.com/@havit.shop">
+                    <Link
+                        target="_blank"
+                        to="https://www.tiktok.com/@havit.shop"
+                        className="hover:opacity-80 transition"
+                    >
                         <img
-                            className="w-6 h-6 object-contain hover:opacity-80 transition"
                             src={TiktokIcon}
                             alt="TikTok"
+                            className="w-6 h-6 object-contain"
                         />
                     </Link>
                 </div>
@@ -166,9 +184,9 @@ const Footer = () => {
                 {/* Payment Methods */}
                 <div>
                     <img
-                        className="w-full max-w-sm h-12 object-contain"
                         src={PaymentImg}
                         alt="Payment Methods"
+                        className="w-36 h-auto object-contain"
                     />
                 </div>
             </div>

@@ -1,8 +1,6 @@
 import { Button, Dialog, DialogBody } from "@material-tailwind/react";
-import useWelcome from "../../../hooks/useWelcome";
 
-const WelcomeModal = ({ open, handleOpen }) => {
-    const [welcomeData, isLoading] = useWelcome();
+const WelcomeModal = ({ open, handleOpen, welcomeData }) => {
 
     return (
         <Dialog
@@ -38,12 +36,7 @@ const WelcomeModal = ({ open, handleOpen }) => {
 
                 {/* Middle Section - Image */}
                 <div className="relative">
-                    {isLoading ? (
-                        <div className="flex flex-col items-center justify-center h-[264px] bg-gray-100">
-                            <div className="animate-spin rounded-full border-t-4 border-gray-400 border-4 h-12 w-12 mb-2"></div>
-                            <p className="text-gray-500">Loading... Please wait.</p>
-                        </div>
-                    ) : welcomeData?.image ? (
+                    {welcomeData?.image ? (
                         <img
                             src={welcomeData.image}
                             alt="Welcome"
@@ -61,7 +54,6 @@ const WelcomeModal = ({ open, handleOpen }) => {
                     <Button
                         size="sm"
                         onClick={handleOpen}
-                        disabled={isLoading}
                         className="rounded-none bg-primary font-medium"
                     >
                         Shop Now
