@@ -42,8 +42,10 @@ const Header = () => {
 
     const handleSearchSubmit = (event) => {
         event.preventDefault();
-        console.log("Search Value:", searchValue);
-    };
+        if (searchValue.trim()) {
+            navigate(`/search?q=${encodeURIComponent(searchValue)}`);
+        }
+    };    
 
     useEffect(() => {
         window.addEventListener(
