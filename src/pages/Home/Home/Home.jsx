@@ -14,8 +14,8 @@ const Home = () => {
             <NowOffers />
             <Categories />
             <PopularProducts />
-            <HomePageAd />
             <OurPromises />
+            <HomePageAd />
 
             <FloatingWhatsApp
                 phoneNumber="+8801744991003"

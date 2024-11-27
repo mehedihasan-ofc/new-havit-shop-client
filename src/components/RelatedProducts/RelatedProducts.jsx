@@ -17,7 +17,7 @@ const RelatedProducts = ({ categoryId }) => {
     if (isLoading) return <MySpinner />;
 
     return (
-        <div className="mt-10">
+        <div className="mt-5">
             <h3 className="text-xl font-semibold mb-4">Related Products</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {relatedProducts?.products?.map((product) => (

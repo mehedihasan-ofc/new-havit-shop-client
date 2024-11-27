@@ -22,23 +22,23 @@ const ReadBlog = () => {
 
     const { headline, category, readTime, createdAt, image, content } = blog;
 
-    if(loading) {
+    if (loading) {
         return <MySpinner />
     }
 
     return (
-        <div className="my-container my-10">
-            <div className="space-y-10">
+        <div className="my-container my-5">
+            <div className="space-y-6">
 
-                <div className="border rounded-md p-10">
+                <div className="border rounded-md p-4 md:p-10">
 
                     <div className="space-y-8">
-                        
-                        <div className="space-y-5">
 
-                            <h2 className="font-ubuntu text-3xl text-center font-semibold">{headline}</h2>
+                        <div className="space-y-3 md:space-y-5">
 
-                            <div className="flex justify-center items-center gap-5">
+                            <h2 className="text-lg md:text-3xl text-center font-semibold">{headline}</h2>
+
+                            <div className="flex flex-wrap justify-center items-center gap-5 text-center">
                                 <div className="flex items-center gap-2">
                                     <TbCategoryPlus className="text-primary" size={18} />
                                     <p className="text-sm">Category: {category}</p>
@@ -54,10 +54,11 @@ const ReadBlog = () => {
                                     <p className="text-sm">Published: {formattedDate(createdAt)}</p>
                                 </div>
                             </div>
+
                         </div>
 
                         <div>
-                            <div className="w-full h-96 mx-auto">
+                            <div className="w-full h-full md:h-96 mx-auto">
                                 <img className="w-full h-full object-cover rounded-lg shadow-lg" src={image} alt="" />
                             </div>
                         </div>
@@ -65,7 +66,7 @@ const ReadBlog = () => {
                         {
                             content?.map(item => (
                                 <div key={item?._id} className="space-y-2">
-                                    <h4 className="font-medium text-xl">{item?.title}</h4>
+                                    <h4 className="font-medium">{item?.title}</h4>
                                     <p>{item?.description}</p>
                                 </div>
                             ))
@@ -74,9 +75,9 @@ const ReadBlog = () => {
 
                 </div>
 
-                <BlogDetailsAd />
-
                 <Newsletter />
+
+                <BlogDetailsAd />
             </div>
         </div>
     );

@@ -174,10 +174,10 @@ const ProductDetails = () => {
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{product.description}</p>
             </div>
 
-            <ProductDetailsAd />
-
             {/* Related Products */}
             <RelatedProducts categoryId={product?.categoryId} />
+
+            <ProductDetailsAd />
         </div>
     );
 };

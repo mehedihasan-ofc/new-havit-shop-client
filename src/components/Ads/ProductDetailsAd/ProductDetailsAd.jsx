@@ -15,7 +15,7 @@ const ProductDetailsAd = () => {
     }, [adsData]);
 
     return (
-        <>
+        <div className="mt-5">
             {productDetailsAd ? (
                 productDetailsAd.adLink ? (
                     // Render the ad with a clickable link
@@ -44,7 +44,7 @@ const ProductDetailsAd = () => {
                     <p>No Product Details Page Ad available</p>
                 </div>
             )}
-        </>
+        </div>
     );
 };
 

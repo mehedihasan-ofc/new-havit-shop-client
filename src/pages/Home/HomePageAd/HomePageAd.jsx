@@ -15,7 +15,7 @@ const HomePageAd = () => {
     }, [adsData]);
 
     return (
-        <div className="my-container">
+        <div className="my-container mb-5">
             {homePageAd ? (
                 homePageAd.adLink ? (
                     // Render the ad with a clickable link
