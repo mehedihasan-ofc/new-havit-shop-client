@@ -22,11 +22,11 @@ const ProductsByCategory = () => {
     const { category, products } = data || {};
 
     return (
-        <div className="my-container">
+        <div className="my-container mb-5">
             
             <PageHeader title={category?.name} />
 
-            <p className="mb-6">
+            <p className="mb-6 text-center sm:text-left">
                 We found <span className="text-primary">{products?.length}</span> items for you!
             </p>
 

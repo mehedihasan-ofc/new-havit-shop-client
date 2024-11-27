@@ -11,14 +11,14 @@ const AllProducts = () => {
     }
 
     return (
-        <div className="my-container">
+        <div className="my-container mb-5">
             <PageHeader title="All Products" />
             
-            <p className="mb-6">
+            <p className="mb-6 text-center sm:text-left">
                 We found <span className="text-primary">{products?.length}</span> items for you!
             </p>
 
-            <div className="mt-5 grid grid-cols-2 md:grid-cols-4 gap-5">
+            <div className="mt-5 grid grid-cols-1 md:grid-cols-4 gap-5">
                 {products.map(product => (
                     <ProductCard key={product._id} product={product} />
                 ))}
