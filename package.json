@@ -22,6 +22,7 @@
     "react-floating-whatsapp": "^5.0.8",
     "react-icons": "^5.2.1",
     "react-inner-image-zoom": "^3.0.2",
+    "react-player": "^2.16.0",
     "react-router-dom": "^6.23.1",
     "react-toastify": "^10.0.5",
     "sweetalert2": "^11.11.0",

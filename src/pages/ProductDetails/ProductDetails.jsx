@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { Button } from "@material-tailwind/react";
 import ProductDetailsAd from "../../components/Ads/ProductDetailsAd/ProductDetailsAd";
+import ReactPlayer from 'react-player/lazy'
 
 const ProductDetails = () => {
     const { user } = useContext(AuthContext);
@@ -168,8 +169,18 @@ const ProductDetails = () => {
                 </div>
             </div>
 
+            <div className="flex justify-center items-center rounded-lg shadow border p-2 my-5">
+                <div>
+                    <ReactPlayer
+                        controls={true}
+                        url='https://youtu.be/5zU1qNYR2cw?si=jU-EfDSGQJ2YRft3'
+                    />
+                </div>
+            </div>
+
+
             {/* Description */}
-            <div className="my-10 bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow">
+            <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow">
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Product Description</h3>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{product.description}</p>
             </div>
