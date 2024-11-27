@@ -89,18 +89,20 @@ const Header = () => {
                         </div>
 
                         <form className="w-96" onSubmit={handleSearchSubmit}>
-                            <div className="flex items-center border border-primary rounded overflow-hidden">
+                            <div
+                                className="flex items-center border border-secondary hover:border-primary focus-within:border-primary transition-all duration-300 ease-in-out rounded overflow-hidden shadow-sm focus-within:shadow-md"
+                            >
                                 <input
                                     type="text"
                                     placeholder="Search for items..."
-                                    className="px-5 w-full outline-none text-sm h-10 border-none focus:ring-0"
+                                    className="px-5 w-full outline-none text-sm h-10 border-none focus:ring-0 transition-all duration-300 ease-in-out"
                                     value={searchValue}
                                     onChange={handleSearchChange}
                                     required
                                 />
                                 <button
                                     type="submit"
-                                    className="px-3 bg-white text-gray-500 outline-none h-10 flex items-center justify-center"
+                                    className="px-3 bg-white text-gray-500 outline-none h-10 flex items-center justify-center hover:text-primary transition-all duration-300 ease-in-out"
                                 >
                                     <MdOutlineSearch size={18} />
                                 </button>
