@@ -41,7 +41,7 @@ const promises = [
 const OurPromises = () => {
     return (
         <div className="my-container my-10">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 gap-5">
                 {promises.map((promise, index) => (
                     <div
                         key={index}
@@ -53,7 +53,7 @@ const OurPromises = () => {
                         </div>
 
                         {/* Title */}
-                        <h4 className="text-lg font-semibold text-[#3BB77E] mb-3">{promise.title}</h4>
+                        <h4 className="text-sm md:text-lg font-semibold text-[#3BB77E] mb-3">{promise.title}</h4>
 
                         {/* Description */}
                         <p className="text-xs text-[#3BB77E] leading-snug">{promise.description}</p>
