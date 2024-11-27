@@ -85,7 +85,7 @@ const Header = () => {
                     <div className="flex justify-between items-center">
 
                         <div>
-                            <Link to="/"><img className="w-[150px] h-[70px] object-contain" src={Logo} alt="Logo" /></Link>
+                            <Link to="/"><img className="w-[150px] h-[70px] object-cover" src={Logo} alt="Logo" /></Link>
                         </div>
 
                         <form className="w-96" onSubmit={handleSearchSubmit}>

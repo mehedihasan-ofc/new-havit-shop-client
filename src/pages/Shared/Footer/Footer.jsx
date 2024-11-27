@@ -21,7 +21,7 @@ const Footer = () => {
                     <img
                         src={Logo}
                         alt="Havit Shop Logo"
-                        className="w-32 h-auto mx-auto lg:mx-0"
+                        className="w-[150px] h-[70px] object-cover mx-auto lg:mx-0"
                     />
                     <p className="text-sm leading-relaxed text-center lg:text-left">
                         Discover the best deals and quality products curated just for you.
