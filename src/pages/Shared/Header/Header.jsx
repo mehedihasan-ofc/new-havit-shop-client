@@ -3,7 +3,7 @@ import { MdOutlineSearch } from "react-icons/md";
 import { PiShoppingCartSimpleLight } from "react-icons/pi";
 import { HiOutlineUser } from "react-icons/hi2";
 import { FaBars, FaXmark } from "react-icons/fa6";
-import { Avatar, Badge, Button, Collapse, Drawer, IconButton, Menu, MenuHandler, MenuItem, MenuList, Navbar, Typography } from "@material-tailwind/react";
+import { Avatar, Badge, Button, Collapse, Drawer, IconButton, List, ListItem, ListItemPrefix, Menu, MenuHandler, MenuItem, MenuList, Navbar, Typography } from "@material-tailwind/react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import BreakingMarquee from "../../../components/BreakingMarquee/BreakingMarquee";
 import Logo from "../../../assets/logo.png";
@@ -16,6 +16,7 @@ import Swal from "sweetalert2";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { FiShoppingCart } from "react-icons/fi";
 import { HiLogout } from "react-icons/hi";
+import { IoCloseOutline } from "react-icons/io5";
 
 const Header = () => {
     const { user, logOut } = useContext(AuthContext);
@@ -25,6 +26,8 @@ const Header = () => {
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const [openNav, setOpenNav] = useState(false);
+
+    const closeDrawer = () => setOpenNav(false);
 
     useEffect(() => {
         window.addEventListener(
@@ -68,28 +71,7 @@ const Header = () => {
 
                     <div className="flex justify-between items-center">
 
-                        <Link to="/"><img className="w-20 md:w-36 h-auto object-cover" src={Logo} alt="Logo" /></Link>
-
-                        {/* <form className="hidden md:block w-96" onSubmit={handleSearchSubmit}>
-                            <div
-                                className="flex items-center border hover:border-primary focus-within:border-primary transition-all duration-300 ease-in-out rounded overflow-hidden shadow-sm focus-within:shadow-md"
-                            >
-                                <input
-                                    type="text"
-                                    placeholder="Search for items..."
-                                    className="px-5 w-full outline-none text-sm h-10 border-none focus:ring-0 transition-all duration-300 ease-in-out"
-                                    value={searchValue}
-                                    onChange={handleSearchChange}
-                                    required
-                                />
-                                <button
-                                    type="submit"
-                                    className="px-3 bg-white text-gray-500 outline-none h-10 flex items-center justify-center hover:text-primary transition-all duration-300 ease-in-out"
-                                >
-                                    <MdOutlineSearch size={18} />
-                                </button>
-                            </div>
-                        </form> */}
+                        <Link to="/"><img className="w-28 md:w-36 h-auto object-cover" src={Logo} alt="Logo" /></Link>
 
                         <form className="hidden md:block w-96"
                             onSubmit={(e) => {
@@ -209,35 +191,131 @@ const Header = () => {
             </div>
 
             {/* Navigation for Mobile */}
-            <Drawer open={openNav} onClose={() => setOpenNav(!openNav)} className="p-4">
-                
-                <div className="mb-6 flex items-center justify-between">
-                    <Typography variant="h5" color="blue-gray">
-                        Havit Shop
-                    </Typography>
-                    <IconButton variant="text" color="blue-gray" onClick={() => setOpenNav(!openNav)}>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={2}
-                            stroke="currentColor"
-                            className="h-5 w-5"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M6 18L18 6M6 6l12 12"
-                            />
-                        </svg>
+            <Drawer open={openNav} onClose={closeDrawer} className="p-4 lg:hidden text-textColor">
+                <div className="flex items-center justify-between">
+                    <img className="w-28 md:w-36 h-auto object-cover" src={Logo} alt="Logo" />
+
+                    <IconButton size="sm" variant="text" className="rounded-full" onClick={closeDrawer}>
+                        <IoCloseOutline size={20} />
                     </IconButton>
                 </div>
-                
-                <Collapse open={openNav}>
-                    <NavList />
-                </Collapse>
 
+                <hr className="mb-2 border-blue-gray-50" />
+
+                <List className="font-body p-0">
+                    {/* Home */}
+                    <Link to="/">
+                        <ListItem className="rounded-none hover:text-primary hover:bg-secondary p-2" onClick={closeDrawer}>
+                            Home
+                        </ListItem>
+                    </Link>
+
+                    {/* Categories */}
+                    <Link to="/categories/all">
+                        <ListItem className="rounded-none hover:text-primary hover:bg-secondary p-2" onClick={closeDrawer}>
+                            Categories
+                        </ListItem>
+                    </Link>
+
+                    {/* Blog */}
+                    <Link to="/our-blog">
+                        <ListItem className="rounded-none hover:text-primary hover:bg-secondary p-2" onClick={closeDrawer}>
+                            Blog
+                        </ListItem>
+                    </Link>
+
+                    {/* About Us */}
+                    <Link to="/about">
+                        <ListItem className="rounded-none hover:text-primary hover:bg-secondary p-2" onClick={closeDrawer}>
+                            About Us
+                        </ListItem>
+                    </Link>
+
+                    {/* Contact Us */}
+                    <Link to="/contact">
+                        <ListItem className="rounded-none hover:text-primary hover:bg-secondary p-2" onClick={closeDrawer}>
+                            Contact Us
+                        </ListItem>
+                    </Link>
+                </List>
+
+                <hr className="my-2 border-blue-gray-50" />
+
+                {
+                    user ? (
+                        role === "admin" ? (
+                            <div className="text-center py-2 bg-primary text-white shadow-md">
+                                <p className="font-bold">Welcome, Admin!</p>
+                            </div>
+                        ) : (
+                            <>
+                                <List className="font-body p-0">
+                                    <Link to="/profile/dashboard">
+                                        <ListItem
+                                            className="rounded-none hover:text-primary hover:bg-secondary p-2"
+                                            onClick={closeDrawer}
+                                        >
+                                            My Dashboard
+                                        </ListItem>
+                                    </Link>
+
+                                    <Link to="/profile/orders">
+                                        <ListItem
+                                            className="rounded-none hover:text-primary hover:bg-secondary p-2"
+                                            onClick={closeDrawer}
+                                        >
+                                            My Orders
+                                        </ListItem>
+                                    </Link>
+
+                                    <Link to="/profile/track-order">
+                                        <ListItem
+                                            className="rounded-none hover:text-primary hover:bg-secondary p-2"
+                                            onClick={closeDrawer}
+                                        >
+                                            Track Order
+                                        </ListItem>
+                                    </Link>
+
+                                    <ListItem
+                                        onClick={handleLogOut}
+                                        className="rounded-none hover:text-primary hover:bg-secondary p-2"
+                                    >
+                                        Sign Out
+                                    </ListItem>
+                                </List>
+                            </>
+                        )
+                    ) : (
+                        <>
+                            <Link to="/login">
+                                <ListItem
+                                    className="rounded-none hover:text-primary hover:bg-secondary p-2"
+                                    onClick={closeDrawer}
+                                >
+                                    Sign in
+                                </ListItem>
+                            </Link>
+
+                            <Link to="/register">
+                                <ListItem
+                                    className="rounded-none hover:text-primary hover:bg-secondary p-2"
+                                    onClick={closeDrawer}
+                                >
+                                    Sign up
+                                </ListItem>
+                            </Link>
+                        </>
+                    )
+                }
+
+                <hr className="my-2 border-blue-gray-50" />
+
+                <div className="p-2">
+                    <h6>Follow Us</h6>
+                </div>
             </Drawer>
+
 
             {/* Navigation for Desktop */}
             <div className="hidden lg:flex my-container items-center justify-center">
