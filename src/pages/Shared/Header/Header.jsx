@@ -129,7 +129,7 @@ const Header = () => {
                                                 <div className="cursor-pointer">
                                                     <div className="flex items-end gap-1">
                                                         <Avatar src={user?.photoURL || UserImg} alt={user?.displayName} size="xs" />
-                                                        <p className="font-serif text-xs">My Account</p>
+                                                        <p className="text-xs hidden md:block">My Account</p>
                                                     </div>
                                                 </div>
                                             </MenuHandler>
@@ -182,7 +182,7 @@ const Header = () => {
                                 onClick={() => setOpenNav(!openNav)}
                                 className="lg:hidden focus:outline-none"
                             >
-                                {openNav ? <FaXmark size={20} /> : <FaBars size={20} />}
+                                {openNav ? <FaXmark size={22} /> : <FaBars size={22} />}
                             </button>
                         </div>
 
