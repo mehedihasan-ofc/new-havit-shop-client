@@ -25,26 +25,26 @@ const ProductCard = ({ product }) => {
     const discountPercentage = Math.round(((product.regularPrice - product.price) / product.regularPrice) * 100);
 
     const handleAddToCart = async (productId) => {
-        
+
         if (role === "admin") {
             toast.info("Admins cannot add products to the cart.", {
                 autoClose: 1000,
             });
             return; // Prevent further execution
         }
-    
+
         if (user && user.email) {
             const newCart = {
                 productId,
                 quantity: 1,
                 userEmail: user.email,
             };
-    
+
             setLoading(true);
-    
+
             try {
                 const response = await axios.post("https://new-havit-shop-server.vercel.app/carts", newCart);
-    
+
                 if (response.status === 200) {
                     refetch();
                     toast.success(`${product?.name} added to cart!`, {
@@ -75,7 +75,7 @@ const ProductCard = ({ product }) => {
                 }
             });
         }
-    };    
+    };
 
     return (
         <div className="relative border rounded-lg shadow hover:shadow-md transition-all duration-300 group font-sans">
@@ -103,7 +103,7 @@ const ProductCard = ({ product }) => {
                     {product.name}
                 </h5>
 
-                <div className="flex items-center gap-2 mt-1 mb-2">
+                <div className="flex items-center gap-2 mt-1">
                     <Rating
                         style={{ maxWidth: 70 }}
                         value={product?.rating}
@@ -114,31 +114,31 @@ const ProductCard = ({ product }) => {
                     </div>
                 </div>
 
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center my-2">
                     <div className="flex items-baseline space-x-2">
                         <span className="text-base font-bold text-primary">৳{product.price.toFixed(2)}</span>
                         {hasDiscount && (
                             <span className="text-sm text-gray-400 line-through">৳{product.regularPrice.toFixed(2)}</span>
                         )}
                     </div>
-
-                    <Button
-                        onClick={() => handleAddToCart(product?._id)}
-                        loading={loading}
-                        variant="filled"
-                        size="sm"
-                        className="flex items-center gap-2 rounded bg-primary py-2 px-3 capitalize font-medium text-xs"
-                    >
-                        {loading ? (
-                            <span>Wait</span>
-                        ) : (
-                            <>
-                                <BsCartPlus size={14} />
-                                Add
-                            </>
-                        )}
-                    </Button>
                 </div>
+
+                <Button
+                    onClick={() => handleAddToCart(product?._id)}
+                    loading={loading}
+                    variant="filled"
+                    size="sm"
+                    className="w-full flex items-center justify-center gap-2 rounded bg-primary py-2 px-3 capitalize font-medium text-xs"
+                >
+                    {loading ? (
+                        <span>Wait</span>
+                    ) : (
+                        <>
+                            <BsCartPlus size={14} />
+                            Add
+                        </>
+                    )}
+                </Button>
             </div>
         </div>
     );
