@@ -3,7 +3,7 @@ import { MdOutlineSearch } from "react-icons/md";
 import { PiShoppingCartSimpleLight } from "react-icons/pi";
 import { HiOutlineUser } from "react-icons/hi2";
 import { FaBars, FaXmark } from "react-icons/fa6";
-import { Avatar, Badge, Button, Collapse, Drawer, IconButton, List, ListItem, ListItemPrefix, Menu, MenuHandler, MenuItem, MenuList, Navbar, Typography } from "@material-tailwind/react";
+import { Avatar, Badge, Drawer, IconButton, List, ListItem, Menu, MenuHandler, MenuItem, MenuList, Navbar, Typography } from "@material-tailwind/react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import BreakingMarquee from "../../../components/BreakingMarquee/BreakingMarquee";
 import Logo from "../../../assets/logo.png";
@@ -308,12 +308,6 @@ const Header = () => {
                         </>
                     )
                 }
-
-                <hr className="my-2 border-blue-gray-50" />
-
-                <div className="p-2">
-                    <h6>Follow Us</h6>
-                </div>
             </Drawer>
 
 
