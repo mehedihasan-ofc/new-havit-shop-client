@@ -48,7 +48,7 @@ const NavListMenu = ({ navListMenuItems }) => {
                 <MenuHandler>
                     <Typography as="div" variant="small" className="font-medium">
                         <ListItem
-                            className="px-3 py-2 rounded-none hover:text-primary hover:bg-secondary focus:text-primary active:text-primary font-normal text-base flex items-center justify-between gap-1 font-medium text-sm"
+                            className="px-3 py-2 rounded-none hover:text-primary hover:bg-secondary focus:text-primary active:text-primary flex items-center justify-between gap-1 font-medium text-sm"
                             selected={isMenuOpen || isMobileMenuOpen}
                             onClick={() => setIsMobileMenuOpen((cur) => !cur)}
                         >
