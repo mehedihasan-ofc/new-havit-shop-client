@@ -1,21 +1,30 @@
 import { useContext, useEffect, useState } from "react";
 import { MdOutlineSearch } from "react-icons/md";
+import Logo from "../../../assets/logo.png";
+import { Avatar, Badge, Collapse, IconButton, Navbar } from "@material-tailwind/react";
+import NavList from "../../../components/NavbarWithMegaMenu/NavList";
+import { FaBars, FaXmark } from "react-icons/fa6";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../provider/AuthProvider";
 import { PiShoppingCartSimpleLight } from "react-icons/pi";
 import { HiOutlineUser } from "react-icons/hi2";
-import { FaBars, FaXmark } from "react-icons/fa6";
-import { Avatar, Badge, Button, Collapse, Drawer, IconButton, Menu, MenuHandler, MenuItem, MenuList, Navbar, Typography } from "@material-tailwind/react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import BreakingMarquee from "../../../components/BreakingMarquee/BreakingMarquee";
-import Logo from "../../../assets/logo.png";
-import UserImg from "../../../assets/user.jpg";
-import useCart from "../../../hooks/useCart";
-import { AuthContext } from "../../../provider/AuthProvider";
-import NavList from "../../../components/NavbarWithMegaMenu/NavList";
-import useRole from "../../../hooks/useRole";
-import Swal from "sweetalert2";
+
+import {
+    Menu,
+    MenuHandler,
+    MenuList,
+    MenuItem,
+    Typography,
+} from "@material-tailwind/react";
+
 import { LuLayoutDashboard } from "react-icons/lu";
 import { FiShoppingCart } from "react-icons/fi";
 import { HiLogout } from "react-icons/hi";
+import Swal from "sweetalert2";
+import UserImg from "../../../assets/user.jpg";
+import BreakingMarquee from "../../../components/BreakingMarquee/BreakingMarquee";
+import useCart from "../../../hooks/useCart";
+import useRole from "../../../hooks/useRole";
 
 const Header = () => {
     const { user, logOut } = useContext(AuthContext);
@@ -24,7 +33,19 @@ const Header = () => {
 
     const { pathname } = useLocation();
     const navigate = useNavigate();
+    const [searchValue, setSearchValue] = useState("");
     const [openNav, setOpenNav] = useState(false);
+
+    const handleSearchChange = (event) => {
+        setSearchValue(event.target.value);
+    };
+
+    const handleSearchSubmit = (event) => {
+        event.preventDefault();
+        if (searchValue.trim()) {
+            navigate(`/search?q=${encodeURIComponent(searchValue)}`);
+        }
+    };    
 
     useEffect(() => {
         window.addEventListener(
@@ -58,19 +79,18 @@ const Header = () => {
     }
 
     return (
-        <div className="border-b bg-white">
-            {/* Breaking Marquee */}
+        <div className="border-b">
             {["/", "/our-blog", "/about", "/contact"].includes(pathname) && <BreakingMarquee />}
-
-            {/* Top Header */}
+            {/* Header Top */}
             <div className="border-b py-1">
                 <div className="my-container">
-
                     <div className="flex justify-between items-center">
 
-                        <Link to="/"><img className="w-20 md:w-36 h-auto object-cover" src={Logo} alt="Logo" /></Link>
+                        <div>
+                            <Link to="/"><img className="w-[150px] h-[70px] object-cover" src={Logo} alt="Logo" /></Link>
+                        </div>
 
-                        {/* <form className="hidden md:block w-96" onSubmit={handleSearchSubmit}>
+                        <form className="w-96" onSubmit={handleSearchSubmit}>
                             <div
                                 className="flex items-center border hover:border-primary focus-within:border-primary transition-all duration-300 ease-in-out rounded overflow-hidden shadow-sm focus-within:shadow-md"
                             >
@@ -89,34 +109,10 @@ const Header = () => {
                                     <MdOutlineSearch size={18} />
                                 </button>
                             </div>
-                        </form> */}
-
-                        <form className="hidden md:block w-96"
-                            onSubmit={(e) => {
-                                e.preventDefault();
-                                navigate(`/search?q=${encodeURIComponent(e.target[0].value)}`);
-                            }}
-                        >
-                            <div
-                                className="flex items-center border hover:border-primary focus-within:border-primary transition-all duration-300 ease-in-out rounded overflow-hidden shadow-sm focus-within:shadow-md"
-                            >
-                                <input
-                                    type="text"
-                                    placeholder="Search for items..."
-                                    className="px-5 w-full outline-none text-sm h-10 border-none focus:ring-0 transition-all duration-300 ease-in-out"
-                                    required
-                                />
-                                <button
-                                    type="submit"
-                                    className="px-3 bg-white text-gray-500 outline-none h-10 flex items-center justify-center hover:text-primary transition-all duration-300 ease-in-out"
-                                >
-                                    <MdOutlineSearch size={18} />
-                                </button>
-                            </div>
                         </form>
 
 
-                        <div className="flex items-center justify-center gap-5 md:gap-8">
+                        <div className="flex items-center gap-8">
 
                             <div className="flex items-end gap-1 font-serif cursor-pointer">
                                 {role === "admin" ? (
@@ -128,7 +124,7 @@ const Header = () => {
                                         <Badge className="bg-primary min-w-[20px] min-h-[20px]" content={cart?.length} overlap="circular">
                                             <PiShoppingCartSimpleLight size={28} />
                                         </Badge>
-                                        <p className="text-xs hidden md:block">Cart</p>
+                                        <p className="text-xs">Cart</p>
                                     </div>
                                 )}
                             </div>
@@ -188,67 +184,43 @@ const Header = () => {
                                         <div>
                                             <div className="flex items-end gap-1">
                                                 <HiOutlineUser size={26} />
-                                                <p className="text-xs hidden md:block">Sign In</p>
+                                                <p className="font-serif text-xs">Sign In</p>
                                             </div>
                                         </div>
                                     </Link>
                                 )
                             }
-
-                            {/* Hamburger Menu */}
-                            <button
-                                onClick={() => setOpenNav(!openNav)}
-                                className="lg:hidden focus:outline-none"
-                            >
-                                {openNav ? <FaXmark size={20} /> : <FaBars size={20} />}
-                            </button>
                         </div>
 
                     </div>
                 </div>
             </div>
 
-            {/* Navigation for Mobile */}
-            <Drawer open={openNav} onClose={() => setOpenNav(!openNav)} className="p-4">
-                
-                <div className="mb-6 flex items-center justify-between">
-                    <Typography variant="h5" color="blue-gray">
-                        Havit Shop
-                    </Typography>
-                    <IconButton variant="text" color="blue-gray" onClick={() => setOpenNav(!openNav)}>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={2}
-                            stroke="currentColor"
-                            className="h-5 w-5"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M6 18L18 6M6 6l12 12"
-                            />
-                        </svg>
+            {/* Header Bottom */}
+            <Navbar className="px-0 py-1 shadow-none">
+                <div className="flex items-center justify-center">
+
+                    <div className="hidden lg:block">
+                        <NavList />
+                    </div>
+
+                    <IconButton
+                        variant="text"
+                        color="blue-gray"
+                        className="lg:hidden"
+                        onClick={() => setOpenNav(!openNav)}
+                    >
+                        {openNav ? (
+                            <FaXmark className="h-6 w-6" />
+                        ) : (
+                            <FaBars className="h-6 w-6" />
+                        )}
                     </IconButton>
                 </div>
-                
                 <Collapse open={openNav}>
                     <NavList />
                 </Collapse>
-
-            </Drawer>
-
-            {/* Navigation for Desktop */}
-            <div className="hidden lg:flex my-container items-center justify-center">
-                <Navbar className="px-0 py-1 shadow-none bg-transparent w-full">
-                    <div className="flex items-center justify-center">
-                        <div className="hidden lg:flex">
-                            <NavList />
-                        </div>
-                    </div>
-                </Navbar>
-            </div>
+            </Navbar>
         </div>
     );
 };
