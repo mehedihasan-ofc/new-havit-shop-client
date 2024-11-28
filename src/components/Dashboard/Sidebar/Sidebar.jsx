@@ -74,7 +74,7 @@ const Sidebar = () => {
         <Card className="h-screen rounded-none shadow p-4 overflow-y-auto">
 
             <div className="mb-2">
-                <Link to="/"><img src={Logo} alt="brand" className="w-[150px] h-[70px] object-contain mx-auto" /></Link>
+                <Link to="/"><img src={Logo} alt="brand" className="w-[150px] h-[70px] object-cover mx-auto" /></Link>
             </div>
 
             <hr className="border-blue-gray-50" />

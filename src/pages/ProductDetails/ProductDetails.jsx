@@ -169,14 +169,20 @@ const ProductDetails = () => {
                 </div>
             </div>
 
-            <div className="flex justify-center items-center rounded-lg shadow border p-2 my-5">
-                <div>
-                    <ReactPlayer
-                        controls={true}
-                        url='https://youtu.be/5zU1qNYR2cw?si=jU-EfDSGQJ2YRft3'
-                    />
-                </div>
-            </div>
+            {
+                product?.videoLink && (
+                    <div className="rounded-lg shadow border p-2 my-5">
+                        <div className="w-full h-96">
+                            <ReactPlayer
+                                controls={true}
+                                width='100%'
+                                height='100%'
+                                url={product?.videoLink}
+                            />
+                        </div>
+                    </div>
+                )
+            }
 
 
             {/* Description */}

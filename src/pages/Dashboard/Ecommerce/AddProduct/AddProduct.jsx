@@ -24,6 +24,7 @@ const AddProduct = () => {
         price: '',
         availableStock: '',
         rating: '',
+        videoLink: '',
         description: '',
         brand: '',
         madeIn: '',
@@ -78,6 +79,7 @@ const AddProduct = () => {
                 price: parseFloat(formData.price),
                 availableStock: parseInt(formData.availableStock, 10),
                 rating: parseFloat(formData.rating),
+                videoLink: formData.videoLink,
                 description: formData.description,
                 brand: formData.brand,
                 madeIn: formData.madeIn,   // Include new field
@@ -109,6 +111,7 @@ const AddProduct = () => {
                     price: '',
                     availableStock: '',
                     rating: '',
+                    videoLink: '',
                     description: '',
                     brand: '',
                     images: [],
@@ -322,6 +325,18 @@ const AddProduct = () => {
                                 required
                             />
                         </div>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Youtube Video Link</label>
+                        <input
+                            type="text"
+                            name="videoLink"
+                            placeholder="Enter youtube video link"
+                            value={formData.videoLink}
+                            onChange={handleChange}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                        />
                     </div>
 
                     <div>
