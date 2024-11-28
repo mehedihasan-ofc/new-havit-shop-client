@@ -202,7 +202,7 @@ const Header = () => {
 
                 <hr className="mb-2 border-blue-gray-50" />
 
-                <List className="font-body p-0">
+                <List className="font-body">
                     {/* Home */}
                     <Link to="/">
                         <ListItem className="rounded-none hover:text-primary hover:bg-secondary p-2" onClick={closeDrawer}>
@@ -217,10 +217,22 @@ const Header = () => {
                         </ListItem>
                     </Link>
 
+                    <Link to="/products/all">
+                        <ListItem className="rounded-none hover:text-primary hover:bg-secondary p-2" onClick={closeDrawer}>
+                            All Products
+                        </ListItem>
+                    </Link>
+
+                    <Link to="/">
+                        <ListItem className="rounded-none hover:text-primary hover:bg-secondary p-2" onClick={closeDrawer}>
+                            Discounted Products
+                        </ListItem>
+                    </Link>
+
                     {/* Blog */}
                     <Link to="/our-blog">
                         <ListItem className="rounded-none hover:text-primary hover:bg-secondary p-2" onClick={closeDrawer}>
-                            Blog
+                            Our Blog
                         </ListItem>
                     </Link>
 
@@ -249,7 +261,7 @@ const Header = () => {
                             </div>
                         ) : (
                             <>
-                                <List className="font-body p-0">
+                                <List className="font-body">
                                     <Link to="/profile/dashboard">
                                         <ListItem
                                             className="rounded-none hover:text-primary hover:bg-secondary p-2"
@@ -278,7 +290,10 @@ const Header = () => {
                                     </Link>
 
                                     <ListItem
-                                        onClick={handleLogOut}
+                                        onClick={() => {
+                                            closeDrawer();
+                                            handleLogOut();
+                                        }}
                                         className="rounded-none hover:text-primary hover:bg-secondary p-2"
                                     >
                                         Sign Out
@@ -288,23 +303,25 @@ const Header = () => {
                         )
                     ) : (
                         <>
-                            <Link to="/login">
-                                <ListItem
-                                    className="rounded-none hover:text-primary hover:bg-secondary p-2"
-                                    onClick={closeDrawer}
-                                >
-                                    Sign in
-                                </ListItem>
-                            </Link>
+                            <List className="font-body">
+                                <Link to="/login">
+                                    <ListItem
+                                        className="rounded-none hover:text-primary hover:bg-secondary p-2"
+                                        onClick={closeDrawer}
+                                    >
+                                        Sign In
+                                    </ListItem>
+                                </Link>
 
-                            <Link to="/register">
-                                <ListItem
-                                    className="rounded-none hover:text-primary hover:bg-secondary p-2"
-                                    onClick={closeDrawer}
-                                >
-                                    Sign up
-                                </ListItem>
-                            </Link>
+                                <Link to="/register">
+                                    <ListItem
+                                        className="rounded-none hover:text-primary hover:bg-secondary p-2"
+                                        onClick={closeDrawer}
+                                    >
+                                        Sign Up
+                                    </ListItem>
+                                </Link>
+                            </List>
                         </>
                     )
                 }
