@@ -1,6 +1,9 @@
 import { Button, Dialog, DialogBody } from "@material-tailwind/react";
+import { useContext } from "react";
+import { AuthContext } from "../../../provider/AuthProvider";
 
 const WelcomeModal = ({ open, handleOpen, welcomeData }) => {
+    const { user } = useContext(AuthContext);
 
     return (
         <Dialog
@@ -10,9 +13,11 @@ const WelcomeModal = ({ open, handleOpen, welcomeData }) => {
         >
             {/* Modal Body */}
             <DialogBody className="p-0">
-                {/* Top Section - Text & Close Icon */}
+                {/* Top Section - Welcome Text & Close Icon */}
                 <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 bg-gray-50">
-                    <h2 className="text-lg font-bold text-primary">Deal of the Day</h2>
+                    
+                <h2 className="text-lg font-bold text-primary">{user?.displayName ? `Welcome, ${user.displayName}!` : "Welcome, Guest!"}</h2>
+                    
                     <button
                         onClick={handleOpen}
                         className="text-gray-400 hover:text-gray-600 focus:outline-none"
