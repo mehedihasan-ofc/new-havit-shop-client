@@ -3,13 +3,13 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
 import 'swiper/css';
-import 'swiper/css/pagination';
 
 // import required modules
-import { Autoplay } from 'swiper/modules';
+import { Autoplay, Navigation } from 'swiper/modules';
 
 import useProducts from '../../../hooks/useProducts';
 import ProductCard from '../../../components/Card/ProductCard/ProductCard';
+import { IoIosArrowRoundBack, IoIosArrowRoundForward } from 'react-icons/io';
 
 const FeaturedProducts = () => {
 
@@ -25,26 +25,57 @@ const FeaturedProducts = () => {
                     <h4 className="text-base md:text-xl font-sans font-bold">Featured Products</h4>
                 </div>
 
-                <div className='mt-5'>
-                    <Swiper
-                        slidesPerView={3}
-                        spaceBetween={30}
-                        autoplay={{
-                            delay: 3600,
-                            disableOnInteraction: false,
-                          }}
-                        pagination={{
-                            clickable: true,
-                        }}
-                        modules={[Autoplay]}
-                        loop={enableLoopMode}
-                    >
-                        {products.map(product => (
-                            <SwiperSlide key={product._id}>
-                                <ProductCard product={product} />
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
+                <div className='relative mt-5'>
+
+                    <div className="absolute top-1/2 -left-4 transform -translate-y-1/2 z-20">
+                        <button
+                            className="swiper-button-prev bg-white shadow-lg rounded-full p-1 hover:bg-gray-100 transition"
+                            aria-label="Previous"
+                        >
+                            <IoIosArrowRoundBack size={20} />
+                        </button>
+                    </div>
+                    <div className="absolute top-1/2 -right-4 transform -translate-y-1/2 z-20">
+                        <button
+                            className="swiper-button-next bg-white shadow-lg rounded-full p-1 hover:bg-gray-100 transition"
+                            aria-label="Next"
+                        >
+                            <IoIosArrowRoundForward size={20} />
+                        </button>
+                    </div>
+
+
+                    <div className='px-5'>
+                        <Swiper
+                            slidesPerView={1}
+                            spaceBetween={20}
+                            autoplay={{
+                                delay: 3600,
+                                disableOnInteraction: false,
+                            }}
+                            pagination={{
+                                clickable: true,
+                            }}
+                            navigation={{
+                                nextEl: '.swiper-button-next',
+                                prevEl: '.swiper-button-prev',
+                            }}
+                            modules={[Autoplay, Navigation]}
+                            loop={enableLoopMode}
+                            breakpoints={{
+                                640: {
+                                    slidesPerView: 3,
+                                    spaceBetween: 30,
+                                },
+                            }}
+                        >
+                            {products.map(product => (
+                                <SwiperSlide key={product._id}>
+                                    <ProductCard product={product} />
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+                    </div>
                 </div>
             </div>
 
