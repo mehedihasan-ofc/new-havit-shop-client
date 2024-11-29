@@ -33,46 +33,43 @@ const Categories = () => {
             </div>
 
             <div className='mt-5'>
-                <>
-                    <Swiper
-                        slidesPerView={2}
-                        spaceBetween={10}
-                        pagination={{
-                            clickable: true,
-                        }}
-                        loop={enableLoopMode}
-                        breakpoints={{
-                            640: {
-                                slidesPerView: 3,
-                                spaceBetween: 20,
-                            },
-                            768: {
-                                slidesPerView: 4,
-                                spaceBetween: 40,
-                            },
-                            1024: {
-                                slidesPerView: 7,
-                                spaceBetween: 30,
-                            },
-                        }}
-                        className="mySwiper"
-                    >
-                        {
-                            categories?.map(category => (
-                                <SwiperSlide key={category?._id}>
-                                    <Link to={`/products/categories/${category?._id}`}>
-                                        <div className='h-28 text-center cursor-pointer border border-[#F4F6FA] hover:border-primary rounded-lg px-2 py-4 transition duration-300'
-                                            style={{ backgroundColor: getRandomColor() }}
-                                        >
-                                            <img className='w-14 mx-auto' src={category?.image} alt={category?.name} />
-                                            <p className='text-xs font-semibold font-sans mt-1'>{category?.name}</p>
-                                        </div>
-                                    </Link>
-                                </SwiperSlide>
-                            ))
-                        }
-                    </Swiper>
-                </>
+                <Swiper
+                    slidesPerView={2}
+                    spaceBetween={10}
+                    pagination={{
+                        clickable: true,
+                    }}
+                    loop={enableLoopMode}
+                    breakpoints={{
+                        640: {
+                            slidesPerView: 3,
+                            spaceBetween: 20,
+                        },
+                        768: {
+                            slidesPerView: 4,
+                            spaceBetween: 40,
+                        },
+                        1024: {
+                            slidesPerView: 5,
+                            spaceBetween: 50,
+                        },
+                    }}
+                >
+                    {
+                        categories?.map(category => (
+                            <SwiperSlide key={category?._id}>
+                                <Link to={`/products/categories/${category?._id}`}>
+                                    <div className='h-28 text-center cursor-pointer border border-[#F4F6FA] hover:border-primary rounded-lg px-2 py-4 transition duration-300'
+                                        style={{ backgroundColor: getRandomColor() }}
+                                    >
+                                        <img className='w-14 mx-auto' src={category?.image} alt={category?.name} />
+                                        <p className='text-xs font-semibold font-sans mt-1'>{category?.name}</p>
+                                    </div>
+                                </Link>
+                            </SwiperSlide>
+                        ))
+                    }
+                </Swiper>
             </div>
         </div>
     );

@@ -78,7 +78,7 @@ const ProductCard = ({ product }) => {
     };
 
     return (
-        <div className="relative border rounded-lg shadow hover:shadow-md transition-all duration-300 group font-sans">
+        <div className="relative border rounded-lg shadow hover:shadow-md transition-all duration-300 group font-sans bg-white">
             <Link to={`/products/product-details/${product?._id}`}>
                 <div className="relative overflow-hidden rounded-lg h-44">
                     <div className="pl-4 pt-4 pr-4 pb-2">
@@ -134,7 +134,7 @@ const ProductCard = ({ product }) => {
                         <span>Wait</span>
                     ) : (
                         <>
-                            <BsCartPlus size={14} />
+                            <BsCartPlus size={16} />
                             Add
                         </>
                     )}
