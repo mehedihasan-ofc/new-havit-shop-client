@@ -1,25 +1,26 @@
 import { useQuery } from "@tanstack/react-query";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import {
     Card,
     CardHeader,
-    Input,
     Typography,
     CardBody,
-    Chip,
-    Avatar,
+    Button,
 } from "@material-tailwind/react";
-import UserImg from "../../../../assets/user.jpg";
 import { formattedDate } from "../../../../utils";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import { DownloadTableExcel } from 'react-export-table-to-excel';
+import { useRef } from "react";
+import { CgSoftwareDownload } from "react-icons/cg";
+import MySpinner from "../../../../components/Shared/MySpinner/MySpinner";
 
-const TABLE_HEAD = ["Name", "Email", "Registration"];
+const TABLE_HEAD = ["#", "Name", "Email", "Mobile", "Address", "Registered"];
 
 const Customers = () => {
 
     const [axiosSecure] = useAxiosSecure();
+    const tableRef = useRef(null);
 
-    const { data: customers = [] } = useQuery({
+    const { data: customers = [], isLoading } = useQuery({
         queryKey: ['customers'],
         queryFn: async () => {
             const res = await axiosSecure.get('/users/customers');
@@ -27,10 +28,13 @@ const Customers = () => {
         }
     });
 
+    if(isLoading) return <MySpinner />
+
     return (
         <Card className="h-full w-full">
             <CardHeader floated={false} shadow={false} className="rounded-none">
-                <div className="flex items-center justify-between gap-8">
+                <div className="flex flex-col justify-between gap-8 md:flex-row md:items-center">
+
                     <div>
                         <Typography variant="h5" color="blue-gray">
                             Customer List ({customers?.length})
@@ -40,18 +44,23 @@ const Customers = () => {
                         </Typography>
                     </div>
 
-                    {/* <div className="w-full md:w-72">
-                        <Input
-                            label="Search Customer"
-                            color="teal"
-                            icon={<MagnifyingGlassIcon color="teal" className="h-5 w-5" />}
-                        />
-                    </div> */}
+                    <div>
+                        <DownloadTableExcel
+                            filename="users table"
+                            sheet="users"
+                            currentTableRef={tableRef.current}
+                        >
+                            <Button className="flex items-center gap-1 rounded-none bg-primary font-medium">
+                                <CgSoftwareDownload size={20} />
+                                Download .Xls File
+                            </Button>
+                        </DownloadTableExcel>
+                    </div>
                 </div>
             </CardHeader>
 
             <CardBody className="overflow-scroll px-0">
-                <table className="w-full min-w-max table-auto text-left">
+                <table ref={tableRef} className="w-full min-w-max table-auto text-left">
                     <thead>
                         <tr>
                             {TABLE_HEAD.map((head) => (
@@ -72,7 +81,7 @@ const Customers = () => {
                     </thead>
                     <tbody>
                         {customers.map(
-                            ({ _id, fullName, email, createdAt, status }, index) => {
+                            ({ _id, fullName, email, billingDetails, createdAt }, index) => {
                                 const isLast = index === customers.length - 1;
                                 const classes = isLast
                                     ? "p-4"
@@ -80,18 +89,27 @@ const Customers = () => {
 
                                 return (
                                     <tr key={_id}>
+
                                         <td className={classes}>
-                                            <div className="flex items-center gap-3">
-                                                <Avatar src={UserImg} alt={fullName} size="sm" />
-                                                <Typography
-                                                    variant="small"
-                                                    color="blue-gray"
-                                                    className="font-normal"
-                                                >
-                                                    {fullName}
-                                                </Typography>
-                                            </div>
+                                            <Typography
+                                                variant="small"
+                                                color="blue-gray"
+                                                className="font-normal"
+                                            >
+                                                {index + 1}
+                                            </Typography>
                                         </td>
+
+                                        <td className={classes}>
+                                            <Typography
+                                                variant="small"
+                                                color="blue-gray"
+                                                className="font-normal"
+                                            >
+                                                {fullName}
+                                            </Typography>
+                                        </td>
+
                                         <td className={classes}>
                                             <Typography
                                                 variant="small"
@@ -101,16 +119,29 @@ const Customers = () => {
                                                 {email}
                                             </Typography>
                                         </td>
-                                        {/* <td className={classes}>
-                                            <div className="w-max">
-                                                <Chip
-                                                    variant="ghost"
-                                                    size="sm"
-                                                    value={status}
-                                                    color="green"
-                                                />
-                                            </div>
-                                        </td> */}
+
+                                        <td className={classes}>
+                                            <Typography
+                                                variant="small"
+                                                color="blue-gray"
+                                                className="font-normal"
+                                            >
+                                                {billingDetails?.phoneNumber || "No phone number provided"}
+                                            </Typography>
+                                        </td>
+
+                                        <td className={classes}>
+                                            <Typography
+                                                variant="small"
+                                                color="blue-gray"
+                                                className="font-normal"
+                                            >
+                                                {billingDetails?.address && billingDetails?.area && billingDetails?.city
+                                                    ? `${billingDetails?.address}, ${billingDetails?.area}, ${billingDetails?.city}`
+                                                    : "No address details available"}
+                                            </Typography>
+                                        </td>
+
                                         <td className={classes}>
                                             <Typography
                                                 variant="small"
