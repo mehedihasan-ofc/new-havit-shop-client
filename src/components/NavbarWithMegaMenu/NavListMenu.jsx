@@ -10,7 +10,7 @@ const NavListMenu = ({ navListMenuItems }) => {
     const renderItems = navListMenuItems.map(
         ({ _id, name, image }) => (
             <Link to={`/products/categories/${_id}`} key={_id}>
-                <MenuItem className="flex items-center gap-5 rounded-md border border-transparent hover:border-primary">
+                <MenuItem className="flex items-center gap-5 rounded-md hover:text-primary hover:bg-secondary">
                     
                     <div className="flex items-center justify-center rounded-lg">
                         <img className="w-10 h-10 object-contain" src={image} alt="" />

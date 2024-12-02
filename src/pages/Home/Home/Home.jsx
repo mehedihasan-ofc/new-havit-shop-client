@@ -7,6 +7,7 @@ import PopularProducts from "../PopularProducts/PopularProducts";
 import AvatarImg from "../../../assets/avator.jpg";
 import { FloatingWhatsApp } from 'react-floating-whatsapp';
 import FeaturedProducts from "../FeaturedProducts/FeaturedProducts";
+import SpecialOffers from "../SpecialOffers/SpecialOffers";
 
 const Home = () => {
     return (
@@ -15,6 +16,7 @@ const Home = () => {
             <NowOffers />
             <FeaturedProducts />
             <Categories />
+            <SpecialOffers />
             <PopularProducts />
             <OurPromises />
             <HomePageAd />
