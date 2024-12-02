@@ -53,6 +53,7 @@ import ProfileAddress from "../pages/Profile/ProfileAddress/ProfileAddress";
 import Welcome from "../pages/Dashboard/WebsiteContent/Welcome/Welcome";
 import NocManagement from "../pages/Dashboard/WebsiteContent/NocManagement/NocManagement";
 import SearchResults from "../pages/SearchResults/SearchResults";
+import DiscountedProducts from "../pages/DiscountedProducts/DiscountedProducts";
 
 const router = createBrowserRouter([
     {
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
             {
                 path: "/categories/all",
                 element: <AllCategories />
+            },
+            {
+                path: "/discounted-products",
+                element: <DiscountedProducts />
             },
             {
                 path: "/products/all",

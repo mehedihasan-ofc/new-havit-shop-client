@@ -2,69 +2,9 @@ import { Collapse, Drawer, IconButton, List, ListItem, Menu, MenuHandler, MenuIt
 import { IoCloseOutline } from "react-icons/io5";
 import Logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
-import { createElement, useState } from "react";
-
-import {
-    Bars4Icon,
-    ChevronDownIcon,
-    GlobeAmericasIcon,
-    NewspaperIcon,
-    PhoneIcon,
-    RectangleGroupIcon,
-    SquaresPlusIcon,
-    SunIcon,
-    TagIcon,
-    UserGroupIcon,
-} from "@heroicons/react/24/solid";
+import { useState } from "react";
+import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import useCategories from "../../hooks/useCategories";
-
-const navListMenuItems = [
-    {
-        title: "Products",
-        description: "Find the perfect solution for your needs.",
-        icon: SquaresPlusIcon,
-    },
-    {
-        title: "About Us",
-        description: "Meet and learn about our dedication",
-        icon: UserGroupIcon,
-    },
-    {
-        title: "Blog",
-        description: "Find the perfect solution for your needs.",
-        icon: Bars4Icon,
-    },
-    {
-        title: "Services",
-        description: "Learn how we can help you achieve your goals.",
-        icon: SunIcon,
-    },
-    {
-        title: "Support",
-        description: "Reach out to us for assistance or inquiries",
-        icon: GlobeAmericasIcon,
-    },
-    {
-        title: "Contact",
-        description: "Find the perfect solution for your needs.",
-        icon: PhoneIcon,
-    },
-    {
-        title: "News",
-        description: "Read insightful articles, tips, and expert opinions.",
-        icon: NewspaperIcon,
-    },
-    {
-        title: "Products",
-        description: "Find the perfect solution for your needs.",
-        icon: RectangleGroupIcon,
-    },
-    {
-        title: "Special Offers",
-        description: "Explore limited-time deals and bundles",
-        icon: TagIcon,
-    },
-];
 
 const MobileNavigation = ({ openNav, closeDrawer, handleLogOut, user, role }) => {
 
@@ -161,7 +101,7 @@ const MobileNavigation = ({ openNav, closeDrawer, handleLogOut, user, role }) =>
                     </ListItem>
                 </Link>
 
-                <Link to="/">
+                <Link to="/discounted-products">
                     <ListItem className="rounded-none hover:text-primary hover:bg-secondary p-2" onClick={closeDrawer}>
                         Discounted Products
                     </ListItem>

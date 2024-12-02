@@ -10,13 +10,14 @@ const NavList = () => {
     return (
         <List className="mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row md:items-center md:gap-3 lg:p-1 font-medium text-sm">
 
-            <Link to="/"><ListItem className="flex items-center gap-2 py-2 px-4 rounded-none hover:text-primary hover:bg-secondary focus:text-primary active:text-primary">Home</ListItem></Link>
+            <Link to="/"><ListItem className="flex items-center gap-2 py-2 px-3 rounded-none hover:text-primary hover:bg-secondary focus:text-primary active:text-primary">Home</ListItem></Link>
 
             <NavListMenu navListMenuItems={categories} />
 
-            <Link to="/our-blog"><ListItem className="flex items-center gap-2 py-2 px-4 rounded-none hover:text-primary hover:bg-secondary focus:text-primary active:text-primary">Blog</ListItem></Link>
-            <Link to="/about"><ListItem className="flex items-center gap-2 py-2 px-4 rounded-none hover:text-primary hover:bg-secondary focus:text-primary active:text-primary">About Us</ListItem></Link>
-            <Link to="/contact"><ListItem className="flex items-center gap-2 py-2 px-4 rounded-none hover:text-primary hover:bg-secondary focus:text-primary active:text-primary">Contact Us</ListItem></Link>
+            <Link to="/discounted-products"><ListItem className="flex items-center gap-2 py-2 px-3 rounded-none hover:text-primary hover:bg-secondary focus:text-primary active:text-primary">Discounted Products</ListItem></Link>
+            <Link to="/our-blog"><ListItem className="flex items-center gap-2 py-2 px-3 rounded-none hover:text-primary hover:bg-secondary focus:text-primary active:text-primary">Blog</ListItem></Link>
+            <Link to="/about"><ListItem className="flex items-center gap-2 py-2 px-3 rounded-none hover:text-primary hover:bg-secondary focus:text-primary active:text-primary">About Us</ListItem></Link>
+            <Link to="/contact"><ListItem className="flex items-center gap-2 py-2 px-3 rounded-none hover:text-primary hover:bg-secondary focus:text-primary active:text-primary">Contact Us</ListItem></Link>
         
         </List>
     );
