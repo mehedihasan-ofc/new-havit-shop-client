@@ -15,8 +15,10 @@ const CreateBlog = () => {
         image: null,
         imagePreview: null,
         readTime: '',
+        link: '',
         content: [{ _id: 1, title: '', description: '' }]
     });
+
     const fileInputRef = useRef(null);
     const [loading, setLoading] = useState(false);
 
@@ -48,6 +50,13 @@ const CreateBlog = () => {
         });
     };
 
+    const removeContentSection = (id) => {
+        setFormData({
+            ...formData,
+            content: formData.content.filter((section) => section._id !== id),
+        });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -64,9 +73,10 @@ const CreateBlog = () => {
                     category: formData.category,
                     image: imageLink,
                     readTime: formData.readTime,
+                    link: formData.link,
                     createdAt: new Date().toISOString(),
                     content: formData.content
-                };
+                };                
 
                 // Make an API call to send the data to the database
                 axiosSecure.post('/blog', newBlog)
@@ -86,6 +96,7 @@ const CreateBlog = () => {
                                 image: null,
                                 imagePreview: null,
                                 readTime: '',
+                                link: '',
                                 content: [{ _id: 1, title: '', description: '' }]
                             });
                             fileInputRef.current.value = null;
@@ -169,11 +180,34 @@ const CreateBlog = () => {
                         />
                     </div>
                 </div>
+
+                <div className="mb-4">
+                    <label className="block text-gray-700">External Link</label>
+                    <input
+                        type="url"
+                        name="link"
+                        value={formData.link}
+                        onChange={handleChange}
+                        placeholder="Enter a related link (optional)"
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                    />
+                </div>
+
                 <div className='text-end'>
                     <Button size='sm' type='button' onClick={addContentSection} className='rounded-none bg-primary font-medium'>Add Content Section</Button>
                 </div>
+
                 {formData.content.map((section, index) => (
-                    <div key={index} className="mb-4">
+                    <div key={section._id} className="mb-4 relative border p-3 rounded-md mt-2">
+                        {section._id !== 1 && (
+                            <button
+                                type="button"
+                                className="absolute top-2 right-2 text-red-500 hover:text-red-700"
+                                onClick={() => removeContentSection(section._id)}
+                            >
+                                ✕
+                            </button>
+                        )}
                         <label className="block text-gray-700">Content Section {index + 1}</label>
                         <input
                             type="text"
@@ -194,6 +228,7 @@ const CreateBlog = () => {
                         ></textarea>
                     </div>
                 ))}
+
                 <div className='flex justify-center items-center'>
                     <Button size='sm' type="submit" loading={loading} className='rounded-none bg-primary font-medium px-10'>Submit</Button>
                 </div>
