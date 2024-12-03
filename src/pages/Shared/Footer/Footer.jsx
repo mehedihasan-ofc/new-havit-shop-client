@@ -10,8 +10,10 @@ import { GrSend } from "react-icons/gr";
 import useLogo from "../../../hooks/useLogo";
 
 const Footer = () => {
-    const [logoData] = useLogo();
+    const [logoData, loading] = useLogo();
     const currentYear = new Date().getFullYear();
+
+    if(loading) return;
 
     return (
         <footer className="bg-secondary border-t border-gray-200 text-gray-800">
