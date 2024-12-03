@@ -8,12 +8,17 @@ import TiktokIcon from "../../../assets/social/tiktok.png";
 import { SlEarphonesAlt, SlLocationPin } from "react-icons/sl";
 import { GrSend } from "react-icons/gr";
 import useLogo from "../../../hooks/useLogo";
+import useContactInfoData from "../../../hooks/useContactInfoData";
 
 const Footer = () => {
+
     const [logoData, loading] = useLogo();
+    const [contactInfoData, isLoading] = useContactInfoData();
     const currentYear = new Date().getFullYear();
 
-    if(loading) return;
+    if (loading || isLoading) return;
+
+    console.log(contactInfoData);
 
     return (
         <footer className="bg-secondary border-t border-gray-200 text-gray-800">
@@ -99,17 +104,19 @@ const Footer = () => {
                     <ul className="space-y-4">
                         <li className="flex items-center gap-2">
                             <SlLocationPin className="text-[#3BB77E]" />
-                            <span className="text-sm">1086 Mukti Palli Road, Vatara Gulshan</span>
+                            <span className="text-sm">{contactInfoData?.address || "Address not available"}</span>
                         </li>
                         <li className="flex items-center gap-2">
                             <GrSend className="text-[#3BB77E]" />
-                            <span className="text-sm">havitshopp@gmail.com</span>
+                            <span className="text-sm">{contactInfoData?.email || "Email not available"}</span>
                         </li>
-                        <li className="flex items-center gap-2">
+                        <li className="flex items-start gap-2">
                             <SlEarphonesAlt className="text-[#3BB77E]" />
-                            <span className="text-sm">
-                                +8801744991003 & +8801892138932
-                            </span>
+                            <div className="space-y-1">
+                                {contactInfoData?.phone?.map((number, index) => (
+                                    <span key={index} className="text-sm block">{number}</span>
+                                )) || "Phone not available"}
+                            </div>
                         </li>
                     </ul>
                 </div>

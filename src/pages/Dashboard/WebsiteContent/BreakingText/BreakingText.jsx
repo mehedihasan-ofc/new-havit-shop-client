@@ -12,7 +12,7 @@ const BreakingText = () => {
     const [text, setText] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const { data: breakingTextData = {}, isLoading } = useQuery({
+    const { data: breakingTextData = {} } = useQuery({
         queryKey: ['breakingTextData'],
         queryFn: async () => {
             const res = await fetch('https://new-havit-shop-server.vercel.app/breaking-text');
