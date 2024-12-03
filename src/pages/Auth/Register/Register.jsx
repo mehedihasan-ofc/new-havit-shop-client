@@ -53,7 +53,7 @@ const Register = () => {
                     updateUserProfile(loggedUser, fullName)
                         .then(() => {
                             setLoading(true);
-                            
+
                             // save user database
                             const userInfo = {
                                 fullName,
@@ -63,12 +63,12 @@ const Register = () => {
                                 createdAt: new Date().toISOString()
                             };
                             saveUser(userInfo);
-                            
+
                             toast.success("You have successfully signed up!", {
                                 position: "top-right",
                                 autoClose: 1600,
                             });
-                            
+
                             navigate(from, { replace: true })
                         })
                         .catch(err => {
@@ -118,7 +118,8 @@ const Register = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div className="flex justify-center items-center h-full p-8">
+            {/* <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8"> */}
 
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
                 <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 space-y-4">
@@ -260,7 +261,7 @@ const Register = () => {
                     </div>
 
                     <div className='text-center'>
-                        <Link to="/login">Already a member? Login here</Link>
+                        <p>Already a member? <Link className='text-primary' to="/login">Login here</Link></p>
                     </div>
                 </div>
             </div>

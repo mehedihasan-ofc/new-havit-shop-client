@@ -49,7 +49,7 @@ const Login = () => {
         signInWithGoogle()
             .then(result => {
                 const loggedUser = result.user;
-                
+
                 // save user database
                 const userInfo = {
                     fullName: loggedUser.displayName,
@@ -72,7 +72,8 @@ const Login = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div className="flex justify-center items-center h-full p-8">
+            {/* <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8"> */}
 
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
 
@@ -173,7 +174,7 @@ const Login = () => {
                     </div>
 
                     <div className='text-center'>
-                        <Link to="/register">Don't have an account? Register here</Link>
+                        <p>Don't have an account? <Link className='text-primary' to="/register">Register here</Link></p>
                     </div>
                 </div>
             </div>

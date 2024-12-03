@@ -64,7 +64,7 @@ const Header = () => {
     return (
         <div className="border-b bg-white">
             {/* Breaking Marquee */}
-            {["/", "/our-blog", "/about", "/contact"].includes(pathname) && <BreakingMarquee />}
+            {["/", "/discounted-products", "/our-blog", "/about", "/contact"].includes(pathname) && <BreakingMarquee />}
 
             {/* Top Header */}
             <div className="border-b py-1">
