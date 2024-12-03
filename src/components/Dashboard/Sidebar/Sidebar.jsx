@@ -29,6 +29,7 @@ import useSubscriptions from "../../../hooks/useSubscriptions";
 import useMessages from "../../../hooks/useMessages";
 import { AuthContext } from "../../../provider/AuthProvider";
 import Swal from "sweetalert2";
+import { BsSliders2 } from "react-icons/bs";
 
 const Sidebar = () => {
 
@@ -90,6 +91,68 @@ const Sidebar = () => {
                     </ListItem>
                 </Link>
 
+                <Accordion
+                    open={open === 6}
+                    icon={
+                        <ChevronDownIcon
+                            strokeWidth={2.5}
+                            className={`mx-auto h-4 w-4 transition-transform ${open === 6 ? "rotate-180" : ""}`}
+                        />
+                    }
+                >
+                    <ListItem className="p-0" selected={open === 6}>
+                        <AccordionHeader onClick={() => handleOpen(6)} className="border-b-0 p-3">
+                            <ListItemPrefix>
+                                <BsSliders2 size={20} />
+                            </ListItemPrefix>
+                            <Typography color="blue-gray" className="mr-auto font-normal">
+                                Profile Settings
+                            </Typography>
+                        </AccordionHeader>
+                    </ListItem>
+                    <AccordionBody className="py-1">
+                        <List className="p-0">
+
+                            <Link to="logo">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    Logo
+                                </ListItem>
+                            </Link>
+
+                            <Link to="contact-info">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    Contact Info
+                                </ListItem>
+                            </Link>
+
+                            <Link to="social-media">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    Social Media
+                                </ListItem>
+                            </Link>
+
+                            <Link to="about-us">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    About Us
+                                </ListItem>
+                            </Link>
+
+                        </List>
+                    </AccordionBody>
+                </Accordion>
+
 
                 <Accordion
                     open={open === 1}
@@ -121,7 +184,7 @@ const Sidebar = () => {
                                     Banner Management
                                 </ListItem>
                             </Link>
-                            
+
                             <Link to="noc-management">
                                 <ListItem>
                                     <ListItemPrefix>

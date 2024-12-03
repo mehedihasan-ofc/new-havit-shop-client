@@ -54,6 +54,10 @@ import Welcome from "../pages/Dashboard/WebsiteContent/Welcome/Welcome";
 import NocManagement from "../pages/Dashboard/WebsiteContent/NocManagement/NocManagement";
 import SearchResults from "../pages/SearchResults/SearchResults";
 import DiscountedProducts from "../pages/DiscountedProducts/DiscountedProducts";
+import Logo from "../pages/Dashboard/ProfileSettings/Logo/Logo";
+import ContactInfo from "../pages/Dashboard/ProfileSettings/ContactInfo/ContactInfo";
+import SocialMedia from "../pages/Dashboard/ProfileSettings/SocialMedia/SocialMedia";
+import AboutUs from "../pages/Dashboard/ProfileSettings/AboutUs/AboutUs";
 
 const router = createBrowserRouter([
     {
@@ -204,6 +208,23 @@ const router = createBrowserRouter([
             {
                 path: "dashboard-home",
                 element: <DashboardHome />
+            },
+            // Profile Settings
+            {
+                path: "logo",
+                element: <Logo />
+            },
+            {
+                path: "contact-info",
+                element: <ContactInfo />
+            },
+            {
+                path: "social-media",
+                element: <SocialMedia />
+            },
+            {
+                path: "about-us",
+                element: <AboutUs />
             },
             // Website Content
             {
