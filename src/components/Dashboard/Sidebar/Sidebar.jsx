@@ -16,7 +16,6 @@ import {
     ChevronRightIcon,
     ChevronDownIcon,
 } from "@heroicons/react/24/outline";
-import Logo from "../../../assets/logo.png";
 import { Link } from "react-router-dom";
 import { LuCopyPlus, LuLayoutDashboard, LuPlusSquare } from "react-icons/lu";
 import { TbMapDiscount, TbWorldStar } from "react-icons/tb";
@@ -30,9 +29,11 @@ import useMessages from "../../../hooks/useMessages";
 import { AuthContext } from "../../../provider/AuthProvider";
 import Swal from "sweetalert2";
 import { BsSliders2 } from "react-icons/bs";
+import useLogo from "../../../hooks/useLogo";
 
 const Sidebar = () => {
 
+    const [logoData] = useLogo();
     const [role] = useRole();
 
     const { logOut } = useContext(AuthContext);
@@ -75,7 +76,7 @@ const Sidebar = () => {
         <Card className="h-screen rounded-none shadow p-4 overflow-y-auto">
 
             <div className="mb-2">
-                <Link to="/"><img src={Logo} alt="brand" className="w-[150px] h-[70px] object-cover mx-auto" /></Link>
+                <Link to="/"><img src={logoData?.logo} alt="brand" className="w-[150px] h-[70px] object-cover mx-auto" /></Link>
             </div>
 
             <hr className="border-blue-gray-50" />

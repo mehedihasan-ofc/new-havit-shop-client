@@ -7,9 +7,10 @@ import SnapchatIcon from "../../../assets/social/snapchat.png";
 import TiktokIcon from "../../../assets/social/tiktok.png";
 import { SlEarphonesAlt, SlLocationPin } from "react-icons/sl";
 import { GrSend } from "react-icons/gr";
-import Logo from "../../../assets/logo.png";
+import useLogo from "../../../hooks/useLogo";
 
 const Footer = () => {
+    const [logoData] = useLogo();
     const currentYear = new Date().getFullYear();
 
     return (
@@ -19,7 +20,7 @@ const Footer = () => {
                 {/* Brand Section */}
                 <div className="space-y-4">
                     <img
-                        src={Logo}
+                        src={logoData?.logo}
                         alt="Havit Shop Logo"
                         className="w-[150px] h-[70px] object-cover mx-auto lg:mx-0"
                     />

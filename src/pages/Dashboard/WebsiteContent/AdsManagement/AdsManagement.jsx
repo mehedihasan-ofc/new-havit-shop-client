@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import useAds from "../../../../hooks/useAds";
 
 const AdsManagement = () => {
-    const [adsData] = useAds();
+    const [adsData, , refetch] = useAds();
     const [axiosSecure] = useAxiosSecure();
 
     const [adFiles, setAdFiles] = useState({
@@ -72,11 +72,11 @@ const AdsManagement = () => {
             ];
 
             if (adsData?._id) {
+
                 const { data } = await axiosSecure.put(`/ads/${adsData._id}`, { ads: adsPayload });
 
-                console.log(data);
-
                 if (data.modifiedCount > 0) {
+                    refetch();
                     toast.success("Ads updated successfully!", {
                         position: "top-right",
                         autoClose: 1000,
@@ -90,6 +90,7 @@ const AdsManagement = () => {
                     });
                 }
             } else {
+
                 const { data } = await axiosSecure.post("/ads", { ads: adsPayload });
 
                 if (data.insertedId) {

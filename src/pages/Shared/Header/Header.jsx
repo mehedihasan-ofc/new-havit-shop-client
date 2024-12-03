@@ -6,7 +6,6 @@ import { FaBars, FaXmark } from "react-icons/fa6";
 import { Avatar, Badge, Menu, MenuHandler, MenuItem, MenuList, Navbar, Typography } from "@material-tailwind/react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import BreakingMarquee from "../../../components/BreakingMarquee/BreakingMarquee";
-import Logo from "../../../assets/logo.png";
 import UserImg from "../../../assets/user.jpg";
 import useCart from "../../../hooks/useCart";
 import { AuthContext } from "../../../provider/AuthProvider";
@@ -17,9 +16,11 @@ import { LuLayoutDashboard } from "react-icons/lu";
 import { FiShoppingCart } from "react-icons/fi";
 import { HiLogout } from "react-icons/hi";
 import MobileNavigation from "../../../components/MobileNavigation/MobileNavigation";
+import useLogo from "../../../hooks/useLogo";
 
 const Header = () => {
 
+    const [logoData] = useLogo();
     const { user, logOut } = useContext(AuthContext);
 
     const [role] = useRole();
@@ -72,7 +73,7 @@ const Header = () => {
 
                     <div className="flex justify-between items-center">
 
-                        <Link to="/"><img className="w-28 md:w-36 h-auto object-cover" src={Logo} alt="Logo" /></Link>
+                        <Link to="/"><img className="w-[150px] h-[70px] object-cover" src={logoData?.logo} alt="Logo" /></Link>
 
                         <form className="hidden md:block w-96"
                             onSubmit={(e) => {

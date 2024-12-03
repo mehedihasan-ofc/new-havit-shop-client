@@ -1,13 +1,14 @@
 import { Collapse, Drawer, IconButton, List, ListItem, Menu, MenuHandler, MenuItem, MenuList, Typography } from "@material-tailwind/react";
 import { IoCloseOutline } from "react-icons/io5";
-import Logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import useCategories from "../../hooks/useCategories";
+import useLogo from "../../hooks/useLogo";
 
 const MobileNavigation = ({ openNav, closeDrawer, handleLogOut, user, role }) => {
 
+    const [logoData] = useLogo();
     const [categories] = useCategories();
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -40,7 +41,7 @@ const MobileNavigation = ({ openNav, closeDrawer, handleLogOut, user, role }) =>
     return (
         <Drawer open={openNav} onClose={closeDrawer} className="p-4 lg:hidden text-textColor overflow-y-scroll">
             <div className="flex items-center justify-between">
-                <img className="w-28 md:w-36 h-auto object-cover" src={Logo} alt="Logo" />
+                <img className="w-28 md:w-36 h-auto object-cover" src={logoData?.logo} alt="Logo" />
 
                 <IconButton size="sm" variant="text" className="rounded-full" onClick={closeDrawer}>
                     <IoCloseOutline size={20} />
