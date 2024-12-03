@@ -12,8 +12,12 @@ import { AiOutlineLike } from "react-icons/ai";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import useContactInfoData from "../../../hooks/useContactInfoData";
 
 const Contact = () => {
+
+    const [contactInfoData, isLoading] = useContactInfoData();
+
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -69,6 +73,8 @@ const Contact = () => {
         }
     };
 
+    if (isLoading) return;
+
     return (
         <div className="my-container my-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 shadow border p-6 lg:p-10">
@@ -83,11 +89,15 @@ const Contact = () => {
                     <div className="space-y-2">
                         <div className="flex items-center gap-1">
                             <FiMapPin size={18} />
-                            <p className="text-sm lg:text-base">1086 Mukti Palli Road Vatara Gulshan</p>
+                            <p className="text-sm lg:text-base">
+                                {contactInfoData?.address || "Address not available"}
+                            </p>
                         </div>
                         <div className="flex items-center gap-1">
                             <HiOutlineMail size={18} />
-                            <p className="text-sm lg:text-base">havitshopp@gmail.com</p>
+                            <p className="text-sm lg:text-base">
+                                {contactInfoData?.email || "Email not available"}
+                            </p>
                         </div>
                     </div>
 
@@ -98,10 +108,13 @@ const Contact = () => {
                             <h2 className="text-xl lg:text-2xl font-semibold">We're Here to Help</h2>
                         </div>
                         <p className="text-sm lg:text-base">Feel free to reach out to us at</p>
-                        <p className="text-sm lg:text-base">
-                            <span className="underline text-primary">+8801744991003</span> or{" "}
-                            <span className="underline text-primary">+8801892138932</span>
-                        </p>
+                        <div className="text-sm lg:text-base space-y-1">
+                            {contactInfoData?.phone?.map((number, index) => (
+                                <p key={index} className="underline text-primary">
+                                    {number}
+                                </p>
+                            )) || "Phone not available"}
+                        </div>
                         <p className="text-sm lg:text-base">Always Here for You: 24/7 Support</p>
                     </div>
 
