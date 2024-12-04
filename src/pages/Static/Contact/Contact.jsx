@@ -13,10 +13,13 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import useContactInfoData from "../../../hooks/useContactInfoData";
+import useSocialMedia from "../../../hooks/useSocialMedia";
+import { FaFacebook, FaInstagram, FaYoutube, FaTwitter, FaLinkedin, FaPinterest, FaReddit, FaWhatsapp, FaSnapchat, FaTiktok } from "react-icons/fa";
 
 const Contact = () => {
 
     const [contactInfoData, isLoading] = useContactInfoData();
+    const [socialMediaData] = useSocialMedia();
 
     const [formData, setFormData] = useState({
         name: '',
@@ -75,6 +78,19 @@ const Contact = () => {
 
     if (isLoading) return;
 
+    const socialIcons = {
+        Facebook: <FaFacebook size={20} />,
+        Instagram: <FaInstagram size={20} />,
+        YouTube: <FaYoutube size={20} />,
+        Twitter: <FaTwitter size={20} />,
+        LinkedIn: <FaLinkedin size={20} />,
+        Pinterest: <FaPinterest size={20} />,
+        Reddit: <FaReddit size={20} />,
+        WhatsApp: <FaWhatsapp size={20} />,
+        Snapchat: <FaSnapchat size={20} />,
+        TikTok: <FaTiktok size={20} />,
+    };
+
     return (
         <div className="my-container my-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 shadow border p-6 lg:p-10">
@@ -83,7 +99,7 @@ const Contact = () => {
                     {/* Visit Us */}
                     <div className="flex items-center gap-2">
                         <HiOutlineBuildingOffice2 size={24} />
-                        <h2 className="text-xl lg:text-2xl font-semibold">Visit Us</h2>
+                        <h2 className="text-lg lg:text-xl font-semibold">Visit Us</h2>
                     </div>
 
                     <div className="space-y-2">
@@ -105,7 +121,7 @@ const Contact = () => {
                     <div className="space-y-1">
                         <div className="flex items-center gap-2">
                             <BiSupport size={24} />
-                            <h2 className="text-xl lg:text-2xl font-semibold">We're Here to Help</h2>
+                            <h2 className="text-lg lg:text-xl font-semibold">We're Here to Help</h2>
                         </div>
                         <p className="text-sm lg:text-base">Feel free to reach out to us at</p>
                         <div className="text-sm lg:text-base space-y-1">
@@ -119,47 +135,29 @@ const Contact = () => {
                     </div>
 
                     {/* Social Media Section */}
-                    <div className="space-y-2">
+                    <div className="space-y-3">
+                        
                         <div className="flex items-center gap-2">
                             <AiOutlineLike size={24} />
-                            <h2 className="text-xl lg:text-2xl font-semibold">Follow Us on Social Media</h2>
+                            <h2 className="text-lg lg:text-xl font-semibold">Follow Us on Social Media</h2>
                         </div>
+
                         <div className="flex items-center gap-3">
-                            <Link target="_blank" to="https://web.facebook.com/havitshopping">
-                                <img
-                                    className="w-6 h-6 object-contain hover:opacity-80 transition"
-                                    src={FacebookIcon}
-                                    alt="Facebook"
-                                />
-                            </Link>
-                            <Link target="_blank" to="https://www.instagram.com/havit_shop/profilecard">
-                                <img
-                                    className="w-6 h-6 object-contain hover:opacity-80 transition"
-                                    src={InstagramIcon}
-                                    alt="Instagram"
-                                />
-                            </Link>
-                            <Link target="_blank" to="https://www.youtube.com/@havitshop">
-                                <img
-                                    className="w-6 h-6 object-contain hover:opacity-80 transition"
-                                    src={YoutubeIcon}
-                                    alt="YouTube"
-                                />
-                            </Link>
-                            <Link target="_blank" to="https://www.snapchat.com/add/mahamudul_h535">
-                                <img
-                                    className="w-6 h-6 object-contain hover:opacity-80 transition"
-                                    src={SnapchatIcon}
-                                    alt="SnapChat"
-                                />
-                            </Link>
-                            <Link target="_blank" to="https://www.tiktok.com/@havit.shop">
-                                <img
-                                    className="w-6 h-6 object-contain hover:opacity-80 transition"
-                                    src={TiktokIcon}
-                                    alt="TikTok"
-                                />
-                            </Link>
+                            {socialMediaData?.socialMedia?.slice(0, 10).map((social, index) => {
+                                const Icon = socialIcons[social.platform];
+                                return (
+                                    <Link
+                                        key={index}
+                                        to={social.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-primary hover:text-green-600 transition"
+                                        aria-label={social.platform}
+                                    >
+                                        {Icon}
+                                    </Link>
+                                );
+                            })}
                         </div>
                     </div>
                 </div>

@@ -1,24 +1,35 @@
 import { Link } from "react-router-dom";
 import PaymentImg from "../../../assets/payment/sslcommerz.png";
-import FacebookIcon from "../../../assets/social/facebook.png";
-import InstagramIcon from "../../../assets/social/instagram.png";
-import YoutubeIcon from "../../../assets/social/youtube.png";
-import SnapchatIcon from "../../../assets/social/snapchat.png";
-import TiktokIcon from "../../../assets/social/tiktok.png";
 import { SlEarphonesAlt, SlLocationPin } from "react-icons/sl";
 import { GrSend } from "react-icons/gr";
 import useLogo from "../../../hooks/useLogo";
 import useContactInfoData from "../../../hooks/useContactInfoData";
+import useSocialMedia from "../../../hooks/useSocialMedia";
+import { FaFacebook, FaInstagram, FaYoutube, FaTwitter, FaLinkedin, FaPinterest, FaReddit, FaWhatsapp, FaSnapchat, FaTiktok } from "react-icons/fa";
+
 
 const Footer = () => {
 
     const [logoData, loading] = useLogo();
+    const [socialMediaData] = useSocialMedia();
+
     const [contactInfoData, isLoading] = useContactInfoData();
     const currentYear = new Date().getFullYear();
 
     if (loading || isLoading) return;
 
-    console.log(contactInfoData);
+    const socialIcons = {
+        Facebook: <FaFacebook size={20} />,
+        Instagram: <FaInstagram size={20} />,
+        YouTube: <FaYoutube size={20} />,
+        Twitter: <FaTwitter size={20} />,
+        LinkedIn: <FaLinkedin size={20} />,
+        Pinterest: <FaPinterest size={20} />,
+        Reddit: <FaReddit size={20} />,
+        WhatsApp: <FaWhatsapp size={20} />,
+        Snapchat: <FaSnapchat size={20} />,
+        TikTok: <FaTiktok size={20} />,
+    };
 
     return (
         <footer className="bg-secondary border-t border-gray-200 text-gray-800">
@@ -133,62 +144,22 @@ const Footer = () => {
                 </p>
 
                 {/* Social Links */}
-                <div className="flex items-center gap-4">
-                    <Link
-                        target="_blank"
-                        to="https://web.facebook.com/havitshopping"
-                        className="hover:opacity-80 transition"
-                    >
-                        <img
-                            src={FacebookIcon}
-                            alt="Facebook"
-                            className="w-6 h-6 object-contain"
-                        />
-                    </Link>
-                    <Link
-                        target="_blank"
-                        to="https://www.instagram.com/havit_shop/profilecard"
-                        className="hover:opacity-80 transition"
-                    >
-                        <img
-                            src={InstagramIcon}
-                            alt="Instagram"
-                            className="w-6 h-6 object-contain"
-                        />
-                    </Link>
-                    <Link
-                        target="_blank"
-                        to="https://www.youtube.com/@havitshop"
-                        className="hover:opacity-80 transition"
-                    >
-                        <img
-                            src={YoutubeIcon}
-                            alt="YouTube"
-                            className="w-6 h-6 object-contain"
-                        />
-                    </Link>
-                    <Link
-                        target="_blank"
-                        to="https://www.snapchat.com/add/mahamudul_h535"
-                        className="hover:opacity-80 transition"
-                    >
-                        <img
-                            src={SnapchatIcon}
-                            alt="Snapchat"
-                            className="w-6 h-6 object-contain"
-                        />
-                    </Link>
-                    <Link
-                        target="_blank"
-                        to="https://www.tiktok.com/@havit.shop"
-                        className="hover:opacity-80 transition"
-                    >
-                        <img
-                            src={TiktokIcon}
-                            alt="TikTok"
-                            className="w-6 h-6 object-contain"
-                        />
-                    </Link>
+                <div className="flex gap-4 justify-center">
+                    {socialMediaData?.socialMedia?.slice(0, 10).map((social, index) => {
+                        const Icon = socialIcons[social.platform];
+                        return (
+                            <Link
+                                key={index}
+                                to={social.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-primary hover:text-green-600 transition"
+                                aria-label={social.platform}
+                            >
+                                {Icon}
+                            </Link>
+                        );
+                    })}
                 </div>
 
                 {/* Payment Methods */}
