@@ -5,7 +5,7 @@ const useProducts = () => {
     const { data: products = [], isLoading: loading, refetch } = useQuery({
         queryKey: ['products'],
         queryFn: async () => {
-            const res = await fetch('https://new-havit-shop-server.vercel.app/products');
+            const res = await fetch('https://havit-shop.onrender.com/products');
             return res.json();
         }
     });

@@ -43,7 +43,7 @@ const ProductCard = ({ product }) => {
             setLoading(true);
 
             try {
-                const response = await axios.post("https://new-havit-shop-server.vercel.app/carts", newCart);
+                const response = await axios.post("https://havit-shop.onrender.com/carts", newCart);
 
                 if (response.status === 200) {
                     refetch();

@@ -4,7 +4,7 @@ const useSubcategories = () => {
     const { data: subcategories = [], isLoading: loading, refetch } = useQuery({
         queryKey: ['subcategories'],
         queryFn: async () => {
-            const res = await fetch('https://new-havit-shop-server.vercel.app/subcategories');
+            const res = await fetch('https://havit-shop.onrender.com/subcategories');
             return res.json();
         }
     });

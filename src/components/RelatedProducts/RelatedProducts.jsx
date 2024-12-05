@@ -8,7 +8,7 @@ const RelatedProducts = ({ categoryId }) => {
     const { data: relatedProducts, isLoading } = useQuery({
         queryKey: ['relatedProducts', categoryId],
         queryFn: async () => {
-            const response = await axios.get(`https://new-havit-shop-server.vercel.app/products/related/${categoryId}`);
+            const response = await axios.get(`https://havit-shop.onrender.com/products/related/${categoryId}`);
             return response.data;
         },
         enabled: !!categoryId,

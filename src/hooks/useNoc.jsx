@@ -4,7 +4,7 @@ const useNoc = () => {
     const { data: noc = [], isLoading: loading, refetch } = useQuery({
         queryKey: ['noc'],
         queryFn: async () => {
-            const res = await fetch('https://new-havit-shop-server.vercel.app/noc');
+            const res = await fetch('https://havit-shop.onrender.com/noc');
             return res.json();
         }
     });

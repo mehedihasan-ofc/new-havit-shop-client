@@ -1,7 +1,7 @@
 // save a user to mongodb
 export const saveUser = userInfo => {
 
-    fetch('https://new-havit-shop-server.vercel.app/users', {
+    fetch('https://havit-shop.onrender.com/users', {
         method: 'POST',
         headers: {
             'content-type': 'application/json',

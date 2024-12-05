@@ -4,7 +4,7 @@ const useBanners = () => {
     const { data: banners = [], isLoading: loading, refetch } = useQuery({
         queryKey: ['banners'],
         queryFn: async () => {
-            const res = await fetch('https://new-havit-shop-server.vercel.app/banners');
+            const res = await fetch('https://havit-shop.onrender.com/banners');
             return res.json();
         }
     });

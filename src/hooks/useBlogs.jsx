@@ -5,7 +5,7 @@ const useBlogs = () => {
     const { data: blogs = [], isLoading: loading, refetch } = useQuery({
         queryKey: ['blogs'],
         queryFn: async () => {
-            const res = await fetch('https://new-havit-shop-server.vercel.app/blogs');
+            const res = await fetch('https://havit-shop.onrender.com/blogs');
             return res.json();
         }
     });

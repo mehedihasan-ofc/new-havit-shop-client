@@ -4,7 +4,7 @@ const useAboutUs = () => {
     const { data: aboutUsData = {}, isLoading, refetch } = useQuery({
         queryKey: ['aboutUsData'],
         queryFn: async () => {
-            const res = await fetch('https://new-havit-shop-server.vercel.app/about-us');
+            const res = await fetch('https://havit-shop.onrender.com/about-us');
             return res.json();
         }
     });

@@ -18,7 +18,7 @@ const Newsletter = () => {
             };
 
             const response = await axios.post(
-                'https://new-havit-shop-server.vercel.app/subscription',
+                'https://havit-shop.onrender.com/subscription',
                 newSubscription
             );
 
