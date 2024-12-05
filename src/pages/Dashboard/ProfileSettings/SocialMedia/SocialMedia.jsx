@@ -86,6 +86,7 @@ const SocialMedia = () => {
             } else {
 
                 const { data } = await axiosSecure.post("/social-media", { socialMedia: socialMediaLinks });
+                
                 if (data.insertedId) {
                     toast.success("Contact info created successfully!", {
                         position: "top-right",
