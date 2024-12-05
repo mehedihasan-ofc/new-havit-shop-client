@@ -8,20 +8,17 @@ const HomePageAd = () => {
 
     useEffect(() => {
         if (adsData?.ads) {
-            // Find the Home Page Ad from adsData
             const homeAd = adsData.ads.find((ad) => ad.name === "Home Page Ad");
             setHomePageAd(homeAd);
         }
     }, [adsData]);
 
-    // Early return if adsData?.ads is not available
     if (!adsData?.ads) return null;
 
     return (
         <div className="my-container mb-5">
             {homePageAd ? (
                 homePageAd.adLink ? (
-                    // Render the ad with a clickable link
                     <Link to={homePageAd.adLink} target="_blank" rel="noopener noreferrer">
                         <div className="w-full h-full overflow-hidden">
                             <img
@@ -32,7 +29,6 @@ const HomePageAd = () => {
                         </div>
                     </Link>
                 ) : (
-                    // Render the ad without a link
                     <div className="w-full h-full overflow-hidden">
                         <img
                             src={homePageAd.adUrl}
@@ -42,7 +38,6 @@ const HomePageAd = () => {
                     </div>
                 )
             ) : (
-                // Render a message when no ad is available
                 <div className="text-center text-xl text-gray-600">
                     <p>No Home Page Ad available</p>
                 </div>
