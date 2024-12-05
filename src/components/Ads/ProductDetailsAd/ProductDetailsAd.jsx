@@ -14,6 +14,9 @@ const ProductDetailsAd = () => {
         }
     }, [adsData]);
 
+    // Early return if adsData?.ads is not available
+    if (!adsData?.ads) return null;
+
     return (
         <div className="mt-5">
             {productDetailsAd ? (

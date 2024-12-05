@@ -14,6 +14,9 @@ const BlogAd = () => {
         }
     }, [adsData]);
 
+    // Early return if adsData?.ads is not available
+    if (!adsData?.ads) return null;
+
     return (
         <div>
             {blogAd ? (

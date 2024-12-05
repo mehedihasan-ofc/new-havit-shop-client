@@ -14,6 +14,9 @@ const HomePageAd = () => {
         }
     }, [adsData]);
 
+    // Early return if adsData?.ads is not available
+    if (!adsData?.ads) return null;
+
     return (
         <div className="my-container mb-5">
             {homePageAd ? (
