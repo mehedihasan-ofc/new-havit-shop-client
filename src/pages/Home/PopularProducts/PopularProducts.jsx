@@ -9,6 +9,9 @@ const PopularProducts = () => {
     const [products] = useProducts();
     const navigate = useNavigate();
 
+     // Early return if no categories exist
+     if (!products || products.length === 0) return null;
+
     return (
         <div className="my-container my-10">
 

@@ -9,6 +9,9 @@ const SpecialOffers = () => {
     const [discountedProducts] = useDiscountedProducts();
     const navigate = useNavigate();
 
+     // Early return if no categories exist
+     if (!discountedProducts || discountedProducts.length === 0) return null;
+
     return (
         <div className="my-container mt-10">
 

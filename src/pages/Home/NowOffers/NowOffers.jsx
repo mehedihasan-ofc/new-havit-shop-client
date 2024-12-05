@@ -1,13 +1,11 @@
-import MySpinner from "../../../components/Shared/MySpinner/MySpinner";
 import useNoc from "../../../hooks/useNoc";
 
 const NowOffers = () => {
 
-    const [noc, loading] = useNoc();
+    const [noc] = useNoc();
 
-    if (loading) {
-        return <MySpinner />;
-    }
+     // Early return if no categories exist
+     if (!noc || noc.length === 0) return null;
     
     return (
         <div className="my-container my-10">

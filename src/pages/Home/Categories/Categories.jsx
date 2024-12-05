@@ -11,6 +11,9 @@ const Categories = () => {
     const [categories] = useCategories();
     const navigate = useNavigate();
 
+     // Early return if no categories exist
+     if (!categories || categories.length === 0) return null;
+
     const enableLoopMode = categories?.length > 1;
 
     // Define your color palette

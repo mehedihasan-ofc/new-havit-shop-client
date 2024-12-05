@@ -22,6 +22,9 @@ const Hero = () => {
 
     const enableLoopMode = banners?.length > 1;
 
+     // Early return if no categories exist
+     if (!banners || banners.length === 0) return null;
+
     return (
         <>
             <div className='my-container mt-3'>

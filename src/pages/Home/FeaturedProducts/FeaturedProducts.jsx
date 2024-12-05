@@ -14,8 +14,10 @@ import { IoIosArrowRoundBack, IoIosArrowRoundForward } from 'react-icons/io';
 const FeaturedProducts = () => {
 
     const [products] = useProducts();
-
     const enableLoopMode = products?.length > 1;
+
+     // Early return if no categories exist
+     if (!products || products.length === 0) return null;
 
     return (
         <div className="my-container mb-10">
