@@ -8,13 +8,11 @@ import useLogo from "../../hooks/useLogo";
 
 const MobileNavigation = ({ openNav, closeDrawer, handleLogOut, user, role }) => {
 
-    const [logoData, loading] = useLogo();
+    const [logoData] = useLogo();
     const [categories] = useCategories();
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-    if(loading) return;
 
     const renderItems = categories.map(
         ({ _id, name }) => (

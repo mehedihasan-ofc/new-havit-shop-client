@@ -33,7 +33,7 @@ import useLogo from "../../../hooks/useLogo";
 
 const Sidebar = () => {
 
-    const [logoData, loading] = useLogo();
+    const [logoData] = useLogo();
     const [role] = useRole();
 
     const { logOut } = useContext(AuthContext);
@@ -71,8 +71,6 @@ const Sidebar = () => {
             }
         });
     }
-    
-    if(loading) return;
 
     return (
         <Card className="h-screen rounded-none shadow p-4 overflow-y-auto">

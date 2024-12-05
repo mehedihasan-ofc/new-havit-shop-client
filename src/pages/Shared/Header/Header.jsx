@@ -20,7 +20,7 @@ import useLogo from "../../../hooks/useLogo";
 
 const Header = () => {
 
-    const [logoData, loading] = useLogo();
+    const [logoData] = useLogo();
     const { user, logOut } = useContext(AuthContext);
 
     const [role] = useRole();
@@ -61,8 +61,6 @@ const Header = () => {
             }
         });
     }
-
-    if(loading) return;
 
     return (
         <div className="border-b bg-white">

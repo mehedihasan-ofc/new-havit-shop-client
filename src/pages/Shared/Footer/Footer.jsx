@@ -10,13 +10,11 @@ import { FaFacebook, FaInstagram, FaYoutube, FaTwitter, FaLinkedin, FaPinterest,
 
 const Footer = () => {
 
-    const [logoData, loading] = useLogo();
+    const [logoData] = useLogo();
     const [socialMediaData] = useSocialMedia();
 
-    const [contactInfoData, isLoading] = useContactInfoData();
+    const [contactInfoData] = useContactInfoData();
     const currentYear = new Date().getFullYear();
-
-    if (loading || isLoading) return;
 
     const socialIcons = {
         Facebook: <FaFacebook size={20} />,
