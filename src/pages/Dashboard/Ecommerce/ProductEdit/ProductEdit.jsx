@@ -8,6 +8,7 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import { Button } from "@material-tailwind/react";
 import { useParams } from "react-router-dom";
 import MySpinner from "../../../../components/Shared/MySpinner/MySpinner";
+import { toast } from "react-toastify";
 
 const ProductEdit = () => {
 
@@ -125,7 +126,7 @@ const ProductEdit = () => {
                     ? await uploadMultipleImagesToStorage(formData.images)
                     : formData.imagePreviews;
 
-            const updateProduct = {
+            const updatedProduct = {
                 name: formData.name,
                 categoryId: formData.categoryId,
                 subcategoryId: formData.subcategoryId,
@@ -145,7 +146,21 @@ const ProductEdit = () => {
             };
 
             // Make an API call to send the data to the database
-            console.log(updateProduct);
+            const { data } = await axiosSecure.post(`/product/${id}`, updatedProduct);
+
+            if (data.insertedId) {
+                toast.success('Product updated successfully!', {
+                    position: "top-right",
+                    autoClose: 1000,
+                    pauseOnHover: false,
+                });
+            } else {
+                toast.info("No changes were made to the product.", {
+                    position: "top-right",
+                    autoClose: 1000,
+                    pauseOnHover: false,
+                });
+            }
 
 
         } catch (error) {
@@ -155,7 +170,7 @@ const ProductEdit = () => {
         }
     };
 
-    if(fetching) return <MySpinner />
+    if (fetching) return <MySpinner />
 
     return (
         <div className="border shadow max-w-3xl mx-auto">
@@ -175,7 +190,7 @@ const ProductEdit = () => {
                             onChange={handleFileChange}
                             className="w-full text-gray-900 focus:outline-none"
                             multiple
-                            // required
+                        // required
                         />
                         <p className="mt-2 text-sm text-gray-500">
                             Upload multiple images to showcase the product.

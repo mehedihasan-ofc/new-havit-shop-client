@@ -116,8 +116,6 @@ const AddProduct = () => {
                 }))
             };
 
-            console.log(newProduct);
-
             // Make an API call to send the data to the database
             const { data } = await axiosSecure.post('/product', newProduct);
 
