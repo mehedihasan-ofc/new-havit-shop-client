@@ -1,13 +1,13 @@
 import { Avatar, Button, Card, CardBody, CardHeader, IconButton, Typography } from "@material-tailwind/react";
 import { TbCategoryPlus } from "react-icons/tb";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { formattedDate } from "../../../../utils";
-import { CiEdit } from "react-icons/ci";
 import { AiOutlineDelete } from "react-icons/ai";
 import useProducts from "../../../../hooks/useProducts";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import MySpinner from "../../../../components/Shared/MySpinner/MySpinner";
 import Swal from "sweetalert2";
+import { PiNotePencil } from "react-icons/pi";
 
 const TABLE_HEAD = ["#", "Code", "Name", "Image", "Category", "Sub Category", "Created At", "Action"];
 
@@ -15,6 +15,7 @@ const ProductList = () => {
 
     const [products, loading, refetch] = useProducts();
     const [axiosSecure] = useAxiosSecure();
+    const navigate = useNavigate();
 
     const handleDeleteProduct = (id) => {
 
@@ -158,9 +159,9 @@ const ProductList = () => {
                                             </Typography>
                                         </td>
                                         <td className={classes}>
-                                            {/* <IconButton size="sm" variant="text" className="rounded-full">
-                                                <CiEdit className="text-amber-800" size={20} />
-                                            </IconButton> */}
+                                            <IconButton onClick={() => navigate(`/dashboard/product-edit/${_id}`)} size="sm" variant="text" className="rounded-full">
+                                                <PiNotePencil className="text-teal-600" size={20} />
+                                            </IconButton>
 
                                             <IconButton onClick={() => handleDeleteProduct(_id)} size="sm" variant="text" className="rounded-full">
                                                     <AiOutlineDelete className="text-red-600" size={20} />

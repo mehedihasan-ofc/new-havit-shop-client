@@ -1,20 +1,24 @@
-import { useState, useRef } from 'react';
-import SVG from "../../../../assets/svg/img-status-7.svg";
-import { Button } from '@material-tailwind/react';
-import useCategories from '../../../../hooks/useCategories';
-import useSubcategories from '../../../../hooks/useSubcategories';
-import useAxiosSecure from '../../../../hooks/useAxiosSecure';
-import { AiOutlineCloseCircle } from 'react-icons/ai';
-import { uploadMultipleImagesToStorage } from '../../../../utils';
-import { toast } from 'react-toastify';
+import { useEffect, useRef, useState } from "react";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import useCategories from "../../../../hooks/useCategories";
+import useSubcategories from "../../../../hooks/useSubcategories";
+import { uploadMultipleImagesToStorage } from "../../../../utils";
+import SVG from "../../../../assets/svg/img-status-8.svg";
+import { AiOutlineCloseCircle } from "react-icons/ai";
+import { Button } from "@material-tailwind/react";
+import { useParams } from "react-router-dom";
+import MySpinner from "../../../../components/Shared/MySpinner/MySpinner";
 
-const AddProduct = () => {
+const ProductEdit = () => {
+
+    const { id } = useParams();
+
     const [categories] = useCategories();
     const [subcategories] = useSubcategories();
     const [axiosSecure] = useAxiosSecure();
 
     const [loading, setLoading] = useState(false);
-
+    const [fetching, setFetching] = useState(true);
     const [formData, setFormData] = useState({
         skuCode: '',
         name: '',
@@ -34,6 +38,30 @@ const AddProduct = () => {
     });
 
     const fileInputRef = useRef();
+
+    useEffect(() => {
+        // Fetch product data by ID
+        const fetchProduct = async () => {
+            try {
+                const { data } = await axiosSecure.get(`/products/${id}`);
+                // Map fetched product data to the form
+                setFormData({
+                    ...data,
+                    categoryId: data.categoryId || '',
+                    subcategoryId: data.subcategoryId || '',
+                    flavor: data.flavor || [],
+                    images: [], // Images will be replaced during editing
+                    imagePreviews: data.images.map((img) => img.url), // For preview
+                });
+            } catch (error) {
+                console.error("Error fetching product:", error);
+            } finally {
+                setFetching(false);
+            }
+        };
+
+        fetchProduct();
+    }, [id, axiosSecure]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -79,7 +107,6 @@ const AddProduct = () => {
         }
     };
 
-    // Handle deleting flavors
     const handleDeleteFlavor = (index) => {
         setFormData((prev) => {
             const newFlavors = prev.flavor.filter((_, i) => i !== index);
@@ -92,10 +119,13 @@ const AddProduct = () => {
         setLoading(true);
 
         try {
-            // Upload multiple images
-            const downloadURLs = await uploadMultipleImagesToStorage(formData.images);
+            // Upload new images, if any
+            const downloadURLs =
+                formData.images.length > 0
+                    ? await uploadMultipleImagesToStorage(formData.images)
+                    : formData.imagePreviews;
 
-            const newProduct = {
+            const updateProduct = {
                 name: formData.name,
                 categoryId: formData.categoryId,
                 subcategoryId: formData.subcategoryId,
@@ -106,51 +136,17 @@ const AddProduct = () => {
                 videoLink: formData.videoLink,
                 description: formData.description,
                 brand: formData.brand,
-                madeIn: formData.madeIn,   // Include new field
-                skuCode: formData.skuCode, // Include new field
+                madeIn: formData.madeIn,
+                skuCode: formData.skuCode,
                 flavor: formData.flavor,
-                createdAt: new Date().toISOString(),
-                images: downloadURLs.map((url, index) => ({
-                    _id: new Date().getTime() + index,
+                images: downloadURLs.map((url) => ({
                     url: url
                 }))
             };
 
-            console.log(newProduct);
-
             // Make an API call to send the data to the database
-            const { data } = await axiosSecure.post('/product', newProduct);
+            console.log(updateProduct);
 
-            if (data.insertedId) {
-                toast.success('New Product Added successfully!', {
-                    position: "top-right",
-                    autoClose: 1000,
-                    pauseOnHover: false,
-                });
-
-                // Reset form data after successful upload
-                setFormData({
-                    skuCode: '',
-                    name: '',
-                    categoryId: '',
-                    subcategoryId: '',
-                    regularPrice: '',
-                    price: '',
-                    availableStock: '',
-                    rating: '',
-                    videoLink: '',
-                    description: '',
-                    madeIn: '',
-                    brand: '',
-                    flavor: [],
-                    images: [],
-                    imagePreviews: []
-                });
-                fileInputRef.current.value = null; // Clear file input
-            }
-            else {
-                console.error("No insertedId in response");
-            }
 
         } catch (error) {
             console.error("Error during API call:", error);
@@ -158,6 +154,8 @@ const AddProduct = () => {
             setLoading(false);
         }
     };
+
+    if(fetching) return <MySpinner />
 
     return (
         <div className="border shadow max-w-3xl mx-auto">
@@ -177,7 +175,7 @@ const AddProduct = () => {
                             onChange={handleFileChange}
                             className="w-full text-gray-900 focus:outline-none"
                             multiple
-                            required
+                            // required
                         />
                         <p className="mt-2 text-sm text-gray-500">
                             Upload multiple images to showcase the product.
@@ -416,7 +414,7 @@ const AddProduct = () => {
 
                     <div className='flex items-center justify-center'>
                         <Button type="submit" loading={loading} className='rounded-none bg-primary font-medium px-10'>
-                            {loading ? 'Adding Product...' : 'Add Product'}
+                            {loading ? 'Updating Product...' : 'Update Product'}
                         </Button>
                     </div>
                 </form>
@@ -425,4 +423,4 @@ const AddProduct = () => {
     );
 };
 
-export default AddProduct;
+export default ProductEdit;

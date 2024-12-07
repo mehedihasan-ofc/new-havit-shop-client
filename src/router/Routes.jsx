@@ -58,6 +58,7 @@ import Logo from "../pages/Dashboard/ProfileSettings/Logo/Logo";
 import ContactInfo from "../pages/Dashboard/ProfileSettings/ContactInfo/ContactInfo";
 import SocialMedia from "../pages/Dashboard/ProfileSettings/SocialMedia/SocialMedia";
 import AboutUs from "../pages/Dashboard/ProfileSettings/AboutUs/AboutUs";
+import ProductEdit from "../pages/Dashboard/Ecommerce/ProductEdit/ProductEdit";
 
 const router = createBrowserRouter([
     {
@@ -285,6 +286,10 @@ const router = createBrowserRouter([
             {
                 path: "product-list",
                 element: <ProductList />
+            },
+            {
+                path: "product-edit/:id",
+                element: <ProductEdit />
             },
             // promo codes
             {
