@@ -161,7 +161,7 @@ const Checkout = () => {
                     ) : (
                         <div className="flex justify-between items-center">
                             <p className="text-red-500">No shipping address found!</p>
-                            <Button onClick={() => navigate("/add-address")} className="rounded-full" variant="outlined">Add Shipping Address</Button>
+                            <Button onClick={() => navigate("/profile/my-address")} className="rounded-full" variant="outlined">Add Shipping Address</Button>
                         </div>
                     )}
                 </div>
