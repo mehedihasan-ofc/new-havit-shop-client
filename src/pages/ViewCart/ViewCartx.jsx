@@ -1,32 +1,55 @@
 import { useContext, useEffect, useState } from "react";
-import useCart from "../../hooks/useCart";
 import { Button } from "@material-tailwind/react";
-import Swal from "sweetalert2";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
-import { AuthContext } from "../../provider/AuthProvider";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import useCart from "../../hooks/useCart";
 import MySpinner from "../../components/Shared/MySpinner/MySpinner";
 import { FaArrowLeftLong } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
 import { TbLogout } from "react-icons/tb";
-import ViewCartCard from "../../components/Card/ViewCartCard/ViewCartCard";
+import ViewCartTableRow from "../../components/ViewCartTableRow/ViewCartTableRow";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../provider/AuthProvider";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const ViewCart = () => {
 
     const { user } = useContext(AuthContext);
     const [axiosSecure] = useAxiosSecure();
+
     const [cart, isLoading, refetch] = useCart();
-    const [quantities, setQuantities] = useState([]);
+    // const [quantities, setQuantities] = useState(cart?.map(item => item.quantity));
+
+    const [quantities, setQuantities] = useState([]); // To manage product quantities
+    const [total, setTotal] = useState(0); // To calculate the total price
+
     const navigate = useNavigate();
     const [allClear, setAllClear] = useState(false);
 
+    // Update quantities and total dynamically when cart data is fetched
     useEffect(() => {
         if (cart) {
+            // Initialize quantities based on cart data
             const initialQuantities = cart.map((item) => item.quantity || 1);
             setQuantities(initialQuantities);
+
+            // Calculate initial total
+            const initialTotal = cart.reduce(
+                (sum, item, index) => sum + item.productDetails.price * initialQuantities[index],
+                0
+            );
+            setTotal(initialTotal);
         }
     }, [cart]);
 
+    // const handleQuantityChange = (index, change) => {
+    //     setQuantities(prevQuantities => {
+    //         const updatedQuantities = [...prevQuantities];
+    //         updatedQuantities[index] = Math.max(1, updatedQuantities[index] + change);
+    //         return updatedQuantities;
+    //     });
+    // };
+
+    // Handle quantity changes for individual products
     const handleQuantityChange = (index, delta) => {
         const updatedQuantities = [...quantities];
         updatedQuantities[index] += delta;
@@ -35,7 +58,14 @@ const ViewCart = () => {
         if (updatedQuantities[index] < 1) {
             updatedQuantities[index] = 1;
         }
+
+        // Update the quantities and recalculate the total
         setQuantities(updatedQuantities);
+        const newTotal = cart.reduce(
+            (sum, item, i) => sum + item.productDetails.price * updatedQuantities[i],
+            0
+        );
+        setTotal(newTotal);
     };
 
     const calculateTotalAmount = () =>
@@ -118,8 +148,8 @@ const ViewCart = () => {
 
     return (
         <div className="max-w-5xl w-full mx-auto px-6 my-5">
-
-            <div className="flex justify-between items-end mb-4">
+            {/* Header */}
+            {/* <div className="flex justify-between items-end mb-4">
                 <div className="space-y-1">
                     <h2 className="text-4xl font-extrabold tracking-wide font-sans">Your Cart</h2>
                     <p>There are <span className="text-primary">{cart?.length}</span> products in your cart!</p>
@@ -127,31 +157,46 @@ const ViewCart = () => {
                 <Button onClick={handleClearCart} variant="text" className="flex items-center rounded-none p-2 gap-2 text-red-600">
                     {allClear ? "Clearing..." : <><RiDeleteBin6Line size={16} /> Clear Cart</>}
                 </Button>
-            </div>
+            </div> */}
 
-            <div>
-                <div className="space-y-4">
-                    {
-                        cart?.map((item, index) => (
-                            <ViewCartCard
-                                key={item._id}
-                                item={item}
-                                quantity={quantities[index]}
-                                onQuantityChange={(change) => handleQuantityChange(index, change)}
-                                refetch={refetch}
-                            />
-                        ))
-                    }
-                </div>
+            {/* Cart Table */}
+            <div className="shadow border">
+                
+                {/* <div className="overflow-x-auto">
+                    <table className="min-w-full table-auto border-collapse text-left font-sans">
+                        <thead>
+                            <tr className="bg-gray-100 text-sm">
+                                <th className="px-4 py-2 border-b">#</th>
+                                <th className="px-4 py-2 border-b">Product</th>
+                                <th className="px-4 py-2 border-b">Unit Price</th>
+                                <th className="px-4 py-2 border-b">Quantity</th>
+                                <th className="px-4 py-2 border-b">Subtotal</th>
+                                <th className="px-4 py-2 border-b">Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {cart?.map((item, index) => (
+                                <ViewCartTableRow
+                                    key={item._id}
+                                    item={item}
+                                    index={index}
+                                    quantity={quantities[index]}
+                                    onQuantityChange={(change) => handleQuantityChange(index, change)}
+                                    refetch={refetch}
+                                />
+                            ))}
+                        </tbody>
+                    </table>
+                </div> */}
 
-                <div className="flex justify-end mr-5 py-5">
+                <div className="flex justify-end mr-44 py-5">
                     <div className="text-xl font-semibold">
                         Total: <span className="text-primary">৳{calculateTotalAmount().toFixed(2)}</span>
                     </div>
                 </div>
             </div>
 
-            <div className="flex justify-between items-center mt-5">
+            {/* <div className="flex justify-between items-center mt-5">
                 <Button onClick={() => navigate("/")} className="rounded-none bg-primary flex items-center gap-2">
                     <FaArrowLeftLong size={16} />
                     Continue Shopping
@@ -161,7 +206,7 @@ const ViewCart = () => {
                     Proceed To Checkout
                     <TbLogout size={18} />
                 </Button>
-            </div>
+            </div> */}
         </div>
     );
 };

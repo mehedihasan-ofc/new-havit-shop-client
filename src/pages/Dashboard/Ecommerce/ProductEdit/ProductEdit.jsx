@@ -179,7 +179,7 @@ const ProductEdit = () => {
                 <img className="absolute top-0 right-0" src={SVG} alt="background" />
 
                 <form onSubmit={handleSubmit} className="space-y-6 max-w-full p-8">
-                    <h2 className="text-xl font-semibold text-center mb-4">Add Product</h2>
+                    <h2 className="text-xl font-semibold text-center mb-4">Edit Product</h2>
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">Upload Product Images</label>
