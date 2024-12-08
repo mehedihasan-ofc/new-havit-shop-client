@@ -1,4 +1,4 @@
-import { Avatar, Button, Card, CardBody, CardHeader, IconButton, Typography } from "@material-tailwind/react";
+import { Avatar, Button, Card, CardBody, CardHeader, Chip, IconButton, Typography } from "@material-tailwind/react";
 import { TbCategoryPlus } from "react-icons/tb";
 import { Link, useNavigate } from "react-router-dom";
 import { formattedDate } from "../../../../utils";
@@ -9,7 +9,7 @@ import MySpinner from "../../../../components/Shared/MySpinner/MySpinner";
 import Swal from "sweetalert2";
 import { PiNotePencil } from "react-icons/pi";
 
-const TABLE_HEAD = ["#", "Code", "Name", "Image", "Category", "Sub Category", "Created At", "Action"];
+const TABLE_HEAD = ["#", "Code", "Name", "Image", "Category", "Stock", "Sold", "Created At", "Action"];
 
 const ProductList = () => {
 
@@ -93,7 +93,7 @@ const ProductList = () => {
                     </thead>
                     <tbody>
                         {products.map(
-                            ({ _id, skuCode, name, images, category, subcategory, createdAt }, index) => {
+                            ({ _id, skuCode, name, images, category, availableStock, soldCount, createdAt }, index) => {
                                 const isLast = index === products.length - 1;
                                 const classes = isLast
                                     ? "p-4"
@@ -140,15 +140,29 @@ const ProductList = () => {
                                                 {category?.name}
                                             </Typography>
                                         </td>
+
                                         <td className={classes}>
-                                            <Typography
-                                                variant="small"
-                                                color="blue-gray"
-                                                className="font-normal"
-                                            >
-                                                {subcategory?.name}
-                                            </Typography>
+                                            <div className="w-max">
+                                                <Chip
+                                                    size="sm"
+                                                    variant="ghost"
+                                                    value={availableStock}
+                                                    color="red"
+                                                />
+                                            </div>
                                         </td>
+                                        <td className={classes}>
+                                            <div className="w-max">
+                                                <Chip
+                                                    size="sm"
+                                                    variant="ghost"
+                                                    value={soldCount}
+                                                    color="green"
+                                                />
+                                            </div>
+                                        </td>
+
+
                                         <td className={classes}>
                                             <Typography
                                                 variant="small"
@@ -164,8 +178,8 @@ const ProductList = () => {
                                             </IconButton>
 
                                             <IconButton onClick={() => handleDeleteProduct(_id)} size="sm" variant="text" className="rounded-full">
-                                                    <AiOutlineDelete className="text-red-600" size={20} />
-                                                </IconButton>
+                                                <AiOutlineDelete className="text-red-600" size={20} />
+                                            </IconButton>
                                         </td>
                                     </tr>
                                 );

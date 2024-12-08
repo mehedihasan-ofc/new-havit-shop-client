@@ -102,6 +102,7 @@ const AddProduct = () => {
                 regularPrice: parseFloat(formData.regularPrice),
                 price: parseFloat(formData.price),
                 availableStock: parseInt(formData.availableStock, 10),
+                soldCount: 0,
                 rating: parseFloat(formData.rating),
                 videoLink: formData.videoLink,
                 description: formData.description,

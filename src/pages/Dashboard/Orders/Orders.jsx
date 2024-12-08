@@ -211,6 +211,7 @@ const Orders = () => {
                                         (
                                             {
                                                 _id,
+                                                orderId,
                                                 orderDate,
                                                 paymentMethod,
                                                 deliveryStatus,
@@ -242,7 +243,7 @@ const Orders = () => {
                                                             color="blue-gray"
                                                             className="font-normal"
                                                         >
-                                                            {_id}
+                                                            #{orderId}
                                                         </Typography>
                                                     </td>
 
