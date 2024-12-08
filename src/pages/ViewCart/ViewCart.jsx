@@ -171,7 +171,7 @@ const ViewCart = () => {
                 </div>
             </div>
 
-            <div className="flex justify-between items-center mt-5">
+            <div className="flex justify-between items-center gap-5 mt-5">
                 <Button onClick={() => navigate("/")} className="rounded-none bg-primary flex items-center gap-2">
                     <FaArrowLeftLong size={16} />
                     Continue Shopping

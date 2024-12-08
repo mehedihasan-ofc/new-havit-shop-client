@@ -5,7 +5,6 @@ import { IoClose } from "react-icons/io5";
 import { FiMinus, FiPlus } from "react-icons/fi";
 
 const ViewCartCard = ({ item, quantity, onFlavorChange, onQuantityChange, refetch }) => {
-
     const [axiosSecure] = useAxiosSecure();
     const subtotal = item.productDetails.price * quantity;
     const hasDiscount = item.productDetails.price < item.productDetails.regularPrice;
@@ -24,7 +23,7 @@ const ViewCartCard = ({ item, quantity, onFlavorChange, onQuantityChange, refetc
                 try {
                     const { data } = await axiosSecure.delete(`/carts/${id}`);
                     if (data.deletedCount > 0) {
-                        refetch(); // Refresh cart data
+                        refetch();
                         Swal.fire({
                             title: "Deleted!",
                             text: `${name} has been removed from your cart.`,
@@ -50,14 +49,11 @@ const ViewCartCard = ({ item, quantity, onFlavorChange, onQuantityChange, refetc
     };
 
     return (
-        <div className="px-5 py-3 border border-gray-200 rounded shadow bg-white">
-
+        <div className="px-4 py-3 border border-gray-200 rounded shadow bg-white">
             <div className="flex justify-between items-center border-b mb-4">
-
                 <div className="relative inline-block px-2 text-white text-sm font-medium bg-primary -skew-x-12">
                     <span className="skew-x-12">Made In: {item?.productDetails?.madeIn}</span>
                 </div>
-
 
                 <IconButton
                     size="sm"
@@ -70,8 +66,7 @@ const ViewCartCard = ({ item, quantity, onFlavorChange, onQuantityChange, refetc
                 </IconButton>
             </div>
 
-            <div className="flex items-center justify-between gap-5">
-
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-5">
                 <div>
                     <img
                         src={item.productDetails.images[0]?.url}
@@ -80,20 +75,20 @@ const ViewCartCard = ({ item, quantity, onFlavorChange, onQuantityChange, refetc
                     />
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-2 text-center lg:text-left">
                     <h4 className="text-sm font-semibold">{item.productDetails.name}</h4>
-
-                    <div className="flex justify-between items-center">
-                        <div className="flex items-baseline space-x-2">
-                            <span className="text-base font-bold text-primary">৳{item.productDetails.price.toFixed(2)}</span>
-                            {hasDiscount && (
-                                <span className="text-sm text-gray-400 line-through">৳{item.productDetails.regularPrice.toFixed(2)}</span>
-                            )}
-                        </div>
+                    <div className="flex justify-center lg:justify-start items-center gap-2">
+                        <span className="text-base font-bold text-primary">
+                            ৳{item.productDetails.price.toFixed(2)}
+                        </span>
+                        {hasDiscount && (
+                            <span className="text-sm text-gray-400 line-through">
+                                ৳{item.productDetails.regularPrice.toFixed(2)}
+                            </span>
+                        )}
                     </div>
                 </div>
 
-                {/* Flavor Selection */}
                 <div className="space-y-2">
                     <p className="text-sm text-center text-gray-500">Select Flavor</p>
                     <select
@@ -111,8 +106,7 @@ const ViewCartCard = ({ item, quantity, onFlavorChange, onQuantityChange, refetc
 
                 <div className="space-y-2">
                     <p className="text-sm text-center text-gray-500">Quantity</p>
-
-                    <div className="flex items-center justify-between w-24 h-8 bg-white rounded-full shadow-sm border">
+                    <div className="flex items-center justify-between w-24 h-8 bg-white rounded-full shadow-sm border mx-auto lg:mx-0">
                         <button
                             onClick={() => onQuantityChange(-1)}
                             disabled={quantity <= 1}
@@ -135,7 +129,7 @@ const ViewCartCard = ({ item, quantity, onFlavorChange, onQuantityChange, refetc
                     </div>
                 </div>
 
-                <div className="flex flex-col items-end">
+                <div className="flex flex-col items-center lg:items-end">
                     <p className="text-sm text-gray-500">Subtotal</p>
                     <p className="text-lg font-semibold text-primary">
                         ৳{subtotal.toFixed(2)}
