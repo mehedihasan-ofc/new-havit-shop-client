@@ -4,7 +4,7 @@ import { IconButton } from "@material-tailwind/react";
 import { IoClose } from "react-icons/io5";
 import { FiMinus, FiPlus } from "react-icons/fi";
 
-const ViewCartCard = ({ item, quantity, onQuantityChange, refetch }) => {
+const ViewCartCard = ({ item, quantity, onFlavorChange, onQuantityChange, refetch }) => {
 
     const [axiosSecure] = useAxiosSecure();
     const subtotal = item.productDetails.price * quantity;
@@ -48,8 +48,6 @@ const ViewCartCard = ({ item, quantity, onQuantityChange, refetch }) => {
             }
         });
     };
-
-    console.log(item);
 
     return (
         <div className="px-5 py-3 border border-gray-200 rounded shadow bg-white">
@@ -95,9 +93,20 @@ const ViewCartCard = ({ item, quantity, onQuantityChange, refetch }) => {
                     </div>
                 </div>
 
-                {/* Render Flavor */}
+                {/* Flavor Selection */}
                 <div className="space-y-2">
-                    <p className="text-sm text-center text-gray-500">Choose One</p>
+                    <p className="text-sm text-center text-gray-500">Select Flavor</p>
+                    <select
+                        className="border px-2 py-1 rounded shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                        onChange={(e) => onFlavorChange(e.target.value)}
+                    >
+                        <option value="">Choose a flavor</option>
+                        {item.productDetails.flavor.map((flavor) => (
+                            <option key={flavor} value={flavor}>
+                                {flavor}
+                            </option>
+                        ))}
+                    </select>
                 </div>
 
                 <div className="space-y-2">
@@ -108,8 +117,8 @@ const ViewCartCard = ({ item, quantity, onQuantityChange, refetch }) => {
                             onClick={() => onQuantityChange(-1)}
                             disabled={quantity <= 1}
                             className={`flex items-center justify-center w-8 h-full rounded-full transition-all ${quantity > 1
-                                    ? 'text-primary hover:bg-primary hover:text-white'
-                                    : 'text-gray-300 cursor-not-allowed'
+                                ? 'text-primary hover:bg-primary hover:text-white'
+                                : 'text-gray-300 cursor-not-allowed'
                                 }`}
                         >
                             <FiMinus size={12} />

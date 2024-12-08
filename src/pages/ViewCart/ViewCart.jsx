@@ -10,6 +10,7 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { TbLogout } from "react-icons/tb";
 import ViewCartCard from "../../components/Card/ViewCartCard/ViewCartCard";
+import { toast } from "react-toastify";
 
 const ViewCart = () => {
 
@@ -17,6 +18,7 @@ const ViewCart = () => {
     const [axiosSecure] = useAxiosSecure();
     const [cart, isLoading, refetch] = useCart();
     const [quantities, setQuantities] = useState([]);
+    const [selectedFlavors, setSelectedFlavors] = useState([]);
     const navigate = useNavigate();
     const [allClear, setAllClear] = useState(false);
 
@@ -26,6 +28,12 @@ const ViewCart = () => {
             setQuantities(initialQuantities);
         }
     }, [cart]);
+
+    const handleFlavorChange = (index, flavor) => {
+        const updatedFlavors = [...selectedFlavors];
+        updatedFlavors[index] = flavor;
+        setSelectedFlavors(updatedFlavors);
+    };
 
     const handleQuantityChange = (index, delta) => {
         const updatedQuantities = [...quantities];
@@ -49,8 +57,19 @@ const ViewCart = () => {
                 ...item.productDetails,
                 productId: item.productId,
                 quantity: quantities[index],
+                selectFlavor: selectedFlavors[index],
             }))
         };
+
+        const unselectedItem = checkoutData?.products?.find((item) => !item?.selectFlavor);
+
+        if (unselectedItem) {
+            toast.error(`Please select a flavor for ${unselectedItem.name} before proceeding!`, {
+                autoClose: 1600,
+                pauseOnHover: false
+            });
+            return;
+        }
         navigate("/checkout", { state: { checkoutData } });
     };
 
@@ -138,6 +157,7 @@ const ViewCart = () => {
                                 item={item}
                                 quantity={quantities[index]}
                                 onQuantityChange={(change) => handleQuantityChange(index, change)}
+                                onFlavorChange={(flavor) => handleFlavorChange(index, flavor)}
                                 refetch={refetch}
                             />
                         ))

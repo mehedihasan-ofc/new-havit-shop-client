@@ -28,6 +28,8 @@ const Checkout = () => {
     const shippingCharge = billingDetails?.city?.toLowerCase() === "dhaka" ? 100 : billingDetails ? 150 : 0;
     const payableTotal = total - discount + shippingCharge;
 
+    console.log(products);
+
     const handleCouponChange = (e) => {
         setCouponCode(e.target.value);
     };
