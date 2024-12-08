@@ -2,6 +2,7 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { IconButton } from "@material-tailwind/react";
 import { IoClose } from "react-icons/io5";
+import { FiMinus, FiPlus } from "react-icons/fi";
 
 const ViewCartCard = ({ item, quantity, onQuantityChange, refetch }) => {
 
@@ -102,25 +103,25 @@ const ViewCartCard = ({ item, quantity, onQuantityChange, refetch }) => {
                 <div className="space-y-2">
                     <p className="text-sm text-center text-gray-500">Quantity</p>
 
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center justify-between w-24 h-8 bg-white rounded-full shadow-sm border">
                         <button
                             onClick={() => onQuantityChange(-1)}
-                            className="px-2 py-1 bg-gray-300 rounded disabled:opacity-50"
                             disabled={quantity <= 1}
+                            className={`flex items-center justify-center w-8 h-full rounded-full transition-all ${quantity > 1
+                                    ? 'text-primary hover:bg-primary hover:text-white'
+                                    : 'text-gray-300 cursor-not-allowed'
+                                }`}
                         >
-                            -
+                            <FiMinus size={12} />
                         </button>
-                        <input
-                            type="number"
-                            value={quantity}
-                            readOnly
-                            className="w-12 text-center border rounded"
-                        />
+
+                        <span className="text-sm font-medium text-gray-800">{quantity}</span>
+
                         <button
                             onClick={() => onQuantityChange(1)}
-                            className="px-2 py-1 bg-gray-300 rounded"
+                            className="flex items-center justify-center w-8 h-full rounded-full text-primary hover:bg-primary hover:text-white transition-all"
                         >
-                            +
+                            <FiPlus size={12} />
                         </button>
                     </div>
                 </div>
