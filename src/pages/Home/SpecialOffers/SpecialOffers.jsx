@@ -13,7 +13,7 @@ const SpecialOffers = () => {
      if (!discountedProducts || discountedProducts.length === 0) return null;
 
     return (
-        <div className="my-container mt-10">
+        <div className="my-container">
 
             <div className='flex justify-between items-center'>
                 <h4 className="text-base md:text-xl font-sans font-bold">Special Offers</h4>

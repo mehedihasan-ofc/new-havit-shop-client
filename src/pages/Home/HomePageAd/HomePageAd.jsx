@@ -16,7 +16,7 @@ const HomePageAd = () => {
     if (!adsData?.ads) return null;
 
     return (
-        <div className="my-container mb-5">
+        <div className="my-container">
             {homePageAd ? (
                 homePageAd.adLink ? (
                     <Link to={homePageAd.adLink} target="_blank" rel="noopener noreferrer">

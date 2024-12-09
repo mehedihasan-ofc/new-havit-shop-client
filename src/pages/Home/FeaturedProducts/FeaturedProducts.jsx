@@ -20,7 +20,7 @@ const FeaturedProducts = () => {
      if (!products || products.length === 0) return null;
 
     return (
-        <div className="my-container mb-10">
+        <div className="my-container">
 
             <div className="bg-secondary p-5 rounded-lg">
                 <div className='flex justify-center items-center'>

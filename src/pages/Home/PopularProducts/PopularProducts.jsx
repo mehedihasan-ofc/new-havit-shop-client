@@ -13,7 +13,7 @@ const PopularProducts = () => {
      if (!products || products.length === 0) return null;
 
     return (
-        <div className="my-container my-10">
+        <div className="my-container">
 
             <div className='flex justify-between items-center'>
                 <h4 className="text-base md:text-xl font-sans font-bold">Popular Products</h4>

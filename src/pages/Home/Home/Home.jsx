@@ -8,18 +8,23 @@ import AvatarImg from "../../../assets/avator.jpg";
 import { FloatingWhatsApp } from 'react-floating-whatsapp';
 import FeaturedProducts from "../FeaturedProducts/FeaturedProducts";
 import SpecialOffers from "../SpecialOffers/SpecialOffers";
+import CountDown from "../CountDown/CountDown";
 
 const Home = () => {
     return (
         <>
-            <Hero />
-            <NowOffers />
-            <FeaturedProducts />
-            <Categories />
-            <SpecialOffers />
-            <PopularProducts />
-            <OurPromises />
-            <HomePageAd />
+            <div className="space-y-8">
+                <Hero />
+                <NowOffers />
+                <CountDown />
+                <FeaturedProducts />
+                <Categories />
+                <SpecialOffers />
+                <PopularProducts />
+                <OurPromises />
+                <HomePageAd />
+            </div>
+
 
             <FloatingWhatsApp
                 phoneNumber="+8801744991003"
