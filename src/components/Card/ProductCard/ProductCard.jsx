@@ -118,27 +118,45 @@ const ProductCard = ({ product }) => {
                     <div className="flex items-baseline space-x-2">
                         <span className="text-base font-bold text-primary">৳{product.price.toFixed(2)}</span>
                         {hasDiscount && (
-                            <span className="text-sm text-gray-400 line-through">৳{product.regularPrice.toFixed(2)}</span>
+                            <div className="bg-secondary text-primary px-2">
+                                <span className="text-xs line-through">৳{product.regularPrice.toFixed(2)}</span>
+                            </div>
                         )}
                     </div>
+
+                    <span className="text-sm text-gray-400 font-body">Sold: {product.soldCount}</span>
                 </div>
 
-                <Button
-                    onClick={() => handleAddToCart(product?._id)}
-                    loading={loading}
-                    variant="filled"
-                    size="sm"
-                    className="w-full flex items-center justify-center gap-2 rounded bg-primary py-2 px-3 capitalize font-medium text-xs"
-                >
-                    {loading ? (
-                        <span>Wait</span>
+                {
+                    product.availableStock > 0 ? (
+                        <Button
+                            onClick={() => handleAddToCart(product?._id)}
+                            loading={loading}
+                            variant="filled"
+                            size="sm"
+                            className="w-full flex items-center justify-center gap-2 rounded bg-primary py-2 px-3 capitalize font-medium text-xs"
+                        >
+                            {loading ? (
+                                <span>Wait</span>
+                            ) : (
+                                <>
+                                    <BsCartPlus size={16} />
+                                    Add
+                                </>
+                            )}
+                        </Button>
                     ) : (
-                        <>
-                            <BsCartPlus size={16} />
-                            Add
-                        </>
-                    )}
-                </Button>
+                        <Button
+                            disabled
+                            variant="outlined"
+                            size="sm"
+                            className="w-full flex items-center justify-center gap-2 rounded border-red-600 text-red-600 py-2 px-3 capitalize font-bold text-xs"
+                        >
+                            Out of Stock
+                        </Button>
+                    )
+                }
+
             </div>
         </div>
     );

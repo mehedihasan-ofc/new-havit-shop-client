@@ -111,10 +111,10 @@ const ProductDetails = () => {
 
                     {/* Price */}
                     <div className="flex items-center gap-3 text-xl font-bold text-primary dark:text-white">
-                        <span>Tk {product.price.toFixed(2)}</span>
+                        <span>৳{product.price.toFixed(2)}</span>
                         {hasDiscount && (
                             <>
-                                <span className="text-gray-400 line-through text-base">Tk {product.regularPrice.toFixed(2)}</span>
+                                <span className="text-gray-400 line-through text-base">৳{product.regularPrice.toFixed(2)}</span>
                                 <span className="text-sm text-red-500 font-medium">{discountPercentage}% OFF</span>
                             </>
                         )}
@@ -123,49 +123,65 @@ const ProductDetails = () => {
                     {/* Additional Details */}
                     <div className="text-gray-700 dark:text-gray-300 space-y-1">
                         <p>Brand: <span className="font-medium">{product.brand}</span></p>
-                        <p>Stock: <span className="font-medium">{product.availableStock}</span></p>
                         <p>Made In: <span className="font-medium">{product.madeIn}</span></p>
+                        <p>Available Stock: <span className="font-medium">{product.availableStock}</span></p>
                     </div>
 
                     {/* Quantity & Add to Cart */}
-                    <div className="flex items-center space-x-4">
-                        <div className="flex items-center border border-gray-300 dark:border-gray-700 rounded-none overflow-hidden shadow-sm">
-                            <button
-                                onClick={() => setQuantity(prev => Math.max(prev - 1, 1))}
-                                className="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-                            >
-                                <FaMinus size={14} />
-                            </button>
-                            <input
-                                type="number"
-                                value={quantity}
-                                onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value)))}
-                                className="w-12 text-center text-gray-900 dark:text-white bg-transparent outline-none"
-                            />
-                            <button
-                                onClick={() => setQuantity(prev => prev + 1)}
-                                className="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-                            >
-                                <FaPlus size={14} />
-                            </button>
-                        </div>
 
-                        <Button
-                            onClick={() => handleAddToCart(product?._id)}
-                            loading={loading}
-                            variant="filled"
-                            className="flex items-center gap-2 rounded-none bg-primary py-2 font-medium text-xs"
-                        >
-                            {loading ? (
-                                <span>Adding to Cart</span>
-                            ) : (
-                                <>
-                                    <BsCartPlus size={18} />
-                                    Add to Cart
-                                </>
-                            )}
-                        </Button>
-                    </div>
+                    {
+                        product.availableStock > 0 ? (
+                            <div className="flex items-center space-x-4">
+                                <div className="flex items-center border border-gray-300 dark:border-gray-700 rounded-none overflow-hidden shadow-sm">
+                                    <button
+                                        onClick={() => setQuantity(prev => Math.max(prev - 1, 1))}
+                                        className="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+                                    >
+                                        <FaMinus size={14} />
+                                    </button>
+                                    <input
+                                        type="number"
+                                        value={quantity}
+                                        onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value)))}
+                                        className="w-12 text-center text-gray-900 dark:text-white bg-transparent outline-none"
+                                    />
+                                    <button
+                                        onClick={() => setQuantity(prev => prev + 1)}
+                                        className="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+                                    >
+                                        <FaPlus size={14} />
+                                    </button>
+                                </div>
+
+                                <Button
+                                    onClick={() => handleAddToCart(product?._id)}
+                                    loading={loading}
+                                    variant="filled"
+                                    className="flex items-center gap-2 rounded-none bg-primary py-2 font-medium text-xs"
+                                >
+                                    {loading ? (
+                                        <span>Adding to Cart</span>
+                                    ) : (
+                                        <>
+                                            <BsCartPlus size={18} />
+                                            Add to Cart
+                                        </>
+                                    )}
+                                </Button>
+                            </div>
+                        ) : (
+                            <Button
+                                disabled
+                                variant="outlined"
+                                size="sm"
+                                className="w-full flex items-center justify-center gap-2 rounded border-red-600 text-red-600 py-2 px-3 capitalize font-bold text-xs"
+                            >
+                                Out of Stock
+                            </Button>
+                        )
+                    }
+
+
                 </div>
             </div>
 
