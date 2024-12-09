@@ -18,7 +18,7 @@ const Newsletter = () => {
             };
 
             const response = await axios.post(
-                'https://havit-shop.onrender.com/subscription',
+                'https://server.havitshopbd.com/subscription',
                 newSubscription
             );
 

@@ -43,7 +43,7 @@ const ProductCard = ({ product }) => {
             setLoading(true);
 
             try {
-                const response = await axios.post("https://havit-shop.onrender.com/carts", newCart);
+                const response = await axios.post("https://server.havitshopbd.com/carts", newCart);
 
                 if (response.status === 200) {
                     refetch();
@@ -112,6 +112,8 @@ const ProductCard = ({ product }) => {
                     <div>
                         <span className="text-sm text-gray-400">({product?.rating})</span>
                     </div>
+
+                    <span className="text-sm text-gray-400">Sold: {product.soldCount}</span>
                 </div>
 
                 <div className="flex justify-between items-center my-2">
@@ -123,8 +125,6 @@ const ProductCard = ({ product }) => {
                             </div>
                         )}
                     </div>
-
-                    <span className="text-sm text-gray-400 font-body">Sold: {product.soldCount}</span>
                 </div>
 
                 {

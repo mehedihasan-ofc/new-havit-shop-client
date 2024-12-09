@@ -15,7 +15,7 @@ const ReadBlog = () => {
     const { data: blog = {}, isLoading: loading } = useQuery({
         queryKey: ["blog"],
         queryFn: async () => {
-            const res = await fetch(`https://havit-shop.onrender.com/blogs/${id}`);
+            const res = await fetch(`https://server.havitshopbd.com/blogs/${id}`);
             return res.json();
         },
     });

@@ -6,7 +6,7 @@ const BreakingMarquee = () => {
     const { data: breakingTextData = {}, isLoading } = useQuery({
         queryKey: ['breakingTextData'],
         queryFn: async () => {
-            const res = await fetch('https://havit-shop.onrender.com/breaking-text');
+            const res = await fetch('https://server.havitshopbd.com/breaking-text');
             return res.json();
         }
     });

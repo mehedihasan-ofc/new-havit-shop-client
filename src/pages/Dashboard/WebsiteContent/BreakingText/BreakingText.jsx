@@ -15,7 +15,7 @@ const BreakingText = () => {
     const { data: breakingTextData = {} } = useQuery({
         queryKey: ['breakingTextData'],
         queryFn: async () => {
-            const res = await fetch('https://havit-shop.onrender.com/breaking-text');
+            const res = await fetch('https://server.havitshopbd.com/breaking-text');
             return res.json();
         }
     });

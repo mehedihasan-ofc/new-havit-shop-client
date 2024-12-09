@@ -4,7 +4,7 @@ const useLogo = () => {
     const { data: logoData = {}, isLoading: loading, refetch } = useQuery({
         queryKey: ['logoData'],
         queryFn: async () => {
-            const res = await fetch('https://havit-shop.onrender.com/logo');
+            const res = await fetch('https://server.havitshopbd.com/logo');
             return res.json();
         }
     });

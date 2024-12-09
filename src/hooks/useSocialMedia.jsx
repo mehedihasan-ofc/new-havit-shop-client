@@ -4,7 +4,7 @@ const useSocialMedia = () => {
     const { data: socialMediaData = {}, isLoading, refetch } = useQuery({
         queryKey: ["socialMediaData"],
         queryFn: async () => {
-            const res = await fetch("https://havit-shop.onrender.com/social-media");
+            const res = await fetch("https://server.havitshopbd.com/social-media");
             return res.json();
         },
     });

@@ -5,7 +5,7 @@ const useDiscountedProducts = () => {
     const { data: discountedProducts = [], isLoading } = useQuery({
         queryKey: ['discountedProducts'],
         queryFn: async () => {
-            const res = await fetch('https://havit-shop.onrender.com/products/discounted');
+            const res = await fetch('https://server.havitshopbd.com/products/discounted');
             return res.json();
         }
     });

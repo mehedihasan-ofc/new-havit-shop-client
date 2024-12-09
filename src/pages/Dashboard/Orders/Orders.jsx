@@ -66,7 +66,7 @@ const Orders = () => {
         queryKey: ['orders', user?.email, activeTab],
         enabled: !!user?.email && !!token,
         queryFn: async () => {
-            const res = await axiosSecure(`https://havit-shop.onrender.com/orders/${activeTab}`);
+            const res = await axiosSecure(`https://server.havitshopbd.com/orders/${activeTab}`);
             return res.data;
         },
     });
