@@ -17,10 +17,10 @@ const Home = () => {
                 <Hero />
                 <NowOffers />
                 <CountDown />
-                <FeaturedProducts />
                 <Categories />
                 <SpecialOffers />
                 <PopularProducts />
+                <FeaturedProducts />
                 <OurPromises />
                 <HomePageAd />
             </div>

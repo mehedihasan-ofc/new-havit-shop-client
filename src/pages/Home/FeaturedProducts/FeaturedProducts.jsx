@@ -22,7 +22,7 @@ const FeaturedProducts = () => {
     return (
         <div className="my-container">
 
-            <div className="bg-secondary p-5 rounded-lg">
+            <div className="bg-secondary p-5 shadow rounded">
                 <div className='flex justify-center items-center'>
                     <h4 className="text-base md:text-xl font-sans font-bold">Featured Products</h4>
                 </div>
