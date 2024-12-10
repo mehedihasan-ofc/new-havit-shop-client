@@ -3,23 +3,20 @@ import useCampaign from "../../../hooks/useCampaign";
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
 
 // Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
-import 'swiper/css';
+import "swiper/css";
 
 // import required modules
-import { Autoplay, Navigation } from 'swiper/modules';
-import ProductCard from "../../../components/Card/ProductCard/ProductCard";
+import { Autoplay, Navigation } from "swiper/modules";
+import CountDownProductCard from "../../../components/Card/CountDownProductCard/CountDownProductCard";
 
 const CountDown = () => {
-
     const [campaignData] = useCampaign();
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
-    const enableLoopMode = campaignData?.length > 1;
-
-    console.log(campaignData);
+    const enableLoopMode = campaignData?.products?.length > 1;
 
     useEffect(() => {
         const countdown = () => {
@@ -46,6 +43,17 @@ const CountDown = () => {
         return null;
     }
 
+    // Calculate discounted price for products
+    const calculateDiscountedPrice = (price, discountValue, discountType) => {
+        if (discountType === "tk") {
+            return Math.max(price - discountValue, 0);
+        }
+        if (discountType === "percent") {
+            return Math.max(price - (price * discountValue) / 100, 0);
+        }
+        return price; // Fallback if no discount type is specified
+    };
+
     return (
         <div className="my-container">
             <div className="bg-secondary p-5 shadow rounded">
@@ -70,17 +78,9 @@ const CountDown = () => {
                     ))}
                 </div>
 
-                {/* Progress Bar */}
-                <div className="w-full h-2 rounded-lg overflow-hidden mb-8 bg-primary/20">
-                    <div
-                        className="h-full bg-primary"
-                        style={{ width: `${(120 - timeLeft.days) / 120 * 100}%` }}
-                    ></div>
-                </div>
-
                 {/* Product Section */}
-                <div className='relative mt-5'>
-
+                <div className="relative mt-5">
+                    {/* Swiper Controls */}
                     <div className="absolute top-1/2 -left-4 transform -translate-y-1/2 z-20">
                         <button
                             className="swiper-button-prev bg-white shadow-lg rounded-full p-1 hover:bg-gray-100 transition"
@@ -98,8 +98,7 @@ const CountDown = () => {
                         </button>
                     </div>
 
-
-                    <div className='px-5'>
+                    <div className="px-5">
                         <Swiper
                             slidesPerView={1}
                             spaceBetween={20}
@@ -111,8 +110,8 @@ const CountDown = () => {
                                 clickable: true,
                             }}
                             navigation={{
-                                nextEl: '.swiper-button-next',
-                                prevEl: '.swiper-button-prev',
+                                nextEl: ".swiper-button-next",
+                                prevEl: ".swiper-button-prev",
                             }}
                             modules={[Autoplay, Navigation]}
                             loop={enableLoopMode}
@@ -123,9 +122,13 @@ const CountDown = () => {
                                 },
                             }}
                         >
-                            {campaignData?.products?.map(product => (
+                            {campaignData.products.map((product) => (
                                 <SwiperSlide key={product._id}>
-                                    <ProductCard product={product} />
+                                    <CountDownProductCard
+                                        product={product}
+                                        discountType={campaignData.discountType}
+                                        discountValue={campaignData.discountValue}
+                                    />
                                 </SwiperSlide>
                             ))}
                         </Swiper>
