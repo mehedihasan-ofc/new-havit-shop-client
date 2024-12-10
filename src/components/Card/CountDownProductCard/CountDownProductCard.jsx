@@ -18,7 +18,7 @@ const CountDownProductCard = ({ product, discountType, discountValue }) => {
 
     return (
         <div className="relative border rounded-lg shadow hover:shadow-md transition-all duration-300 group font-sans bg-white">
-            <Link to={`/products/product-details/${product._id}`}>
+            {/* <Link to={`/products/product-details/${product._id}`}> */}
                 <div className="relative overflow-hidden rounded-lg h-44">
                     <div className="pl-4 pt-4 pr-4 pb-2">
                         <img
@@ -33,7 +33,7 @@ const CountDownProductCard = ({ product, discountType, discountValue }) => {
                         </span>
                     )}
                 </div>
-            </Link>
+            {/* </Link> */}
 
             <div className="pl-4 pb-4 pr-4">
                 <h5 className="text-[10px] font-semibold text-gray-500 uppercase">{product.brand}</h5>
