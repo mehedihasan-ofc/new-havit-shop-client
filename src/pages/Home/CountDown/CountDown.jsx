@@ -19,6 +19,8 @@ const CountDown = () => {
 
     const enableLoopMode = campaignData?.length > 1;
 
+    console.log(campaignData);
+
     useEffect(() => {
         const countdown = () => {
             const now = new Date();
@@ -39,6 +41,10 @@ const CountDown = () => {
         const timer = setInterval(countdown, 1000);
         return () => clearInterval(timer);
     }, [campaignData.expiredDate]);
+
+    if (!campaignData?.products) {
+        return null;
+    }
 
     return (
         <div className="my-container">
@@ -117,7 +123,7 @@ const CountDown = () => {
                                 },
                             }}
                         >
-                            {campaignData?.products.map(product => (
+                            {campaignData?.products?.map(product => (
                                 <SwiperSlide key={product._id}>
                                     <ProductCard product={product} />
                                 </SwiperSlide>

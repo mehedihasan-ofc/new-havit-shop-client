@@ -5,6 +5,7 @@ import useProducts from "../../../../hooks/useProducts";
 import { Button } from "@material-tailwind/react";
 import { toast } from "react-toastify";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 
 const CreateCampaign = () => {
   const [axiosSecure] = useAxiosSecure();
@@ -16,7 +17,14 @@ const CreateCampaign = () => {
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [expiredDate, setExpiredDate] = useState("");
-  const [products, loading] = useProducts();
+
+  const { data: products = [], isLoading: loading } = useQuery({
+    queryKey: ['products'],
+    queryFn: async () => {
+      const res = await fetch('https://server.havitshopbd.com/products/non-discounted');
+      return res.json();
+    }
+  });
 
   // State to manage form submission loading state
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -52,8 +60,6 @@ const CreateCampaign = () => {
       setIsSubmitting(true);
 
       const { data } = await axiosSecure.post("/campaign", campaignData);
-
-      console.log(data);
 
       if (data.insertedId) {
         toast.success("Campaign created successfully!", {
@@ -97,7 +103,7 @@ const CreateCampaign = () => {
   }
 
   return (
-    <div className="border shadow max-w-3xl mx-auto bg-white rounded-md p-8">
+    <div className="border shadow max-w-4xl mx-auto bg-white rounded-md p-8">
       <div className="relative">
         <img className="absolute top-0 right-0" src={SVG} alt="background" />
         <form onSubmit={handleSubmit} className="space-y-6 max-w-full">
@@ -202,7 +208,7 @@ const CreateCampaign = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
 
-            <div className="h-full overflow-y-auto border border-gray-300 shadow rounded p-2">
+            <div className="h-60 overflow-y-auto border border-gray-300 shadow rounded p-2">
               {filteredProducts.length > 0 ? (
                 filteredProducts.map((product) => {
                   const hasDiscount = product.price < product.regularPrice;
@@ -226,7 +232,7 @@ const CreateCampaign = () => {
                       />
                       <label htmlFor={product._id} className="flex items-center gap-3">
                         <img src={product.images[0]?.url} alt={product.name} className="w-10 h-10 rounded" />
-                        <span>{product.name}</span>
+                        <span className="truncate">{product.name}</span>
                         <span className="font-medium">৳{product.price}</span>
                         {hasDiscount && (
                           <div className="flex items-center gap-2">
