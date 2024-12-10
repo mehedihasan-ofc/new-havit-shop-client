@@ -237,14 +237,192 @@ const Sidebar = () => {
 
                 <hr className="border-blue-gray-50" />
 
-                <Link to="orders">
+                {/* <Link to="orders">
                     <ListItem>
                         <ListItemPrefix>
                             <HiOutlineShoppingBag size={20} />
                         </ListItemPrefix>
                         Orders
                     </ListItem>
-                </Link>
+                </Link> */}
+
+                <Accordion
+                    open={open === 8}
+                    icon={
+                        <ChevronDownIcon
+                            strokeWidth={2.5}
+                            className={`mx-auto h-4 w-4 transition-transform ${open === 8 ? "rotate-180" : ""}`}
+                        />
+                    }
+                >
+                    <ListItem className="p-0" selected={open === 8}>
+                        <AccordionHeader onClick={() => handleOpen(8)} className="border-b-0 p-3">
+                            <ListItemPrefix>
+                                <HiOutlineShoppingBag size={20} />
+                            </ListItemPrefix>
+                            <Typography color="blue-gray" className="mr-auto font-normal">
+                                Orders
+                            </Typography>
+                        </AccordionHeader>
+                    </ListItem>
+                    <AccordionBody className="py-1">
+                        <List className="p-0">
+                            <ListItem>
+                                <ListItemPrefix>
+                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                </ListItemPrefix>
+                                All
+                                <ListItemSuffix>
+                                    <Chip value="14" size="sm" variant="ghost" color="teal" className="rounded-full" />
+                                </ListItemSuffix>
+                            </ListItem>
+
+                            <ListItem>
+                                <ListItemPrefix>
+                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                </ListItemPrefix>
+                                Pending
+                                <ListItemSuffix>
+                                    <Chip value="14" size="sm" variant="ghost" color="teal" className="rounded-full" />
+                                </ListItemSuffix>
+                            </ListItem>
+
+                            <ListItem>
+                                <ListItemPrefix>
+                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                </ListItemPrefix>
+                                Confirmed
+                                <ListItemSuffix>
+                                    <Chip value="14" size="sm" variant="ghost" color="teal" className="rounded-full" />
+                                </ListItemSuffix>
+                            </ListItem>
+
+                            <ListItem>
+                                <ListItemPrefix>
+                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                </ListItemPrefix>
+                                Packaging
+                                <ListItemSuffix>
+                                    <Chip value="14" size="sm" variant="ghost" color="amber" className="rounded-full" />
+                                </ListItemSuffix>
+                            </ListItem>
+
+                            <ListItem>
+                                <ListItemPrefix>
+                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                </ListItemPrefix>
+                                Out For Delivery
+                                <ListItemSuffix>
+                                    <Chip value="14" size="sm" variant="ghost" color="amber" className="rounded-full" />
+                                </ListItemSuffix>
+                            </ListItem>
+
+                            <ListItem>
+                                <ListItemPrefix>
+                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                </ListItemPrefix>
+                                Delivered
+                                <ListItemSuffix>
+                                    <Chip value="14" size="sm" variant="ghost" color="green" className="rounded-full" />
+                                </ListItemSuffix>
+                            </ListItem>
+
+                            <ListItem>
+                                <ListItemPrefix>
+                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                </ListItemPrefix>
+                                Returned
+                                <ListItemSuffix>
+                                    <Chip value="14" size="sm" variant="ghost" color="red" className="rounded-full" />
+                                </ListItemSuffix>
+                            </ListItem>
+
+                            <ListItem>
+                                <ListItemPrefix>
+                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                </ListItemPrefix>
+                                Failed To Deliver
+                                <ListItemSuffix>
+                                    <Chip value="14" size="sm" variant="ghost" color="red" className="rounded-full" />
+                                </ListItemSuffix>
+                            </ListItem>
+
+                            <ListItem>
+                                <ListItemPrefix>
+                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                </ListItemPrefix>
+                                Canceled
+                                <ListItemSuffix>
+                                    <Chip value="14" size="sm" variant="ghost" color="red" className="rounded-full" />
+                                </ListItemSuffix>
+                            </ListItem>
+                        </List>
+                    </AccordionBody>
+                </Accordion>
+
+                <Accordion
+                    open={open === 9}
+                    icon={
+                        <ChevronDownIcon
+                            strokeWidth={2.5}
+                            className={`mx-auto h-4 w-4 transition-transform ${open === 9 ? "rotate-180" : ""}`}
+                        />
+                    }
+                >
+                    <ListItem className="p-0" selected={open === 9}>
+                        <AccordionHeader onClick={() => handleOpen(9)} className="border-b-0 p-3">
+                            <ListItemPrefix>
+                                <LuPlusSquare size={20} />
+                            </ListItemPrefix>
+                            <Typography color="blue-gray" className="mr-auto font-normal">
+                                Refund Request List
+                            </Typography>
+                        </AccordionHeader>
+                    </ListItem>
+                    <AccordionBody className="py-1">
+                        <List className="p-0">
+                            <ListItem>
+                                <ListItemPrefix>
+                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                </ListItemPrefix>
+                                Pending
+                                <ListItemSuffix>
+                                    <Chip value="14" size="sm" variant="ghost" color="teal" className="rounded-full" />
+                                </ListItemSuffix>
+                            </ListItem>
+
+                            <ListItem>
+                                <ListItemPrefix>
+                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                </ListItemPrefix>
+                                Approved
+                                <ListItemSuffix>
+                                    <Chip value="14" size="sm" variant="ghost" color="teal" className="rounded-full" />
+                                </ListItemSuffix>
+                            </ListItem>
+
+                            <ListItem>
+                                <ListItemPrefix>
+                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                </ListItemPrefix>
+                                Refunded
+                                <ListItemSuffix>
+                                    <Chip value="14" size="sm" variant="ghost" color="teal" className="rounded-full" />
+                                </ListItemSuffix>
+                            </ListItem>
+
+                            <ListItem>
+                                <ListItemPrefix>
+                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                </ListItemPrefix>
+                                Rejected
+                                <ListItemSuffix>
+                                    <Chip value="14" size="sm" variant="ghost" color="amber" className="rounded-full" />
+                                </ListItemSuffix>
+                            </ListItem>
+                        </List>
+                    </AccordionBody>
+                </Accordion>
 
                 <Accordion
                     open={open === 3}

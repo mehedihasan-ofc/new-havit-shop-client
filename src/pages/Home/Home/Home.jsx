@@ -13,7 +13,7 @@ import CountDown from "../CountDown/CountDown";
 const Home = () => {
     return (
         <>
-            <div className="space-y-8">
+            <div className="my-5 space-y-8">
                 <Hero />
                 <NowOffers />
                 <CountDown />
