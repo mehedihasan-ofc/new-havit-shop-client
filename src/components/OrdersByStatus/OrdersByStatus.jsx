@@ -1,58 +1,18 @@
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import {
-    Card,
-    CardHeader,
-    Input,
-    Typography,
-    CardBody,
-    Chip,
-    Tabs,
-    TabsHeader,
-    Tab,
-    IconButton,
-} from "@material-tailwind/react";
-import { useQuery } from "@tanstack/react-query";
 import { useContext, useState } from "react";
-import { AuthContext } from "../../../provider/AuthProvider";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import MySpinner from "../../../components/Shared/MySpinner/MySpinner";
-import { formattedDate } from "../../../utils";
+import { AuthContext } from "../../provider/AuthProvider";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
+import Swal from "sweetalert2";
+import { Card, CardBody, Chip, IconButton, Typography } from "@material-tailwind/react";
+import MySpinner from "../Shared/MySpinner/MySpinner";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { AiOutlineDelete } from "react-icons/ai";
-import Swal from "sweetalert2";
-import ViewOrderModal from "../../../components/Modal/ViewOrderModal/ViewOrderModal";
-
-const TABS = [
-    {
-        label: "All",
-        value: "all",
-    },
-    {
-        label: "Pending",
-        value: "pending",
-    },
-    {
-        label: "Processing",
-        value: "processing",
-    },
-    {
-        label: "Shipped",
-        value: "shipped",
-    },
-    {
-        label: "Delivered",
-        value: "delivered",
-    },
-    {
-        label: "Cancelled",
-        value: "cancelled",
-    }
-];
+import ViewOrderModal from "../Modal/ViewOrderModal/ViewOrderModal";
+import { formattedDate } from "../../utils";
 
 const TABLE_HEAD = ["#", "Order ID", "Order Date", "Pay Method", "Del Status", "Total", "Pay Status", "Actions"];
 
-const Orders = () => {
-    const [activeTab, setActiveTab] = useState("all");
+const OrdersByStatus = ({ activeStatus }) => {
 
     const { user } = useContext(AuthContext);
     const token = localStorage.getItem('access-token');
@@ -63,10 +23,10 @@ const Orders = () => {
     const [open, setOpen] = useState(false);
 
     const { data: orders = [], isLoading, refetch } = useQuery({
-        queryKey: ['orders', user?.email, activeTab],
+        queryKey: ['orders', user?.email, activeStatus],
         enabled: !!user?.email && !!token,
         queryFn: async () => {
-            const res = await axiosSecure(`https://server.havitshopbd.com/orders/${activeTab}`);
+            const res = await axiosSecure(`https://server.havitshopbd.com/orders/${activeStatus}`);
             return res.data;
         },
     });
@@ -136,40 +96,11 @@ const Orders = () => {
         }
     };
 
+    console.log(orders);
 
     return (
         <>
             <Card className="h-full w-full">
-                <CardHeader floated={false} shadow={false} className="rounded-none">
-                    <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-                        <Tabs value={activeTab} className="w-full md:w-max">
-                            <TabsHeader
-                                className="rounded-none"
-                                indicatorProps={{
-                                    className: "rounded-none",
-                                }}
-                            >
-                                {TABS.map(({ label, value }) => (
-                                    <Tab
-                                        onClick={() => setActiveTab(value)}
-                                        key={value}
-                                        value={value}
-                                        className="text-sm"
-                                    >
-                                        &nbsp;&nbsp;{label}&nbsp;&nbsp;
-                                    </Tab>
-                                ))}
-                            </TabsHeader>
-                        </Tabs>
-
-                        {/* <div className="w-full md:w-72">
-                            <Input
-                                label="Search"
-                                icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-                            />
-                        </div> */}
-                    </div>
-                </CardHeader>
                 {isLoading ? (
                     <MySpinner />
                 ) : (
@@ -326,4 +257,4 @@ const Orders = () => {
     );
 };
 
-export default Orders;
+export default OrdersByStatus;

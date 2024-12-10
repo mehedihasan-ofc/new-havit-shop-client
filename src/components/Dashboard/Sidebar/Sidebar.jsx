@@ -30,19 +30,39 @@ import { AuthContext } from "../../../provider/AuthProvider";
 import Swal from "sweetalert2";
 import { BsSliders2 } from "react-icons/bs";
 import useLogo from "../../../hooks/useLogo";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const Sidebar = () => {
 
     const [logoData] = useLogo();
-    const [role] = useRole();
+    // const [role] = useRole();
 
-    const { logOut } = useContext(AuthContext);
+    const { user, logOut } = useContext(AuthContext);
+    const token = localStorage.getItem('access-token');
+    const [axiosSecure] = useAxiosSecure();
 
-    // count
     const [subscriptions] = useSubscriptions();
     const [messages] = useMessages();
-
     const [open, setOpen] = useState(0);
+
+    const { data: orders = [] } = useQuery({
+        queryKey: ['orders', user?.email],
+        enabled: !!user?.email && !!token,
+        queryFn: async () => {
+            const res = await axiosSecure(`https://server.havitshopbd.com/orders/all`);
+            return res.data;
+        },
+    });
+
+    // Group orders by status
+    const orderCounts = orders.reduce((counts, order) => {
+        counts[order.deliveryStatus] = (counts[order.deliveryStatus] || 0) + 1;
+        return counts;
+    }, {});
+
+    // Get count for a specific status
+    const getOrderCount = (status) => orderCounts[status] || 0;
 
     const handleOpen = (value) => {
         setOpen(open === value ? 0 : value);
@@ -237,15 +257,6 @@ const Sidebar = () => {
 
                 <hr className="border-blue-gray-50" />
 
-                {/* <Link to="orders">
-                    <ListItem>
-                        <ListItemPrefix>
-                            <HiOutlineShoppingBag size={20} />
-                        </ListItemPrefix>
-                        Orders
-                    </ListItem>
-                </Link> */}
-
                 <Accordion
                     open={open === 8}
                     icon={
@@ -267,95 +278,114 @@ const Sidebar = () => {
                     </ListItem>
                     <AccordionBody className="py-1">
                         <List className="p-0">
-                            <ListItem>
-                                <ListItemPrefix>
-                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                                </ListItemPrefix>
-                                All
-                                <ListItemSuffix>
-                                    <Chip value="14" size="sm" variant="ghost" color="teal" className="rounded-full" />
-                                </ListItemSuffix>
-                            </ListItem>
 
-                            <ListItem>
-                                <ListItemPrefix>
-                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                                </ListItemPrefix>
-                                Pending
-                                <ListItemSuffix>
-                                    <Chip value="14" size="sm" variant="ghost" color="teal" className="rounded-full" />
-                                </ListItemSuffix>
-                            </ListItem>
+                            <Link to="orders/all">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    All
+                                    <ListItemSuffix>
+                                        <Chip value={orders.length} size="sm" variant="ghost" color="teal" className="rounded-full" />
+                                    </ListItemSuffix>
+                                </ListItem>
+                            </Link>
 
-                            <ListItem>
-                                <ListItemPrefix>
-                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                                </ListItemPrefix>
-                                Confirmed
-                                <ListItemSuffix>
-                                    <Chip value="14" size="sm" variant="ghost" color="teal" className="rounded-full" />
-                                </ListItemSuffix>
-                            </ListItem>
+                            <Link to="orders/pending">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    Pending
+                                    <ListItemSuffix>
+                                        <Chip value={getOrderCount('pending')} size="sm" variant="ghost" color="teal" className="rounded-full" />
+                                    </ListItemSuffix>
+                                </ListItem>
+                            </Link>
 
-                            <ListItem>
-                                <ListItemPrefix>
-                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                                </ListItemPrefix>
-                                Packaging
-                                <ListItemSuffix>
-                                    <Chip value="14" size="sm" variant="ghost" color="amber" className="rounded-full" />
-                                </ListItemSuffix>
-                            </ListItem>
+                            <Link to="orders/confirmed">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    Confirmed
+                                    <ListItemSuffix>
+                                        <Chip value={getOrderCount('confirmed')} size="sm" variant="ghost" color="teal" className="rounded-full" />
+                                    </ListItemSuffix>
+                                </ListItem>
+                            </Link>
 
-                            <ListItem>
-                                <ListItemPrefix>
-                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                                </ListItemPrefix>
-                                Out For Delivery
-                                <ListItemSuffix>
-                                    <Chip value="14" size="sm" variant="ghost" color="amber" className="rounded-full" />
-                                </ListItemSuffix>
-                            </ListItem>
+                            <Link to="orders/packaging">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    Packaging
+                                    <ListItemSuffix>
+                                        <Chip value={getOrderCount('packaging')} size="sm" variant="ghost" color="amber" className="rounded-full" />
+                                    </ListItemSuffix>
+                                </ListItem>
+                            </Link>
 
-                            <ListItem>
-                                <ListItemPrefix>
-                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                                </ListItemPrefix>
-                                Delivered
-                                <ListItemSuffix>
-                                    <Chip value="14" size="sm" variant="ghost" color="green" className="rounded-full" />
-                                </ListItemSuffix>
-                            </ListItem>
+                            <Link to="orders/out-for-delivery">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    Out For Delivery
+                                    <ListItemSuffix>
+                                        <Chip value={getOrderCount('out-for-delivery')} size="sm" variant="ghost" color="amber" className="rounded-full" />
+                                    </ListItemSuffix>
+                                </ListItem>
+                            </Link>
 
-                            <ListItem>
-                                <ListItemPrefix>
-                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                                </ListItemPrefix>
-                                Returned
-                                <ListItemSuffix>
-                                    <Chip value="14" size="sm" variant="ghost" color="red" className="rounded-full" />
-                                </ListItemSuffix>
-                            </ListItem>
+                            <Link to="orders/delivered">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    Delivered
+                                    <ListItemSuffix>
+                                        <Chip value={getOrderCount('delivered')} size="sm" variant="ghost" color="green" className="rounded-full" />
+                                    </ListItemSuffix>
+                                </ListItem>
+                            </Link>
 
-                            <ListItem>
-                                <ListItemPrefix>
-                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                                </ListItemPrefix>
-                                Failed To Deliver
-                                <ListItemSuffix>
-                                    <Chip value="14" size="sm" variant="ghost" color="red" className="rounded-full" />
-                                </ListItemSuffix>
-                            </ListItem>
+                            <Link to="orders/returned">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    Returned
+                                    <ListItemSuffix>
+                                        <Chip value={getOrderCount('returned')} size="sm" variant="ghost" color="red" className="rounded-full" />
+                                    </ListItemSuffix>
+                                </ListItem>
+                            </Link>
 
-                            <ListItem>
-                                <ListItemPrefix>
-                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                                </ListItemPrefix>
-                                Canceled
-                                <ListItemSuffix>
-                                    <Chip value="14" size="sm" variant="ghost" color="red" className="rounded-full" />
-                                </ListItemSuffix>
-                            </ListItem>
+                            <Link to="orders/failed-to-deliver">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    Failed To Deliver
+                                    <ListItemSuffix>
+                                        <Chip value={getOrderCount('failed-to-deliver')} size="sm" variant="ghost" color="red" className="rounded-full" />
+                                    </ListItemSuffix>
+                                </ListItem>
+                            </Link>
+
+                            <Link to="orders/canceled">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    Canceled
+                                    <ListItemSuffix>
+                                        <Chip value={getOrderCount('canceled')} size="sm" variant="ghost" color="red" className="rounded-full" />
+                                    </ListItemSuffix>
+                                </ListItem>
+                            </Link>
                         </List>
                     </AccordionBody>
                 </Accordion>

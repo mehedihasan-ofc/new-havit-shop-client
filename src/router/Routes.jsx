@@ -44,7 +44,6 @@ import Checkout from "../pages/Checkout/Checkout";
 import PromoCodes from "../pages/Dashboard/PromoCodes/PromoCodes";
 import BkashPayment from "../pages/BkashPayment/BkashPayment";
 import OrderSuccess from "../pages/OrderSuccess/OrderSuccess";
-import Orders from "../pages/Dashboard/Orders/Orders";
 import BreakingText from "../pages/Dashboard/WebsiteContent/BreakingText/BreakingText";
 import ProfileOrderDetails from "../pages/Profile/ProfileOrderDetails/ProfileOrderDetails";
 import ProfileTrackOrder from "../pages/Profile/ProfileTrackOrder/ProfileTrackOrder";
@@ -61,6 +60,15 @@ import AboutUs from "../pages/Dashboard/ProfileSettings/AboutUs/AboutUs";
 import ProductEdit from "../pages/Dashboard/Ecommerce/ProductEdit/ProductEdit";
 import CreateCampaign from "../pages/Dashboard/CampaignBuilder/CreateCampaign/CreateCampaign";
 import CampaignDetails from "../pages/Dashboard/CampaignBuilder/CampaignDetails/CampaignDetails";
+import AllOrders from "../pages/Dashboard/Orders/AllOrders/AllOrders";
+import PendingOrders from "../pages/Dashboard/Orders/PendingOrders/PendingOrders";
+import ConfirmedOrders from "../pages/Dashboard/Orders/ConfirmedOrders/ConfirmedOrders";
+import PackagingOrders from "../pages/Dashboard/Orders/PackagingOrders/PackagingOrders";
+import OutForDeliveryOrders from "../pages/Dashboard/Orders/OutForDeliveryOrders/OutForDeliveryOrders";
+import DeliveredOrders from "../pages/Dashboard/Orders/DeliveredOrders/DeliveredOrders";
+import ReturnedOrders from "../pages/Dashboard/Orders/ReturnedOrders/ReturnedOrders";
+import FailedToDeliverOrders from "../pages/Dashboard/Orders/FailedToDeliverOrders/FailedToDeliverOrders";
+import CanceledOrders from "../pages/Dashboard/Orders/CanceledOrders/CanceledOrders";
 
 const router = createBrowserRouter([
     {
@@ -258,9 +266,42 @@ const router = createBrowserRouter([
                 path: "welcome-modal",
                 element: <Welcome />
             },
+            // ORDER MANAGEMENT
             {
-                path: "orders",
-                element: <Orders />
+                path: "orders/all",
+                element: <AllOrders />
+            },
+            {
+                path: "orders/pending",
+                element: <PendingOrders />
+            },
+            {
+                path: "orders/confirmed",
+                element: <ConfirmedOrders />
+            },
+            {
+                path: "orders/packaging",
+                element: <PackagingOrders />
+            },
+            {
+                path: "orders/out-for-delivery",
+                element: <OutForDeliveryOrders />
+            },
+            {
+                path: "orders/delivered",
+                element: <DeliveredOrders />
+            },
+            {
+                path: "orders/returned",
+                element: <ReturnedOrders />
+            },
+            {
+                path: "orders/failed-to-deliver",
+                element: <FailedToDeliverOrders />
+            },
+            {
+                path: "orders/canceled",
+                element: <CanceledOrders />
             },
             // Category
             {
