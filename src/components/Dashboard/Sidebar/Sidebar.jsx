@@ -19,7 +19,7 @@ import {
 import { Link } from "react-router-dom";
 import { LuCopyPlus, LuLayoutDashboard, LuPlusSquare } from "react-icons/lu";
 import { TbMapDiscount, TbWorldStar } from "react-icons/tb";
-import { MdOutlineShoppingCartCheckout } from "react-icons/md";
+import { MdOutlineCampaign, MdOutlineShoppingCartCheckout } from "react-icons/md";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { GoPerson } from "react-icons/go";
 import { FiMessageCircle } from "react-icons/fi";
@@ -347,21 +347,12 @@ const Sidebar = () => {
                                 <MdOutlineShoppingCartCheckout size={20} />
                             </ListItemPrefix>
                             <Typography color="blue-gray" className="mr-auto font-normal">
-                                Ecommerce
+                                Products
                             </Typography>
                         </AccordionHeader>
                     </ListItem>
                     <AccordionBody className="py-1">
                         <List className="p-0">
-                            <Link to="add-product">
-                                <ListItem>
-                                    <ListItemPrefix>
-                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                                    </ListItemPrefix>
-                                    Add Product
-                                </ListItem>
-                            </Link>
-
                             <Link to="product-list">
                                 <ListItem>
                                     <ListItemPrefix>
@@ -370,6 +361,59 @@ const Sidebar = () => {
                                     Product List
                                 </ListItem>
                             </Link>
+
+                            <Link to="add-new-product">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    Add New Product
+                                </ListItem>
+                            </Link>
+                        </List>
+                    </AccordionBody>
+                </Accordion>
+
+                <Accordion
+                    open={open === 7}
+                    icon={
+                        <ChevronDownIcon
+                            strokeWidth={2.5}
+                            className={`mx-auto h-4 w-4 transition-transform ${open === 7 ? "rotate-180" : ""}`}
+                        />
+                    }
+                >
+                    <ListItem className="p-0" selected={open === 7}>
+                        <AccordionHeader onClick={() => handleOpen(7)} className="border-b-0 p-3">
+                            <ListItemPrefix>
+                                <MdOutlineCampaign size={20} />
+                            </ListItemPrefix>
+                            <Typography color="blue-gray" className="mr-auto font-normal">
+                                Campaign Builder
+                            </Typography>
+                        </AccordionHeader>
+                    </ListItem>
+                    <AccordionBody className="py-1">
+                        <List className="p-0">
+
+                            <Link to="create-campaign">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    Create Campaign
+                                </ListItem>
+                            </Link>
+
+                            <Link to="campaign-details">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    Campaign Details
+                                </ListItem>
+                            </Link>
+
                         </List>
                     </AccordionBody>
                 </Accordion>

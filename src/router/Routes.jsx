@@ -59,6 +59,8 @@ import ContactInfo from "../pages/Dashboard/ProfileSettings/ContactInfo/ContactI
 import SocialMedia from "../pages/Dashboard/ProfileSettings/SocialMedia/SocialMedia";
 import AboutUs from "../pages/Dashboard/ProfileSettings/AboutUs/AboutUs";
 import ProductEdit from "../pages/Dashboard/Ecommerce/ProductEdit/ProductEdit";
+import CreateCampaign from "../pages/Dashboard/CampaignBuilder/CreateCampaign/CreateCampaign";
+import CampaignDetails from "../pages/Dashboard/CampaignBuilder/CampaignDetails/CampaignDetails";
 
 const router = createBrowserRouter([
     {
@@ -280,7 +282,7 @@ const router = createBrowserRouter([
             },
             // Ecommerce
             {
-                path: "add-product",
+                path: "add-new-product",
                 element: <AddProduct />
             },
             {
@@ -290,6 +292,14 @@ const router = createBrowserRouter([
             {
                 path: "product-edit/:id",
                 element: <ProductEdit />
+            },
+            {
+                path: "create-campaign",
+                element: <CreateCampaign />
+            },
+            {
+                path: "campaign-details",
+                element: <CampaignDetails />
             },
             // promo codes
             {

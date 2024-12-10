@@ -113,7 +113,9 @@ const ProductCard = ({ product }) => {
                         <span className="text-sm text-gray-400">({product?.rating})</span>
                     </div>
 
-                    <span className="text-sm text-gray-400">Sold: {product.soldCount}</span>
+                    <div>
+                        <span className="text-xs text-gray-400 font-body">{product.soldCount} Sold</span>
+                    </div>
                 </div>
 
                 <div className="flex justify-between items-center my-2">
