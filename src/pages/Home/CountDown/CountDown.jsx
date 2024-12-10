@@ -1,39 +1,28 @@
 import { useState, useEffect } from "react";
+import useCampaign from "../../../hooks/useCampaign";
+import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
+
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+// Import Swiper styles
+import 'swiper/css';
+
+// import required modules
+import { Autoplay, Navigation } from 'swiper/modules';
+import ProductCard from "../../../components/Card/ProductCard/ProductCard";
 
 const CountDown = () => {
-    
-    const data = {
-        title: "Mega Winter Sale",
-        subtitle: "Up to 50% off on selected items!",
-        expiredDate: "2024-12-10T00:00:00.000Z",
-        products: [
-            {
-                productId: "63b0d1a7f2a8c7e0b6e12345",
-                name: "Thermal Jacket",
-                price: 49.99,
-                discountedPrice: 39.99,
-                stock: 120,
-                category: "Winter Wear",
-                image: "https://example.com/images/thermal-jacket.jpg",
-            },
-            {
-                productId: "63b0d1a7f2a8c7e0b6e67890",
-                name: "Woolen Scarf",
-                price: 19.99,
-                discountedPrice: 14.99,
-                stock: 80,
-                category: "Accessories",
-                image: "https://example.com/images/woolen-scarf.jpg",
-            },
-        ],
-    };
 
+    const [campaignData] = useCampaign();
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+    const enableLoopMode = campaignData?.length > 1;
 
     useEffect(() => {
         const countdown = () => {
             const now = new Date();
-            const expiry = new Date(data.expiredDate);
+            const expiry = new Date(campaignData.expiredDate);
             const difference = expiry - now;
 
             if (difference > 0) {
@@ -49,15 +38,15 @@ const CountDown = () => {
 
         const timer = setInterval(countdown, 1000);
         return () => clearInterval(timer);
-    }, [data.expiredDate]);
+    }, [campaignData.expiredDate]);
 
     return (
         <div className="my-container">
             <div className="bg-secondary p-5 shadow rounded">
                 {/* Title and Subtitle */}
                 <div className="text-center mb-6">
-                    <h2 className="text-xl font-bold text-primary">{data.title}</h2>
-                    <p className="text-sm text-primary/80">{data.subtitle}</p>
+                    <h2 className="text-xl font-bold text-primary">{campaignData.title}</h2>
+                    <p className="text-sm text-primary/80">{campaignData.subtitle}</p>
                 </div>
 
                 {/* Countdown Timer */}
@@ -84,32 +73,57 @@ const CountDown = () => {
                 </div>
 
                 {/* Product Section */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {data.products.map((product) => (
-                        <div
-                            key={product.productId}
-                            className="bg-white shadow-md rounded-lg p-4 relative hover:shadow-lg transition duration-300"
+                <div className='relative mt-5'>
+
+                    <div className="absolute top-1/2 -left-4 transform -translate-y-1/2 z-20">
+                        <button
+                            className="swiper-button-prev bg-white shadow-lg rounded-full p-1 hover:bg-gray-100 transition"
+                            aria-label="Previous"
                         >
-                            <span className="absolute top-2 left-2 text-white text-xs px-2 py-1 rounded bg-primary">
-                                {Math.round(((product.price - product.discountedPrice) / product.price) * 100)}% Off
-                            </span>
-                            <img
-                                src={product.image}
-                                alt={product.name}
-                                className="w-full h-40 object-cover rounded-md mb-4"
-                            />
-                            <h4 className="text-sm font-bold truncate text-primary">{product.name}</h4>
-                            <div className="flex items-center gap-2 mt-2">
-                                <span className="text-lg font-bold text-primary">
-                                    ${product.discountedPrice.toFixed(2)}
-                                </span>
-                                <span className="text-xs line-through text-gray-500">
-                                    ${product.price.toFixed(2)}
-                                </span>
-                            </div>
-                            <p className="text-xs mt-1 text-primary/80">Stock: {product.stock}</p>
-                        </div>
-                    ))}
+                            <IoIosArrowRoundBack size={20} />
+                        </button>
+                    </div>
+                    <div className="absolute top-1/2 -right-4 transform -translate-y-1/2 z-20">
+                        <button
+                            className="swiper-button-next bg-white shadow-lg rounded-full p-1 hover:bg-gray-100 transition"
+                            aria-label="Next"
+                        >
+                            <IoIosArrowRoundForward size={20} />
+                        </button>
+                    </div>
+
+
+                    <div className='px-5'>
+                        <Swiper
+                            slidesPerView={1}
+                            spaceBetween={20}
+                            autoplay={{
+                                delay: 3600,
+                                disableOnInteraction: false,
+                            }}
+                            pagination={{
+                                clickable: true,
+                            }}
+                            navigation={{
+                                nextEl: '.swiper-button-next',
+                                prevEl: '.swiper-button-prev',
+                            }}
+                            modules={[Autoplay, Navigation]}
+                            loop={enableLoopMode}
+                            breakpoints={{
+                                640: {
+                                    slidesPerView: 3,
+                                    spaceBetween: 30,
+                                },
+                            }}
+                        >
+                            {campaignData?.products.map(product => (
+                                <SwiperSlide key={product._id}>
+                                    <ProductCard product={product} />
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+                    </div>
                 </div>
             </div>
         </div>
