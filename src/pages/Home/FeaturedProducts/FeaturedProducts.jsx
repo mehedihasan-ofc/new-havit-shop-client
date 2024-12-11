@@ -7,17 +7,23 @@ import 'swiper/css';
 // import required modules
 import { Autoplay, Navigation } from 'swiper/modules';
 
-import useProducts from '../../../hooks/useProducts';
 import ProductCard from '../../../components/Card/ProductCard/ProductCard';
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from 'react-icons/io';
+import { useQuery } from '@tanstack/react-query';
 
 const FeaturedProducts = () => {
 
-    const [products] = useProducts();
-    const enableLoopMode = products?.length > 1;
+    const { data: newArrivalsProducts = [] } = useQuery({
+        queryKey: ['newArrivalsProducts'],
+        queryFn: async () => {
+            const res = await fetch('https://server.havitshopbd.com/products/new-arrivals');
+            return res.json();
+        }
+    });
+    const enableLoopMode = newArrivalsProducts?.length > 1;
 
-     // Early return if no categories exist
-     if (!products || products.length === 0) return null;
+    // Early return if no categories exist
+    if (!newArrivalsProducts || newArrivalsProducts.length === 0) return null;
 
     return (
         <div className="my-container">
@@ -71,7 +77,7 @@ const FeaturedProducts = () => {
                                 },
                             }}
                         >
-                            {products.map(product => (
+                            {newArrivalsProducts.map(product => (
                                 <SwiperSlide key={product._id}>
                                     <ProductCard product={product} />
                                 </SwiperSlide>
