@@ -21,7 +21,6 @@ import { LuCopyPlus, LuLayoutDashboard, LuPlusSquare } from "react-icons/lu";
 import { TbMapDiscount, TbWorldStar } from "react-icons/tb";
 import { MdOutlineCampaign, MdOutlineShoppingCartCheckout } from "react-icons/md";
 import { HiOutlineShoppingBag } from "react-icons/hi";
-import { GoPerson } from "react-icons/go";
 import { FiMessageCircle } from "react-icons/fi";
 import useRole from "../../../hooks/useRole";
 import useSubscriptions from "../../../hooks/useSubscriptions";
@@ -32,6 +31,7 @@ import { BsSliders2 } from "react-icons/bs";
 import useLogo from "../../../hooks/useLogo";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { RiRefund2Fill, RiShieldUserLine } from "react-icons/ri";
 
 const Sidebar = () => {
 
@@ -402,54 +402,63 @@ const Sidebar = () => {
                     <ListItem className="p-0" selected={open === 9}>
                         <AccordionHeader onClick={() => handleOpen(9)} className="border-b-0 p-3">
                             <ListItemPrefix>
-                                <LuPlusSquare size={20} />
+                                <RiRefund2Fill size={20} />
                             </ListItemPrefix>
                             <Typography color="blue-gray" className="mr-auto font-normal">
-                                Refund Request List
+                                Refund Request
                             </Typography>
                         </AccordionHeader>
                     </ListItem>
                     <AccordionBody className="py-1">
                         <List className="p-0">
-                            <ListItem>
-                                <ListItemPrefix>
-                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                                </ListItemPrefix>
-                                Pending
-                                <ListItemSuffix>
-                                    <Chip value="14" size="sm" variant="ghost" color="teal" className="rounded-full" />
-                                </ListItemSuffix>
-                            </ListItem>
 
-                            <ListItem>
-                                <ListItemPrefix>
-                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                                </ListItemPrefix>
-                                Approved
-                                <ListItemSuffix>
-                                    <Chip value="14" size="sm" variant="ghost" color="teal" className="rounded-full" />
-                                </ListItemSuffix>
-                            </ListItem>
+                            <Link to="refund-pending">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    Pending
+                                    <ListItemSuffix>
+                                        <Chip value="14" size="sm" variant="ghost" color="pink" className="rounded-full" />
+                                    </ListItemSuffix>
+                                </ListItem>
+                            </Link>
 
-                            <ListItem>
-                                <ListItemPrefix>
-                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                                </ListItemPrefix>
-                                Refunded
-                                <ListItemSuffix>
-                                    <Chip value="14" size="sm" variant="ghost" color="teal" className="rounded-full" />
-                                </ListItemSuffix>
-                            </ListItem>
+                            <Link to="refund-approved">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    Approved
+                                    <ListItemSuffix>
+                                        <Chip value="14" size="sm" variant="ghost" color="teal" className="rounded-full" />
+                                    </ListItemSuffix>
+                                </ListItem>
+                            </Link>
 
-                            <ListItem>
-                                <ListItemPrefix>
-                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                                </ListItemPrefix>
-                                Rejected
-                                <ListItemSuffix>
-                                    <Chip value="14" size="sm" variant="ghost" color="amber" className="rounded-full" />
-                                </ListItemSuffix>
-                            </ListItem>
+                            <Link to="refund-refunded">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    Refunded
+                                    <ListItemSuffix>
+                                        <Chip value="14" size="sm" variant="ghost" color="green" className="rounded-full" />
+                                    </ListItemSuffix>
+                                </ListItem>
+                            </Link>
+
+                            <Link to="refund-rejected">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    Rejected
+                                    <ListItemSuffix>
+                                        <Chip value="14" size="sm" variant="ghost" color="red" className="rounded-full" />
+                                    </ListItemSuffix>
+                                </ListItem>
+                            </Link>
                         </List>
                     </AccordionBody>
                 </Accordion>
@@ -658,7 +667,7 @@ const Sidebar = () => {
                     <ListItem className="p-0" selected={open === 5}>
                         <AccordionHeader onClick={() => handleOpen(5)} className="border-b-0 p-3">
                             <ListItemPrefix>
-                                <GoPerson size={20} />
+                                <RiShieldUserLine size={20} />
                             </ListItemPrefix>
                             <Typography color="blue-gray" className="mr-auto font-normal">
                                 Users
@@ -667,6 +676,15 @@ const Sidebar = () => {
                     </ListItem>
                     <AccordionBody className="py-1">
                         <List className="p-0">
+
+                            <Link to="all-roles">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    All Roles
+                                </ListItem>
+                            </Link>
 
                             <Link to="create-role">
                                 <ListItem>
@@ -677,14 +695,16 @@ const Sidebar = () => {
                                 </ListItem>
                             </Link>
 
-                            <Link to="all-roles">
+                            <Link to="role-assignment">
                                 <ListItem>
                                     <ListItemPrefix>
                                         <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                                     </ListItemPrefix>
-                                    All Roles
+                                    Role Assignment
                                 </ListItem>
                             </Link>
+
+                            <hr className="border-blue-gray-50" />
 
                             <Link to="customers">
                                 <ListItem>

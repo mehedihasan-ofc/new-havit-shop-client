@@ -28,7 +28,7 @@ const Customers = () => {
         }
     });
 
-    if(isLoading) return <MySpinner />
+    if (isLoading) return <MySpinner />
 
     return (
         <Card className="h-full w-full">
@@ -89,7 +89,6 @@ const Customers = () => {
 
                                 return (
                                     <tr key={_id}>
-
                                         <td className={classes}>
                                             <Typography
                                                 variant="small"
@@ -106,7 +105,7 @@ const Customers = () => {
                                                 color="blue-gray"
                                                 className="font-normal"
                                             >
-                                                {fullName}
+                                                {fullName || "N/A"}
                                             </Typography>
                                         </td>
 
@@ -116,7 +115,7 @@ const Customers = () => {
                                                 color="blue-gray"
                                                 className="font-normal"
                                             >
-                                                {email}
+                                                {email || "N/A"}
                                             </Typography>
                                         </td>
 
@@ -148,7 +147,7 @@ const Customers = () => {
                                                 color="blue-gray"
                                                 className="font-normal"
                                             >
-                                                {formattedDate(createdAt)}
+                                                {formattedDate(createdAt) || "N/A"}
                                             </Typography>
                                         </td>
                                     </tr>
