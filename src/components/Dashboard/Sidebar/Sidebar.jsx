@@ -604,21 +604,30 @@ const Sidebar = () => {
                     <AccordionBody className="py-1">
                         <List className="p-0">
 
-                            <Link to="create-campaign">
-                                <ListItem>
-                                    <ListItemPrefix>
-                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                                    </ListItemPrefix>
-                                    Create Campaign
-                                </ListItem>
-                            </Link>
-
                             <Link to="campaign-details">
                                 <ListItem>
                                     <ListItemPrefix>
                                         <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                                     </ListItemPrefix>
                                     Campaign Details
+                                </ListItem>
+                            </Link>
+
+                            <Link to="add-new-campaign-product">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    Add New Product
+                                </ListItem>
+                            </Link>
+
+                            <Link to="create-campaign">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    Create Campaign
                                 </ListItem>
                             </Link>
 
