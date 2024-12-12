@@ -10,7 +10,6 @@ import "swiper/css";
 
 // import required modules
 import { Autoplay, Navigation } from "swiper/modules";
-import CountDownProductCard from "../../../components/Card/CountDownProductCard/CountDownProductCard";
 
 const CountDown = () => {
     const [campaignData] = useCampaign();
@@ -79,8 +78,8 @@ const CountDown = () => {
                 </div>
 
                 {/* Product Section */}
-                <div className="relative mt-5">
-                    {/* Swiper Controls */}
+                {/* <div className="relative mt-5">
+                    
                     <div className="absolute top-1/2 -left-4 transform -translate-y-1/2 z-20">
                         <button
                             className="swiper-button-prev bg-white shadow-lg rounded-full p-1 hover:bg-gray-100 transition"
@@ -133,7 +132,7 @@ const CountDown = () => {
                             ))}
                         </Swiper>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     );

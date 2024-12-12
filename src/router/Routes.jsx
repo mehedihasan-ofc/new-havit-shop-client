@@ -69,7 +69,6 @@ import DeliveredOrders from "../pages/Dashboard/Orders/DeliveredOrders/Delivered
 import ReturnedOrders from "../pages/Dashboard/Orders/ReturnedOrders/ReturnedOrders";
 import FailedToDeliverOrders from "../pages/Dashboard/Orders/FailedToDeliverOrders/FailedToDeliverOrders";
 import CanceledOrders from "../pages/Dashboard/Orders/CanceledOrders/CanceledOrders";
-import AddNewCampaignProduct from "../pages/Dashboard/CampaignBuilder/AddNewCampaignProduct/AddNewCampaignProduct";
 import RoleAssignment from "../pages/Dashboard/Users/RoleAssignment/RoleAssignment";
 
 const router = createBrowserRouter([
@@ -339,10 +338,6 @@ const router = createBrowserRouter([
             {
                 path: "campaign-details",
                 element: <CampaignDetails />
-            },
-            {
-                path: "add-new-campaign-product",
-                element: <AddNewCampaignProduct />
             },
             {
                 path: "create-campaign",

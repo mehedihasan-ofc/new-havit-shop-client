@@ -622,15 +622,6 @@ const Sidebar = () => {
                                 </ListItem>
                             </Link>
 
-                            <Link to="add-new-campaign-product">
-                                <ListItem>
-                                    <ListItemPrefix>
-                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                                    </ListItemPrefix>
-                                    Add New Product
-                                </ListItem>
-                            </Link>
-
                             <Link to="create-campaign">
                                 <ListItem>
                                     <ListItemPrefix>
