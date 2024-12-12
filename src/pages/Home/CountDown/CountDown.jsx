@@ -1,26 +1,19 @@
 import { useState, useEffect } from "react";
 import useCampaign from "../../../hooks/useCampaign";
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
-
-// Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-
-// Import Swiper styles
 import "swiper/css";
-
-// import required modules
 import { Autoplay, Navigation } from "swiper/modules";
+import ProductCard from "../../../components/Card/ProductCard/ProductCard";
 
 const CountDown = () => {
     const [campaignData] = useCampaign();
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
-    const enableLoopMode = campaignData?.products?.length > 1;
-
     useEffect(() => {
         const countdown = () => {
             const now = new Date();
-            const expiry = new Date(campaignData.expiredDate);
+            const expiry = new Date(campaignData?.expiredDate || 0);
             const difference = expiry - now;
 
             if (difference > 0) {
@@ -36,30 +29,17 @@ const CountDown = () => {
 
         const timer = setInterval(countdown, 1000);
         return () => clearInterval(timer);
-    }, [campaignData.expiredDate]);
+    }, [campaignData?.expiredDate]);
 
-    if (!campaignData?.products) {
-        return null;
-    }
-
-    // Calculate discounted price for products
-    const calculateDiscountedPrice = (price, discountValue, discountType) => {
-        if (discountType === "tk") {
-            return Math.max(price - discountValue, 0);
-        }
-        if (discountType === "percent") {
-            return Math.max(price - (price * discountValue) / 100, 0);
-        }
-        return price; // Fallback if no discount type is specified
-    };
+    const enableLoopMode = campaignData?.products?.length > 1;
 
     return (
         <div className="my-container">
             <div className="bg-secondary p-5 shadow rounded">
                 {/* Title and Subtitle */}
                 <div className="text-center mb-6">
-                    <h2 className="text-xl font-bold text-primary">{campaignData.title}</h2>
-                    <p className="text-sm text-primary/80">{campaignData.subtitle}</p>
+                    <h2 className="text-xl font-bold text-primary">{campaignData?.title || "Campaign Title"}</h2>
+                    <p className="text-sm text-primary/80">{campaignData?.subtitle || "Campaign Subtitle"}</p>
                 </div>
 
                 {/* Countdown Timer */}
@@ -77,62 +57,64 @@ const CountDown = () => {
                     ))}
                 </div>
 
-                {/* Product Section */}
-                {/* <div className="relative mt-5">
-                    
-                    <div className="absolute top-1/2 -left-4 transform -translate-y-1/2 z-20">
-                        <button
-                            className="swiper-button-prev bg-white shadow-lg rounded-full p-1 hover:bg-gray-100 transition"
-                            aria-label="Previous"
-                        >
-                            <IoIosArrowRoundBack size={20} />
-                        </button>
-                    </div>
-                    <div className="absolute top-1/2 -right-4 transform -translate-y-1/2 z-20">
-                        <button
-                            className="swiper-button-next bg-white shadow-lg rounded-full p-1 hover:bg-gray-100 transition"
-                            aria-label="Next"
-                        >
-                            <IoIosArrowRoundForward size={20} />
-                        </button>
-                    </div>
+                {/* Progress Bar */}
+                <div className="w-full h-2 rounded-lg overflow-hidden mb-8 bg-primary/20">
+                    <div
+                        className="h-full bg-primary"
+                        style={{ width: `${(120 - timeLeft.days) / 120 * 100}%` }}
+                    ></div>
+                </div>
 
-                    <div className="px-5">
-                        <Swiper
-                            slidesPerView={1}
-                            spaceBetween={20}
-                            autoplay={{
-                                delay: 3600,
-                                disableOnInteraction: false,
-                            }}
-                            pagination={{
-                                clickable: true,
-                            }}
-                            navigation={{
-                                nextEl: ".swiper-button-next",
-                                prevEl: ".swiper-button-prev",
-                            }}
-                            modules={[Autoplay, Navigation]}
-                            loop={enableLoopMode}
-                            breakpoints={{
-                                640: {
-                                    slidesPerView: 3,
-                                    spaceBetween: 30,
-                                },
-                            }}
-                        >
-                            {campaignData.products.map((product) => (
-                                <SwiperSlide key={product._id}>
-                                    <CountDownProductCard
-                                        product={product}
-                                        discountType={campaignData.discountType}
-                                        discountValue={campaignData.discountValue}
-                                    />
-                                </SwiperSlide>
-                            ))}
-                        </Swiper>
+                {/* Product Section */}
+                {campaignData?.products?.length > 0 && (
+                    <div className="relative mt-5">
+                        <div className="absolute top-1/2 -left-4 transform -translate-y-1/2 z-20">
+                            <button
+                                className="swiper-button-prev bg-white shadow-lg rounded-full p-1 hover:bg-gray-100 transition"
+                                aria-label="Previous"
+                            >
+                                <IoIosArrowRoundBack size={20} />
+                            </button>
+                        </div>
+                        <div className="absolute top-1/2 -right-4 transform -translate-y-1/2 z-20">
+                            <button
+                                className="swiper-button-next bg-white shadow-lg rounded-full p-1 hover:bg-gray-100 transition"
+                                aria-label="Next"
+                            >
+                                <IoIosArrowRoundForward size={20} />
+                            </button>
+                        </div>
+
+                        <div className="px-5">
+                            <Swiper
+                                slidesPerView={1}
+                                spaceBetween={20}
+                                autoplay={{
+                                    delay: 3600,
+                                    disableOnInteraction: false,
+                                }}
+                                navigation={{
+                                    nextEl: ".swiper-button-next",
+                                    prevEl: ".swiper-button-prev",
+                                }}
+                                modules={[Autoplay, Navigation]}
+                                loop={enableLoopMode}
+                                breakpoints={{
+                                    640: {
+                                        slidesPerView: 3,
+                                        spaceBetween: 30,
+                                    },
+                                }}
+                            >
+                                {campaignData.products.map((product) => (
+                                    <SwiperSlide key={product._id}>
+                                        <ProductCard product={product} />
+                                    </SwiperSlide>
+                                ))}
+                            </Swiper>
+                        </div>
                     </div>
-                </div> */}
+                )}
             </div>
         </div>
     );
