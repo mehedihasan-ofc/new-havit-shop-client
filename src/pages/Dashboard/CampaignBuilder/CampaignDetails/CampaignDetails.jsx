@@ -30,6 +30,7 @@ const CampaignDetails = () => {
                 setDeleting(true);
                 try {
                     const { data } = await axiosSecure.delete(`/campaign/${productId}`);
+                    
                     if (data.deletedCount > 0) {
                         refetch();
                         Swal.fire({
@@ -69,7 +70,7 @@ const CampaignDetails = () => {
         );
     }
 
-    const { title, subtitle, discountType, expiredDate, products } = campaignData;
+    const { title, subtitle, discountType, createdAt, expiredDate, products } = campaignData;
 
     return (
         <div className="p-6 bg-white shadow-md rounded-lg">
@@ -82,6 +83,10 @@ const CampaignDetails = () => {
                         <div className="mt-4 text-gray-600 space-y-1">
                             <p className="capitalize">
                                 <span className="font-semibold text-teal-600">Discount Type: </span>{discountType}
+                            </p>
+                            <p>
+                                <span className="font-semibold text-blue-600">Created At: </span>
+                                {new Date(createdAt).toLocaleDateString()}
                             </p>
                             <p>
                                 <span className="font-semibold text-red-600">Expires On: </span>
