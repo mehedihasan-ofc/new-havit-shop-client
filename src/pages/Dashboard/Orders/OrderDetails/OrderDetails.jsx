@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import MySpinner from "../../../../components/Shared/MySpinner/MySpinner";
 import { Button } from "@material-tailwind/react";
+import useOrdersByStatus from "../../../../hooks/useOrdersByStatus";
 
 const OrderDetails = () => {
     const { id } = useParams();
@@ -17,7 +18,9 @@ const OrderDetails = () => {
     const [paymentStatus, setPaymentStatus] = useState("pending");
     const [isUpdating, setIsUpdating] = useState(false);
 
-    const { data: order = {}, isLoading, refetch } = useQuery({
+    const [, , refetch] = useOrdersByStatus('all');
+
+    const { data: order = {}, isLoading } = useQuery({
         queryKey: ["order", user?.email, id],
         enabled: !!user?.email && !!token && !!id,
         queryFn: async () => {

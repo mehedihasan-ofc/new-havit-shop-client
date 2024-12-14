@@ -29,31 +29,21 @@ import { AuthContext } from "../../../provider/AuthProvider";
 import Swal from "sweetalert2";
 import { BsSliders2 } from "react-icons/bs";
 import useLogo from "../../../hooks/useLogo";
-import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { RiRefund2Fill, RiShieldUserLine } from "react-icons/ri";
+import useOrdersByStatus from "../../../hooks/useOrdersByStatus";
 
 const Sidebar = () => {
 
     const [logoData] = useLogo();
     // const [role] = useRole();
 
-    const { user, logOut } = useContext(AuthContext);
-    const token = localStorage.getItem('access-token');
-    const [axiosSecure] = useAxiosSecure();
+    const { logOut } = useContext(AuthContext);
 
     const [subscriptions] = useSubscriptions();
     const [messages] = useMessages();
     const [open, setOpen] = useState(0);
 
-    const { data: orders = [] } = useQuery({
-        queryKey: ['orders', user?.email],
-        enabled: !!user?.email && !!token,
-        queryFn: async () => {
-            const res = await axiosSecure(`https://server.havitshopbd.com/orders/all`);
-            return res.data;
-        },
-    });
+    const [orders] = useOrdersByStatus("all");
 
     // Group orders by status
     const orderCounts = orders.reduce((counts, order) => {

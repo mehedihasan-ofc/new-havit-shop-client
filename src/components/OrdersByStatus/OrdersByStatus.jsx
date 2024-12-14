@@ -1,7 +1,3 @@
-import { useContext } from "react";
-import { AuthContext } from "../../provider/AuthProvider";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
-import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { Card, CardBody, Chip, IconButton, Typography } from "@material-tailwind/react";
 import MySpinner from "../Shared/MySpinner/MySpinner";
@@ -9,25 +5,14 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { AiOutlineDelete } from "react-icons/ai";
 import { formattedDate } from "../../utils";
 import { useNavigate } from "react-router-dom";
+import useOrdersByStatus from "../../hooks/useOrdersByStatus";
 
 const TABLE_HEAD = ["#", "Order ID", "Order Date", "Pay Method", "Del Status", "Total", "Pay Status", "Actions"];
 
 const OrdersByStatus = ({ activeStatus }) => {
 
-    const { user } = useContext(AuthContext);
-    const token = localStorage.getItem('access-token');
-    const [axiosSecure] = useAxiosSecure();
-
+    const [orders, isLoading, refetch] = useOrdersByStatus(activeStatus);
     const navigate = useNavigate();
-
-    const { data: orders = [], isLoading, refetch } = useQuery({
-        queryKey: ['orders', user?.email, activeStatus],
-        enabled: !!user?.email && !!token,
-        queryFn: async () => {
-            const res = await axiosSecure(`https://server.havitshopbd.com/orders/${activeStatus}`);
-            return res.data;
-        },
-    });
 
     const handleDelete = async (orderId) => {
 
