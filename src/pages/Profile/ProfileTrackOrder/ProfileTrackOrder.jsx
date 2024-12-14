@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import { FaRegClock, FaTruck, FaHome, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import { FaRegClock, FaCheck, FaBoxOpen, FaTruckMoving, FaHome, FaUndo, FaTimesCircle } from "react-icons/fa";
 import MySpinner from "../../../components/Shared/MySpinner/MySpinner";
 import { Button } from "@material-tailwind/react";
 
@@ -34,18 +34,15 @@ const ProfileTrackOrder = () => {
     const getDeliveryStep = (status) => {
         switch (status.toLowerCase()) {
             case "pending": return 1;
-            case "processing": return 2;
-            case "shipped": return 3;
-            case "delivered": return 4;
-            case "cancelled": return 5;
+            case "confirmed": return 2;
+            case "packaging": return 3;
+            case "out-for-delivery": return 4;
+            case "delivered": return 5;
+            case "returned": return 6;
+            case "failed-to-deliver": return 7;
+            case "canceled": return 8;
             default: return 0;
         }
-    };
-
-    // Function to get color for icon based on delivery status
-    const getStatusColor = (step, currentStep) => {
-        // If the step is less than or equal to the current step, color it
-        return step <= currentStep ? "text-blue-500" : "text-gray-500";
     };
 
     return (
@@ -70,8 +67,26 @@ const ProfileTrackOrder = () => {
 
             {/* Loading Spinner */}
             {loading && (
-                <div className="flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-primary"></div>
+                <div className="flex items-center justify-center bg-secondary-light">
+                    <div className="relative flex items-center justify-center h-20 w-20">
+                        {/* Outer Gradient Circle */}
+                        <div
+                            className="absolute inset-0 animate-spin rounded-full border-4 border-transparent"
+                            style={{
+                                borderTopColor: '#30a444',
+                                borderLeftColor: '#DEF9EC',
+                                animationDuration: '1.5s',
+                            }}
+                        ></div>
+                        {/* Inner Glow Effect */}
+                        <div
+                            className="absolute inset-1 rounded-full bg-gradient-to-br from-primary to-secondary opacity-20 blur-xl"
+                        ></div>
+                        {/* Center Icon */}
+                        <div className="z-10 text-primary font-extrabold text-2xl tracking-wider">
+                            H
+                        </div>
+                    </div>
                 </div>
             )}
 
@@ -86,29 +101,58 @@ const ProfileTrackOrder = () => {
             {trackingData && !loading && (
                 <div className="bg-gray-50 p-6 shadow-md rounded-lg mt-8">
                     <h2 className="text-xl font-semibold text-gray-700 mb-4">Order Summary</h2>
-                    <p><strong>Order ID:</strong> {trackingData.orderId}</p>
+                    <p><strong>Order ID:</strong>#{trackingData.orderId}</p>
                     <p><strong>Order Date:</strong> {new Date(trackingData.orderDate).toLocaleDateString()}</p>
                     <p className="capitalize"><strong>Payment Status:</strong> {trackingData.paymentStatus}</p>
                     <p><strong>Total Amount:</strong> ৳{trackingData.payableTotal}</p>
 
-                    {/* Progress Bar with Icons */}
+                    {/* Progress Bar with Icons on Top and Status Below */}
                     <div className="mt-6">
-                        <div className="relative pt-1">
-                            <div className="flex mb-2 items-center justify-between">
-                                <span className={`text-sm font-semibold flex items-center ${getStatusColor(1, getDeliveryStep(trackingData.deliveryStatus))}`}><FaRegClock className="h-5 w-5 mr-2" />Pending</span>
-                                <span className={`text-sm font-semibold flex items-center ${getStatusColor(2, getDeliveryStep(trackingData.deliveryStatus))}`}><FaTruck className="h-5 w-5 mr-2" />Processing</span>
-                                <span className={`text-sm font-semibold flex items-center ${getStatusColor(3, getDeliveryStep(trackingData.deliveryStatus))}`}><FaHome className="h-5 w-5 mr-2" />Shipped</span>
-                                <span className={`text-sm font-semibold flex items-center ${getStatusColor(4, getDeliveryStep(trackingData.deliveryStatus))}`}><FaCheckCircle className="h-5 w-5 mr-2" />Delivered</span>
-                                <span className={`text-sm font-semibold flex items-center ${getStatusColor(5, getDeliveryStep(trackingData.deliveryStatus))}`}><FaTimesCircle className="h-5 w-5 mr-2" />Cancelled</span>
-                            </div>
-                            <div className="flex mb-2">
-                                {[1, 2, 3, 4, 5].map((step) => (
+                        <div className="relative flex justify-between items-center">
+
+                            {/* Step Container */}
+                            {[1, 2, 3, 4, 5, 6, 7, 8].map((step, index) => (
+                                <div key={step} className="flex-1 flex flex-col items-center text-center relative">
+
+                                    {/* Top Icon */}
                                     <div
-                                        key={step}
-                                        className={`flex-1 h-1 rounded-full ${step <= getDeliveryStep(trackingData.deliveryStatus) ? "bg-blue-500" : "bg-gray-300"}`}
-                                    ></div>
-                                ))}
-                            </div>
+                                        className={`h-10 w-10 flex items-center justify-center rounded-full ${step <= getDeliveryStep(trackingData.deliveryStatus) ? "bg-primary text-white" : "bg-gray-300 text-gray-500"
+                                            }`} style={{ zIndex: 1 }}
+                                    >
+                                        {step === 1 && <FaRegClock />}
+                                        {step === 2 && <FaCheck />}
+                                        {step === 3 && <FaBoxOpen />}
+                                        {step === 4 && <FaTruckMoving />}
+                                        {step === 5 && <FaHome />}
+                                        {step === 6 && <FaUndo />}
+                                        {step === 7 && <FaTimesCircle />}
+                                        {step === 8 && <FaTimesCircle />}
+                                    </div>
+
+                                    {/* Bottom Status Text */}
+                                    <span
+                                        className={`mt-2 text-xs font-medium ${step <= getDeliveryStep(trackingData.deliveryStatus) ? "text-primary" : "text-gray-500"
+                                            }`}
+                                    >
+                                        {step === 1 && "Pending"}
+                                        {step === 2 && "Confirmed"}
+                                        {step === 3 && "Packaging"}
+                                        {step === 4 && "Out For Delivery"}
+                                        {step === 5 && "Delivered"}
+                                        {step === 6 && "Returned"}
+                                        {step === 7 && "Failed To Deliver"}
+                                        {step === 8 && "Canceled"}
+                                    </span>
+
+                                    {/* Horizontal Progress Line */}
+                                    {index < 7 && (
+                                        <div
+                                            className={`absolute top-5 left-full transform -translate-x-1/2 h-1 w-full ${step < getDeliveryStep(trackingData.deliveryStatus) ? "bg-primary" : "bg-gray-300"
+                                                }`} style={{ zIndex: 0 }}
+                                        ></div>
+                                    )}
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>

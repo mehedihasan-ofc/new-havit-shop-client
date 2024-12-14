@@ -5,7 +5,6 @@ import Footer from "../pages/Shared/Footer/Footer";
 import ProfileSidebar from "../components/Profile/ProfileSidebar/ProfileSidebar";
 
 const ProfileLayout = () => {
-
     const { pathname } = useLocation();
 
     useEffect(() => {
@@ -15,12 +14,14 @@ const ProfileLayout = () => {
     return (
         <>
             <Header />
-            <div className="my-container my-5">
-                <div className="grid grid-cols-4 gap-5">
-                    <div>
+            <div className="my-container my-5 px-4 sm:px-6 lg:px-8">
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
+                    {/* Sidebar - Full width on small devices, 1/4 width on large devices */}
+                    <div className="lg:col-span-1">
                         <ProfileSidebar />
                     </div>
-                    <div className="col-span-3">
+                    {/* Content Area - Full width on small devices, 3/4 width on large devices */}
+                    <div className="lg:col-span-3">
                         <Outlet />
                     </div>
                 </div>

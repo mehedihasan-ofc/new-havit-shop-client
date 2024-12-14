@@ -16,7 +16,6 @@ import { AuthContext } from "../../../provider/AuthProvider";
 import Swal from "sweetalert2";
 
 const ProfileSidebar = () => {
-
     const { user, logOut } = useContext(AuthContext);
 
     const handleLogOut = () => {
@@ -27,7 +26,7 @@ const ProfileSidebar = () => {
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, sign out!"
+            confirmButtonText: "Yes, sign out!",
         }).then((result) => {
             if (result.isConfirmed) {
                 logOut()
@@ -35,28 +34,32 @@ const ProfileSidebar = () => {
                         Swal.fire({
                             title: "Signed Out",
                             text: "You have successfully signed out.",
-                            icon: "success"
+                            icon: "success",
                         });
                     })
-                    .catch(err => console.log(err.message));
+                    .catch((err) => console.log(err.message));
             }
         });
     };
 
     return (
-        // <Card className="h-[calc(100vh-2rem)] w-full max-w-[20rem] p-4 shadow rounded border">
-        <Card className="h-full w-full max-w-[20rem] p-4 shadow rounded border">
-
+        <Card className="h-auto w-full max-w-full lg:max-w-[20rem] p-4 shadow rounded border">
+            {/* Profile Picture */}
             <div className="flex justify-center p-4">
-                <Avatar size="xl" src={user?.photoURL} alt={user?.displayName} />
+                <Avatar
+                    size="xl"
+                    src={user?.photoURL}
+                    alt={user?.displayName}
+                    className="w-24 h-24 lg:w-32 lg:h-32"
+                />
             </div>
 
             <hr className="border-blue-gray-50" />
 
-            <List>
-
+            {/* Sidebar Links */}
+            <List className="space-y-2">
                 <Link to="dashboard">
-                    <ListItem>
+                    <ListItem className="hover:bg-blue-100">
                         <ListItemPrefix>
                             <VscSettings size={18} />
                         </ListItemPrefix>
@@ -65,7 +68,7 @@ const ProfileSidebar = () => {
                 </Link>
 
                 <Link to="orders">
-                    <ListItem>
+                    <ListItem className="hover:bg-blue-100">
                         <ListItemPrefix>
                             <HiOutlineShoppingBag size={18} />
                         </ListItemPrefix>
@@ -74,7 +77,7 @@ const ProfileSidebar = () => {
                 </Link>
 
                 <Link to="track-order">
-                    <ListItem>
+                    <ListItem className="hover:bg-blue-100">
                         <ListItemPrefix>
                             <RiFocus3Line size={20} />
                         </ListItemPrefix>
@@ -83,7 +86,7 @@ const ProfileSidebar = () => {
                 </Link>
 
                 <Link to="billing-details">
-                    <ListItem>
+                    <ListItem className="hover:bg-blue-100">
                         <ListItemPrefix>
                             <GrLocation size={18} />
                         </ListItemPrefix>
@@ -91,7 +94,10 @@ const ProfileSidebar = () => {
                     </ListItem>
                 </Link>
 
-                <ListItem onClick={handleLogOut}>
+                <ListItem
+                    onClick={handleLogOut}
+                    className="hover:bg-red-100 text-red-500"
+                >
                     <ListItemPrefix>
                         <AiOutlineLogout size={18} />
                     </ListItemPrefix>
