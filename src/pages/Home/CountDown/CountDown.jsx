@@ -11,6 +11,9 @@ const CountDown = () => {
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
     useEffect(() => {
+
+        if (!campaignData?.expiredDate) return;
+        
         const countdown = () => {
             const now = new Date();
             const expiry = new Date(campaignData?.expiredDate || 0);
@@ -30,6 +33,10 @@ const CountDown = () => {
         const timer = setInterval(countdown, 1000);
         return () => clearInterval(timer);
     }, [campaignData?.expiredDate]);
+
+    if (!campaignData || campaignData?.message || new Date(campaignData.expiredDate) <= new Date()) {
+        return null;
+    }
 
     const enableLoopMode = campaignData?.products?.length > 1;
 

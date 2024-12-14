@@ -187,7 +187,7 @@ const ProductDetails = () => {
 
             {
                 product?.videoLink && (
-                    <div className="rounded-lg shadow border p-2 my-5">
+                    <div className="rounded-lg shadow border p-2 mt-5">
                         <div className="w-full h-96">
                             <ReactPlayer
                                 controls={true}
@@ -202,7 +202,7 @@ const ProductDetails = () => {
 
 
             {/* Description */}
-            <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow">
+            <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow mt-5">
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Product Description</h3>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{product.description}</p>
             </div>

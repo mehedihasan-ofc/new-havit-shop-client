@@ -50,7 +50,6 @@ const ViewCart = () => {
         cart?.reduce((total, item, index) => total + item.productDetails.price * quantities[index], 0);
 
     const handleProceedToCheckout = () => {
-
         const checkoutData = {
             total: calculateTotalAmount(),
             products: cart.map((item, index) => ({
@@ -61,15 +60,23 @@ const ViewCart = () => {
             }))
         };
 
-        const unselectedItem = checkoutData?.products?.find((item) => !item?.selectFlavor);
+        const unselectedItem = checkoutData.products.find(
+            (item, index) =>
+                item.flavor?.length > 0 &&
+                !selectedFlavors[index]
+        );
 
         if (unselectedItem) {
-            toast.error(`Please select a flavor for ${unselectedItem.name} before proceeding!`, {
-                autoClose: 1600,
-                pauseOnHover: false
-            });
+            toast.error(
+                `Please select a flavor for "${unselectedItem.name}" before proceeding!`,
+                {
+                    autoClose: 1600,
+                    pauseOnHover: false,
+                }
+            );
             return;
         }
+
         navigate("/checkout", { state: { checkoutData } });
     };
 

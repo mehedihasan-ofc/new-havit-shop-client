@@ -146,9 +146,9 @@ const ProductEdit = () => {
             };
 
             // Make an API call to send the data to the database
-            const { data } = await axiosSecure.post(`/product/${id}`, updatedProduct);
+            const { data } = await axiosSecure.put(`/product/${id}`, updatedProduct);
 
-            if (data.insertedId) {
+            if (data.modifiedCount) {
                 toast.success('Product updated successfully!', {
                     position: "top-right",
                     autoClose: 1000,

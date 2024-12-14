@@ -107,8 +107,8 @@ const AddProduct = () => {
                 videoLink: formData.videoLink,
                 description: formData.description,
                 brand: formData.brand,
-                madeIn: formData.madeIn,   // Include new field
-                skuCode: formData.skuCode, // Include new field
+                madeIn: formData.madeIn,
+                skuCode: formData.skuCode,
                 flavor: formData.flavor,
                 createdAt: new Date().toISOString(),
                 images: downloadURLs.map((url, index) => ({
