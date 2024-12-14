@@ -71,6 +71,11 @@ import FailedToDeliverOrders from "../pages/Dashboard/Orders/FailedToDeliverOrde
 import CanceledOrders from "../pages/Dashboard/Orders/CanceledOrders/CanceledOrders";
 import RoleAssignment from "../pages/Dashboard/Users/RoleAssignment/RoleAssignment";
 import CampaignEdit from "../pages/Dashboard/CampaignBuilder/CampaignEdit/CampaignEdit";
+import RefundPending from "../pages/Dashboard/RefundRequest/RefundPending/RefundPending";
+import RefundApproved from "../pages/Dashboard/RefundRequest/RefundApproved/RefundApproved";
+import RefundRefunded from "../pages/Dashboard/RefundRequest/RefundRefunded/RefundRefunded";
+import RefundRejected from "../pages/Dashboard/RefundRequest/RefundRejected/RefundRejected";
+import OrderDetails from "../pages/Dashboard/Orders/OrderDetails/OrderDetails";
 
 const router = createBrowserRouter([
     {
@@ -304,6 +309,27 @@ const router = createBrowserRouter([
             {
                 path: "orders/canceled",
                 element: <CanceledOrders />
+            },
+            {
+                path: "order-details/:id",
+                element: <OrderDetails />
+            },
+            // Refund
+            {
+                path: "refund-pending",
+                element: <RefundPending />
+            },
+            {
+                path: "refund-approved",
+                element: <RefundApproved />
+            },
+            {
+                path: "refund-refunded",
+                element: <RefundRefunded />
+            },
+            {
+                path: "refund-rejected",
+                element: <RefundRejected />
             },
             // Category
             {

@@ -1,32 +1,28 @@
-import {
-    Button,
-    Dialog,
-    DialogHeader,
-    DialogBody,
-    DialogFooter,
-} from "@material-tailwind/react";
-import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useContext, useState } from "react";
-import { AuthContext } from "../../../provider/AuthProvider";
+import { useParams } from "react-router-dom";
+import { AuthContext } from "../../../../provider/AuthProvider";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import MySpinner from "../../../../components/Shared/MySpinner/MySpinner";
+import { Button } from "@material-tailwind/react";
 
-const ViewOrderModal = ({ open, handleOpen, orderId, onRefetch }) => {
+const OrderDetails = () => {
+
+    const { id } = useParams();
     const { user } = useContext(AuthContext);
     const token = localStorage.getItem("access-token");
     const [axiosSecure] = useAxiosSecure();
 
-    // State for form inputs
     const [deliveryStatus, setDeliveryStatus] = useState("pending");
     const [paymentStatus, setPaymentStatus] = useState("pending");
-    const [isUpdating, setIsUpdating] = useState(false); // State for loading during update
+    const [isUpdating, setIsUpdating] = useState(false);
 
-    // Fetch order details
-    const { data: order = {}, isLoading, isError, refetch } = useQuery({
-        queryKey: ["order", user?.email, orderId],
-        enabled: !!user?.email && !!token && !!orderId,
+    const { data: order = {}, isLoading, refetch } = useQuery({
+        queryKey: ["order", user?.email, id],
+        enabled: !!user?.email && !!token && !!id,
         queryFn: async () => {
-            const res = await axiosSecure(`/orders/single-order/${orderId}`);
+            const res = await axiosSecure(`/orders/single-order/${id}`);
             const orderData = res.data;
             setDeliveryStatus(orderData.deliveryStatus);
             setPaymentStatus(orderData.paymentStatus);
@@ -34,7 +30,6 @@ const ViewOrderModal = ({ open, handleOpen, orderId, onRefetch }) => {
         },
     });
 
-    // Function to handle update
     const handleUpdate = async () => {
         setIsUpdating(true); // Start loading state
         try {
@@ -44,10 +39,8 @@ const ViewOrderModal = ({ open, handleOpen, orderId, onRefetch }) => {
             });
             console.log(data);
 
-            if(data?.modifiedCount) {
-                onRefetch();
+            if (data?.modifiedCount) {
                 refetch();
-                handleOpen();
                 toast.success("Order updated successfully!", {
                     autoClose: 1600
                 });
@@ -56,30 +49,12 @@ const ViewOrderModal = ({ open, handleOpen, orderId, onRefetch }) => {
             toast.error("Failed to update order.");
             console.error("Update Error:", error);
         } finally {
-            setIsUpdating(false); // End loading state
+            setIsUpdating(false);
         }
     };
 
-    // Loading or error handling for the dialog content
-    if (isLoading) {
-        return (
-            <Dialog open={open} handler={handleOpen}>
-                <DialogHeader>Loading Order Details...</DialogHeader>
-                <DialogBody>Loading...</DialogBody>
-            </Dialog>
-        );
-    }
+    if (isLoading) return <MySpinner />;
 
-    if (isError) {
-        return (
-            <Dialog open={open} handler={handleOpen}>
-                <DialogHeader>Error</DialogHeader>
-                <DialogBody>Failed to load order details. Please try again.</DialogBody>
-            </Dialog>
-        );
-    }
-
-    // Destructure order details for easier rendering
     const {
         _id,
         billingDetails = {},
@@ -96,9 +71,10 @@ const ViewOrderModal = ({ open, handleOpen, orderId, onRefetch }) => {
     } = order;
 
     return (
-        <Dialog open={open} handler={handleOpen} size="lg">
-            <DialogHeader className="pb-1">Order Details</DialogHeader>
-            <DialogBody className="py-0">
+        <div className="p-6 bg-white shadow-md rounded-lg">
+            <h2 className="pb-1">Order Details</h2>
+            
+            <div className="py-0">
                 <div className="space-y-2 text-sm">
                     <div className="grid grid-cols-2 gap-5">
                         {/* Billing Details */}
@@ -248,9 +224,9 @@ const ViewOrderModal = ({ open, handleOpen, orderId, onRefetch }) => {
                         </div>
                     </div>
                 </div>
-            </DialogBody>
+            </div>
 
-            <DialogFooter>
+            <div>
                 <Button
                     size="sm"
                     disabled={isUpdating}
@@ -259,16 +235,9 @@ const ViewOrderModal = ({ open, handleOpen, orderId, onRefetch }) => {
                 >
                     {isUpdating ? "Updating..." : "Update"}
                 </Button>
-                <Button
-                    size="sm"
-                    onClick={handleOpen}
-                    className="rounded-none bg-red-500 font-medium"
-                >
-                    Cancel
-                </Button>
-            </DialogFooter>
-        </Dialog>
+            </div>
+        </div>
     );
 };
 
-export default ViewOrderModal;
+export default OrderDetails;

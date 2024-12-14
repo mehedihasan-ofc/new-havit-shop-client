@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
@@ -7,8 +7,8 @@ import { Card, CardBody, Chip, IconButton, Typography } from "@material-tailwind
 import MySpinner from "../Shared/MySpinner/MySpinner";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { AiOutlineDelete } from "react-icons/ai";
-import ViewOrderModal from "../Modal/ViewOrderModal/ViewOrderModal";
 import { formattedDate } from "../../utils";
+import { useNavigate } from "react-router-dom";
 
 const TABLE_HEAD = ["#", "Order ID", "Order Date", "Pay Method", "Del Status", "Total", "Pay Status", "Actions"];
 
@@ -18,9 +18,7 @@ const OrdersByStatus = ({ activeStatus }) => {
     const token = localStorage.getItem('access-token');
     const [axiosSecure] = useAxiosSecure();
 
-    // Modal Data
-    const [orderId, setOrderId] = useState();
-    const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
 
     const { data: orders = [], isLoading, refetch } = useQuery({
         queryKey: ['orders', user?.email, activeStatus],
@@ -30,13 +28,6 @@ const OrdersByStatus = ({ activeStatus }) => {
             return res.data;
         },
     });
-
-    const handleOpen = () => setOpen(!open);
-
-    const handleViewOrder = (id) => {
-        setOrderId(id);
-        handleOpen();
-    }
 
     const handleDelete = async (orderId) => {
 
@@ -232,7 +223,7 @@ const OrdersByStatus = ({ activeStatus }) => {
 
                                                     <td className={classes}>
                                                         <div>
-                                                            <IconButton onClick={() => handleViewOrder(_id)} variant="text" className="rounded-full">
+                                                            <IconButton onClick={() => navigate(`/dashboard/order-details/${_id}`)} variant="text" className="rounded-full">
                                                                 <MdOutlineRemoveRedEye size={18} />
                                                             </IconButton>
 
@@ -251,8 +242,6 @@ const OrdersByStatus = ({ activeStatus }) => {
                     </CardBody>
                 )}
             </Card>
-
-            <ViewOrderModal open={open} handleOpen={handleOpen} orderId={orderId} onRefetch={refetch} />
         </>
     );
 };
