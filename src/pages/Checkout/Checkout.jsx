@@ -6,11 +6,10 @@ import usePromoCodes from "../../hooks/usePromoCodes";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../provider/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import MySpinner from "../../components/Shared/MySpinner/MySpinner";
 
 const Checkout = () => {
     const { user } = useContext(AuthContext);
-    const [billingDetails, isLoading] = useBillingDetails();
+    const [billingDetails] = useBillingDetails();
     const [promoCodes] = usePromoCodes();
     const [axiosSecure] = useAxiosSecure();
 
@@ -93,6 +92,7 @@ const Checkout = () => {
                 products: products.map(product => ({
                     productId: product._id,
                     quantity: product.quantity,
+                    selectFlavour: product.selectFlavor
                 })),
                 total,
                 discount,
@@ -104,6 +104,8 @@ const Checkout = () => {
                 paymentStatus: "pending",
                 orderDate: new Date().toISOString(),
             };
+
+            console.log("orderDetails", orderDetails);
 
             if (selectedPaymentMethod === "cash-on-delivery") {
 
@@ -132,8 +134,6 @@ const Checkout = () => {
             setLoading(false);
         }
     };
-
-    // if(isLoading) return <MySpinner />;
 
     return (
         <div className="max-w-5xl mx-auto px-6 my-5">

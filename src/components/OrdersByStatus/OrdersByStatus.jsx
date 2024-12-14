@@ -41,7 +41,6 @@ const OrdersByStatus = ({ activeStatus }) => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-
                 axiosSecure.delete(`/orders/${orderId}`)
                     .then(res => {
                         if (res.data.deletedCount > 0) {
