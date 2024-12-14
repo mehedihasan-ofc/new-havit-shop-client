@@ -46,7 +46,7 @@ const ProfileTrackOrder = () => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg">
+        <div className="max-w-4xl mx-auto p-6 shadow rounded border">
             <h1 className="text-2xl font-semibold text-gray-800 text-center mb-6">
                 Track Your Order
             </h1>
@@ -99,7 +99,7 @@ const ProfileTrackOrder = () => {
 
             {/* Summary and Progress */}
             {trackingData && !loading && (
-                <div className="bg-gray-50 p-6 shadow-md rounded-lg mt-8">
+                <div className="p-6 shadow-md rounded-lg border mt-8">
                     <h2 className="text-xl font-semibold text-gray-700 mb-4">Order Summary</h2>
                     <p><strong>Order ID:</strong>#{trackingData.orderId}</p>
                     <p><strong>Order Date:</strong> {new Date(trackingData.orderDate).toLocaleDateString()}</p>

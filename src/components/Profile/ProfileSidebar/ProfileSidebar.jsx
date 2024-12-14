@@ -14,6 +14,8 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../../provider/AuthProvider";
 import Swal from "sweetalert2";
+import { GiReturnArrow } from "react-icons/gi";
+import { TbTruckReturn } from "react-icons/tb";
 
 const ProfileSidebar = () => {
     const { user, logOut } = useContext(AuthContext);
@@ -59,7 +61,7 @@ const ProfileSidebar = () => {
             {/* Sidebar Links */}
             <List className="space-y-2">
                 <Link to="dashboard">
-                    <ListItem className="hover:bg-blue-100">
+                    <ListItem className="hover:bg-blue-100 rounded">
                         <ListItemPrefix>
                             <VscSettings size={18} />
                         </ListItemPrefix>
@@ -68,7 +70,7 @@ const ProfileSidebar = () => {
                 </Link>
 
                 <Link to="orders">
-                    <ListItem className="hover:bg-blue-100">
+                    <ListItem className="hover:bg-blue-100 rounded">
                         <ListItemPrefix>
                             <HiOutlineShoppingBag size={18} />
                         </ListItemPrefix>
@@ -77,7 +79,7 @@ const ProfileSidebar = () => {
                 </Link>
 
                 <Link to="track-order">
-                    <ListItem className="hover:bg-blue-100">
+                    <ListItem className="hover:bg-blue-100 rounded">
                         <ListItemPrefix>
                             <RiFocus3Line size={20} />
                         </ListItemPrefix>
@@ -85,8 +87,26 @@ const ProfileSidebar = () => {
                     </ListItem>
                 </Link>
 
+                <Link to="my-returns">
+                    <ListItem className="hover:bg-blue-100 rounded">
+                        <ListItemPrefix>
+                            <GiReturnArrow size={20} />
+                        </ListItemPrefix>
+                        My Returns
+                    </ListItem>
+                </Link>
+
+                <Link to="my-cancellations">
+                    <ListItem className="hover:bg-blue-100 rounded">
+                        <ListItemPrefix>
+                            <TbTruckReturn size={20} />
+                        </ListItemPrefix>
+                        Cancellations
+                    </ListItem>
+                </Link>
+
                 <Link to="billing-details">
-                    <ListItem className="hover:bg-blue-100">
+                    <ListItem className="hover:bg-blue-100 rounded">
                         <ListItemPrefix>
                             <GrLocation size={18} />
                         </ListItemPrefix>
@@ -96,7 +116,7 @@ const ProfileSidebar = () => {
 
                 <ListItem
                     onClick={handleLogOut}
-                    className="hover:bg-red-100 text-red-500"
+                    className="hover:bg-red-100 text-red-500 rounded"
                 >
                     <ListItemPrefix>
                         <AiOutlineLogout size={18} />

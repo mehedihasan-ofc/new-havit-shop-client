@@ -5,6 +5,7 @@ import { GiCheckMark } from "react-icons/gi";
 import { LuCopy } from "react-icons/lu";
 import MySpinner from "../../../components/Shared/MySpinner/MySpinner";
 import useOrders from "../../../hooks/useOrders";
+import { Button } from "@material-tailwind/react";
 
 const ProfileOrders = () => {
     const [orders, isLoading] = useOrders();
@@ -43,10 +44,11 @@ const ProfileOrders = () => {
     if (isLoading) return <MySpinner />;
 
     return (
-        <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg">
+        <div className="max-w-4xl mx-auto p-6 shadow rounded border">
             <h2 className="text-2xl font-semibold text-gray-800 text-center mb-4">
                 Your Orders
             </h2>
+            
             {orders.length === 0 ? (
                 <p className="text-gray-600 text-center">
                     You have no orders yet.
@@ -54,12 +56,13 @@ const ProfileOrders = () => {
             ) : (
                 <div className="space-y-4">
                     {orders.map((order) => (
+
                         <div
                             key={order._id}
-                            className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-gray-50 border border-gray-200 p-4 rounded-lg shadow-sm"
+                            className="flex flex-col sm:flex-row items-start sm:items-center justify-between border p-4 rounded shadow"
                         >
                             <div className="flex-1">
-                                <p className="font-medium text-gray-800">
+                                <p className="font-medium text-primary">
                                     Order ID: #{order.orderId}
                                     <button
                                         onClick={() => handleCopyOrderId(order.orderId)}
@@ -73,26 +76,27 @@ const ProfileOrders = () => {
                                     </button>
                                 </p>
                                 <p className="text-gray-600">
-                                    Date: {formattedDate(order.orderDate)}
-                                </p>
-                                <p
-                                    className={`capitalize font-semibold ${getStatusColor(
-                                        order.deliveryStatus
-                                    )}`}
-                                >
-                                    Status: {order.deliveryStatus}
+                                    Order: {formattedDate(order.orderDate)}
                                 </p>
                                 <p className="text-gray-800">
                                     Total: ৳{order.payableTotal} for {order.products.length} item
                                     {order.products.length > 1 ? "s" : ""}
                                 </p>
                             </div>
-                            <button
-                                onClick={() => navigate(`order-details/${order._id}`)}
-                                className="mt-4 sm:mt-0 text-green-600 font-medium hover:underline"
-                            >
-                                View Details
-                            </button>
+
+                            <div className="space-y-3">
+                                <p
+                                    className={`capitalize text-center italic text-sm font-semibold ${getStatusColor(
+                                        order.deliveryStatus
+                                    )}`}
+                                >
+                                    {order.deliveryStatus}
+                                </p>
+
+                                <Button size="sm" onClick={() => navigate(`order-details/${order._id}`)} className='rounded-none font-normal bg-primary py-1 px-2'>
+                                    View Details
+                                </Button>
+                            </div>
                         </div>
                     ))}
                 </div>

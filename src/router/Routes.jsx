@@ -76,6 +76,8 @@ import RefundApproved from "../pages/Dashboard/RefundRequest/RefundApproved/Refu
 import RefundRefunded from "../pages/Dashboard/RefundRequest/RefundRefunded/RefundRefunded";
 import RefundRejected from "../pages/Dashboard/RefundRequest/RefundRejected/RefundRejected";
 import OrderDetails from "../pages/Dashboard/Orders/OrderDetails/OrderDetails";
+import ProfileMyReturns from "../pages/Profile/ProfileMyReturns/ProfileMyReturns";
+import ProfileCancellations from "../pages/Profile/ProfileCancellations/ProfileCancellations";
 
 const router = createBrowserRouter([
     {
@@ -198,6 +200,14 @@ const router = createBrowserRouter([
             {
                 path: "orders/order-details/:id",
                 element: <ProfileOrderDetails />
+            },
+            {
+                path: "my-returns",
+                element: <ProfileMyReturns />
+            },
+            {
+                path: "my-cancellations",
+                element: <ProfileCancellations />
             },
             {
                 path: "track-order",

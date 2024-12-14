@@ -22,7 +22,7 @@ const ProfileDashboard = () => {
 
     return (
         <>
-            <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg">
+            <div className="max-w-4xl mx-auto p-6 shadow rounded border">
                 <h1 className="text-3xl font-semibold text-gray-800 mb-6">
                     Hello, <span className="text-blue-600">{user?.displayName || "Guest"}!</span>
                 </h1>

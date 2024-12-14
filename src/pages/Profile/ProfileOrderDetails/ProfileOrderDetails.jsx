@@ -1,12 +1,13 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import MySpinner from "../../../components/Shared/MySpinner/MySpinner";
 
 const ProfileOrderDetails = () => {
-    const { id } = useParams(); // Get order ID from the URL
+    const { id } = useParams();
     const [axiosSecure] = useAxiosSecure();
 
-    const { data: order, isLoading, error } = useQuery({
+    const { data: order, isLoading } = useQuery({
         queryKey: ["order", id],
         queryFn: async () => {
             const res = await axiosSecure(`/orders/single-order/${id}`);
@@ -14,21 +15,7 @@ const ProfileOrderDetails = () => {
         },
     });
 
-    if (isLoading) {
-        return (
-            <div className="flex items-center justify-center h-64">
-                <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className="text-center text-red-500 py-6">
-                Failed to load order details. Please try again later.
-            </div>
-        );
-    }
+    if (isLoading) return <MySpinner />
 
     const {
         orderId,
