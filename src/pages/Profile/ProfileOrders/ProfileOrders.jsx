@@ -7,9 +7,7 @@ import MySpinner from "../../../components/Shared/MySpinner/MySpinner";
 import useOrders from "../../../hooks/useOrders";
 
 const ProfileOrders = () => {
-    
     const [orders, isLoading] = useOrders();
-    
     const [copiedOrderId, setCopiedOrderId] = useState(false);
     const navigate = useNavigate();
 
@@ -17,16 +15,22 @@ const ProfileOrders = () => {
         switch (status.toLowerCase()) {
             case "pending":
                 return "text-amber-600";
-            case "processing":
+            case "confirmed":
                 return "text-blue-600";
-            case "shipped":
-                return "text-indigo-600";
+            case "packaging":
+                return "text-purple-600";
+            case "out-for-delivery":
+                return "text-pink-600";
             case "delivered":
-                return "text-green-600";
-            case "cancelled":
+                return "text-teal-600";
+            case "returned":
+                return "text-red-600";
+            case "failed-to-deliver":
+                return "text-red-600";
+            case "canceled":
                 return "text-red-600";
             default:
-                return "text-gray-600";
+                return "text-gray-500";
         }
     };
 
@@ -36,90 +40,61 @@ const ProfileOrders = () => {
         setTimeout(() => setCopiedOrderId(""), 2000);
     };
 
-    if (isLoading) return <MySpinner />
+    if (isLoading) return <MySpinner />;
 
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg">
-            <h1 className="text-2xl font-semibold text-gray-800 text-center mb-4">
+            <h2 className="text-2xl font-semibold text-gray-800 text-center mb-4">
                 Your Orders
-            </h1>
+            </h2>
             {orders.length === 0 ? (
                 <p className="text-gray-600 text-center">
                     You have no orders yet.
                 </p>
             ) : (
-                <div className="overflow-x-auto text-sm">
-                    <table className="min-w-full border border-gray-200 rounded-lg">
-                        <thead className="bg-primary text-white">
-                            <tr>
-                                <th className="px-6 py-3 text-left font-medium uppercase">
-                                    Order
-                                </th>
-                                <th className="px-6 py-3 text-left font-medium uppercase">
-                                    Date
-                                </th>
-                                <th className="px-6 py-3 text-left font-medium uppercase">
-                                    Status
-                                </th>
-                                <th className="px-6 py-3 text-left font-medium uppercase">
-                                    Total
-                                </th>
-                                <th className="px-6 py-3 text-left font-medium uppercase">
-                                    Action
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {orders.map((order) => (
-                                <tr
-                                    key={order._id}
-                                    className="border-b"
-                                >
-                                    <td className="px-6 py-4 font-medium text-gray-800 flex items-center gap-2">
-                                        #{order.orderId}
-                                        <button
-                                            onClick={() => handleCopyOrderId(order.orderId)} // Pass the order ID here
-                                            className="flex items-center gap-1 text-primary font-semibold hover:underline focus:outline-none"
-                                        >
-                                            {copiedOrderId === order.orderId ? (
-                                                <>
-                                                    <GiCheckMark />
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <LuCopy />
-                                                </>
-                                            )}
-                                        </button>
-
-                                    </td>
-                                    <td className="px-6 py-4 text-gray-600">
-                                        {formattedDate(order.orderDate)}
-                                    </td>
-                                    <td
-                                        className={`px-6 py-4 capitalize font-semibold ${getStatusColor(
-                                            order.deliveryStatus
-                                        )}`}
+                <div className="space-y-4">
+                    {orders.map((order) => (
+                        <div
+                            key={order._id}
+                            className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-gray-50 border border-gray-200 p-4 rounded-lg shadow-sm"
+                        >
+                            <div className="flex-1">
+                                <p className="font-medium text-gray-800">
+                                    Order ID: #{order.orderId}
+                                    <button
+                                        onClick={() => handleCopyOrderId(order.orderId)}
+                                        className="ml-2 text-primary font-semibold hover:underline focus:outline-none"
                                     >
-                                        {order.deliveryStatus}
-                                    </td>
-                                    <td className="px-6 py-4 text-gray-800">
-                                        ৳{order.payableTotal} for{" "}
-                                        {order.products.length} item
-                                        {order.products.length > 1 ? "s" : ""}
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <button
-                                            onClick={() => navigate(`order-details/${order._id}`)}
-                                            className="text-green-600 font-medium hover:underline"
-                                        >
-                                            View
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                                        {copiedOrderId === order.orderId ? (
+                                            <GiCheckMark className="inline" />
+                                        ) : (
+                                            <LuCopy className="inline" />
+                                        )}
+                                    </button>
+                                </p>
+                                <p className="text-gray-600">
+                                    Date: {formattedDate(order.orderDate)}
+                                </p>
+                                <p
+                                    className={`capitalize font-semibold ${getStatusColor(
+                                        order.deliveryStatus
+                                    )}`}
+                                >
+                                    Status: {order.deliveryStatus}
+                                </p>
+                                <p className="text-gray-800">
+                                    Total: ৳{order.payableTotal} for {order.products.length} item
+                                    {order.products.length > 1 ? "s" : ""}
+                                </p>
+                            </div>
+                            <button
+                                onClick={() => navigate(`order-details/${order._id}`)}
+                                className="mt-4 sm:mt-0 text-green-600 font-medium hover:underline"
+                            >
+                                View Details
+                            </button>
+                        </div>
+                    ))}
                 </div>
             )}
         </div>

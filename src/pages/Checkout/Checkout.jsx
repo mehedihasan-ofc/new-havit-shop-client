@@ -105,8 +105,6 @@ const Checkout = () => {
                 orderDate: new Date().toISOString(),
             };
 
-            console.log("orderDetails", orderDetails);
-
             if (selectedPaymentMethod === "cash-on-delivery") {
 
                 const { data } = await axiosSecure.post('/orders', orderDetails);

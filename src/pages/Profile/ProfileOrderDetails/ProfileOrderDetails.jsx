@@ -51,7 +51,7 @@ const ProfileOrderDetails = () => {
         <div className="max-w-7xl mx-auto px-4 py-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Billing Details */}
-                <div className="bg-white p-6 shadow-md rounded border">
+                <div className="bg-white p-6 shadow-md rounded border space-y-1">
                     <h2 className="text-xl font-semibold text-gray-700 mb-2">Billing Details</h2>
                     <p className="text-sm text-gray-600">
                         <strong>Name:</strong> {billingDetails.name || "N/A"}
@@ -69,7 +69,7 @@ const ProfileOrderDetails = () => {
                 </div>
 
                 {/* Order Info */}
-                <div className="bg-white p-6 shadow-md rounded border">
+                <div className="bg-white p-6 shadow-md rounded border space-y-1">
                     <h2 className="text-xl font-semibold text-gray-700 mb-2">Order Info</h2>
                     <p className="text-sm text-gray-600">
                         <strong>Order ID:</strong> #{orderId}
@@ -111,6 +111,7 @@ const ProfileOrderDetails = () => {
                             <th className="border border-gray-300 px-4 py-2">#</th>
                             <th className="border border-gray-300 px-4 py-2">Name</th>
                             <th className="border border-gray-300 px-4 py-2">Brand</th>
+                            <th className="border border-gray-300 px-4 py-2">Flavour</th>
                             <th className="border border-gray-300 px-4 py-2">Price (BDT)</th>
                             <th className="border border-gray-300 px-4 py-2">Quantity</th>
                             <th className="border border-gray-300 px-4 py-2">Subtotal (BDT)</th>
@@ -123,6 +124,7 @@ const ProfileOrderDetails = () => {
                                     <td className="border border-gray-300 px-4 py-2">{_idx + 1 || "N/A"}</td>
                                     <td className="border border-gray-300 px-4 py-2">{product.name}</td>
                                     <td className="border border-gray-300 px-4 py-2">{product.brand || "N/A"}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{product.selectFlavour || "N/A"}</td>
                                     <td className="border border-gray-300 px-4 py-2">৳{product.price || 0}</td>
                                     <td className="border border-gray-300 px-4 py-2">{product.quantity || 0}</td>
                                     <td className="border border-gray-300 px-4 py-2">
