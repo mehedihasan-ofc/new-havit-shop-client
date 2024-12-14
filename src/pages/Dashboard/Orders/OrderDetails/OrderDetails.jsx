@@ -196,9 +196,12 @@ const OrderDetails = () => {
                                 className="w-full px-3 py-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                             >
                                 <option value="pending">Pending</option>
-                                <option value="processing">Processing</option>
-                                <option value="shipped">Shipped</option>
+                                <option value="confirmed">Confirmed</option>
+                                <option value="packaging">Packaging</option>
+                                <option value="out-for-delivery">Out For Delivery</option>
                                 <option value="delivered">Delivered</option>
+                                <option value="returned">Returned</option>
+                                <option value="failed-to-deliver">Failed To Deliver</option>
                                 <option value="canceled">Canceled</option>
                             </select>
                         </div>
