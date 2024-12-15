@@ -168,12 +168,30 @@ const MobileNavigation = ({ openNav, closeDrawer, handleLogOut, user, role }) =>
                                     </ListItem>
                                 </Link>
 
+                                <Link to="/profile/my-returns">
+                                    <ListItem
+                                        className="rounded-none hover:text-primary hover:bg-secondary p-2"
+                                        onClick={closeDrawer}
+                                    >
+                                        My Returns
+                                    </ListItem>
+                                </Link>
+
+                                <Link to="/profile/my-cancellations">
+                                    <ListItem
+                                        className="rounded-none hover:text-primary hover:bg-secondary p-2"
+                                        onClick={closeDrawer}
+                                    >
+                                        Cancellations
+                                    </ListItem>
+                                </Link>
+
                                 <ListItem
                                     onClick={() => {
                                         closeDrawer();
                                         handleLogOut();
                                     }}
-                                    className="rounded-none hover:text-primary hover:bg-secondary p-2"
+                                    className="rounded-none text-red-500 hover:bg-red-100 p-2"
                                 >
                                     Sign Out
                                 </ListItem>

@@ -46,7 +46,7 @@ const ProfileOrders = () => {
     return (
         <div className="max-w-4xl mx-auto p-6 shadow rounded border">
             <h2 className="text-2xl font-semibold text-gray-800 text-center mb-4">
-                Your Orders
+                My Orders
             </h2>
             
             {orders.length === 0 ? (
@@ -59,10 +59,10 @@ const ProfileOrders = () => {
 
                         <div
                             key={order._id}
-                            className="flex flex-col sm:flex-row items-start sm:items-center justify-between border p-4 rounded shadow"
+                            className="flex items-center justify-between border p-4 rounded shadow"
                         >
                             <div className="flex-1">
-                                <p className="font-medium text-primary">
+                                <p className="font-medium text-primary text-sm md:text-base">
                                     Order ID: #{order.orderId}
                                     <button
                                         onClick={() => handleCopyOrderId(order.orderId)}
@@ -75,10 +75,10 @@ const ProfileOrders = () => {
                                         )}
                                     </button>
                                 </p>
-                                <p className="text-gray-600">
+                                <p className="text-gray-600 text-sm md:text-base">
                                     Order: {formattedDate(order.orderDate)}
                                 </p>
-                                <p className="text-gray-800">
+                                <p className="text-gray-800 text-sm md:text-base">
                                     Total: ৳{order.payableTotal} for {order.products.length} item
                                     {order.products.length > 1 ? "s" : ""}
                                 </p>

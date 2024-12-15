@@ -45,7 +45,7 @@ const ProfileSidebar = () => {
     };
 
     return (
-        <Card className="h-auto w-full max-w-full lg:max-w-[20rem] p-4 shadow rounded border">
+        <Card className="h-auto w-full max-w-full lg:max-w-[20rem] p-4 shadow rounded border hidden lg:block">
             {/* Profile Picture */}
             <div className="flex justify-center p-4">
                 <Avatar
@@ -74,7 +74,7 @@ const ProfileSidebar = () => {
                         <ListItemPrefix>
                             <HiOutlineShoppingBag size={18} />
                         </ListItemPrefix>
-                        Orders
+                        My Orders
                     </ListItem>
                 </Link>
 

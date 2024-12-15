@@ -6,8 +6,8 @@ import { FiMinus, FiPlus } from "react-icons/fi";
 
 const ViewCartCard = ({ item, quantity, onFlavorChange, onQuantityChange, refetch }) => {
     const [axiosSecure] = useAxiosSecure();
-    const subtotal = item.productDetails.price * quantity;
-    const hasDiscount = item.productDetails.price < item.productDetails.regularPrice;
+    const subtotal = item?.productDetails?.price * quantity;
+    const hasDiscount = item?.productDetails?.price < item?.productDetails?.regularPrice;
 
     const handleDelete = async (id, name) => {
         Swal.fire({
@@ -57,7 +57,7 @@ const ViewCartCard = ({ item, quantity, onFlavorChange, onQuantityChange, refetc
 
                 <IconButton
                     size="sm"
-                    onClick={() => handleDelete(item._id, item.productDetails.name)}
+                    onClick={() => handleDelete(item._id, item?.productDetails?.name)}
                     color="red"
                     variant="text"
                     className="rounded-none"
@@ -69,27 +69,27 @@ const ViewCartCard = ({ item, quantity, onFlavorChange, onQuantityChange, refetc
             <div className="flex flex-col lg:flex-row items-center justify-between gap-5">
                 <div>
                     <img
-                        src={item.productDetails.images[0]?.url}
-                        alt={item.productDetails.name}
+                        src={item.productDetails?.images[0]?.url}
+                        alt={item.productDetails?.name}
                         className="w-20 h-20 md:w-24 md:h-24 object-cover rounded-md border"
                     />
                 </div>
 
                 <div className="space-y-2 text-center lg:text-left">
-                    <h4 className="text-sm font-semibold">{item.productDetails.name}</h4>
+                    <h4 className="text-sm font-semibold">{item?.productDetails?.name}</h4>
                     <div className="flex justify-center lg:justify-start items-center gap-2">
                         <span className="text-base font-bold text-primary">
-                            ৳{item.productDetails.price.toFixed(2)}
+                            ৳{item?.productDetails?.price.toFixed(2)}
                         </span>
                         {hasDiscount && (
                             <span className="text-sm text-gray-400 line-through">
-                                ৳{item.productDetails.regularPrice.toFixed(2)}
+                                ৳{item?.productDetails?.regularPrice.toFixed(2)}
                             </span>
                         )}
                     </div>
                 </div>
 
-                {item.productDetails.flavor?.length > 0 && (
+                {item?.productDetails.flavor?.length > 0 && (
                     <div className="space-y-2">
                         <p className="text-sm text-center text-gray-500">Select Flavor</p>
                         <select
@@ -97,7 +97,7 @@ const ViewCartCard = ({ item, quantity, onFlavorChange, onQuantityChange, refetc
                             onChange={(e) => onFlavorChange(e.target.value)}
                         >
                             <option value="">Choose a flavor</option>
-                            {item.productDetails.flavor.map((flavor) => (
+                            {item?.productDetails?.flavor.map((flavor) => (
                                 <option key={flavor} value={flavor}>
                                     {flavor}
                                 </option>
