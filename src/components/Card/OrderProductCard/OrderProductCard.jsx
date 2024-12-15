@@ -60,6 +60,13 @@ const OrderProductCard = ({ order }) => {
                 <p className="text-gray-600 text-sm md:text-base">
                     Order: {formattedDate(order.orderDate)}
                 </p>
+                {
+                    order?.deliveryDate && (
+                        <p className="text-gray-600 text-sm md:text-base">
+                            Delivered: {formattedDate(order.deliveryDate)}
+                        </p>
+                    )
+                }
                 <p className="text-gray-800 text-sm md:text-base">
                     Total: ৳{order.payableTotal} for {order.products.length} item
                     {order.products.length > 1 ? "s" : ""}
@@ -75,7 +82,7 @@ const OrderProductCard = ({ order }) => {
                     {order.deliveryStatus}
                 </p>
 
-                <Button size="sm" onClick={() => navigate(`order-details/${order._id}`)} className='rounded-none font-normal bg-primary py-1 px-2'>
+                <Button size="sm" onClick={() => navigate(`/profile/order-details/${order._id}`)} className='rounded-none font-normal bg-primary py-1 px-2'>
                     {order?.deliveryStatus === "delivered" ? "Return/Refund" : "View Details"}
                 </Button>
             </div>

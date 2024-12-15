@@ -198,7 +198,7 @@ const router = createBrowserRouter([
                 element: <ProfileOrders />
             },
             {
-                path: "orders/order-details/:id",
+                path: "order-details/:id",
                 element: <ProfileOrderDetails />
             },
             {

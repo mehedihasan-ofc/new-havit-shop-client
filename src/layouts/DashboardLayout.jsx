@@ -11,15 +11,6 @@ const DashboardLayout = () => {
 
     const [showMessages, setShowMessages] = useState(false);
 
-    // useEffect(() => {
-    //     window.scrollTo(0, 0);
-
-    //     if(pathname === "/dashboard" || pathname === "/dashboard/") {
-    //         navigate("dashboard-home")
-    //     }
-
-    // }, [pathname, navigate]);
-
     useEffect(() => {
         window.scrollTo(0, 0);
 
@@ -28,7 +19,7 @@ const DashboardLayout = () => {
             setTimeout(() => {
                 setShowMessages(false);
                 navigate("dashboard-home");
-            }, 3000); // 4 seconds
+            }, 3000);
         }
     }, [pathname, navigate]);
 

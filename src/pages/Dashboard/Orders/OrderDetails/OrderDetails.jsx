@@ -224,6 +224,7 @@ const OrderDetails = () => {
                                 <option value="pending">Pending</option>
                                 <option value="paid">Paid</option>
                                 <option value="unpaid">Unpaid</option>
+                                <option value="refund">Refund</option>
                             </select>
                         </div>
                     </div>
