@@ -1,11 +1,8 @@
 import { useState } from "react";
-import { formattedDate } from "../../../utils";
-import { useNavigate } from "react-router-dom";
-import { GiCheckMark } from "react-icons/gi";
-import { LuCopy } from "react-icons/lu";
 import MySpinner from "../../../components/Shared/MySpinner/MySpinner";
 import useOrders from "../../../hooks/useOrders";
-import { Button, Tab, Tabs, TabsHeader } from "@material-tailwind/react";
+import { Tab, Tabs, TabsHeader } from "@material-tailwind/react";
+import OrderProductCard from "../../../components/Card/OrderProductCard/OrderProductCard";
 
 const TABS = [
     {
@@ -33,121 +30,59 @@ const TABS = [
 const ProfileOrders = () => {
 
     const [activeTab, setActiveTab] = useState("all");
-
     const [orders, isLoading] = useOrders(activeTab);
-    const [copiedOrderId, setCopiedOrderId] = useState(false);
-    const navigate = useNavigate();
 
-    const getStatusColor = (status) => {
-        switch (status.toLowerCase()) {
+    const getEmptyMessage = () => {
+        switch (activeTab) {
             case "pending":
-                return "text-amber-600";
+                return "You have no pending orders.";
             case "confirmed":
-                return "text-blue-600";
+                return "No confirmed orders yet.";
             case "packaging":
-                return "text-purple-600";
-            case "out-for-delivery":
-                return "text-pink-600";
+                return "No orders are currently being packaged.";
             case "delivered":
-                return "text-teal-600";
-            case "returned":
-                return "text-red-600";
-            case "failed-to-deliver":
-                return "text-red-600";
-            case "canceled":
-                return "text-red-600";
+                return "No delivered orders yet.";
             default:
-                return "text-gray-500";
+                return "You have no orders yet.";
         }
     };
 
-    const handleCopyOrderId = (orderId) => {
-        navigator.clipboard.writeText(orderId);
-        setCopiedOrderId(orderId);
-        setTimeout(() => setCopiedOrderId(""), 2000);
-    };
-
-    if (isLoading) return <MySpinner />;
-
     return (
-        <div className="max-w-4xl mx-auto p-6 shadow rounded border">
-            <h2 className="text-2xl font-semibold text-gray-800 text-center mb-4">
+        <div className="max-w-4xl mx-auto p-6 shadow rounded border space-y-4">
+
+            <h2 className="text-2xl font-semibold text-gray-800 text-center">
                 My Orders
             </h2>
 
-            {orders.length === 0 ? (
-                <p className="text-gray-600 text-center">
-                    You have no orders yet.
+            <Tabs value={activeTab}>
+                <TabsHeader
+                    className="rounded-none bg-secondary"
+                    indicatorProps={{
+                        className:
+                            "shadow rounded-none",
+                    }}
+                >
+                    {TABS.map(({ label, value }) => (
+                        <Tab
+                            key={value}
+                            value={value}
+                            onClick={() => setActiveTab(value)}
+                            // className="text-sm"
+                            className={`text-xs md:text-base font-medium ${activeTab === value && "text-primary"}`}
+                        >
+                            {label}
+                        </Tab>
+                    ))}
+                </TabsHeader>
+            </Tabs>
+
+            {isLoading ? <MySpinner /> : orders.length === 0 ? (
+                <p className="text-red-600 text-center">
+                    {getEmptyMessage()}
                 </p>
             ) : (
                 <div className="space-y-4">
-
-                    <Tabs value={activeTab}>
-                        <TabsHeader
-                            // className="rounded-none bg-secondary"
-                            className="rounded-none bg-secondary"
-                            indicatorProps={{
-                                className:
-                                    "shadow rounded-none",
-                            }}
-                        >
-                            {TABS.map(({ label, value }) => (
-                                <Tab
-                                    key={value}
-                                    value={value}
-                                    onClick={() => setActiveTab(value)}
-                                    // className="text-sm"
-                                    className={`text-xs md:text-base font-medium ${activeTab === value && "text-primary"}`}
-                                >
-                                    {label}
-                                </Tab>
-                            ))}
-                        </TabsHeader>
-                    </Tabs>
-
-                    {orders.map((order) => (
-                        <div
-                            key={order._id}
-                            className="flex items-center justify-between border p-4 rounded shadow"
-                        >
-                            <div className="flex-1">
-                                <p className="font-medium text-primary text-sm md:text-base">
-                                    Order ID: #{order.orderId}
-                                    <button
-                                        onClick={() => handleCopyOrderId(order.orderId)}
-                                        className="ml-2 text-primary font-semibold hover:underline focus:outline-none"
-                                    >
-                                        {copiedOrderId === order.orderId ? (
-                                            <GiCheckMark className="inline" />
-                                        ) : (
-                                            <LuCopy className="inline" />
-                                        )}
-                                    </button>
-                                </p>
-                                <p className="text-gray-600 text-sm md:text-base">
-                                    Order: {formattedDate(order.orderDate)}
-                                </p>
-                                <p className="text-gray-800 text-sm md:text-base">
-                                    Total: ৳{order.payableTotal} for {order.products.length} item
-                                    {order.products.length > 1 ? "s" : ""}
-                                </p>
-                            </div>
-
-                            <div className="space-y-3">
-                                <p
-                                    className={`capitalize text-center italic text-sm font-semibold ${getStatusColor(
-                                        order.deliveryStatus
-                                    )}`}
-                                >
-                                    {order.deliveryStatus}
-                                </p>
-
-                                <Button size="sm" onClick={() => navigate(`order-details/${order._id}`)} className='rounded-none font-normal bg-primary py-1 px-2'>
-                                    View Details
-                                </Button>
-                            </div>
-                        </div>
-                    ))}
+                    {orders.map((order) => <OrderProductCard key={order?._id} order={order} />)}
                 </div>
             )}
         </div>
