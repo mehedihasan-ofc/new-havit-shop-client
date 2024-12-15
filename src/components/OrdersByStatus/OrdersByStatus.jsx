@@ -6,15 +6,21 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { formattedDate } from "../../utils";
 import { useNavigate } from "react-router-dom";
 import useOrdersByStatus from "../../hooks/useOrdersByStatus";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 const TABLE_HEAD = ["#", "Order ID", "Order Date", "Pay Method", "Del Status", "Total", "Pay Status", "Actions"];
 
 const OrdersByStatus = ({ activeStatus }) => {
 
     const [orders, isLoading, refetch] = useOrdersByStatus(activeStatus);
+    const [axiosSecure] = useAxiosSecure();
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleDelete = async (orderId) => {
+        setLoading(true);
 
         Swal.fire({
             title: "Are you sure?",
@@ -24,20 +30,29 @@ const OrdersByStatus = ({ activeStatus }) => {
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                axiosSecure.delete(`/orders/${orderId}`)
-                    .then(res => {
-                        if (res.data.deletedCount > 0) {
-                            refetch();
-                            Swal.fire({
-                                title: "Deleted!",
-                                text: "Your file has been deleted.",
-                                icon: "success"
-                            });
-                        }
-                    })
+                try {
+                    const { data } = await axiosSecure.delete(`/orders/${orderId}`);
+
+                    if (data.deletedCount > 0) {
+                        refetch();
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your file has been deleted.",
+                            icon: "success"
+                        });
+                    } else {
+                        toast.error("Failed to delete the order.");
+                    }
+                } catch (error) {
+                    console.error("Delete error: ", error);
+                    toast.error("An error occurred. Please try again.");
+                } finally {
+                    setLoading(false);
+                }
             }
+            setLoading(false);
         });
     };
 
@@ -70,8 +85,6 @@ const OrdersByStatus = ({ activeStatus }) => {
                 return "gray";
         }
     };
-
-    console.log(orders);
 
     return (
         <>
@@ -211,7 +224,7 @@ const OrdersByStatus = ({ activeStatus }) => {
                                                                 <MdOutlineRemoveRedEye size={18} />
                                                             </IconButton>
 
-                                                            <IconButton onClick={() => handleDelete(_id)} variant="text" className="rounded-full">
+                                                            <IconButton disabled={loading} onClick={() => handleDelete(_id)} variant="text" className="rounded-full">
                                                                 <AiOutlineDelete size={18} />
                                                             </IconButton>
                                                         </div>

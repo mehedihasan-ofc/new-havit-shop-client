@@ -76,7 +76,7 @@ const OrderProductCard = ({ order }) => {
                 </p>
 
                 <Button size="sm" onClick={() => navigate(`order-details/${order._id}`)} className='rounded-none font-normal bg-primary py-1 px-2'>
-                    View Details
+                    {order?.deliveryStatus === "delivered" ? "Return/Refund" : "View Details"}
                 </Button>
             </div>
         </div>

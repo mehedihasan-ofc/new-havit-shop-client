@@ -8,7 +8,7 @@ import useWelcome from "../../../hooks/useWelcome";
 
 const ProfileDashboard = () => {
     const { user } = useContext(AuthContext);
-    const [orders, isLoading] = useOrders();
+    const [orders, isLoading] = useOrders("all");
     const [welcomeData] = useWelcome();
 
     const [open, setOpen] = useState(true);

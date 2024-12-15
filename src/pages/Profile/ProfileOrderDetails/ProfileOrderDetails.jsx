@@ -1,11 +1,14 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import MySpinner from "../../../components/Shared/MySpinner/MySpinner";
+import { Button } from "@material-tailwind/react";
+import { TbShoppingCartCancel } from "react-icons/tb";
 
 const ProfileOrderDetails = () => {
     const { id } = useParams();
     const [axiosSecure] = useAxiosSecure();
+    const navigate = useNavigate();
 
     const { data: order, isLoading } = useQuery({
         queryKey: ["order", id],
@@ -15,7 +18,15 @@ const ProfileOrderDetails = () => {
         },
     });
 
-    if (isLoading) return <MySpinner />
+    const handleCancelOrder = async () => {
+        // Uncomment and implement if needed
+    };
+
+    const handleRequestReturnRefund = async () => {
+        // Uncomment and implement if needed
+    };
+
+    if (isLoading) return <MySpinner />;
 
     const {
         orderId,
@@ -34,12 +45,14 @@ const ProfileOrderDetails = () => {
         paymentStatus,
     } = order;
 
+    console.log(products);
+
     return (
-        <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="max-w-7xl mx-auto px-4 space-y-4 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Billing Details */}
-                <div className="bg-white p-6 shadow-md rounded border space-y-1">
-                    <h2 className="text-xl font-semibold text-gray-700 mb-2">Billing Details</h2>
+                <div className="bg-white p-4 lg:p-6 shadow-md rounded border space-y-2">
+                    <h2 className="text-lg lg:text-xl font-semibold text-gray-700">Billing Details</h2>
                     <p className="text-sm text-gray-600">
                         <strong>Name:</strong> {billingDetails.name || "N/A"}
                     </p>
@@ -56,8 +69,8 @@ const ProfileOrderDetails = () => {
                 </div>
 
                 {/* Order Info */}
-                <div className="bg-white p-6 shadow-md rounded border space-y-1">
-                    <h2 className="text-xl font-semibold text-gray-700 mb-2">Order Info</h2>
+                <div className="bg-white p-4 lg:p-6 shadow-md rounded border space-y-2">
+                    <h2 className="text-lg lg:text-xl font-semibold text-gray-700">Order Info</h2>
                     <p className="text-sm text-gray-600">
                         <strong>Order ID:</strong> #{orderId}
                     </p>
@@ -89,63 +102,104 @@ const ProfileOrderDetails = () => {
                 </div>
             </div>
 
-            {/* Product Details */}
-            <div className="bg-white mt-8 p-6 shadow-md rounded border">
-                <h2 className="text-xl font-semibold text-gray-700 mb-2">Products</h2>
-                <table className="w-full border-collapse border border-gray-300 text-sm">
-                    <thead>
-                        <tr className="bg-gray-200">
-                            <th className="border border-gray-300 px-4 py-2">#</th>
-                            <th className="border border-gray-300 px-4 py-2">Name</th>
-                            <th className="border border-gray-300 px-4 py-2">Brand</th>
-                            <th className="border border-gray-300 px-4 py-2">Flavour</th>
-                            <th className="border border-gray-300 px-4 py-2">Price (BDT)</th>
-                            <th className="border border-gray-300 px-4 py-2">Quantity</th>
-                            <th className="border border-gray-300 px-4 py-2">Subtotal (BDT)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {products.length > 0 ? (
-                            products.map((product, _idx) => (
-                                <tr key={product._id} className="text-center">
-                                    <td className="border border-gray-300 px-4 py-2">{_idx + 1 || "N/A"}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{product.name}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{product.brand || "N/A"}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{product.selectFlavour || "N/A"}</td>
-                                    <td className="border border-gray-300 px-4 py-2">৳{product.price || 0}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{product.quantity || 0}</td>
-                                    <td className="border border-gray-300 px-4 py-2">
-                                        ৳{product.price * product.quantity || 0}
-                                    </td>
-                                </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan="6" className="text-center text-gray-500 py-4">
-                                    No products found.
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
+            <div className="bg-white p-6 shadow rounded border">
+                <h2 className="text-xl font-semibold text-gray-700 mb-4">Products</h2>
+                <div className="space-y-4">
+                    {products.length > 0 ? (
+                        products.map((product) => (
+                            <div
+                                key={product._id}
+                                onClick={() => navigate(`/products/product-details/${product?._id}`)}
+                                className="flex flex-col md:flex-row items-center justify-between border rounded shadow hover:shadow-md cursor-pointer transition-shadow p-4"
+                            >
+                                {/* Left Section: Image and Details */}
+                                <div className="flex items-center gap-4 w-full md:w-auto">
+                                    {/* Product Image */}
+                                    <img
+                                        src={product?.images[0]?.url || "https://via.placeholder.com/120"}
+                                        alt={product?.name}
+                                        className="w-24 h-24 object-cover rounded-lg"
+                                    />
+
+                                    {/* Product Details */}
+                                    <div className="flex-1 md:flex-none">
+                                        <h3 className="text-lg font-semibold text-gray-800 hover:text-green-600 transition-colors">
+                                            {product.name}
+                                        </h3>
+                                        <p className="text-sm text-gray-600">
+                                            <strong>Brand:</strong> {product.brand || "N/A"}
+                                        </p>
+                                        <p className="text-sm text-gray-600">
+                                            <strong>Flavour:</strong> {product.selectFlavour || "N/A"}
+                                        </p>
+                                        <p className="text-sm text-gray-600">
+                                            <strong>Quantity:</strong> {product.quantity || 0}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Right Section: Pricing */}
+                                <div className="mt-4 md:mt-0 text-right w-full md:w-auto">
+                                    <p className="text-sm text-gray-600">
+                                        <strong>Price:</strong> ৳{product.price || 0}
+                                    </p>
+                                    <p className="text-sm text-gray-600">
+                                        <strong>Subtotal:</strong> ৳{product.price * product.quantity || 0}
+                                    </p>
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        <p className="text-center text-gray-500 py-4">No products found.</p>
+                    )}
+                </div>
             </div>
 
-            {/* Payment Summary */}
-            <div className="bg-white mt-8 p-6 shadow-md rounded border">
-                <div>
-                    <h2 className="text-xl font-semibold text-gray-700 mb-2">Payment Summary</h2>
-                    <p className="text-sm text-gray-600">
-                        <strong>Subtotal:</strong> {total || 0} BDT
-                    </p>
-                    <p className="text-sm text-gray-600">
-                        <strong>Discount:</strong> {discount || 0} BDT
-                    </p>
-                    <p className="text-sm text-gray-600">
-                        <strong>Shipping Charge:</strong> {shippingCharge || 0} BDT
-                    </p>
-                    <p className="text-lg font-semibold text-gray-800">
-                        <strong>Payable Total:</strong> {payableTotal || 0} BDT
-                    </p>
+            <div className="bg-white p-4 lg:p-6 shadow-md rounded border">
+                <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                    <div>
+                        <h2 className="text-lg lg:text-xl font-semibold text-gray-700">Payment Summary</h2>
+                        <p className="text-sm text-gray-600">
+                            <strong>Subtotal:</strong> {total || 0} BDT
+                        </p>
+                        <p className="text-sm text-gray-600">
+                            <strong>Discount:</strong> {discount || 0} BDT
+                        </p>
+                        <p className="text-sm text-gray-600">
+                            <strong>Shipping Charge:</strong> {shippingCharge || 0} BDT
+                        </p>
+                        <p className="text-lg font-semibold text-gray-800">
+                            <strong>Payable Total:</strong> {payableTotal || 0} BDT
+                        </p>
+                    </div>
+                    <div className="space-y-2">
+                        {deliveryStatus === "pending" && (
+                            // <button
+                            //     onClick={handleCancelOrder}
+                            //     className="bg-red-500 text-white px-4 py-2 rounded shadow hover:bg-red-600 w-full lg:w-auto"
+                            // >
+                            //     Cancel Order
+                            // </button>
+
+                            <Button onClick={handleCancelOrder} className="flex items-center gap-3 rounded-none font-medium bg-red-600">
+                                <TbShoppingCartCancel size={20} />
+                                Cancel Order
+                            </Button>
+                        )}
+                        {deliveryStatus === "delivered" && (
+                            // <button
+                            //     onClick={handleRequestReturnRefund}
+                            //     className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600 w-full lg:w-auto"
+                            // >
+                            //     Request Return/Refund
+                            // </button>
+
+                            <Button  onClick={handleRequestReturnRefund} className="flex items-center gap-3 rounded-none font-medium bg-blue-600">
+                                <TbShoppingCartCancel size={20} />
+                                Request Return/Refund
+                            </Button>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
