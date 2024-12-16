@@ -39,6 +39,8 @@ const OrderProductCard = ({ order }) => {
         setTimeout(() => setCopiedOrderId(""), 2000);
     };
 
+    console.log(order);
+
     return (
         <div
             className="flex items-center justify-between border p-4 rounded shadow"
@@ -82,9 +84,35 @@ const OrderProductCard = ({ order }) => {
                     {order.deliveryStatus}
                 </p>
 
-                <Button size="sm" onClick={() => navigate(`/profile/order-details/${order._id}`)} className='rounded-none font-normal bg-primary py-1 px-2'>
-                    {order?.deliveryStatus === "delivered" ? "Return/Refund" : "View Details"}
-                </Button>
+                {order?.refundStatus ? (
+                    <p
+                        className={`text-center text-sm font-semibold px-3 py-1 ${order.refundStatus === "pending"
+                            ? "bg-amber-100 text-amber-600"
+                            : order.refundStatus === "approved"
+                                ? "bg-green-100 text-green-600"
+                                : order?.refundStatus === "refunded"
+                                    ? "bg-teal-100 text-teal-600"
+                                    : "bg-red-100 text-red-600"
+                            }`}
+                    >
+                        {order.refundStatus === "pending"
+                            ? "Return Pending"
+                            : order.refundStatus === "approved"
+                                ? "Return Approved"
+                                : order.refundStatus === "refunded"
+                                    ? "Return Refunded"
+                                    : "Return Rejected"}
+                    </p>
+
+                ) : (
+                    <Button
+                        size="sm"
+                        onClick={() => navigate(`/profile/order-details/${order._id}`)}
+                        className="rounded-none font-normal bg-primary py-1 px-2"
+                    >
+                        {order?.deliveryStatus === "delivered" ? "Return/Refund" : "View Details"}
+                    </Button>
+                )}
             </div>
         </div>
     );

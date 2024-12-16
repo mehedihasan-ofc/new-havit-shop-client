@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SectionTitle from "../../../components/Shared/SectionTitle/SectionTitle";
 import { useState } from "react";
 import { RiArrowDropDownLine, RiArrowDropUpLine } from 'react-icons/ri';
@@ -31,6 +31,7 @@ const FAQ = () => {
 
     const [openIndex, setOpenIndex] = useState(null);
     const [contentHeight, setContentHeight] = useState(0);
+    const navigate = useNavigate();
 
     const toggleAccordion = (index) => {
         if (openIndex === index) {
@@ -122,11 +123,9 @@ const FAQ = () => {
                         <p className="text-sm md:text-base">
                             You can send a message or give us a call. <br /> Our 24/7 support team is here to assist you.
                         </p>
-                        <Link to="/contact">
-                            <button className="bg-primary px-10 py-2 text-white hover:bg-[#37a09d] transition duration-300 ease-in-out">
-                                Contact Us
-                            </button>
-                        </Link>
+                        <button onClick={() => navigate("/contact")} className="bg-primary px-10 py-2 text-white hover:bg-[#37a09d] transition duration-300 ease-in-out">
+                            Contact Us
+                        </button>
                     </div>
                     <div>
                         <img src={ContactImg} alt="Contact" className="w-full h-auto" />

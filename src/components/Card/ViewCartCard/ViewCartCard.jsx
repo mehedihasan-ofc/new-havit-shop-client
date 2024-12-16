@@ -89,14 +89,14 @@ const ViewCartCard = ({ item, quantity, onFlavorChange, onQuantityChange, refetc
                     </div>
                 </div>
 
-                {item?.productDetails.flavor?.length > 0 && (
+                {item?.productDetails?.flavor?.length > 0 ? (
                     <div className="space-y-2">
-                        <p className="text-sm text-center text-gray-500">Select Flavor</p>
+                        <p className="text-sm text-center text-gray-500">Select Flavour</p>
                         <select
                             className="border px-2 py-1 rounded shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                             onChange={(e) => onFlavorChange(e.target.value)}
                         >
-                            <option value="">Choose a flavor</option>
+                            <option value="">Choose a flavour</option>
                             {item?.productDetails?.flavor.map((flavor) => (
                                 <option key={flavor} value={flavor}>
                                     {flavor}
@@ -104,6 +104,10 @@ const ViewCartCard = ({ item, quantity, onFlavorChange, onQuantityChange, refetc
                             ))}
                         </select>
                     </div>
+                ) : (
+                    <p className="text-sm text-center text-gray-500 italic">
+                        No flavours.
+                    </p>
                 )}
 
                 <div className="space-y-2">

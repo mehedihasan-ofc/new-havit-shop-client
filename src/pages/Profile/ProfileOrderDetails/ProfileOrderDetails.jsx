@@ -62,32 +62,54 @@ const ProfileOrderDetails = () => {
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, request it!"
+            confirmButtonText: "Yes, proceed!"
         }).then(async (result) => {
             if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Reason for Return/Refund",
+                    input: "textarea",
+                    inputLabel: "Why do you want to request a return or refund?",
+                    inputPlaceholder: "Enter your reason here...",
+                    inputAttributes: {
+                        "aria-label": "Enter your reason here"
+                    },
+                    showCancelButton: true,
+                    confirmButtonText: "Submit",
+                    cancelButtonText: "Cancel",
+                    preConfirm: (reason) => {
+                        if (!reason) {
+                            Swal.showValidationMessage("Reason is required!");
+                        }
+                        return reason;
+                    }
+                }).then(async (inputResult) => {
+                    if (inputResult.isConfirmed) {
+                        const reason = inputResult.value;
 
-                console.log("Request Return/Refund?");
+                        try {
+                            const { data } = await axiosSecure.put(`/orders/return/${id}`, {
+                                refundStatus: "pending",
+                                reason
+                            });
 
-
-                // try {
-                //     const { data } = await axiosSecure.put(`/orders/return/${id}`, {
-                //         deliveryStatus: "return-requested"
-                //     });
-
-                //     if (data.modifiedCount > 0) {
-                //         refetch();
-                //         Swal.fire({
-                //             title: "Requested!",
-                //             text: "Your return/refund request has been submitted successfully.",
-                //             icon: "success"
-                //         });
-                //     } else {
-                //         toast.error("Failed to request return/refund. Please try again.");
-                //     }
-                // } catch (error) {
-                //     toast.error("An error occurred while requesting return/refund. Please try again.");
-                //     console.error(error);
-                // }
+                            if (data.modifiedCount > 0) {
+                                refetch();
+                                Swal.fire({
+                                    title: "Requested!",
+                                    text: "Your return/refund request has been submitted successfully.",
+                                    icon: "success"
+                                });
+                            } else {
+                                toast.error("Failed to request return/refund. Please try again.");
+                            }
+                        } catch (error) {
+                            toast.error("An error occurred while requesting return/refund. Please try again.");
+                            console.error(error);
+                        }
+                    } else if (inputResult.dismiss === Swal.DismissReason.cancel) {
+                        Swal.fire("Cancelled", "Your return/refund request was cancelled.", "error");
+                    }
+                });
             }
         });
     };
