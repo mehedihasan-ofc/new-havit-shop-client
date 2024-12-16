@@ -78,6 +78,7 @@ import RefundRejected from "../pages/Dashboard/RefundRequest/RefundRejected/Refu
 import OrderDetails from "../pages/Dashboard/Orders/OrderDetails/OrderDetails";
 import ProfileMyReturns from "../pages/Profile/ProfileMyReturns/ProfileMyReturns";
 import ProfileCancellations from "../pages/Profile/ProfileCancellations/ProfileCancellations";
+import RefundOrderDetails from "../pages/Dashboard/RefundRequest/RefundOrderDetails/RefundOrderDetails";
 
 const router = createBrowserRouter([
     {
@@ -340,6 +341,10 @@ const router = createBrowserRouter([
             {
                 path: "refund-rejected",
                 element: <RefundRejected />
+            },
+            {
+                path: "refund-order-details/:id",
+                element: <RefundOrderDetails />
             },
             // Category
             {
