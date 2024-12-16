@@ -1,19 +1,16 @@
-import { Card, CardBody, IconButton, Typography } from "@material-tailwind/react";
+import { Card, CardBody, Chip, IconButton, Typography } from "@material-tailwind/react";
 import useRefundOrdersByStatus from "../../hooks/useRefundOrdersByStatus";
 import MySpinner from "../Shared/MySpinner/MySpinner";
 import { formattedDate } from "../../utils";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
-import { AiOutlineDelete } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
-const TABLE_HEAD = ["#", "Order ID", "Ordered", "Delivered", "Requested", "Total", "Actions"];
+const TABLE_HEAD = ["#", "Order ID", "Ordered", "Delivered", "Requested", "Total", "Refund Status", "Actions"];
 
 const RefundOrdersByStatus = ({ status }) => {
 
-    const [refundOrders, isLoading, refetch] = useRefundOrdersByStatus(status);
+    const [refundOrders, isLoading] = useRefundOrdersByStatus(status);
     const navigate = useNavigate();
-
-    console.log(refundOrders);
 
     return (
         <Card className="h-full w-full">
@@ -62,7 +59,8 @@ const RefundOrdersByStatus = ({ status }) => {
                                             orderDate,
                                             deliveryDate,
                                             refundRequestedAt,
-                                            payableTotal
+                                            payableTotal,
+                                            refundStatus
                                         },
                                         index
                                     ) => {
@@ -134,15 +132,20 @@ const RefundOrdersByStatus = ({ status }) => {
                                                 </td>
 
                                                 <td className={classes}>
-                                                    <div>
-                                                        <IconButton onClick={() => navigate(`/dashboard/refund-order-details/${_id}`)} variant="text" className="rounded-full">
-                                                            <MdOutlineRemoveRedEye size={18} />
-                                                        </IconButton>
-
-                                                        <IconButton variant="text" className="rounded-full">
-                                                            <AiOutlineDelete size={18} />
-                                                        </IconButton>
+                                                    <div className="w-max">
+                                                        <Chip
+                                                            size="sm"
+                                                            variant="ghost"
+                                                            value={refundStatus}
+                                                            color="red"
+                                                        />
                                                     </div>
+                                                </td>
+
+                                                <td className={classes}>
+                                                    <IconButton onClick={() => navigate(`/dashboard/refund-order-details/${_id}`)} variant="text" className="rounded-full">
+                                                        <MdOutlineRemoveRedEye size={18} />
+                                                    </IconButton>
                                                 </td>
                                             </tr>
                                         );

@@ -152,10 +152,10 @@ const OrderDetails = () => {
                                 <td className="border border-gray-200 px-4 py-2">{product.name}</td>
                                 <td className="border border-gray-200 px-4 py-2">{product.brand}</td>
                                 <td className="border border-gray-200 px-4 py-2">{product.selectFlavour || "N/A"}</td>
-                                <td className="border border-gray-200 px-4 py-2">{product.price}</td>
+                                <td className="border border-gray-200 px-4 py-2">৳{product.price}</td>
                                 <td className="border border-gray-200 px-4 py-2">{product.quantity}</td>
                                 <td className="border border-gray-200 px-4 py-2">
-                                {product.price * product.quantity} BDT
+                                    ৳{product.price * product.quantity}
                                 </td>
                             </tr>
                         ))}
@@ -224,7 +224,6 @@ const OrderDetails = () => {
                                 <option value="pending">Pending</option>
                                 <option value="paid">Paid</option>
                                 <option value="unpaid">Unpaid</option>
-                                <option value="refund">Refund</option>
                             </select>
                         </div>
                     </div>
