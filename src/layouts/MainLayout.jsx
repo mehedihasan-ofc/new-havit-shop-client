@@ -25,6 +25,10 @@ const MainLayout = () => {
                 accountName="Havit Shop"
                 avatar={AvatarImg}
                 statusMessage="Active Now"
+                buttonStyle={{
+                    width: "50px",
+                    height: "50px"
+                }}
             />
 
             <ScrollToTop
@@ -36,7 +40,7 @@ const MainLayout = () => {
                     alignItems: "center",
                     justifyContent: "center"
                 }}
-                className="scroll-to-top-animate !bottom-[120px] !right-[35px] !w-[60px] !h-[60px]"
+                className="scroll-to-top-animate !bottom-28 !right-8 !w-[50px] !h-[50px]"
             />
         </>
     );
