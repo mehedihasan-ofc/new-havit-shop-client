@@ -130,7 +130,9 @@ const ProfileOrderDetails = () => {
         total,
         deliveryStatus,
         paymentStatus,
-        deliveryDate
+        deliveryDate,
+        refundRequestedAt,
+        refundStatus
     } = order;
 
     // Calculate if the user is within the 7-day return/refund window
@@ -260,6 +262,7 @@ const ProfileOrderDetails = () => {
                             <strong>Payable Total:</strong> {payableTotal || 0} BDT
                         </p>
                     </div>
+
                     <div className="space-y-2">
                         {deliveryStatus === "pending" && (
                             <Button
@@ -270,7 +273,7 @@ const ProfileOrderDetails = () => {
                                 Cancel Order
                             </Button>
                         )}
-                        {deliveryStatus === "delivered" && isWithinReturnWindow && (
+                        {deliveryStatus === "delivered" && isWithinReturnWindow && !refundStatus && (
                             <Button
                                 onClick={handleRequestReturnRefund}
                                 className="flex items-center gap-3 rounded-none font-medium bg-blue-600"
@@ -283,6 +286,25 @@ const ProfileOrderDetails = () => {
                             <p className="text-gray-500 text-sm">
                                 Return/Refund is only available within 7 days of delivery.
                             </p>
+                        )}
+                        {refundStatus && (
+                            <div className="bg-gray-100 p-4 rounded-md shadow-md border border-gray-200">
+                                <h3 className="text-lg font-semibold text-gray-800">Refund Details</h3>
+                                <div className="mt-2 space-y-1">
+                                    <p className="text-sm text-gray-700">
+                                        <strong>Status:</strong>{" "}
+                                        <span className="font-medium text-red-600 capitalize">
+                                            {refundStatus}
+                                        </span>
+                                    </p>
+                                    {refundRequestedAt && (
+                                        <p className="text-sm text-gray-700">
+                                            <strong>Requested On:</strong>{" "}
+                                            {new Date(refundRequestedAt).toLocaleString()}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
                         )}
                     </div>
                 </div>
