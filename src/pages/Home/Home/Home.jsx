@@ -4,8 +4,6 @@ import HomePageAd from "../HomePageAd/HomePageAd";
 import NowOffers from "../NowOffers/NowOffers";
 import OurPromises from "../OurPromises/OurPromises";
 import PopularProducts from "../PopularProducts/PopularProducts";
-import AvatarImg from "../../../assets/avator.jpg";
-import { FloatingWhatsApp } from 'react-floating-whatsapp';
 import FeaturedProducts from "../FeaturedProducts/FeaturedProducts";
 import SpecialOffers from "../SpecialOffers/SpecialOffers";
 import CountDown from "../CountDown/CountDown";
@@ -24,14 +22,6 @@ const Home = () => {
                 <OurPromises />
                 <HomePageAd />
             </div>
-
-
-            <FloatingWhatsApp
-                phoneNumber="+8801744991003"
-                accountName="Havit Shop"
-                avatar={AvatarImg}
-                statusMessage="Active Now"
-            />
         </>
     );
 };
