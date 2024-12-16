@@ -1,8 +1,10 @@
+import RefundOrdersByStatus from "../../../../components/RefundOrdersByStatus/RefundOrdersByStatus";
+
 const RefundApproved = () => {
     return (
-        <div>
-            RefundApproved
-        </div>
+        <>
+            <RefundOrdersByStatus status={"approved"} />
+        </>
     );
 };
 

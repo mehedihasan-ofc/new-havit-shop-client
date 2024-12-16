@@ -31,6 +31,7 @@ import { BsSliders2 } from "react-icons/bs";
 import useLogo from "../../../hooks/useLogo";
 import { RiRefund2Fill, RiShieldUserLine } from "react-icons/ri";
 import useOrdersByStatus from "../../../hooks/useOrdersByStatus";
+import useRefundOrdersByStatus from "../../../hooks/useRefundOrdersByStatus";
 
 const Sidebar = () => {
 
@@ -44,6 +45,7 @@ const Sidebar = () => {
     const [open, setOpen] = useState(0);
 
     const [orders] = useOrdersByStatus("all");
+    const [refundOrders] = useRefundOrdersByStatus("all");
 
     // Group orders by status
     const orderCounts = orders.reduce((counts, order) => {
@@ -51,8 +53,17 @@ const Sidebar = () => {
         return counts;
     }, {});
 
+    // Group refund orders by status
+    const refundOrderCounts = refundOrders.reduce((counts, order) => {
+        counts[order.refundStatus] = (counts[order.refundStatus] || 0) + 1;
+        return counts;
+    }, {});
+
     // Get count for a specific status
     const getOrderCount = (status) => orderCounts[status] || 0;
+
+    // Get count for a specific refund status
+    const getRefundOrderCount = (status) => refundOrderCounts[status] || 0;
 
     const handleOpen = (value) => {
         setOpen(open === value ? 0 : value);
@@ -409,7 +420,7 @@ const Sidebar = () => {
                                     </ListItemPrefix>
                                     Pending
                                     <ListItemSuffix>
-                                        <Chip value="14" size="sm" variant="ghost" color="pink" className="rounded-full" />
+                                        <Chip value={getRefundOrderCount('pending')} size="sm" variant="ghost" color="pink" className="rounded-full" />
                                     </ListItemSuffix>
                                 </ListItem>
                             </Link>
@@ -421,7 +432,7 @@ const Sidebar = () => {
                                     </ListItemPrefix>
                                     Approved
                                     <ListItemSuffix>
-                                        <Chip value="14" size="sm" variant="ghost" color="teal" className="rounded-full" />
+                                        <Chip value={getRefundOrderCount('approved')} size="sm" variant="ghost" color="teal" className="rounded-full" />
                                     </ListItemSuffix>
                                 </ListItem>
                             </Link>
@@ -433,7 +444,7 @@ const Sidebar = () => {
                                     </ListItemPrefix>
                                     Refunded
                                     <ListItemSuffix>
-                                        <Chip value="14" size="sm" variant="ghost" color="green" className="rounded-full" />
+                                        <Chip value={getRefundOrderCount('refunded')} size="sm" variant="ghost" color="green" className="rounded-full" />
                                     </ListItemSuffix>
                                 </ListItem>
                             </Link>
@@ -445,7 +456,7 @@ const Sidebar = () => {
                                     </ListItemPrefix>
                                     Rejected
                                     <ListItemSuffix>
-                                        <Chip value="14" size="sm" variant="ghost" color="red" className="rounded-full" />
+                                        <Chip value={getRefundOrderCount('rejected')} size="sm" variant="ghost" color="red" className="rounded-full" />
                                     </ListItemSuffix>
                                 </ListItem>
                             </Link>
