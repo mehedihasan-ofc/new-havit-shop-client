@@ -1,7 +1,12 @@
+import { features } from "../../../../database/data"
+
 const CreateRole = () => {
+    
+    console.log(features);
+    
     return (
         <div>
-            CreateRole
+            CreateRole {features?.length}
         </div>
     );
 };
