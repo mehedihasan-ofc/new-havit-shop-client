@@ -35,7 +35,7 @@ import useAdminAuth from "../../../hooks/useAdminAuth";
 
 const Sidebar = () => {
 
-    const [adminData] = useAdminAuth();
+    const [, adminData] = useAdminAuth();
 
     const [logoData] = useLogo();
 
@@ -92,9 +92,9 @@ const Sidebar = () => {
                     .catch(err => console.log(err.message));
             }
         });
-    }
+    };
 
-    console.log("adminData", adminData);
+    console.log(adminData);
 
     return (
         <Card className="h-screen rounded-none shadow p-4 overflow-y-auto">

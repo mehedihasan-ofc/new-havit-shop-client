@@ -16,7 +16,7 @@ const useAdminAuth = () => {
         }
     })
 
-    return [adminData, isLoading];
+    return [user, adminData, isLoading];
 };
 
 export default useAdminAuth;
