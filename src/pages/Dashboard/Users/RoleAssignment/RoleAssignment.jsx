@@ -5,6 +5,7 @@ import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import MySpinner from "../../../../components/Shared/MySpinner/MySpinner";
 import Swal from "sweetalert2";
 import SVG from "../../../../assets/svg/img-status-2.svg";
+import { Button } from "@material-tailwind/react";
 
 const RoleAssignment = () => {
     const [axiosSecure] = useAxiosSecure();
@@ -21,9 +22,12 @@ const RoleAssignment = () => {
     const [searchEmail, setSearchEmail] = useState("");
     const [selectedUser, setSelectedUser] = useState(null);
     const [selectedRole, setSelectedRole] = useState({});
+    const [isAssigning, setIsAssigning] = useState(false);
 
     // Handle search logic
-    const handleSearch = () => {
+    const handleSearch = (e) => {
+        e.preventDefault();
+
         const user = usersData.find((user) => user.email === searchEmail.trim());
         if (user) {
             setSelectedUser(user);
@@ -40,7 +44,8 @@ const RoleAssignment = () => {
 
     // Handle role assignment
     const handleRoleAssignment = async () => {
-        if (!selectedUser || !selectedRole) {
+
+        if (!selectedUser._id || !selectedRole?._id) {
             Swal.fire({
                 title: "Error",
                 text: "Please select a role to assign.",
@@ -64,8 +69,9 @@ const RoleAssignment = () => {
         });
 
         if (result.isConfirmed) {
+            setIsAssigning(true);
             try {
-                const { data } = await axiosSecure.put(`/role/users/${selectedUser._id}`, { roleId: selectedRole?._id });
+                const { data } = await axiosSecure.put(`/role/users/${selectedUser?._id}`, { roleId: selectedRole?._id });
 
                 if (data.modifiedCount > 0) {
                     Swal.fire({
@@ -83,6 +89,8 @@ const RoleAssignment = () => {
                 }
             } catch (error) {
                 Swal.fire("Error", error.message, "error");
+            } finally {
+                setIsAssigning(false);
             }
         }
     };
@@ -98,21 +106,17 @@ const RoleAssignment = () => {
                     <h2 className="text-2xl font-bold text-center text-primary">Role Assignment</h2>
 
                     {/* Search User */}
-                    <div className="flex items-center gap-4">
+                    <form onSubmit={handleSearch} className="w-2/3 mx-auto flex items-center gap-2">
                         <input
                             type="email"
                             placeholder="Enter user email"
-                            className="flex-1 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                            className="flex-1 px-4 py-2 border border-gray-300 shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                             value={searchEmail}
                             onChange={(e) => setSearchEmail(e.target.value)}
+                            required
                         />
-                        <button
-                            onClick={handleSearch}
-                            className="px-4 py-2 bg-primary text-white font-semibold rounded-md shadow hover:bg-green-600 transition"
-                        >
-                            Search
-                        </button>
-                    </div>
+                        <Button type="submit" className="rounded-none bg-primary shadow-sm hover:shadow-md">Search</Button>
+                    </form>
 
                     {/* Selected User Card */}
                     {selectedUser && (
@@ -126,7 +130,7 @@ const RoleAssignment = () => {
                                     <p className="text-sm text-gray-500">{selectedUser.email}</p>
                                     <p className="text-sm">
                                         <span className="font-semibold">Current Role:</span>{" "}
-                                        <span className="text-primary">{selectedUser.role}</span>
+                                        <span className="text-primary capitalize">{selectedUser.role}</span>
                                     </p>
                                 </div>
                             </div>
@@ -152,12 +156,9 @@ const RoleAssignment = () => {
                                     ))}
                                 </select>
 
-                                <button
-                                    onClick={handleRoleAssignment}
-                                    className="mt-4 w-full px-4 py-2 bg-primary text-white font-semibold rounded-md shadow hover:bg-green-600 transition"
-                                >
-                                    Assign Role
-                                </button>
+                                <Button onClick={handleRoleAssignment} disabled={isAssigning} className="rounded-none bg-primary shadow-sm hover:shadow-md w-full mt-4">
+                                    {isAssigning ? "Assigning..." : "Assign Role"}
+                                </Button>
                             </div>
                         </div>
                     )}

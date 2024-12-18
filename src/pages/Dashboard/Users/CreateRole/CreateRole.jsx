@@ -103,7 +103,7 @@ const CreateRole = () => {
                 <img className="absolute top-0 right-0" src={SVG} alt="background" />
 
                 {/* Role Name Input */}
-                <form onSubmit={handleSubmit} className="space-y-6 max-w-full p-8">
+                <form onSubmit={handleSubmit} className="space-y-6 max-w-full p-10">
                     <div>
                         <label htmlFor="role-name" className="block text-gray-700 font-bold mb-2">
                             Role Name:
