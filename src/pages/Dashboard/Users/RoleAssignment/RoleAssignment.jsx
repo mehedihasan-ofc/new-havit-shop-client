@@ -9,8 +9,7 @@ import SVG from "../../../../assets/svg/img-status-2.svg";
 const RoleAssignment = () => {
     const [axiosSecure] = useAxiosSecure();
 
-    // Custom hooks for roles and fetching users
-    const [rolesData, , refetchRoles] = useRoles();
+    const [rolesData, , refetch] = useRoles();
     const { data: usersData = [], isLoading } = useQuery({
         queryKey: ["usersData"],
         queryFn: async () => {
@@ -19,10 +18,9 @@ const RoleAssignment = () => {
         },
     });
 
-    const [searchEmail, setSearchEmail] = useState(""); // For search input
-    const [selectedUser, setSelectedUser] = useState(null); // For selected user
-
-    if (isLoading) return <MySpinner />;
+    const [searchEmail, setSearchEmail] = useState("");
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [selectedRole, setSelectedRole] = useState({});
 
     // Handle search logic
     const handleSearch = () => {
@@ -41,12 +39,20 @@ const RoleAssignment = () => {
     };
 
     // Handle role assignment
-    const handleRoleAssignment = async (role) => {
-        if (!selectedUser) return;
+    const handleRoleAssignment = async () => {
+        if (!selectedUser || !selectedRole) {
+            Swal.fire({
+                title: "Error",
+                text: "Please select a role to assign.",
+                icon: "error",
+                confirmButtonText: "Okay",
+            });
+            return;
+        }
 
         const result = await Swal.fire({
-            title: `Assign Role: ${role}`,
-            text: `Are you sure you want to assign the role "${role}" to ${selectedUser.fullName}?`,
+            title: `Assign Role: ${selectedRole?.roleName}`,
+            text: `Are you sure you want to assign the role "${selectedRole?.roleName}" to ${selectedUser.fullName}?`,
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: "Yes, Assign",
@@ -59,17 +65,19 @@ const RoleAssignment = () => {
 
         if (result.isConfirmed) {
             try {
-                const res = await axiosSecure.put(`/users/${selectedUser._id}/role`, { role });
-                if (res.data.modifiedCount > 0) {
+                const { data } = await axiosSecure.put(`/role/users/${selectedUser._id}`, { roleId: selectedRole?._id });
+
+                if (data.modifiedCount > 0) {
                     Swal.fire({
                         title: "Success",
                         text: "Role assigned successfully!",
                         icon: "success",
                         confirmButtonText: "Okay",
                     });
-                    refetchRoles();
+                    refetch();
                     setSelectedUser(null);
                     setSearchEmail("");
+                    setSelectedRole("");
                 } else {
                     Swal.fire("Error", "Failed to assign the role.", "error");
                 }
@@ -78,6 +86,8 @@ const RoleAssignment = () => {
             }
         }
     };
+
+    if (isLoading) return <MySpinner />;
 
     return (
         <div className="border shadow max-w-3xl mx-auto">
@@ -121,20 +131,33 @@ const RoleAssignment = () => {
                                 </div>
                             </div>
 
-                            {/* Role Assignment Options */}
+                            {/* Role Assignment Dropdown */}
                             <div className="mt-4">
                                 <p className="font-medium text-gray-700 mb-2">Assign New Role:</p>
-                                <div className="flex flex-wrap gap-2">
-                                    {rolesData.map((role) => (
-                                        <button
-                                            key={role}
-                                            onClick={() => handleRoleAssignment(role)}
-                                            className="px-4 py-2 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-primary hover:text-white transition"
-                                        >
-                                            {role}
-                                        </button>
+
+                                <select
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                                    value={selectedRole?._id || ""}
+                                    onChange={(e) => {
+                                        const selectedRoleId = e.target.value;
+                                        const role = rolesData.find((r) => r._id === selectedRoleId);
+                                        setSelectedRole(role);
+                                    }}
+                                >
+                                    <option value="">Select a Role</option>
+                                    {rolesData?.map((role) => (
+                                        <option key={role._id} value={role._id}>
+                                            {role.roleName}
+                                        </option>
                                     ))}
-                                </div>
+                                </select>
+
+                                <button
+                                    onClick={handleRoleAssignment}
+                                    className="mt-4 w-full px-4 py-2 bg-primary text-white font-semibold rounded-md shadow hover:bg-green-600 transition"
+                                >
+                                    Assign Role
+                                </button>
                             </div>
                         </div>
                     )}

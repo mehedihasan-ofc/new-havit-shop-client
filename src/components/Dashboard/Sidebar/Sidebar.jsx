@@ -22,7 +22,6 @@ import { TbMapDiscount, TbWorldStar } from "react-icons/tb";
 import { MdOutlineCampaign, MdOutlineShoppingCartCheckout } from "react-icons/md";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { FiMessageCircle } from "react-icons/fi";
-import useRole from "../../../hooks/useRole";
 import useSubscriptions from "../../../hooks/useSubscriptions";
 import useMessages from "../../../hooks/useMessages";
 import { AuthContext } from "../../../provider/AuthProvider";
@@ -32,11 +31,13 @@ import useLogo from "../../../hooks/useLogo";
 import { RiRefund2Fill, RiShieldUserLine } from "react-icons/ri";
 import useOrdersByStatus from "../../../hooks/useOrdersByStatus";
 import useRefundOrdersByStatus from "../../../hooks/useRefundOrdersByStatus";
+import useAdminAuth from "../../../hooks/useAdminAuth";
 
 const Sidebar = () => {
 
+    const [adminData] = useAdminAuth();
+
     const [logoData] = useLogo();
-    // const [role] = useRole();
 
     const { logOut } = useContext(AuthContext);
 
@@ -92,6 +93,8 @@ const Sidebar = () => {
             }
         });
     }
+
+    console.log("adminData", adminData);
 
     return (
         <Card className="h-screen rounded-none shadow p-4 overflow-y-auto">
