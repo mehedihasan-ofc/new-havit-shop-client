@@ -79,6 +79,7 @@ import OrderDetails from "../pages/Dashboard/Orders/OrderDetails/OrderDetails";
 import ProfileMyReturns from "../pages/Profile/ProfileMyReturns/ProfileMyReturns";
 import ProfileCancellations from "../pages/Profile/ProfileCancellations/ProfileCancellations";
 import RefundOrderDetails from "../pages/Dashboard/RefundRequest/RefundOrderDetails/RefundOrderDetails";
+import RoleDetails from "../pages/Dashboard/Users/RoleDetails/RoleDetails";
 
 const router = createBrowserRouter([
     {
@@ -398,6 +399,10 @@ const router = createBrowserRouter([
             {
                 path: "all-roles",
                 element: <AllRoles />
+            },
+            {
+                path: "role-details/:id",
+                element: <RoleDetails />
             },
             {
                 path: "create-role",
