@@ -94,7 +94,7 @@ const Sidebar = () => {
         });
     };
 
-    console.log(adminData);
+    // console.log(adminData);
 
     return (
         <Card className="h-screen rounded-none shadow p-4 overflow-y-auto">

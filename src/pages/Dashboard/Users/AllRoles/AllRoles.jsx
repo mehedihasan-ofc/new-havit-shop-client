@@ -144,8 +144,8 @@ const AllRoles = () => {
                                                             size="sm"
                                                             variant="circular"
                                                             className="border-2 border-white hover:z-10 focus:z-10"
-                                                            src={user?.profileImage || UserImg}  // Fallback to default image
-                                                            alt={user?.fullName}  // Display full name as alt text
+                                                            src={user?.profileImage || UserImg}
+                                                            alt={user?.fullName} 
                                                         />
                                                     ))
                                                 }
@@ -174,7 +174,7 @@ const AllRoles = () => {
 
                                 <td className={classes}>
                                     <div className="flex items-center gap-2">
-                                        <IconButton size="sm" variant="text" className="rounded-full">
+                                        <IconButton onClick={() => navigate(`/dashboard/role-details/${_id}`)} size="sm" variant="text" className="rounded-full">
                                             <PiNotePencil className="text-teal-600" size={20} />
                                         </IconButton>
 
