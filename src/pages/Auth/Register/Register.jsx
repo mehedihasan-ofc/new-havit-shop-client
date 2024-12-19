@@ -59,7 +59,7 @@ const Register = () => {
                                 fullName,
                                 email,
                                 role: 'customer',
-                                // status: 'active',
+                                profileImage: loggedUser?.photoURL,
                                 createdAt: new Date().toISOString()
                             };
                             saveUser(userInfo);
@@ -101,7 +101,7 @@ const Register = () => {
                     fullName: loggedUser.displayName,
                     email: loggedUser.email,
                     role: 'customer',
-                    status: 'active',
+                    profileImage: loggedUser?.photoURL,
                     createdAt: new Date().toISOString()
                 };
                 saveUser(userInfo);

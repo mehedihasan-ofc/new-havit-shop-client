@@ -84,9 +84,13 @@ const DashboardLayout = () => {
                 <div className="flex justify-between items-center shadow  py-4 px-10">
 
                     <div className="flex items-center gap-2">
-                        <p>Home</p>
-                        <MdOutlineArrowForward />
-                        <p className="capitalize">{formatPathname(pathname)}</p>
+                        {pathname !== "/dashboard" && pathname !== "/dashboard/" && (
+                            <>
+                                <p>Home</p>
+                                <MdOutlineArrowForward />
+                                <p className="capitalize">{formatPathname(pathname)}</p>
+                            </>
+                        )}
                     </div>
 
                     <div className="flex items-center gap-3">
@@ -100,7 +104,29 @@ const DashboardLayout = () => {
                 </div>
 
                 <div className="p-5">
-                    <Outlet />
+                    {pathname === "/dashboard" || pathname === "/dashboard/" ? (
+                        <div className="flex flex-col items-center justify-center h-full space-y-6 p-8 rounded shadow border">
+                            <h2 className="text-4xl font-extrabold text-gray-900 text-center">
+                                Hello, <span className="text-green-500">{user?.displayName}</span>! ❤️
+                            </h2>
+                            <p className="text-lg text-gray-700 text-center">
+                                As a <span className="font-semibold text-blue-600">{adminData?.role?.roleName}</span>, you have access to a wealth of powerful tools and features.
+                            </p>
+                            <div className="flex flex-col items-center space-y-4 mt-6">
+                                <p className="text-xl text-gray-800 text-center">
+                                    Start managing your tasks, monitoring insights, and enhancing the user experience with ease.
+                                </p>
+
+                                <p className="text-2xl font-semibold text-gray-800 text-center mt-4">
+                                    <span className="inline-block bg-gradient-to-r from-teal-400 to-teal-600 text-transparent bg-clip-text">
+                                        Explore Your Dashboard
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    ) : (
+                        <Outlet />
+                    )}
                 </div>
             </div>
         </div>

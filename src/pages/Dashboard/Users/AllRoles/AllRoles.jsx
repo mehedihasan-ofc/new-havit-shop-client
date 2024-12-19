@@ -1,5 +1,5 @@
 import useRoles from "../../../../hooks/useRoles";
-import { Card, Chip, IconButton, Typography } from "@material-tailwind/react";
+import { Avatar, Card, Chip, IconButton, Typography } from "@material-tailwind/react";
 import MySpinner from "../../../../components/Shared/MySpinner/MySpinner";
 import { formattedDate } from "../../../../utils";
 import { PiNotePencil } from "react-icons/pi";
@@ -7,44 +7,66 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import UserImg from "../../../../assets/user.jpg";
+import { useState } from "react";
 
-const TABLE_HEAD = ["#", "Role Name", "Status", "Permissions", "Created", "Actions"];
+const TABLE_HEAD = ["#", "Role Name", "Status", "Permissions", "Assigned", "Created", "Actions"];
 
 const AllRoles = () => {
 
     const [rolesData, isLoading, refetch] = useRoles();
     const [axiosSecure] = useAxiosSecure();
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const handleDelete = (id) => {
+    const handleDelete = async (id) => {
+
+        setLoading(true);
 
         Swal.fire({
             title: "Are you sure?",
-            text: "You won't be able to revert this!",
+            text: "This will delete the role and update assigned users!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
+                try {
+                    // Make the delete request
+                    const { data } = await axiosSecure.delete(`/roles/${id}`);
 
-                // axiosSecure.delete(`/products/${id}`)
-                //     .then(res => {
-                //         if (res.data.deletedCount > 0) {
-                //             refetch();
-                //             Swal.fire({
-                //                 title: "Deleted!",
-                //                 text: "Your file has been deleted.",
-                //                 icon: "success"
-                //             });
-                //         }
-                //     })
+                    // Check the response message from the API
+                    if (data.modifiedCount > 0) {
+                        refetch();
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Role and users have been updated successfully.",
+                            icon: "success"
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "Error",
+                            text: "There was an issue deleting the role or updating the users.",
+                            icon: "error"
+                        });
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        title: "Error",
+                        text: "An error occurred while deleting the role.",
+                        icon: "error"
+                    });
+                } finally {
+                    setLoading(false);
+                }
             }
+            setLoading(false);
         });
-    }
+    };
 
-    if (isLoading) return <MySpinner />
+    if (isLoading) return <MySpinner />;
 
     return (
         <Card className="h-full w-full overflow-scroll px-6 border rounded-none">
@@ -65,7 +87,7 @@ const AllRoles = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {rolesData?.map(({ _id, roleName, isActive, featurePermissions, createdAt }, index) => {
+                    {rolesData?.map(({ _id, roleName, isActive, featurePermissions, assignedUsers, createdAt }, index) => {
                         const isLast = index === rolesData.length - 1;
                         const classes = isLast ? "py-4" : "py-4 border-b border-gray-300";
 
@@ -110,6 +132,36 @@ const AllRoles = () => {
                                         />
                                     </div>
                                 </td>
+
+                                <td className={classes}>
+                                    {
+                                        assignedUsers && assignedUsers.length > 0 ? (
+                                            <div className="flex items-center -space-x-4">
+                                                {
+                                                    assignedUsers?.map(user => (
+                                                        <Avatar
+                                                            key={user?._id}
+                                                            size="sm"
+                                                            variant="circular"
+                                                            className="border-2 border-white hover:z-10 focus:z-10"
+                                                            src={user?.profileImage || UserImg}  // Fallback to default image
+                                                            alt={user?.fullName}  // Display full name as alt text
+                                                        />
+                                                    ))
+                                                }
+                                            </div>
+                                        ) : (
+                                            <Typography
+                                                variant="small"
+                                                color="blue-gray"
+                                                className="font-semibold"
+                                            >
+                                                No users assigned
+                                            </Typography>
+                                        )
+                                    }
+                                </td>
+
                                 <td className={classes}>
                                     <Typography
                                         variant="small"
@@ -126,7 +178,7 @@ const AllRoles = () => {
                                             <PiNotePencil className="text-teal-600" size={20} />
                                         </IconButton>
 
-                                        <IconButton onClick={() => handleDelete(_id)} size="sm" variant="text" className="rounded-full">
+                                        <IconButton disabled={loading} onClick={() => handleDelete(_id)} size="sm" variant="text" className="rounded-full">
                                             <AiOutlineDelete className="text-red-600" size={20} />
                                         </IconButton>
                                     </div>

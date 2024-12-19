@@ -11,7 +11,7 @@ const RoleAssignment = () => {
     const [axiosSecure] = useAxiosSecure();
 
     const [rolesData, , refetch] = useRoles();
-    const { data: usersData = [], isLoading } = useQuery({
+    const { data: usersData = [], isLoading, refetch: userRefetch } = useQuery({
         queryKey: ["usersData"],
         queryFn: async () => {
             const res = await axiosSecure.get("/users");
@@ -80,6 +80,7 @@ const RoleAssignment = () => {
                         icon: "success",
                         confirmButtonText: "Okay",
                     });
+                    userRefetch();
                     refetch();
                     setSelectedUser(null);
                     setSearchEmail("");
