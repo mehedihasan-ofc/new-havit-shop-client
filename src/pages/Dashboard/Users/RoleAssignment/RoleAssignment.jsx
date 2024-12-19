@@ -98,7 +98,7 @@ const RoleAssignment = () => {
     if (isLoading) return <MySpinner />;
 
     return (
-        <div className="border shadow max-w-3xl mx-auto">
+        <div className="border shadow mx-auto">
             <div className="relative">
                 <img className="absolute top-0 right-0" src={SVG} alt="background" />
 
@@ -120,7 +120,7 @@ const RoleAssignment = () => {
 
                     {/* Selected User Card */}
                     {selectedUser && (
-                        <div className="p-6 bg-white shadow-md rounded-lg border border-gray-200">
+                        <div className="p-8 bg-white shadow rounded border w-3/4 mx-auto border-gray-200">
                             <div className="flex items-center gap-4">
                                 <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-lg font-semibold text-primary">
                                     {selectedUser.fullName.charAt(0).toUpperCase()}
