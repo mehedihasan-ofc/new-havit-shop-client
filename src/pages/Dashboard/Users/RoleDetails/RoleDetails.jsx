@@ -7,6 +7,8 @@ import MySpinner from "../../../../components/Shared/MySpinner/MySpinner";
 import SVG from "../../../../assets/svg/img-status-9.svg";
 import { IoShieldCheckmarkOutline, IoTrashOutline } from "react-icons/io5";
 import { Switch } from "@material-tailwind/react";
+import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 const RoleDetails = () => {
     const { id } = useParams();
@@ -14,30 +16,83 @@ const RoleDetails = () => {
     const token = localStorage.getItem("access-token");
     const [axiosSecure] = useAxiosSecure();
     const [activeStatus, setActiveStatus] = useState(false);
+    const [switchDisabled, setSwitchDisabled] = useState(false);
 
-    const { data: roleData = {}, isLoading } = useQuery({
+    const { data: roleData = {}, isLoading, refetch } = useQuery({
         queryKey: ["roleData", user?.email, id],
         enabled: !!user?.email && !!token && !!id,
         queryFn: async () => {
             const res = await axiosSecure(`/roles/${id}`);
-            setActiveStatus(res.data.isActive); // Initialize isActive state
+            setActiveStatus(res.data.isActive);
             return res.data;
         },
     });
 
     if (isLoading) return <MySpinner />;
 
-    const { roleName, featurePermissions, isActive, createdAt, assignedUsers } = roleData;
+    const { roleName, featurePermissions, createdAt, assignedUsers } = roleData;
 
     // Toggle isActive switch
-    const handleStatusToggle = (value) => {
-        setActiveStatus(value);
-        console.log("New Status:", value);
+    const handleStatusToggle = async (value) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: `You are about to change the status to ${value ? "Active" : "Inactive"}.`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, change it!",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                setSwitchDisabled(true);
+                setActiveStatus(value);
+                try {
+                    const { data } = await axiosSecure.put(`/roles/${id}`, { isActive: value });
+                    if (data?.modifiedCount > 0) {
+                        refetch();
+                        toast.success("Status updated successfully!", {
+                            position: "top-right",
+                            autoClose: 1000,
+                            pauseOnHover: false,
+                        });
+                    }
+                } catch (error) {
+                    console.error("Error during API call:", error);
+                    toast.error("Failed to update status. Please try again.", {
+                        position: "top-right",
+                        autoClose: 1000,
+                        pauseOnHover: false,
+                    });
+                    setActiveStatus(!value);
+                } finally {
+                    setSwitchDisabled(false);
+                }
+            }
+        });
     };
 
     // Handle user delete
-    const handleDeleteUser = (userId) => {
-        console.log("Delete User ID:", userId);
+    const handleDeleteUser = async (userId) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This user will be removed from the assigned list.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                console.log("Delete User ID:", userId);
+                Swal.fire({
+                    icon: "success",
+                    title: "Deleted!",
+                    text: "The user has been removed successfully.",
+                    timer: 1500,
+                    showConfirmButton: false,
+                });
+            }
+        });
     };
 
     return (
@@ -56,6 +111,7 @@ const RoleDetails = () => {
                     <Switch
                         color="teal"
                         checked={activeStatus}
+                        disabled={switchDisabled}
                         onChange={(e) => handleStatusToggle(e.target.checked)}
                     />
                 </div>
