@@ -51,9 +51,19 @@ const ViewCartCard = ({ item, quantity, onFlavorChange, onQuantityChange, refetc
     return (
         <div className="px-4 py-3 border border-gray-200 rounded shadow bg-white">
             <div className="flex justify-between items-center border-b mb-4">
-                <div className="relative inline-block px-2 text-white text-sm font-medium bg-primary -skew-x-12">
-                    <span className="skew-x-12">Made In: {item?.productDetails?.madeIn}</span>
-                </div>
+
+                {
+                    item?.productDetails?.madeIn ? (
+                        <div className="relative inline-block px-2 text-white text-sm font-medium bg-primary -skew-x-12">
+                            <span className="skew-x-12">Made In: {item?.productDetails?.madeIn}</span>
+                        </div>
+                    ) :
+                        (
+                            <div className="relative inline-block px-2 text-white text-sm font-medium bg-primary -skew-x-12">
+                                <span className="skew-x-12">No Brand</span>
+                            </div>
+                        )
+                }
 
                 <IconButton
                     size="sm"

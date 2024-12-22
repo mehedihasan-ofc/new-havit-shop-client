@@ -350,7 +350,6 @@ const AddProduct = () => {
                                 value={formData.brand}
                                 onChange={handleChange}
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-                                required
                             />
                         </div>
                     </div>

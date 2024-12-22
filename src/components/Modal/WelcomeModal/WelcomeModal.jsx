@@ -45,7 +45,7 @@ const WelcomeModal = ({ open, handleOpen, welcomeData }) => {
                         <img
                             src={welcomeData.image}
                             alt="Welcome"
-                            className="w-full h-[264px] object-cover"
+                            className="w-full h-[264px]"
                         />
                     ) : (
                         <div className="flex items-center justify-center h-[264px] bg-gray-200">

@@ -24,9 +24,8 @@ const Welcome = () => {
         setIsLoading(true);
 
         try {
-            let imageLink = welcomeData?.image; // Default to existing image
+            let imageLink = welcomeData?.image;
             if (selectedImage) {
-                // Upload new image if a file is selected
                 imageLink = await uploadImageToStorage(selectedImage);
             }
 
@@ -35,7 +34,6 @@ const Welcome = () => {
             };
 
             if (welcomeData?._id) {
-                // Update existing data
                 const { data } = await axiosSecure.put(`/welcome/${welcomeData._id}`, welcomePayload);
 
                 if (data.modifiedCount > 0) {
@@ -49,7 +47,6 @@ const Welcome = () => {
                     toast.info("No changes made!");
                 }
             } else {
-                // Create new data
                 const { data } = await axiosSecure.post("/welcome", welcomePayload);
 
                 if (data.insertedId) {
@@ -74,7 +71,7 @@ const Welcome = () => {
             <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="flex flex-col gap-4">
                     <label htmlFor="imageInput" className="block text-lg text-center font-medium text-gray-700">
-                        Upload Image (336 × 280 pixels)
+                        Upload Image (501×264 pixels)
                     </label>
                     <div className="relative group w-[501px] h-[264px] bg-gray-100 border border-gray-300 rounded-md overflow-hidden flex items-center justify-center mx-auto">
                         {!selectedImage && !welcomeData?.image ? (
