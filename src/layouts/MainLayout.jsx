@@ -5,14 +5,20 @@ import { useEffect } from "react";
 import ScrollToTop from "react-scroll-to-top";
 import { FloatingWhatsApp } from "react-floating-whatsapp";
 import AvatarImg from "../assets/avator.jpg";
+import useBanners from "../hooks/useBanners";
+import MySpinner from "../components/Shared/MySpinner/MySpinner";
 
 const MainLayout = () => {
+
+    const [, loading] = useBanners();
 
     const { pathname } = useLocation();
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [pathname]);
+
+    if(loading) return <MySpinner />
 
     return (
         <>
