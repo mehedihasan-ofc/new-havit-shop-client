@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
 const ProductImageGallery = ({ images }) => {
     const [mainImage, setMainImage] = useState(images[0]?.url);
@@ -25,9 +26,8 @@ const ProductImageGallery = ({ images }) => {
                         <button
                             key={index}
                             onClick={() => setMainImage(image.url)}
-                            className={`overflow-hidden border rounded-md ${
-                                mainImage === image.url ? "border-primary" : "border-gray-300 dark:border-gray-600"
-                            } hover:border-primary transition`}
+                            className={`overflow-hidden border rounded-md ${mainImage === image.url ? "border-primary" : "border-gray-300 dark:border-gray-600"
+                                } hover:border-primary transition`}
                             style={{ width: "50px", height: "50px" }}
                         >
                             <img
@@ -43,6 +43,7 @@ const ProductImageGallery = ({ images }) => {
             {/* Lightbox */}
             {isLightboxOpen && (
                 <Lightbox
+                    plugins={[Zoom]}
                     open={isLightboxOpen}
                     close={() => setIsLightboxOpen(false)}
                     slides={images.map((image) => ({ src: image.url }))}
