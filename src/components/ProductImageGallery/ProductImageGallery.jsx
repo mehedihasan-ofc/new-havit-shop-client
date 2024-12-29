@@ -1,23 +1,24 @@
 import { useState } from "react";
-import InnerImageZoom from 'react-inner-image-zoom';
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
 
 const ProductImageGallery = ({ images }) => {
     const [mainImage, setMainImage] = useState(images[0]?.url);
+    const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
     return (
         <div className="flex flex-col items-center md:items-start p-5 rounded-lg overflow-hidden">
-            {/* Main Image with Zoom */}
+            {/* Main Image */}
             <div className="w-80 mx-auto mb-2">
-                <InnerImageZoom
+                <img
                     src={mainImage}
-                    zoomType="hover"
-                    zoomScale={1}
-                    className="rounded-lg shadow-md border"
                     alt="Main Product Image"
+                    onClick={() => setIsLightboxOpen(true)}
+                    className="rounded-lg shadow-md border cursor-pointer"
                 />
             </div>
 
-            {/* Centered Thumbnail Navigator */}
+            {/* Thumbnail Navigator */}
             <div className="flex justify-center w-full mt-4">
                 <div className="flex gap-2 overflow-x-auto px-2">
                     {images.map((image, index) => (
@@ -27,7 +28,7 @@ const ProductImageGallery = ({ images }) => {
                             className={`overflow-hidden border rounded-md ${
                                 mainImage === image.url ? "border-primary" : "border-gray-300 dark:border-gray-600"
                             } hover:border-primary transition`}
-                            style={{ width: '50px', height: '50px' }}
+                            style={{ width: "50px", height: "50px" }}
                         >
                             <img
                                 src={image.url}
@@ -38,6 +39,16 @@ const ProductImageGallery = ({ images }) => {
                     ))}
                 </div>
             </div>
+
+            {/* Lightbox */}
+            {isLightboxOpen && (
+                <Lightbox
+                    open={isLightboxOpen}
+                    close={() => setIsLightboxOpen(false)}
+                    slides={images.map((image) => ({ src: image.url }))}
+                    index={images.findIndex((img) => img.url === mainImage)}
+                />
+            )}
         </div>
     );
 };

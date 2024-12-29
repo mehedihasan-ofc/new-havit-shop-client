@@ -8,7 +8,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '@smastrom/react-rating/style.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import 'react-inner-image-zoom/lib/InnerImageZoom/styles.min.css';
 
 // Create a client
 const queryClient = new QueryClient()
