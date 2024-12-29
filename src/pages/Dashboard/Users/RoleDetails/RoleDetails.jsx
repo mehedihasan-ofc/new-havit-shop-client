@@ -83,14 +83,34 @@ const RoleDetails = () => {
             confirmButtonText: "Yes, delete it!",
         }).then(async (result) => {
             if (result.isConfirmed) {
-                console.log("Delete User ID:", userId);
-                Swal.fire({
-                    icon: "success",
-                    title: "Deleted!",
-                    text: "The user has been removed successfully.",
-                    timer: 1500,
-                    showConfirmButton: false,
-                });
+                try {
+
+                    const { data } = await axiosSecure.put(`/role/users/${userId}`, { roleId: null });
+
+                    if (data?.modifiedCount > 0) {
+                        refetch();
+                        Swal.fire({
+                            icon: "success",
+                            title: "Deleted!",
+                            text: "The user has been removed successfully.",
+                            timer: 1500,
+                            showConfirmButton: false,
+                        });
+                    } else {
+                        toast.warning("No changes were made.", {
+                            position: "top-right",
+                            autoClose: 1000,
+                            pauseOnHover: false,
+                        });
+                    }
+                } catch (error) {
+                    console.error("Error during API call:", error);
+                    toast.error("Failed to update user role. Please try again.", {
+                        position: "top-right",
+                        autoClose: 1000,
+                        pauseOnHover: false,
+                    });
+                }
             }
         });
     };
@@ -161,6 +181,7 @@ const RoleDetails = () => {
                                 <p className="font-medium">{user.fullName}</p>
                                 <p className="text-sm text-gray-500">{user.email}</p>
                             </div>
+                            
                             {/* Delete Icon */}
                             <button
                                 onClick={() => handleDeleteUser(user._id)}
