@@ -15,7 +15,6 @@ const BkashPayment = () => {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [loading, setLoading] = useState(false);
 
-    // Access the order details from state
     const orderDetails = location.state?.orderDetails;
     const billingDetails = location.state?.billingDetails;
 
@@ -26,9 +25,8 @@ const BkashPayment = () => {
         }
     }, [orderDetails, navigate]);
 
-    // Validate phone number: must start with 01 and be 11 digits long
     const validatePhoneNumber = (number) => {
-        return /^01\d{9}$/.test(number); // Matches 01XXXXXXXXX format
+        return /^01\d{9}$/.test(number);
     };
 
     const handleConfirmPayment = async () => {
@@ -42,7 +40,7 @@ const BkashPayment = () => {
             return;
         }
 
-        setLoading(true); // Start loading
+        setLoading(true);
 
         try {
             const orderData = {
@@ -62,7 +60,7 @@ const BkashPayment = () => {
         } catch (error) {
             toast.error(error.message || "Something went wrong!");
         } finally {
-            setLoading(false); // Stop loading
+            setLoading(false);
         }
     };
 
@@ -71,22 +69,26 @@ const BkashPayment = () => {
         navigate("/");
     };
 
+    const redirectToBkashPayment = () => {
+        window.open("https://shop.bkash.com/havit-shop01744991003/paymentlink", "_blank");
+    };
+
     if (!orderDetails) return;
 
     return (
         <div className="max-w-3xl mx-auto p-6">
-            <h2 className="text-2xl font-bold mb-4">Bkash Payment</h2>
-            <div className="bg-gray-100 p-4 rounded-lg shadow-md space-y-3">
+            <h2 className="text-3xl font-bold mb-6 text-center text-primary">Bkash Payment</h2>
+            <div className="bg-gray-100 p-6 rounded-lg shadow-lg space-y-4">
                 <h3 className="text-lg font-semibold">Order Summary</h3>
                 <p><span className="font-semibold">Name:</span> {billingDetails?.name}</p>
                 <p><span className="font-semibold">Total Payable:</span> ৳{orderDetails.payableTotal.toFixed(2)}</p>
                 <p><span className="font-semibold">Payment Method:</span> Bkash Online Payment</p>
             </div>
 
-            <div className="mt-6 space-y-3">
+            <div className="mt-6 space-y-4">
                 <p className="text-gray-700">To complete your payment, please follow the steps below:</p>
                 <ul className="list-decimal ml-6 text-gray-600 space-y-2">
-                    <li>Open your Bkash app and go to *Payment*.</li>
+                    <li>Open your Bkash app and go to <strong>Payment</strong>.</li>
                     <li>Scan the QR code provided below.</li>
                     <li>Send the amount of ৳{orderDetails.payableTotal.toFixed(2)}.</li>
                     <li>Enter your phone number and transaction ID below to confirm your payment.</li>
@@ -97,9 +99,22 @@ const BkashPayment = () => {
                 <img
                     src={bkashPayment}
                     alt="Bkash QR Code"
-                    className="w-full h-full mx-auto"
+                    className="w-full h-auto mx-auto rounded-md shadow-md border"
                 />
             </div>
+
+            <div className="mt-6 text-center space-y-2">
+                <p className="text-gray-600">
+                    If you prefer to make a direct payment through Bkash, click the button below. <br /> You will be redirected to the official Bkash payment link.
+                </p>
+                <Button
+                    onClick={redirectToBkashPayment}
+                    className="w-full py-3 px-6 bg-[#E2136E] text-white font-bold rounded shadow-md hover:bg-[#D12053]"
+                >
+                    Pay Now with Bkash
+                </Button>
+            </div>
+
 
             <div className="mt-6 space-y-4">
                 <input
@@ -107,7 +122,7 @@ const BkashPayment = () => {
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     placeholder="Enter Phone Number (e.g., 01XXXXXXXXX)"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                     disabled={loading}
                 />
                 <input
@@ -116,29 +131,24 @@ const BkashPayment = () => {
                     onChange={(e) => setTransactionId(e.target.value)}
                     maxLength={10}
                     placeholder="Enter Transaction ID"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                     disabled={loading}
                 />
-                <div className="flex space-x-4">
+                <div className="flex flex-col md:flex-row gap-4">
                     <Button
                         onClick={handleConfirmPayment}
-                        loading={loading}
                         disabled={
                             loading ||
                             transactionId.length !== 10 ||
                             !validatePhoneNumber(phoneNumber)
                         }
-                        className={`rounded-none font-medium ${loading
-                                ? "bg-gray-400 cursor-not-allowed"
-                                : "bg-primary"
-                            }`}
+                        className={`w-full md:w-auto py-3 px-6 font-medium text-white rounded-lg shadow-md ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-primary"}`}
                     >
                         {loading ? "Processing..." : "Confirm Payment"}
                     </Button>
-
                     <Button
                         onClick={handleCancelPayment}
-                        className="bg-red-500 rounded-none font-medium"
+                        className="w-full md:w-auto py-3 px-6 bg-red-500 text-white font-medium rounded-lg shadow-md hover:bg-red-600"
                         disabled={loading}
                     >
                         Cancel Payment

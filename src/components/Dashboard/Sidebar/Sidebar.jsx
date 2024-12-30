@@ -143,12 +143,12 @@ const Sidebar = () => {
             };
         }
 
-        return { color: "gray", value: 0 };
+        return null; // Return null if no chip should be rendered
     };
 
     const renderSubFeatures = (name, subFeatures) => {
         return subFeatures.map((subFeature, index) => {
-            const { color, value } = getChipColorAndValue(name, subFeature.name);
+            const chipData = getChipColorAndValue(name, subFeature.name);
 
             return (
                 <Link to={subFeature.path} key={index}>
@@ -157,15 +157,18 @@ const Sidebar = () => {
                             <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                         </ListItemPrefix>
                         {subFeature.name}
-                        <ListItemSuffix>
-                            <Chip
-                                value={value}
-                                size="sm"
-                                variant="ghost"
-                                color={color}
-                                className="rounded-full"
-                            />
-                        </ListItemSuffix>
+
+                        {chipData && (
+                            <ListItemSuffix>
+                                <Chip
+                                    value={chipData.value}
+                                    size="sm"
+                                    variant="ghost"
+                                    color={chipData.color}
+                                    className="rounded-full"
+                                />
+                            </ListItemSuffix>
+                        )}
                     </ListItem>
                 </Link>
             );

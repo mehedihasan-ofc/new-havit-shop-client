@@ -15,8 +15,10 @@ import Swal from "sweetalert2";
 import { Button } from "@material-tailwind/react";
 import ProductDetailsAd from "../../components/Ads/ProductDetailsAd/ProductDetailsAd";
 import ReactPlayer from 'react-player/lazy'
+import useRole from "../../hooks/useRole";
 
 const ProductDetails = () => {
+    const [role] = useRole();
     const { user } = useContext(AuthContext);
     const [, , refetch] = useCart();
 
@@ -47,6 +49,13 @@ const ProductDetails = () => {
 
     const handleAddToCart = async (productId) => {
 
+        if (role === "admin") {
+            toast.info("Admins cannot add products to the cart.", {
+                autoClose: 1000,
+            });
+            return; // Prevent further execution
+        }
+
         if (user && user.email) {
 
             const newCart = {
@@ -62,7 +71,9 @@ const ProductDetails = () => {
 
                 if (response.status === 200) {
                     refetch();
-                    toast.success(`${product?.name} added to cart!`);
+                    toast.success(`${product?.name} added to cart!`, {
+                        autoClose: 1000,
+                    });
                 }
 
             } catch (error) {
