@@ -34,11 +34,8 @@ import useRefundOrdersByStatus from "../../../hooks/useRefundOrdersByStatus";
 import useAdminAuth from "../../../hooks/useAdminAuth";
 
 const Sidebar = () => {
-
     const [, adminData] = useAdminAuth();
-
     const [logoData] = useLogo();
-
     const { logOut } = useContext(AuthContext);
 
     const [subscriptions] = useSubscriptions();
