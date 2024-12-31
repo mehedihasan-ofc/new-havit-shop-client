@@ -19,7 +19,6 @@ import AdsManagement from "../pages/Dashboard/WebsiteContent/AdsManagement/AdsMa
 import BlogManagement from "../pages/Dashboard/WebsiteContent/BlogManagement/BlogManagement";
 import ProfileLayout from "../layouts/ProfileLayout";
 import ProfileDashboard from "../pages/Profile/ProfileDashboard/ProfileDashboard";
-import ProfilePersonalInfo from "../pages/Profile/ProfilePersonalInfo/ProfilePersonalInfo";
 import ProfileOrders from "../pages/Profile/ProfileOrders/ProfileOrders";
 import PrivateRoute from "./PrivateRoute";
 import Customers from "../pages/Dashboard/Users/Customers/Customers";
@@ -191,10 +190,6 @@ const router = createBrowserRouter([
             {
                 path: "dashboard",
                 element: <ProfileDashboard />
-            },
-            {
-                path: "personal-info",
-                element: <ProfilePersonalInfo />
             },
             {
                 path: "orders",

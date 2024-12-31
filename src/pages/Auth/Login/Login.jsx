@@ -55,6 +55,7 @@ const Login = () => {
                     fullName: loggedUser.displayName,
                     email: loggedUser.email,
                     role: 'customer',
+                    coin: 0,
                     profileImage: loggedUser?.photoURL,
                     createdAt: new Date().toISOString()
                 };

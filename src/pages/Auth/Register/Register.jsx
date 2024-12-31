@@ -58,6 +58,7 @@ const Register = () => {
                             const userInfo = {
                                 fullName,
                                 email,
+                                coin: 0,
                                 role: 'customer',
                                 profileImage: loggedUser?.photoURL,
                                 createdAt: new Date().toISOString()
@@ -101,6 +102,7 @@ const Register = () => {
                     fullName: loggedUser.displayName,
                     email: loggedUser.email,
                     role: 'customer',
+                    coin: 0,
                     profileImage: loggedUser?.photoURL,
                     createdAt: new Date().toISOString()
                 };

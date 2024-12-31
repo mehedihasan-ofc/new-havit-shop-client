@@ -6,9 +6,11 @@ import usePromoCodes from "../../hooks/usePromoCodes";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../provider/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useMyData from "../../hooks/useMyData";
 
 const Checkout = () => {
     const { user } = useContext(AuthContext);
+    const [myData] = useMyData();
     const [billingDetails] = useBillingDetails();
     const [promoCodes] = usePromoCodes();
     const [axiosSecure] = useAxiosSecure();
@@ -20,12 +22,14 @@ const Checkout = () => {
     const [couponCode, setCouponCode] = useState("");
     const [discount, setDiscount] = useState(0);
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
+    const [useCoins, setUseCoins] = useState(false);
+    const [coinDiscount, setCoinDiscount] = useState(0);
 
     const [loading, setLoading] = useState(false);
     const [promoLoading, setPromoLoading] = useState(false);
 
     const shippingCharge = billingDetails?.city?.toLowerCase() === "dhaka" ? 100 : billingDetails ? 150 : 0;
-    const payableTotal = total - discount + shippingCharge;
+    const payableTotal = total - discount - coinDiscount + shippingCharge;
 
     const handleCouponChange = (e) => {
         setCouponCode(e.target.value);
@@ -68,6 +72,16 @@ const Checkout = () => {
         }
     };
 
+    const handleCoinUsage = (e) => {
+        setUseCoins(e.target.checked);
+        if (e.target.checked) {
+            const maxCoinDiscount = Math.min(myData?.coin || 0, total * 200); // 200 coins = 1 Tk
+            setCoinDiscount(maxCoinDiscount / 200);
+        } else {
+            setCoinDiscount(0);
+        }
+    };
+
     const handlePaymentChange = (e) => {
         setSelectedPaymentMethod(e.target.value);
     };
@@ -97,6 +111,8 @@ const Checkout = () => {
                 total,
                 discount,
                 couponCode,
+                coinDiscount,
+                coinsUsed: useCoins ? coinDiscount * 200 : 0, // 200 coins = 1 Tk
                 shippingCharge,
                 payableTotal,
                 paymentMethod: selectedPaymentMethod,
@@ -106,10 +122,16 @@ const Checkout = () => {
             };
 
             if (selectedPaymentMethod === "cash-on-delivery") {
-
                 const { data } = await axiosSecure.post('/orders', orderDetails);
 
                 if (data?.result?.insertedId) {
+                    if (useCoins) {
+                        // Update user coins
+                        await axiosSecure.patch(`/users/update-coins/${user?.email}`, {
+                            coins: myData.coin - coinDiscount * 200
+                        });
+                    }
+
                     toast.success("Order placed successfully!", {
                         autoClose: 1600,
                         pauseOnHover: false
@@ -177,6 +199,12 @@ const Checkout = () => {
                             {discount > 0 ? `-৳${discount.toFixed(2)}` : "৳0.00"}
                         </p>
                     </div>
+                    <div className="flex justify-between">
+                        <p className="text-gray-700">Coin Discount</p>
+                        <p className={`text-gray-700 font-semibold ${coinDiscount > 0 ? "text-green-600" : ""}`}>
+                            {coinDiscount > 0 ? `-৳${coinDiscount.toFixed(2)}` : "৳0.00"}
+                        </p>
+                    </div>
                     <div className="flex justify-between items-center">
                         <p className="text-gray-700">Shipping</p>
                         <p className="text-gray-700 font-semibold">৳{shippingCharge}</p>
@@ -210,6 +238,18 @@ const Checkout = () => {
                             {promoLoading ? "Applying..." : "Apply"}
                         </button>
                     </div>
+                </div>
+
+                {/* Use Coins Section */}
+                <div className="mt-4 flex items-center">
+                    <input
+                        type="checkbox"
+                        id="use-coins"
+                        checked={useCoins}
+                        onChange={handleCoinUsage}
+                        className="mr-2"
+                    />
+                    <label htmlFor="use-coins" className="text-gray-700">Use Coins ({myData?.coin || 0} available, 200 coins = ৳1)</label>
                 </div>
 
                 {/* Payment Options */}

@@ -69,6 +69,8 @@ const OrderDetails = () => {
         paymentNumber,
         transactionId,
         total,
+        coinsUsed,
+        coinDiscount
     } = order;
 
     return (
@@ -115,6 +117,9 @@ const OrderDetails = () => {
                     </p>
                     <p className="text-sm text-gray-600">
                         <strong>Coupon Code:</strong> {couponCode || "N/A"}
+                    </p>
+                    <p className="text-sm text-gray-600">
+                        <strong>Coins used:</strong> {coinsUsed || "N/A"}
                     </p>
 
                     {transactionId && (
@@ -170,6 +175,9 @@ const OrderDetails = () => {
                     <h3 className="text-lg font-semibold text-gray-700 mb-4">Payment Summary</h3>
                     <p className="text-sm text-gray-600">
                         <strong>Subtotal:</strong> {total} BDT
+                    </p>
+                    <p className="text-sm text-gray-600">
+                        <strong>Coin Discount:</strong> {coinDiscount} BDT
                     </p>
                     <p className="text-sm text-gray-600">
                         <strong>Discount:</strong> {discount} BDT

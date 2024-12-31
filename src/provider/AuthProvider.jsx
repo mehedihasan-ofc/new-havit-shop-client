@@ -26,7 +26,8 @@ const AuthProvider = ({ children }) => {
     const updateUserProfile = (user, name) => {
         setLoading(true);
         return updateProfile(user, {
-            displayName: name, photoURL: "https://img.freepik.com/free-photo/3d-illustration-teenager-with-funny-face-glasses_1142-50955.jpg?t=st=1715922534~exp=1715926134~hmac=c7eb775a11a3945a6120b77525bfc903a77dcc6cdecb97759b2baccf57eb7f07&w=740"
+            displayName: name,
+            photoURL: "https://firebasestorage.googleapis.com/v0/b/havit-shop.appspot.com/o/user.jpg?alt=media&token=97998b8c-49ab-45e6-902d-5c199c8a2989"
         })
     };
 
@@ -43,7 +44,7 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser);
-            
+
             // get and set token
             if (currentUser) {
                 axios.post('https://server.havitshopbd.com/jwt', { email: currentUser.email })

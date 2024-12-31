@@ -1,7 +1,7 @@
 const Donation = () => {
     return (
-        <div>
-            Donation
+        <div className="animate-bounce">
+            Donation - Underdevelopment
         </div>
     );
 };
