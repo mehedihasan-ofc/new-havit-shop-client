@@ -71,9 +71,16 @@ export const features = [
         ]
     },
     {
+        name: "Donation",
+        sidebarIcon: "LiaDonateSolid",
+        index: 4,
+        path: "donation",
+        subFeatures: []
+    },
+    {
         name: "Orders",
         sidebarIcon: "HiOutlineShoppingBag",
-        index: 4,
+        index: 5,
         subFeatures: [
             {
                 name: "All",
@@ -125,7 +132,7 @@ export const features = [
     {
         name: "Refund Request",
         sidebarIcon: "RiRefund2Fill",
-        index: 5,
+        index: 6,
         subFeatures: [
             {
                 name: "Pending",
@@ -152,7 +159,7 @@ export const features = [
     {
         name: "Category",
         sidebarIcon: "LuPlusSquare",
-        index: 6,
+        index: 7,
         subFeatures: [
             {
                 name: "New Category",
@@ -169,7 +176,7 @@ export const features = [
     {
         name: "Subcategory",
         sidebarIcon: "LuCopyPlus",
-        index: 7,
+        index: 8,
         subFeatures: [
             {
                 name: "New Subcategory",
@@ -186,7 +193,7 @@ export const features = [
     {
         name: "Products",
         sidebarIcon: "MdOutlineShoppingCartCheckout",
-        index: 8,
+        index: 9,
         subFeatures: [
             {
                 name: "Product List",
@@ -203,7 +210,7 @@ export const features = [
     {
         name: "Campaign Builder",
         sidebarIcon: "MdOutlineCampaign",
-        index: 9,
+        index: 10,
         subFeatures: [
             {
                 name: "Campaign Details",
@@ -220,14 +227,14 @@ export const features = [
     {
         name: "Promo Codes",
         sidebarIcon: "TbMapDiscount",
-        index: 10,
+        index: 11,
         path: "promo-codes",
         subFeatures: []
     },
     {
         name: "Users",
         sidebarIcon: "RiShieldUserLine",
-        index: 11,
+        index: 12,
         subFeatures: [
             {
                 name: "All Roles",
@@ -254,157 +261,16 @@ export const features = [
     {
         name: "Subscriptions",
         sidebarIcon: "HiOutlineShoppingBag",
-        index: 12,
+        index: 13,
         path: "subscriptions",
         subFeatures: []
     },
     {
         name: "Messages",
         sidebarIcon: "FiMessageCircle",
-        index: 13,
+        index: 14,
         path: "messages",
         subFeatures: []
     },
 ]
-
-
-
-
-// export const sidebarMenus = {
-//     role: "System Admin",
-//     features: [
-//         {
-//             name: "Dashboard",
-//             sidebarIcon: "MdDashboard",
-//             index: 1,
-//             path: "dashboard-home",
-//             subFeatures: []
-//         },
-//         {
-//             name: "Website Content",
-//             sidebarIcon: "IoMdPerson",
-//             index: 2,
-//             subFeatures: [
-//                 {
-//                     name: "Banner Management",
-//                     path: "banner-management",
-//                     index: 1
-//                 },
-//                 {
-//                     name: "Ads Management",
-//                     path: "ads-management",
-//                     index: 2
-//                 },
-//                 {
-//                     name: "Blog Management",
-//                     path: "blog-management",
-//                     index: 3
-//                 },
-//             ]
-//         },
-//         {
-//             name: "Ecommerce",
-//             sidebarIcon: "IoMdPerson",
-//             index: 3,
-//             subFeatures: [
-//                 {
-//                     name: "Add Product",
-//                     path: "add-product",
-//                     index: 1
-//                 },
-//                 {
-//                     name: "Product List",
-//                     path: "product-list",
-//                     index: 2
-//                 },
-//             ]
-//         },
-//         {
-//             name: "Category",
-//             sidebarIcon: "IoMdPerson",
-//             index: 4,
-//             subFeatures: [
-//                 {
-//                     name: "New Category",
-//                     path: "new-category",
-//                     index: 1
-//                 },
-//                 {
-//                     name: "Category List",
-//                     path: "category-list",
-//                     index: 2
-//                 },
-//             ]
-//         },
-//         {
-//             name: "Subcategory",
-//             sidebarIcon: "IoMdPerson",
-//             index: 5,
-//             subFeatures: [
-//                 {
-//                     name: "New Subcategory",
-//                     path: "new-subcategory",
-//                     index: 1
-//                 },
-//                 {
-//                     name: "Subcategory List",
-//                     path: "subcategory-list",
-//                     index: 2
-//                 },
-//             ]
-//         },
-//         {
-//             name: "Order",
-//             sidebarIcon: "MdDashboard",
-//             index: 6,
-//             path: "order",
-//             subFeatures: []
-//         },
-//         {
-//             name: "Promo Codes",
-//             sidebarIcon: "MdDashboard",
-//             index: 7,
-//             path: "promo-codes",
-//             subFeatures: []
-//         },
-//         {
-//             name: "Customers",
-//             sidebarIcon: "MdDashboard",
-//             index: 8,
-//             path: "customers",
-//             subFeatures: []
-//         },
-//         {
-//             name: "Subcategory",
-//             sidebarIcon: "IoMdPerson",
-//             index: 9,
-//             subFeatures: [
-//                 {
-//                     name: "Create Role",
-//                     path: "create-role",
-//                     index: 1
-//                 },
-//                 {
-//                     name: "All Roles",
-//                     path: "all-roles",
-//                     index: 2
-//                 },
-//             ]
-//         },
-//         {
-//             name: "Subscription",
-//             sidebarIcon: "MdDashboard",
-//             index: 10,
-//             path: "subscription",
-//             subFeatures: []
-//         },
-//         {
-//             name: "Message",
-//             sidebarIcon: "MdDashboard",
-//             index: 11,
-//             path: "message",
-//             subFeatures: []
-//         },
-//     ]
-// }
 

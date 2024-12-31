@@ -22,6 +22,7 @@ import { TbMapDiscount, TbWorldStar } from "react-icons/tb";
 import { MdOutlineCampaign, MdOutlineShoppingCartCheckout } from "react-icons/md";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { FiMessageCircle } from "react-icons/fi";
+import { LiaDonateSolid } from "react-icons/lia";
 import useSubscriptions from "../../../hooks/useSubscriptions";
 import useMessages from "../../../hooks/useMessages";
 import { AuthContext } from "../../../provider/AuthProvider";
@@ -95,6 +96,7 @@ const Sidebar = () => {
         LuLayoutDashboard: <LuLayoutDashboard size={20} />,
         BsSliders2: <BsSliders2 size={20} />,
         IoMdPerson: <TbWorldStar size={20} />,
+        LiaDonateSolid: <LiaDonateSolid size={20} />,
         HiOutlineShoppingBag: <HiOutlineShoppingBag size={20} />,
         RiRefund2Fill: <RiRefund2Fill size={20} />,
         LuPlusSquare: <LuPlusSquare size={20} />,
