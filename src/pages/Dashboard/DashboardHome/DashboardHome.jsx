@@ -88,7 +88,7 @@ const DashboardHome = () => {
 
     return (
         <div className="space-y-5">
-            <div className="border-l-8 border-pink-500 pl-3 bg-primary text-white py-2">
+            <div className="rounded shadow border py-2">
                 <h2 className="text-2xl font-extrabold text-center uppercase">
                     Dashboard Overview
                 </h2>
