@@ -14,6 +14,7 @@ export default withMT({
         sans: ["Quicksand", "sans-serif"],
         serif: ["Lato", "sans-serif"],
         body: ["Jost", "sans-serif"],
+        tiro: ["Tiro Bangla", "serif"],
       },
     },
   },
