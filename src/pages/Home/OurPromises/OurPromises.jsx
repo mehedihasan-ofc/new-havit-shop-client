@@ -40,27 +40,26 @@ const promises = [
 
 const OurPromises = () => {
     return (
-        <div className="my-container">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 gap-5 cursor-zoom-in">
+        <section className="my-container py-12">
+            <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6">
                 {promises.map((promise, index) => (
                     <div
                         key={index}
-                        className="flex flex-col items-center text-center rounded-xl p-6 border shadow transform transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-md"
+                        className="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-lg transition-all duration-300 group"
                     >
-                        {/* Icon container */}
-                        <div className="w-16 h-16 rounded-full flex items-center justify-center shadow border border-primary mb-4">
-                            <img src={promise.icon} alt={promise.title} className="w-10 h-10" />
+                        <div className="w-16 h-16 mx-auto mb-4 rounded-full border border-primary flex items-center justify-center shadow-md bg-white group-hover:scale-110 transform transition-transform duration-300">
+                            <img src={promise.icon} alt={promise.title} className="w-8 h-8" />
                         </div>
-
-                        {/* Title */}
-                        <h4 className="text-sm md:text-lg font-semibold text-[#3BB77E] mb-3">{promise.title}</h4>
-
-                        {/* Description */}
-                        <p className="text-xs text-[#3BB77E] leading-snug">{promise.description}</p>
+                        <h4 className="text-base font-semibold text-gray-800 mb-2 group-hover:text-primary transition-colors">
+                            {promise.title}
+                        </h4>
+                        <p className="text-sm text-gray-600 leading-relaxed">
+                            {promise.description}
+                        </p>
                     </div>
                 ))}
             </div>
-        </div>
+        </section>
     );
 };
 

@@ -13,31 +13,6 @@
     @apply max-w-6xl w-full mx-auto px-6 sm:px-8 lg:px-10;
 }
 
-/* ::-webkit-scrollbar {
-    width: 5px;
-}
-
-::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #888;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #555;
-} */
-
-/* Hide the scrollbar for modern browsers */
-::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, and Edge */
-}
-body {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* Internet Explorer 10+ */
-}
-
 @keyframes zoomInRight {
     0% {
         transform: scale(0) translateX(100%);

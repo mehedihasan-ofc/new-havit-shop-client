@@ -7,27 +7,19 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 
 const Categories = () => {
-
     const [categories] = useCategories();
     const navigate = useNavigate();
 
-     // Early return if no categories exist
-     if (!categories || categories.length === 0) return null;
+    if (!categories || categories.length === 0) return null;
 
-    const enableLoopMode = categories?.length > 1;
+    const enableLoopMode = categories.length > 1;
 
-    // Define your color palette
-    const colors = ['#F2FCE4', '#FFFCEB', '#ECFFEC', '#FEEFEA', '#FFF3EB', '#FFF3FF'];
-
-    // Function to randomly select a color
-    const getRandomColor = () => {
-        return colors[Math.floor(Math.random() * colors.length)];
-    };
+    // 6 pastel background colors from the image
+    const bgColors = ['#E6F8F2', '#F3ECE8', '#D9F2FF', '#FCE8EF', '#E8F2E4', '#FDF1D8'];
 
     return (
         <div className="my-container">
-
-            <div className='flex justify-between items-center'>
+            <div className='flex justify-between items-center mb-6'>
                 <h4 className='text-base md:text-xl font-sans font-bold'>Featured Categories</h4>
                 <Button onClick={() => navigate("/categories/all")} variant="text" className="flex items-center gap-2 font-serif px-4 py-2 rounded">
                     See All
@@ -35,45 +27,48 @@ const Categories = () => {
                 </Button>
             </div>
 
-            <div className='mt-5'>
-                <Swiper
-                    slidesPerView={2}
-                    spaceBetween={10}
-                    pagination={{
-                        clickable: true,
-                    }}
-                    loop={enableLoopMode}
-                    breakpoints={{
-                        640: {
-                            slidesPerView: 3,
-                            spaceBetween: 20,
-                        },
-                        768: {
-                            slidesPerView: 4,
-                            spaceBetween: 40,
-                        },
-                        1024: {
-                            slidesPerView: 5,
-                            spaceBetween: 50,
-                        },
-                    }}
-                >
-                    {
-                        categories?.map(category => (
-                            <SwiperSlide key={category?._id}>
-                                <Link to={`/products/categories/${category?._id}`}>
-                                    <div className='h-28 text-center cursor-pointer border border-[#F4F6FA] hover:border-primary rounded-lg px-2 py-4 transition duration-300'
-                                        style={{ backgroundColor: getRandomColor() }}
+            <Swiper
+                slidesPerView={2}
+                spaceBetween={10}
+                pagination={{ clickable: true }}
+                loop={enableLoopMode}
+                breakpoints={{
+                    640: { slidesPerView: 3, spaceBetween: 10 },
+                    768: { slidesPerView: 4, spaceBetween: 30 },
+                    1024: { slidesPerView: 6, spaceBetween: 20 },
+                }}
+            >
+                {
+                    categories.map((category, index) => {
+                        const bgColor = bgColors[index % 6];
+
+                        return (
+                            <SwiperSlide key={category._id}>
+                                <Link to={`/products/categories/${category._id}`}>
+                                    <div
+                                        className={`flex flex-col items-center justify-center px-3 py-6 transition-all duration-300 hover:text-primary shadow-sm`}
+                                        style={{
+                                            backgroundColor: bgColor,
+                                            borderRadius: '50% / 30%',
+                                            height: '220px',
+                                            width: '140px',
+                                            margin: '0 auto',
+                                            cursor: 'pointer'
+                                        }}
                                     >
-                                        <img className='w-14 mx-auto' src={category?.image} alt={category?.name} />
-                                        <p className='text-xs font-semibold font-sans mt-1'>{category?.name}</p>
+                                        <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-3 shadow">
+                                            <img className='w-14 h-14 object-contain' src={category.image} alt={category.name} />
+                                        </div>
+                                        <p className='text-center text-sm font-bold font-sans leading-tight transition-colors'>
+                                            {category.name}
+                                        </p>
                                     </div>
                                 </Link>
                             </SwiperSlide>
-                        ))
-                    }
-                </Swiper>
-            </div>
+                        );
+                    })
+                }
+            </Swiper>
         </div>
     );
 };
