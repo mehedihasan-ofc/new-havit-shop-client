@@ -37,7 +37,7 @@ const AllCategories = () => {
                     <div key={category?._id}>
                         <Link to={`/products/categories/${category?._id}`}>
                             <div
-                                className="flex flex-col items-center justify-center rounded shadow px-4 py-6 transition duration-300 hover:text-primary"
+                                className="flex flex-col items-center justify-center rounded px-4 py-6 transition duration-300 hover:text-primary"
                                 style={{ backgroundColor: getRandomColor() }}
                             >
                                 <div className="w-14 h-14 mb-4">

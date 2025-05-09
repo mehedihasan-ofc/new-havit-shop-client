@@ -28,12 +28,12 @@ const FeaturedProducts = () => {
     return (
         <div className="my-container">
 
-            <div className="bg-secondary p-5 shadow rounded">
+            <div className="p-5 shadow-lg border rounded">
                 <div className='flex justify-center items-center'>
-                    <h4 className="text-base md:text-xl font-sans font-bold">Featured Products</h4>
+                    <h4 className="text-base md:text-2xl font-sans font-bold">Featured Products</h4>
                 </div>
 
-                <div className='relative mt-5'>
+                <div className='relative mt-6'>
 
                     <div className="absolute top-1/2 -left-4 transform -translate-y-1/2 z-20">
                         <button
