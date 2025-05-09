@@ -22,29 +22,29 @@ const promises = [
 
 const OurPromises = () => {
     return (
-        <section className="">
+        <section className="pt-5">
             <div className="my-container">
 
                 {/* Section Heading */}
-                <div className="text-center mb-10">
+                <div className="text-center mb-5">
                     <h2 className="text-3xl font-bold font-serif">Our Promises</h2>
-                    <p className="text-gray-600 text-sm mt-2">
+                    <p className="text-gray-600 text-xs md:text-sm mt-2">
                         We’re committed to giving you an exceptional shopping experience, every time.
                     </p>
                 </div>
 
                 {/* Promises Grid */}
-                <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+                <div className="grid grid-cols-3 gap-5">
                     {promises.map((promise, index) => (
                         <div
                             key={index}
-                            className="border border-gray-200 rounded-xl p-5 text-center hover:shadow-sm transition duration-200"
+                            className="border border-gray-200 rounded py-5 md:p-5 text-center shadow"
                         >
-                            <img src={promise.icon} alt={promise.title} className="w-10 h-10 mx-auto mb-3" />
-                            <h4 className="text-base font-medium text-gray-800 mb-1">
+                            <img src={promise.icon} alt={promise.title} className="w-8 h-8 md:w-10 md:h-10 mx-auto mb-1 md:mb-3" />
+                            <h4 className="text-sm md:text-base font-medium text-gray-800 md:mb-1">
                                 {promise.title}
                             </h4>
-                            <p className="text-sm text-gray-600">
+                            <p className="text-xs md:text-sm text-gray-600">
                                 {promise.description}
                             </p>
                         </div>
