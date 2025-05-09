@@ -6,8 +6,14 @@ import useCategories from "../../hooks/useCategories";
 const AllCategories = () => {
     const [categories, loading] = useCategories();
 
-    // Define your color palette
-    const colors = ['#F2FCE4', '#FFFCEB', '#ECFFEC', '#FEEFEA', '#FFF3EB', '#FFF3FF'];
+    const colors = [
+        '#F5F7FA',
+        '#DDEEFF',
+        '#FFEEDD',
+        '#E3FFE8',
+        '#FFDDE3',
+        '#E8E0FF',
+    ];
 
     // Function to randomly select a color
     const getRandomColor = () => {
@@ -31,15 +37,19 @@ const AllCategories = () => {
                     <div key={category?._id}>
                         <Link to={`/products/categories/${category?._id}`}>
                             <div
-                                className="flex flex-col items-center justify-center h-28 sm:h-32 text-center cursor-pointer border border-[#F4F6FA] hover:border-[#3BB77E] rounded-lg p-3 sm:p-4 transition duration-300"
+                                className="flex flex-col items-center justify-center rounded shadow px-4 py-6 transition duration-300 hover:text-primary"
                                 style={{ backgroundColor: getRandomColor() }}
                             >
-                                <img
-                                    className="w-12 h-12 sm:w-16 sm:h-16 mb-2 object-contain transition-transform duration-200 transform hover:scale-110"
-                                    src={category?.image}
-                                    alt={category?.name}
-                                />
-                                <p className="text-xs sm:text-sm font-medium">{category?.name}</p>
+                                <div className="w-14 h-14 mb-4">
+                                    <img
+                                        className="w-full h-full object-contain"
+                                        src={category.image}
+                                        alt={category.name}
+                                    />
+                                </div>
+                                <p className="text-center text-sm font-semibold leading-snug">
+                                    {category.name}
+                                </p>
                             </div>
                         </Link>
                     </div>
