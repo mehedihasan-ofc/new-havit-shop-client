@@ -14,13 +14,13 @@ const Home = () => {
         <>
             <div className="my-5 space-y-8">
                 <Hero />
-                <OurPromises />
                 <NowOffers />
                 <FeaturedProducts />
                 <Categories />
                 <SpecialOffers />
                 <PopularProducts />
                 <CountDown />
+                <OurPromises />
                 <PremiumDelivery />
                 <HomePageAd />
             </div>

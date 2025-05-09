@@ -26,7 +26,7 @@ const Categories = () => {
     return (
         <div className="my-container">
             <div className='flex justify-between items-center mb-6'>
-                <h4 className='text-base md:text-xl font-sans font-bold'>Featured Categories</h4>
+                <h4 className='text-base md:text-xl font-serif font-bold'>Featured Categories</h4>
                 <Button onClick={() => navigate("/categories/all")} variant="text" className="flex items-center gap-2 font-serif px-4 py-2 rounded">
                     See All
                     <FaArrowRightLong />

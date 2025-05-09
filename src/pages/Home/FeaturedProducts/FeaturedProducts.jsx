@@ -30,7 +30,7 @@ const FeaturedProducts = () => {
 
             <div className="p-5 shadow-lg border rounded">
                 <div className='flex justify-center items-center'>
-                    <h4 className="text-base md:text-2xl font-sans font-bold">Featured Products</h4>
+                    <h4 className="text-base md:text-2xl font-serif font-bold">Featured Products</h4>
                 </div>
 
                 <div className='relative mt-6'>

@@ -47,7 +47,7 @@ const Footer = () => {
 
                 {/* Company Links */}
                 <div>
-                    <h4 className="text-lg font-semibold mb-4">Company</h4>
+                    <h4 className="text-lg font-semibold font-serif mb-4">Company</h4>
                     <ul className="space-y-3">
                         <li>
                             <Link
@@ -78,7 +78,7 @@ const Footer = () => {
 
                 {/* Get to Know Us */}
                 <div>
-                    <h4 className="text-lg font-semibold mb-4">Get to Know Us</h4>
+                    <h4 className="text-lg font-semibold font-serif mb-4">Get to Know Us</h4>
                     <ul className="space-y-3">
                         <li>
                             <Link
@@ -109,7 +109,7 @@ const Footer = () => {
 
                 {/* Contact Info */}
                 <div>
-                    <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
+                    <h4 className="text-lg font-semibold font-serif mb-4">Contact Info</h4>
                     <ul className="space-y-4">
                         <li className="flex items-center gap-2">
                             <SlLocationPin className="text-[#3BB77E]" />
