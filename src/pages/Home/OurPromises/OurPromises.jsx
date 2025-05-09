@@ -26,8 +26,8 @@ const OurPromises = () => {
             <div className="my-container">
 
                 {/* Section Heading */}
-                <div className="text-center mb-5">
-                    <h2 className="text-3xl font-bold font-serif">Our Promises</h2>
+                <div className="text-left md:text-center mb-5">
+                    <h2 className="text-xl md:text-3xl font-bold font-serif">Our Promises</h2>
                     <p className="text-gray-600 text-xs md:text-sm mt-2">
                         We’re committed to giving you an exceptional shopping experience, every time.
                     </p>

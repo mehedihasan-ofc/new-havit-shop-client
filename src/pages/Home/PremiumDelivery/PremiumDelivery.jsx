@@ -7,7 +7,7 @@ const PremiumDelivery = () => {
             <div className="my-container grid grid-cols-1 md:grid-cols-2 items-center gap-10">
 
                 <div>
-                    <h2 className="text-3xl font-serif md:text-4xl font-extrabold text-gray-900 mb-6 leading-tight">
+                    <h2 className="text-xl md:text-3xl font-serif font-extrabold text-gray-900 mb-6 leading-tight">
                         Premium Delivery
                     </h2>
 
