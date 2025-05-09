@@ -7,19 +7,21 @@ import PopularProducts from "../PopularProducts/PopularProducts";
 import FeaturedProducts from "../FeaturedProducts/FeaturedProducts";
 import SpecialOffers from "../SpecialOffers/SpecialOffers";
 import CountDown from "../CountDown/CountDown";
+import PremiumDelivery from "../PremiumDelivery/PremiumDelivery";
 
 const Home = () => {
     return (
         <>
             <div className="my-5 space-y-8">
                 <Hero />
+                <OurPromises />
                 <NowOffers />
                 <FeaturedProducts />
                 <Categories />
                 <SpecialOffers />
                 <PopularProducts />
                 <CountDown />
-                <OurPromises />
+                <PremiumDelivery />
                 <HomePageAd />
             </div>
         </>

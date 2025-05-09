@@ -40,7 +40,7 @@ const promises = [
 
 const OurPromises = () => {
     return (
-        <section className="my-container py-12">
+        <section className="my-container">
             <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6">
                 {promises.map((promise, index) => (
                     <div
