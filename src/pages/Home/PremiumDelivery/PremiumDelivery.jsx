@@ -3,10 +3,9 @@ import pdImg from "../../../assets/static/pd.png";
 
 const PremiumDelivery = () => {
     return (
-        <section className="pt-10">
+        <section className="">
             <div className="my-container grid grid-cols-1 md:grid-cols-2 items-center gap-10">
 
-                {/* Right: Content */}
                 <div>
                     <h2 className="text-3xl font-serif md:text-4xl font-extrabold text-gray-900 mb-6 leading-tight">
                         Premium Delivery
@@ -51,8 +50,7 @@ const PremiumDelivery = () => {
                     </div>
                 </div>
 
-                {/* Left: Image */}
-                <div className="flex justify-center">
+                <div className="hidden md:flex justify-center">
                     <img
                         src={pdImg}
                         alt="Premium Delivery"
