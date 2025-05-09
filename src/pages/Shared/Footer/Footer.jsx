@@ -32,15 +32,15 @@ const Footer = () => {
     return (
         <footer className="bg-secondary border-t border-gray-200 text-gray-800">
             {/* Main Footer Section */}
-            <div className="my-container py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="my-container py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
                 {/* Brand Section */}
                 <div className="space-y-4">
                     <img
                         src={logoData?.logo}
                         alt="Havit Shop Logo"
-                        className="w-[150px] h-[70px] object-cover mx-auto lg:mx-0"
+                        className="w-[150px] h-[70px] object-cover"
                     />
-                    <p className="text-sm leading-relaxed text-center lg:text-left">
+                    <p className="text-sm leading-relaxed">
                         Discover the best deals and quality products curated just for you.
                     </p>
                 </div>
@@ -161,13 +161,14 @@ const Footer = () => {
                 </div>
 
                 {/* Payment Methods */}
-                <div>
+                <div className="w-full lg:w-auto flex justify-center lg:justify-end">
                     <img
                         src={PaymentImg}
                         alt="Payment Methods"
-                        className="w-36 h-auto object-contain"
+                        className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg object-contain"
                     />
                 </div>
+
             </div>
         </footer>
     );

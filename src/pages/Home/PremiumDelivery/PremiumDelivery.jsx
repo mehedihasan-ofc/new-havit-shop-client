@@ -3,7 +3,7 @@ import pdImg from "../../../assets/static/pd.png";
 
 const PremiumDelivery = () => {
     return (
-        <section className="">
+        <section className="md:border-b">
             <div className="my-container grid grid-cols-1 md:grid-cols-2 items-center gap-10">
 
                 <div>
