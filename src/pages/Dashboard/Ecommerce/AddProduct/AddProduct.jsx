@@ -50,12 +50,6 @@ const AddProduct = () => {
         (sub) => sub.categoryId === formData.categoryId
     );
 
-    // const handleFileChange = (e) => {
-    //     const files = Array.from(e.target.files);
-    //     const previews = files.map((file) => URL.createObjectURL(file));
-    //     setFormData((prev) => ({ ...prev, images: files, imagePreviews: previews }));
-    // };
-
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -161,7 +155,7 @@ const AddProduct = () => {
                     images: [],
                     imagePreviews: []
                 });
-                fileInputRef.current.value = null; // Clear file input
+                fileInputRef.current.value = null;
             }
             else {
                 console.error("No insertedId in response");
@@ -191,12 +185,16 @@ const AddProduct = () => {
                             accept="image/*"
                             onChange={handleFileChange}
                             className="w-full text-gray-900 focus:outline-none"
-                            // multiple
-                            // required
                         />
-                        <p className="mt-2 text-sm text-gray-500">
+
+
+                        {formData.images.length > 0 ? (
+                            <p className="mt-2 text-sm text-gray-500">
+                                {formData.images.length} Image(s) selected
+                            </p>
+                        ) : <p className="mt-2 text-sm text-gray-500">
                             Upload multiple images to showcase the product.
-                        </p>
+                        </p>}
                     </div>
 
                     {formData.imagePreviews.length > 0 && (
