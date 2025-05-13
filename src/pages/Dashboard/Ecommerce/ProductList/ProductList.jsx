@@ -62,7 +62,7 @@ const ProductList = () => {
                         </Typography>
                     </div>
                     <div>
-                        <Link to="/dashboard/add-product">
+                        <Link to="/dashboard/add-new-product">
                             <Button size="sm" className="flex items-center gap-2 rounded-none bg-primary font-medium">
                                 <TbCategoryPlus size={20} />
                                 Add New Product

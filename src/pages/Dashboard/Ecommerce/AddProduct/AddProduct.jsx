@@ -50,11 +50,27 @@ const AddProduct = () => {
         (sub) => sub.categoryId === formData.categoryId
     );
 
+    // const handleFileChange = (e) => {
+    //     const files = Array.from(e.target.files);
+    //     const previews = files.map((file) => URL.createObjectURL(file));
+    //     setFormData((prev) => ({ ...prev, images: files, imagePreviews: previews }));
+    // };
+
     const handleFileChange = (e) => {
-        const files = Array.from(e.target.files);
-        const previews = files.map((file) => URL.createObjectURL(file));
-        setFormData((prev) => ({ ...prev, images: files, imagePreviews: previews }));
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const preview = URL.createObjectURL(file);
+        setFormData((prev) => ({
+            ...prev,
+            images: [...prev.images, file],
+            imagePreviews: [...prev.imagePreviews, preview],
+        }));
+
+        // Clear the input value so the same file can be selected again if needed
+        fileInputRef.current.value = null;
     };
+
 
     const handleDeleteImage = (index) => {
         setFormData((prev) => {
@@ -175,8 +191,8 @@ const AddProduct = () => {
                             accept="image/*"
                             onChange={handleFileChange}
                             className="w-full text-gray-900 focus:outline-none"
-                            multiple
-                            required
+                            // multiple
+                            // required
                         />
                         <p className="mt-2 text-sm text-gray-500">
                             Upload multiple images to showcase the product.
