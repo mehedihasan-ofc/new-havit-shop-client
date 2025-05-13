@@ -39,6 +39,8 @@ const ProductDetails = () => {
         enabled: !!productId,
     });
 
+    console.log(product);
+
     if (isLoading) return <MySpinner />;
     if (!product) return <div className="text-center mt-10 text-lg text-gray-500">Product not found</div>;
 
@@ -112,7 +114,11 @@ const ProductDetails = () => {
 
                 {/* Details Section */}
                 <div className="p-6 lg:p-8 space-y-6">
-                    <h2 className="text-2xl lg:text-3xl font-semibold text-gray-900 dark:text-gray-50">{product.name}</h2>
+
+                    <div className="space-y-1">
+                        <h2 className="text-2xl lg:text-3xl font-semibold text-gray-900 dark:text-gray-50">{product.name}</h2>
+                        <p className="text-xs">SKU: <span className="font-medium">{product.skuCode}</span></p>
+                    </div>
 
                     {/* Rating */}
                     <div className="flex items-center gap-3">
