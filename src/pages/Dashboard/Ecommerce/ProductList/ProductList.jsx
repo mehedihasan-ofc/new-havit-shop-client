@@ -86,7 +86,7 @@ const ProductList = () => {
                     <input
                         type="text"
                         placeholder="Search by SKU code"
-                        className="border border-gray-300 focus:ring-primary focus:outline-none focus:ring-1 rounded shadow w-96 px-2 py-2 text-sm"
+                        className="border border-gray-300 focus:ring-primary focus:outline-none focus:ring-1 rounded w-96 px-2 py-2 text-sm"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
