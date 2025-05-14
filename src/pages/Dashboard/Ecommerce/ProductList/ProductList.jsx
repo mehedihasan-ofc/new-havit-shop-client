@@ -96,8 +96,8 @@ const ProductList = () => {
                             ({ _id, skuCode, name, images, category, availableStock, soldCount, createdAt }, index) => {
                                 const isLast = index === products.length - 1;
                                 const classes = isLast
-                                    ? "p-4"
-                                    : "p-4 border-b border-blue-gray-50";
+                                    ? "p-2"
+                                    : "p-2 border-b border-blue-gray-50";
 
                                 return (
                                     <tr key={_id}>
@@ -114,7 +114,7 @@ const ProductList = () => {
                                             <Typography
                                                 variant="small"
                                                 color="blue-gray"
-                                                className="font-normal"
+                                                className="font-normal text-xs"
                                             >
                                                 {skuCode}
                                             </Typography>
@@ -123,10 +123,13 @@ const ProductList = () => {
                                             <Typography
                                                 variant="small"
                                                 color="blue-gray"
-                                                className="font-normal"
-                                            >
-                                                {name}
-                                            </Typography>
+                                                className="font-normal text-xs"
+                                                dangerouslySetInnerHTML={{
+                                                    __html: name.split(" ").reduce((acc, word, i) => {
+                                                        return acc + word + ((i + 1) % 3 === 0 ? "<br/>" : " ");
+                                                    }, "")
+                                                }}
+                                            />
                                         </td>
                                         <td className={classes}>
                                             <Avatar src={images[0]?.url} alt={name} size="sm" />
