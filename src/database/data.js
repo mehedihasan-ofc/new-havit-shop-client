@@ -78,9 +78,16 @@ export const features = [
         subFeatures: []
     },
     {
+        name: "Custom Order",
+        sidebarIcon: "RiCustomerServiceLine",
+        index: 5,
+        path: "custom-order",
+        subFeatures: []
+    },
+    {
         name: "Orders",
         sidebarIcon: "HiOutlineShoppingBag",
-        index: 5,
+        index: 6,
         subFeatures: [
             {
                 name: "All",
@@ -132,7 +139,7 @@ export const features = [
     {
         name: "Refund Request",
         sidebarIcon: "RiRefund2Fill",
-        index: 6,
+        index: 7,
         subFeatures: [
             {
                 name: "Pending",
@@ -159,7 +166,7 @@ export const features = [
     {
         name: "Category",
         sidebarIcon: "LuPlusSquare",
-        index: 7,
+        index: 8,
         subFeatures: [
             {
                 name: "New Category",
@@ -176,7 +183,7 @@ export const features = [
     {
         name: "Subcategory",
         sidebarIcon: "LuCopyPlus",
-        index: 8,
+        index: 9,
         subFeatures: [
             {
                 name: "New Subcategory",
@@ -193,7 +200,7 @@ export const features = [
     {
         name: "Products",
         sidebarIcon: "MdOutlineShoppingCartCheckout",
-        index: 9,
+        index: 10,
         subFeatures: [
             {
                 name: "Product List",
@@ -210,7 +217,7 @@ export const features = [
     {
         name: "Campaign Builder",
         sidebarIcon: "MdOutlineCampaign",
-        index: 10,
+        index: 11,
         subFeatures: [
             {
                 name: "Campaign Details",
@@ -227,14 +234,14 @@ export const features = [
     {
         name: "Promo Codes",
         sidebarIcon: "TbMapDiscount",
-        index: 11,
+        index: 12,
         path: "promo-codes",
         subFeatures: []
     },
     {
         name: "Users",
         sidebarIcon: "RiShieldUserLine",
-        index: 12,
+        index: 13,
         subFeatures: [
             {
                 name: "All Roles",
@@ -261,16 +268,15 @@ export const features = [
     {
         name: "Subscriptions",
         sidebarIcon: "HiOutlineShoppingBag",
-        index: 13,
+        index: 14,
         path: "subscriptions",
         subFeatures: []
     },
     {
         name: "Messages",
         sidebarIcon: "FiMessageCircle",
-        index: 14,
+        index: 15,
         path: "messages",
         subFeatures: []
     },
 ]
-

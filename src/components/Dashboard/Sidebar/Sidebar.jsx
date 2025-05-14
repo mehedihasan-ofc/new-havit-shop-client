@@ -29,7 +29,7 @@ import { AuthContext } from "../../../provider/AuthProvider";
 import Swal from "sweetalert2";
 import { BsSliders2 } from "react-icons/bs";
 import useLogo from "../../../hooks/useLogo";
-import { RiRefund2Fill, RiShieldUserLine } from "react-icons/ri";
+import { RiCustomerServiceLine, RiRefund2Fill, RiShieldUserLine } from "react-icons/ri";
 import useOrdersByStatus from "../../../hooks/useOrdersByStatus";
 import useRefundOrdersByStatus from "../../../hooks/useRefundOrdersByStatus";
 import useAdminAuth from "../../../hooks/useAdminAuth";
@@ -97,6 +97,7 @@ const Sidebar = () => {
         BsSliders2: <BsSliders2 size={20} />,
         IoMdPerson: <TbWorldStar size={20} />,
         LiaDonateSolid: <LiaDonateSolid size={20} />,
+        RiCustomerServiceLine: <RiCustomerServiceLine size={20} />,
         HiOutlineShoppingBag: <HiOutlineShoppingBag size={20} />,
         RiRefund2Fill: <RiRefund2Fill size={20} />,
         LuPlusSquare: <LuPlusSquare size={20} />,

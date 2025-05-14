@@ -14,6 +14,7 @@ const BillingDetails = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [cities, setCities] = useState([]);
     const [areas, setAreas] = useState([]);
+    const [selectedCityId, setSelectedCityId] = useState(null);
     const [billingDetails, setBillingDetails] = useState({
         name: "",
         phoneNumber: "",
@@ -27,10 +28,9 @@ const BillingDetails = () => {
     });
 
     useEffect(() => {
-        // Fetch cities data on component mount
         const fetchCities = async () => {
             try {
-                const response = await axios.get("https://bdapis.com/api/v1.2/districts");
+                const response = await axios.get("https://bdapi.vercel.app/api/v.1/district");
                 setCities(response.data.data);
             } catch (error) {
                 console.error("Error fetching cities:", error);
@@ -40,25 +40,36 @@ const BillingDetails = () => {
     }, []);
 
     useEffect(() => {
-        // Fetch areas based on the selected city
         const fetchAreas = async () => {
-            if (billingDetails.city) {
+            if (selectedCityId) {
                 try {
-                    const response = await axios.get(`https://bdapis.com/api/v1.2/district/${billingDetails.city}`);
-                    setAreas(response.data.data[0].upazillas);
+                    const response = await axios.get(`https://bdapi.vercel.app/api/v.1/upazilla/${selectedCityId}`);
+                    setAreas(response.data.data);
                 } catch (error) {
                     console.error("Error fetching areas:", error);
                 }
             }
         };
         fetchAreas();
-    }, [billingDetails.city]);
+    }, [selectedCityId]);
 
     const handleBillingChange = (e) => {
-        setBillingDetails({
-            ...billingDetails,
-            [e.target.name]: e.target.value
-        });
+        const { name, value } = e.target;
+
+        if (name === "city") {
+            const selectedCity = cities.find(city => city.name === value);
+            setBillingDetails({
+                ...billingDetails,
+                city: value,
+                cityId: selectedCity?.id || "",
+                area: "" // Reset area on city change
+            });
+        } else {
+            setBillingDetails({
+                ...billingDetails,
+                [name]: value
+            });
+        }
     };
 
     const handleSaveBilling = async (e) => {
@@ -67,13 +78,12 @@ const BillingDetails = () => {
 
         try {
             const response = await axiosSecure.post("/billing-details", billingDetails);
-
             if (response.status === 200) {
                 toast.success(response?.data?.message, {
                     position: "top-right",
                     autoClose: 1000,
                 });
-                navigate("/profile/billing-details")
+                navigate("/profile/billing-details");
             }
         } catch (error) {
             console.error("Error saving billing details:", error);
@@ -96,7 +106,7 @@ const BillingDetails = () => {
                     required
                 />
                 <input
-                    type="text"
+                    type="number"
                     name="phoneNumber"
                     placeholder="Phone Number *"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
@@ -105,7 +115,7 @@ const BillingDetails = () => {
                     required
                 />
                 <input
-                    type="text"
+                    type="number"
                     name="altPhoneNumber"
                     placeholder="Alternative Phone Number"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
@@ -116,13 +126,17 @@ const BillingDetails = () => {
                     name="city"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                     value={billingDetails.city}
-                    onChange={handleBillingChange}
+                    onChange={(e) => {
+                        const selectedCity = cities.find(city => city.name === e.target.value);
+                        setBillingDetails({ ...billingDetails, city: e.target.value });
+                        setSelectedCityId(selectedCity?.id || null);
+                    }}
                     required
                 >
                     <option value="">Select City</option>
                     {cities.map((city) => (
-                        <option key={city.district} value={city.district}>
-                            {city.district}
+                        <option key={city.id} value={city.name}>
+                            {city.name}
                         </option>
                     ))}
                 </select>
@@ -135,8 +149,8 @@ const BillingDetails = () => {
                 >
                     <option value="">Select Area</option>
                     {areas.map((area) => (
-                        <option key={area} value={area}>
-                            {area}
+                        <option key={area.id} value={area.name}>
+                            {area.name}
                         </option>
                     ))}
                 </select>
@@ -144,7 +158,7 @@ const BillingDetails = () => {
                     type="text"
                     name="address"
                     placeholder="Address *"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary col-span-2"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm col-span-2 focus:outline-none focus:ring-primary focus:border-primary"
                     value={billingDetails.address}
                     onChange={handleBillingChange}
                     required
@@ -153,11 +167,10 @@ const BillingDetails = () => {
             <textarea
                 name="additionalInfo"
                 placeholder="Additional Information"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary mt-4 h-24"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm mt-4 h-24 focus:outline-none focus:ring-primary focus:border-primary"
                 value={billingDetails.additionalInfo}
                 onChange={handleBillingChange}
             />
-
             <div className="text-center">
                 <Button disabled={isLoading} type="submit" className="rounded-none bg-primary font-medium px-10">
                     {isLoading ? "Saving Billing Address" : "Save Billing Address"}

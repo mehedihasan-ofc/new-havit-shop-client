@@ -80,6 +80,7 @@ import ProfileCancellations from "../pages/Profile/ProfileCancellations/ProfileC
 import RefundOrderDetails from "../pages/Dashboard/RefundRequest/RefundOrderDetails/RefundOrderDetails";
 import RoleDetails from "../pages/Dashboard/Users/RoleDetails/RoleDetails";
 import Donation from "../pages/Dashboard/Donation/Donation";
+import CustomOrder from "../pages/Dashboard/CustomOrder/CustomOrder";
 
 const router = createBrowserRouter([
     {
@@ -287,6 +288,10 @@ const router = createBrowserRouter([
                 element: <Donation />
             },
             // ORDER MANAGEMENT
+            {
+                path: "custom-order",
+                element: <CustomOrder />
+            },
             {
                 path: "orders/all",
                 element: <AllOrders />
