@@ -1,4 +1,13 @@
-import { Avatar, Button, Card, CardBody, CardHeader, Chip, IconButton, Typography } from "@material-tailwind/react";
+import {
+    Avatar,
+    Button,
+    Card,
+    CardBody,
+    CardHeader,
+    Chip,
+    IconButton,
+    Typography,
+} from "@material-tailwind/react";
 import { TbCategoryPlus } from "react-icons/tb";
 import { Link, useNavigate } from "react-router-dom";
 import { formattedDate } from "../../../../utils";
@@ -8,17 +17,27 @@ import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import MySpinner from "../../../../components/Shared/MySpinner/MySpinner";
 import Swal from "sweetalert2";
 import { PiNotePencil } from "react-icons/pi";
+import { useState } from "react";
 
-const TABLE_HEAD = ["#", "Code", "Name", "Image", "Category", "Stock", "Sold", "Created At", "Action"];
+const TABLE_HEAD = [
+    "#",
+    "Code",
+    "Name",
+    "Image",
+    "Category",
+    "Stock",
+    "Sold",
+    "Created At",
+    "Action",
+];
 
 const ProductList = () => {
-
+    const [searchTerm, setSearchTerm] = useState("");
     const [products, loading, refetch] = useProducts();
     const [axiosSecure] = useAxiosSecure();
     const navigate = useNavigate();
 
     const handleDeleteProduct = (id) => {
-
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -26,49 +45,56 @@ const ProductList = () => {
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
+            confirmButtonText: "Yes, delete it!",
         }).then((result) => {
             if (result.isConfirmed) {
-
-                axiosSecure.delete(`/products/${id}`)
-                    .then(res => {
-                        if (res.data.deletedCount > 0) {
-                            refetch();
-                            Swal.fire({
-                                title: "Deleted!",
-                                text: "Your file has been deleted.",
-                                icon: "success"
-                            });
-                        }
-                    })
+                axiosSecure.delete(`/products/${id}`).then((res) => {
+                    if (res.data.deletedCount > 0) {
+                        refetch();
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your file has been deleted.",
+                            icon: "success",
+                        });
+                    }
+                });
             }
         });
-    }
+    };
 
     if (loading) {
-        return <MySpinner />
+        return <MySpinner />;
     }
+
+    const filteredProducts = products.filter((product) =>
+        product.skuCode.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     return (
         <Card className="h-full w-full">
             <CardHeader floated={false} shadow={false} className="rounded-none">
-                <div className="flex items-center justify-between gap-8">
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                     <div>
                         <Typography variant="h5" color="blue-gray">
-                            Product list ({products?.length})
+                            Product list ({filteredProducts?.length})
                         </Typography>
                         <Typography color="gray" className="mt-1 font-normal">
                             See information about all products
                         </Typography>
                     </div>
-                    <div>
-                        <Link to="/dashboard/add-new-product">
-                            <Button size="sm" className="flex items-center gap-2 rounded-none bg-primary font-medium">
-                                <TbCategoryPlus size={20} />
-                                Add New Product
-                            </Button>
-                        </Link>
-                    </div>
+
+                    <input
+                        type="text"
+                        placeholder="Search by SKU code"
+                        className="border border-gray-300 focus:ring-primary focus:outline-none focus:ring-1 rounded shadow w-96 px-2 py-2 text-sm"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+
+                    <Button onClick={() => navigate("/dashboard/add-new-product")} size="sm" className="flex items-center gap-2 rounded-none bg-primary font-medium">
+                        <TbCategoryPlus size={20} />
+                        Add New Product
+                    </Button>
                 </div>
             </CardHeader>
             <CardBody className="overflow-scroll p-0 mt-5">
@@ -92,9 +118,21 @@ const ProductList = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {products.map(
-                            ({ _id, skuCode, name, images, category, availableStock, soldCount, createdAt }, index) => {
-                                const isLast = index === products.length - 1;
+                        {filteredProducts.map(
+                            (
+                                {
+                                    _id,
+                                    skuCode,
+                                    name,
+                                    images,
+                                    category,
+                                    availableStock,
+                                    soldCount,
+                                    createdAt,
+                                },
+                                index
+                            ) => {
+                                const isLast = index === filteredProducts.length - 1;
                                 const classes = isLast
                                     ? "p-2"
                                     : "p-2 border-b border-blue-gray-50";
@@ -125,14 +163,26 @@ const ProductList = () => {
                                                 color="blue-gray"
                                                 className="font-normal text-xs"
                                                 dangerouslySetInnerHTML={{
-                                                    __html: name.split(" ").reduce((acc, word, i) => {
-                                                        return acc + word + ((i + 1) % 3 === 0 ? "<br/>" : " ");
-                                                    }, "")
+                                                    __html: name
+                                                        .split(" ")
+                                                        .reduce((acc, word, i) => {
+                                                            return (
+                                                                acc +
+                                                                word +
+                                                                ((i + 1) % 3 === 0
+                                                                    ? "<br/>"
+                                                                    : " ")
+                                                            );
+                                                        }, ""),
                                                 }}
                                             />
                                         </td>
                                         <td className={classes}>
-                                            <Avatar src={images[0]?.url} alt={name} size="sm" />
+                                            <Avatar
+                                                src={images[0]?.url}
+                                                alt={name}
+                                                size="sm"
+                                            />
                                         </td>
                                         <td className={classes}>
                                             <Typography
@@ -143,7 +193,6 @@ const ProductList = () => {
                                                 {category?.name}
                                             </Typography>
                                         </td>
-
                                         <td className={classes}>
                                             <div className="w-max">
                                                 <Chip
@@ -164,8 +213,6 @@ const ProductList = () => {
                                                 />
                                             </div>
                                         </td>
-
-
                                         <td className={classes}>
                                             <Typography
                                                 variant="small"
@@ -176,17 +223,37 @@ const ProductList = () => {
                                             </Typography>
                                         </td>
                                         <td className={classes}>
-                                            <IconButton onClick={() => navigate(`/dashboard/product-edit/${_id}`)} size="sm" variant="text" className="rounded-full">
-                                                <PiNotePencil className="text-teal-600" size={20} />
+                                            <IconButton
+                                                onClick={() =>
+                                                    navigate(
+                                                        `/dashboard/product-edit/${_id}`
+                                                    )
+                                                }
+                                                size="sm"
+                                                variant="text"
+                                                className="rounded-full"
+                                            >
+                                                <PiNotePencil
+                                                    className="text-teal-600"
+                                                    size={20}
+                                                />
                                             </IconButton>
 
-                                            <IconButton onClick={() => handleDeleteProduct(_id)} size="sm" variant="text" className="rounded-full">
-                                                <AiOutlineDelete className="text-red-600" size={20} />
+                                            <IconButton
+                                                onClick={() => handleDeleteProduct(_id)}
+                                                size="sm"
+                                                variant="text"
+                                                className="rounded-full"
+                                            >
+                                                <AiOutlineDelete
+                                                    className="text-red-600"
+                                                    size={20}
+                                                />
                                             </IconButton>
                                         </td>
                                     </tr>
                                 );
-                            },
+                            }
                         )}
                     </tbody>
                 </table>
