@@ -81,6 +81,7 @@ import RefundOrderDetails from "../pages/Dashboard/RefundRequest/RefundOrderDeta
 import RoleDetails from "../pages/Dashboard/Users/RoleDetails/RoleDetails";
 import Donation from "../pages/Dashboard/Donation/Donation";
 import CustomOrder from "../pages/Dashboard/CustomOrder/CustomOrder";
+import AddNewOrder from "../pages/Dashboard/CustomOrder/AddNewOrder";
 
 const router = createBrowserRouter([
     {
@@ -291,6 +292,10 @@ const router = createBrowserRouter([
             {
                 path: "custom-order",
                 element: <CustomOrder />
+            },
+            {
+                path: "add-custom-order",
+                element: <AddNewOrder />
             },
             {
                 path: "orders/all",
