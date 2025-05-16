@@ -6,6 +6,7 @@ import axios from "axios";
 
 const AddNewOrder = () => {
     const [products, loading] = useProducts();
+    console.log(products);
 
     const [formData, setFormData] = useState({
         name: "",
@@ -17,21 +18,12 @@ const AddNewOrder = () => {
     });
 
     const [isSubmitting, setIsSubmitting] = useState(false);
-
     const [cities, setCities] = useState([]);
     const [areas, setAreas] = useState([]);
     const [selectedCityId, setSelectedCityId] = useState(null);
 
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedProductId, setSelectedProductId] = useState("");
-    const [selectedFlavor, setSelectedFlavor] = useState("");
-    const [quantity, setQuantity] = useState(1);
-
-    const filteredProducts = products.filter((product) =>
-        product.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
-    const selectedProduct = products.find((product) => product._id === selectedProductId);
+    const [selectedProducts, setSelectedProducts] = useState([]);
 
     useEffect(() => {
         const fetchCities = async () => {
@@ -80,19 +72,44 @@ const AddNewOrder = () => {
         setSelectedCityId(selectedCity?.id || null);
     };
 
+    const handleAddProduct = (product) => {
+        const exists = selectedProducts.some((p) => p._id === product._id);
+        if (!exists) {
+            setSelectedProducts((prev) => [
+                ...prev,
+                { ...product, selectedFlavor: "", quantity: 1 },
+            ]);
+        }
+    };
+
+    const handleProductInputChange = (productId, field, value) => {
+        setSelectedProducts((prev) =>
+            prev.map((p) =>
+                p._id === productId ? { ...p, [field]: value } : p
+            )
+        );
+    };
+
+    const handleRemoveProduct = (productId) => {
+        setSelectedProducts((prev) =>
+            prev.filter((p) => p._id !== productId)
+        );
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
-
         try {
             const payload = {
                 ...formData,
-                productId: selectedProductId,
-                flavor: selectedFlavor,
-                quantity,
+                products: selectedProducts.map(({ _id, selectedFlavor, quantity }) => ({
+                    productId: _id,
+                    flavor: selectedFlavor,
+                    quantity: parseInt(quantity),
+                })),
             };
             console.log("Submitting order:", payload);
-            // Send to backend API if needed
+            // You can send `payload` to your backend here
         } catch (error) {
             console.error("Submission error:", error);
         } finally {
@@ -100,7 +117,13 @@ const AddNewOrder = () => {
         }
     };
 
-    if (loading) return <MySpinner />;
+    const filteredProducts = products.filter((product) =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    if (loading) {
+        return <MySpinner />;
+    }
 
     return (
         <div className="border shadow rounded">
@@ -114,7 +137,6 @@ const AddNewOrder = () => {
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        placeholder="Enter full name"
                         className="w-full px-3 py-2 border rounded-md"
                         required
                     />
@@ -127,7 +149,6 @@ const AddNewOrder = () => {
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        placeholder="Enter phone number"
                         className="w-full px-3 py-2 border rounded-md"
                         required
                     />
@@ -175,7 +196,6 @@ const AddNewOrder = () => {
                         name="address"
                         value={formData.address}
                         onChange={handleChange}
-                        placeholder="Enter full street address"
                         className="w-full px-3 py-2 border rounded-md"
                         required
                     />
@@ -187,72 +207,131 @@ const AddNewOrder = () => {
                         name="additionalInfo"
                         value={formData.additionalInfo}
                         onChange={handleChange}
-                        placeholder="Any other instructions or notes"
                         className="w-full px-3 py-2 border rounded-md"
                         rows="3"
-                    ></textarea>
+                    />
                 </div>
 
                 <div>
                     <label className="block mb-1 font-medium">Search Products</label>
                     <input
                         type="text"
-                        placeholder="Search products..."
+                        placeholder="Search by name"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full px-3 py-2 border rounded-md mb-4"
+                        className="w-full px-3 py-2 border rounded-md mb-3"
                     />
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3 max-h-64 overflow-y-auto">
-                        {filteredProducts.map((product) => (
-                            <div
-                                key={product._id}
-                                onClick={() => {
-                                    setSelectedProductId(product._id);
-                                    setSelectedFlavor("");
-                                    setQuantity(1);
-                                }}
-                                className={`border rounded-md p-3 cursor-pointer hover:border-blue-500 ${
-                                    selectedProductId === product._id ? "border-blue-500 shadow" : ""
-                                }`}
-                            >
-                                <img src={product.images[0]?.url} alt={product.name} className="w-full h-28 object-contain mb-2" />
-                                <h4 className="text-sm font-semibold">{product.name}</h4>
-                                <p className="text-xs text-gray-600">৳{product.price}</p>
-                            </div>
-                        ))}
+                    <div className="h-60 overflow-y-auto border rounded p-2">
+                        {filteredProducts.length > 0 ? (
+                            filteredProducts.map((product) => {
+                                const hasDiscount = product.price < product.regularPrice;
+                                const discountPercentage = Math.round(
+                                    ((product.regularPrice - product.price) / product.regularPrice) * 100
+                                );
+
+                                return (
+                                    <div
+                                        key={product._id}
+                                        className="flex items-center rounded-md shadow-sm border px-3 py-2 gap-3 mb-2"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            id={product._id}
+                                            checked={selectedProducts.some((p) => p._id === product._id)}
+                                            onChange={(e) => {
+                                                if (e.target.checked) {
+                                                    handleAddProduct(product);
+                                                } else {
+                                                    handleRemoveProduct(product._id);
+                                                }
+                                            }}
+                                        />
+                                        <label htmlFor={product._id} className="flex items-center gap-3">
+                                            <img
+                                                src={product.images[0]?.url}
+                                                alt={product.name}
+                                                className="w-10 h-10 rounded"
+                                            />
+                                            <span className="overflow-hidden text-ellipsis">{product.name}</span>
+                                            <span className="font-medium">৳{product.price}</span>
+                                            {hasDiscount && (
+                                                <div className="flex items-center gap-2">
+                                                    <div className="bg-secondary text-primary px-2 rounded">
+                                                        <span className="text-xs line-through">
+                                                            ৳{product.regularPrice.toFixed(2)}
+                                                        </span>
+                                                    </div>
+                                                    <div className="bg-[#f74b81] text-white px-2">
+                                                        <span className="text-xs font-medium">{discountPercentage}% OFF</span>
+                                                    </div>
+                                                </div>
+                                            )}
+                                            <span className="font-normal text-sm">Sold: {product.soldCount}</span>
+                                            <span className="font-normal text-sm">Stock: {product.availableStock}</span>
+                                        </label>
+                                    </div>
+                                );
+                            })
+                        ) : (
+                            <p className="text-gray-500">No products found.</p>
+                        )}
                     </div>
                 </div>
 
-                {selectedProduct && (
-                    <div className="space-y-4">
-                        {selectedProduct.flavor?.length > 0 && (
-                            <div>
-                                <label className="block mb-1 font-medium">Select Flavor</label>
-                                <select
-                                    value={selectedFlavor}
-                                    onChange={(e) => setSelectedFlavor(e.target.value)}
-                                    className="w-full px-3 py-2 border rounded-md"
-                                    required
-                                >
-                                    <option value="">Choose Flavor</option>
-                                    {selectedProduct.flavor.map((flavor, idx) => (
-                                        <option key={idx} value={flavor}>{flavor}</option>
-                                    ))}
-                                </select>
+                {selectedProducts.length > 0 && (
+                    <div>
+                        <h3 className="text-lg font-medium mt-6 mb-2">Selected Products</h3>
+                        {selectedProducts.map((product) => (
+                            <div key={product._id} className="border px-4 py-2 mb-2 rounded space-y-2">
+                                <div className="flex justify-between">
+                                    <h4 className="font-semibold">{product.name}</h4>
+                                    <button
+                                        onClick={() => handleRemoveProduct(product._id)}
+                                        type="button"
+                                        className="text-red-600 text-sm"
+                                    >
+                                        Remove
+                                    </button>
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-medium">Flavor</label>
+                                        {Array.isArray(product.flavor) && product.flavor.length > 0 ? (
+                                            <select
+                                                value={product.selectedFlavor}
+                                                onChange={(e) =>
+                                                    handleProductInputChange(product._id, "selectedFlavor", e.target.value)
+                                                }
+                                                className="w-full px-3 py-2 border rounded-md"
+                                                required
+                                            >
+                                                <option value="">Select flavor</option>
+                                                {product.flavor.map((flavor) => (
+                                                    <option key={flavor} value={flavor}>
+                                                        {flavor}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        ) : (
+                                            <p className="text-sm text-gray-500 pt-2 italic">No flavours.</p>
+                                        )}
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium">Quantity</label>
+                                        <input
+                                            type="number"
+                                            value={product.quantity}
+                                            onChange={(e) =>
+                                                handleProductInputChange(product._id, "quantity", e.target.value)
+                                            }
+                                            min="1"
+                                            className="w-full px-3 py-2 border rounded-md"
+                                            required
+                                        />
+                                    </div>
+                                </div>
                             </div>
-                        )}
-
-                        <div>
-                            <label className="block mb-1 font-medium">Quantity</label>
-                            <input
-                                type="number"
-                                min="1"
-                                value={quantity}
-                                onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}
-                                className="w-full px-3 py-2 border rounded-md"
-                                required
-                            />
-                        </div>
+                        ))}
                     </div>
                 )}
 

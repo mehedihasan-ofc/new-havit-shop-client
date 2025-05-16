@@ -205,7 +205,7 @@ const CreateCampaign = () => {
                             alt={product.name}
                             className="w-10 h-10 rounded"
                           />
-                          <span className="truncate">{product.name}</span>
+                          <span className="overflow-hidden text-ellipsis">{product.name}</span>
                           <span className="font-medium">৳{product.price}</span>
                           {hasDiscount && (
                             <div className="flex items-center gap-2">
