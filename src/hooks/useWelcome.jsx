@@ -4,7 +4,7 @@ const useWelcome = () => {
     const { data: welcomeData = {}, isLoading: loading, refetch } = useQuery({
         queryKey: ['welcomeData'],
         queryFn: async () => {
-            const res = await fetch('https://server.havitshopbd.com/welcome');
+            const res = await fetch('https://new-havit-shop-server.vercel.app/welcome');
             return res.json();
         }
     });

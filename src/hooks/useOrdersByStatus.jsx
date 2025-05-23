@@ -13,7 +13,7 @@ const useOrdersByStatus = (status) => {
         queryKey: ['orders', user?.email, status],
         enabled: !!user?.email && !!token,
         queryFn: async () => {
-            const res = await axiosSecure(`https://server.havitshopbd.com/orders/${status}`);
+            const res = await axiosSecure(`https://new-havit-shop-server.vercel.app/orders/${status}`);
             return res.data;
         },
     });

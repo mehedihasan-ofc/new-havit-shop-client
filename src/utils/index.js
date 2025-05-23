@@ -27,7 +27,6 @@ export const uploadImageToStorage = (image) => {
                 () => {
                     getDownloadURL(uploadTask.snapshot.ref)
                         .then((downloadURL) => {
-                            // console.log('File available at', downloadURL);
                             resolve(downloadURL);
                         })
                         .catch((error) => {
@@ -47,14 +46,12 @@ export const uploadMultipleImagesToStorage = (images) => {
     return new Promise((resolve, reject) => {
         const storage = getStorage(app);
         
-        // Create an array of promises for each image upload
         const uploadPromises = images.map((image) => {
             return new Promise((resolveImage, rejectImage) => {
-                const fileName = new Date().getTime() + image.name;  // Unique file name
-                const storageRef = ref(storage, `products/${fileName}`);  // Firebase storage reference
-                const uploadTask = uploadBytesResumable(storageRef, image); // Upload image
+                const fileName = new Date().getTime() + image.name;
+                const storageRef = ref(storage, `products/${fileName}`);
+                const uploadTask = uploadBytesResumable(storageRef, image);
 
-                // Monitor upload progress
                 uploadTask.on(
                     'state_changed',
                     (snapshot) => {
@@ -63,31 +60,29 @@ export const uploadMultipleImagesToStorage = (images) => {
                     },
                     (error) => {
                         console.error(`Error uploading image: ${image.name}`, error);
-                        rejectImage(error);  // Reject the specific image upload if an error occurs
+                        rejectImage(error); 
                     },
                     () => {
-                        // Once upload is complete, get the download URL
                         getDownloadURL(uploadTask.snapshot.ref)
                             .then((downloadURL) => {
-                                resolveImage(downloadURL);  // Resolve the promise with the download URL
+                                resolveImage(downloadURL);
                             })
                             .catch((error) => {
                                 console.error(`Error getting download URL for ${image.name}`, error);
-                                rejectImage(error);  // Reject if there's an issue getting the URL
+                                rejectImage(error); 
                             });
                     }
                 );
             });
         });
 
-        // Wait for all image uploads to complete
         Promise.all(uploadPromises)
             .then((downloadURLs) => {
-                resolve(downloadURLs);  // Return all download URLs
+                resolve(downloadURLs); 
             })
             .catch((error) => {
                 console.error("Error uploading one or more images:", error);
-                reject(error);  // Reject the entire operation if any upload fails
+                reject(error); 
             });
     });
 };
@@ -96,16 +91,14 @@ export const uploadAdsToStorage = (ads) => {
     return new Promise((resolve, reject) => {
         const storage = getStorage(app);
 
-        // Create an array of promises for each ad upload
         const uploadPromises = Object.entries(ads)
-            .filter(([_, file]) => file !== null) // Filter out null ads
+            .filter(([_, file]) => file !== null)
             .map(([adType, file]) => {
                 return new Promise((resolveAd, rejectAd) => {
-                    const fileName = new Date().getTime() + file.name; // Generate a unique file name
-                    const storageRef = ref(storage, `ads/${fileName}`); // Ads folder in Firebase storage
-                    const uploadTask = uploadBytesResumable(storageRef, file); // Start upload
+                    const fileName = new Date().getTime() + file.name;
+                    const storageRef = ref(storage, `ads/${fileName}`);
+                    const uploadTask = uploadBytesResumable(storageRef, file);
 
-                    // Monitor upload progress
                     uploadTask.on(
                         "state_changed",
                         (snapshot) => {
@@ -115,38 +108,36 @@ export const uploadAdsToStorage = (ads) => {
                         },
                         (error) => {
                             console.error(`Error uploading ad: ${adType}`, error);
-                            rejectAd(error); // Reject the specific ad upload if an error occurs
+                            rejectAd(error);
                         },
                         () => {
-                            // Once upload is complete, get the download URL
                             getDownloadURL(uploadTask.snapshot.ref)
                                 .then((downloadURL) => {
-                                    resolveAd({ adType, downloadURL }); // Resolve with the ad type and its URL
+                                    resolveAd({ adType, downloadURL });
                                 })
                                 .catch((error) => {
                                     console.error(
                                         `Error getting download URL for ${adType}`,
                                         error
                                     );
-                                    rejectAd(error); // Reject if there's an issue getting the URL
+                                    rejectAd(error);
                                 });
                         }
                     );
                 });
             });
 
-        // Wait for all ad uploads to complete
         Promise.all(uploadPromises)
             .then((uploadedAds) => {
                 const adURLs = uploadedAds.reduce((acc, { adType, downloadURL }) => {
-                    acc[adType] = downloadURL; // Map ad types to their download URLs
+                    acc[adType] = downloadURL;
                     return acc;
                 }, {});
-                resolve(adURLs); // Return an object with all uploaded ad URLs
+                resolve(adURLs);
             })
             .catch((error) => {
                 console.error("Error uploading one or more ads:", error);
-                reject(error); // Reject the entire operation if any upload fails
+                reject(error);
             });
     });
 };

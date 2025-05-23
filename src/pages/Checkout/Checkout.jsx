@@ -8,6 +8,9 @@ import { AuthContext } from "../../provider/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useMyData from "../../hooks/useMyData";
 
+import CodImg from "../../assets/payment/cod.png";
+import BkashImg from "../../assets/payment/bkash_payment.png";
+
 const Checkout = () => {
     const { user } = useContext(AuthContext);
     const [myData] = useMyData();
@@ -176,7 +179,7 @@ const Checkout = () => {
                                     <p>{billingDetails.address}, {billingDetails.area}, {billingDetails.city}</p>
                                 </div>
                             </div>
-                            <Button onClick={() => navigate("/add-address")} className="rounded-full" variant="outlined">Edit Shipping Address</Button>
+                            {/* <Button onClick={() => navigate("/add-address")} className="rounded-full" variant="outlined">Edit Shipping Address</Button> */}
                         </div>
                     ) : (
                         <div className="flex justify-between items-center">
@@ -255,28 +258,45 @@ const Checkout = () => {
                 {/* Payment Options */}
                 <div className="mt-6">
                     <h3 className="text-lg font-semibold">Payment</h3>
-                    <div className="space-y-2">
-                        <div className="flex items-center space-x-2">
-                            <input
-                                type="radio"
-                                id="cash-on-delivery"
-                                name="payment"
-                                value="cash-on-delivery"
-                                onChange={handlePaymentChange}
-                                checked={selectedPaymentMethod === "cash-on-delivery"}
-                            />
-                            <label htmlFor="cash-on-delivery">Cash on Delivery</label>
+                    <div className="space-y-2 mt-1">
+                        {/* Cash on Delivery Option */}
+                        <div>
+                            <label htmlFor="cash-on-delivery" className="inline-block cursor-pointer">
+                                <input
+                                    type="radio"
+                                    id="cash-on-delivery"
+                                    name="payment"
+                                    value="cash-on-delivery"
+                                    onChange={handlePaymentChange}
+                                    checked={selectedPaymentMethod === "cash-on-delivery"}
+                                    className="hidden"
+                                />
+                                <img
+                                    src={CodImg}
+                                    alt="Cash on Delivery"
+                                    className={`w-60 h-16 object-contain border rounded-md p-1 ${selectedPaymentMethod === "cash-on-delivery" ? "border-primary" : "border-gray-300"}`}
+                                />
+                            </label>
                         </div>
-                        <div className="flex items-center space-x-2">
-                            <input
-                                type="radio"
-                                id="bkash-payment"
-                                name="payment"
-                                value="bkash-payment"
-                                onChange={handlePaymentChange}
-                                checked={selectedPaymentMethod === "bkash-payment"}
-                            />
-                            <label htmlFor="bkash-payment">Bkash Online Payment</label>
+
+                        {/* Bkash Payment Option */}
+                        <div>
+                            <label htmlFor="bkash-payment" className="inline-block cursor-pointer">
+                                <input
+                                    type="radio"
+                                    id="bkash-payment"
+                                    name="payment"
+                                    value="bkash-payment"
+                                    onChange={handlePaymentChange}
+                                    checked={selectedPaymentMethod === "bkash-payment"}
+                                    className="hidden"
+                                />
+                                <img
+                                    src={BkashImg}
+                                    alt="Bkash Payment"
+                                    className={`w-60 h-16 object-contain border rounded-md p-1 ${selectedPaymentMethod === "bkash-payment" ? "border-primary" : "border-gray-300"}`}
+                                />
+                            </label>
                         </div>
                     </div>
                 </div>

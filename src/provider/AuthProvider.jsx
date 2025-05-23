@@ -47,7 +47,7 @@ const AuthProvider = ({ children }) => {
 
             // get and set token
             if (currentUser) {
-                axios.post('https://server.havitshopbd.com/jwt', { email: currentUser.email })
+                axios.post('https://new-havit-shop-server.vercel.app/jwt', { email: currentUser.email })
                     .then(data => {
                         localStorage.setItem('access-token', data.data.token);
                         setLoading(false);

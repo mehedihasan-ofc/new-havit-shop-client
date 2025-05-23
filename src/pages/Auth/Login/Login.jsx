@@ -29,7 +29,6 @@ const Login = () => {
         signIn(email, password)
             .then(result => {
                 const loggedUser = result.user;
-                console.log(loggedUser);
                 toast.success("You are successfully logged in!", {
                     position: "top-center",
                     autoClose: 2000,
@@ -37,7 +36,6 @@ const Login = () => {
                 navigate(from, { replace: true });
             })
             .catch(error => {
-                console.log(error);
                 toast.error("User Not Found!", {
                     position: "top-center",
                     autoClose: 2000,
@@ -64,7 +62,6 @@ const Login = () => {
                 navigate(from, { replace: true });
             })
             .catch(err => {
-                console.log(err);
                 toast.error(`Error: ${err.message}`, {
                     position: "top-center",
                     autoClose: 2000,
@@ -74,7 +71,6 @@ const Login = () => {
 
     return (
         <div className="flex justify-center items-center h-full p-4">
-            {/* <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8"> */}
 
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
 

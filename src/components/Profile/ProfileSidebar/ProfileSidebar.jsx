@@ -39,7 +39,13 @@ const ProfileSidebar = () => {
                             icon: "success",
                         });
                     })
-                    .catch((err) => console.log(err.message));
+                    .catch(() => {
+                        Swal.fire({
+                            title: "Error",
+                            text: "An error occurred while signing out. Please try again.",
+                            icon: "error",
+                        });
+                    });
             }
         });
     };

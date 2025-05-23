@@ -48,7 +48,6 @@ const Register = () => {
             createUser(email, password)
                 .then(result => {
                     const loggedUser = result.user;
-                    console.log(loggedUser);
 
                     updateUserProfile(loggedUser, fullName)
                         .then(() => {
@@ -73,7 +72,6 @@ const Register = () => {
                             navigate(from, { replace: true })
                         })
                         .catch(err => {
-                            console.log(err);
                             toast.error(`Error: ${err.message}`, {
                                 position: "top-center",
                                 autoClose: 2000,
@@ -82,7 +80,6 @@ const Register = () => {
 
                 })
                 .catch(error => {
-                    console.log(error);
                     toast.error(`Error: ${error.message}`, {
                         position: "top-center",
                         autoClose: 2000,
@@ -111,7 +108,6 @@ const Register = () => {
                 navigate(from, { replace: true });
             })
             .catch(err => {
-                console.log(err);
                 toast.error(`Error: ${err.message}`, {
                     position: "top-center",
                     autoClose: 2000,

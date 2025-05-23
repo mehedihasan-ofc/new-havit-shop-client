@@ -11,7 +11,7 @@ const ProductsByCategory = () => {
     const { data, isLoading } = useQuery({
         queryKey: ['categoryAndProducts', categoryId],
         queryFn: async () => {
-            const response = await axios.get(`https://server.havitshopbd.com/products/category/${categoryId}`);
+            const response = await axios.get(`https://new-havit-shop-server.vercel.app/products/category/${categoryId}`);
             return response.data;
         },
         enabled: !!categoryId

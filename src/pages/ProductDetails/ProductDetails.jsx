@@ -33,13 +33,11 @@ const ProductDetails = () => {
     const { data: product, isLoading } = useQuery({
         queryKey: ['product', productId],
         queryFn: async () => {
-            const response = await axios.get(`https://server.havitshopbd.com/products/${productId}`);
+            const response = await axios.get(`https://new-havit-shop-server.vercel.app/products/${productId}`);
             return response.data;
         },
         enabled: !!productId,
     });
-
-    console.log(product);
 
     if (isLoading) return <MySpinner />;
     if (!product) return <div className="text-center mt-10 text-lg text-gray-500">Product not found</div>;
@@ -69,7 +67,7 @@ const ProductDetails = () => {
             setLoading(true);
 
             try {
-                const response = await axios.post("https://server.havitshopbd.com/carts", newCart);
+                const response = await axios.post("https://new-havit-shop-server.vercel.app/carts", newCart);
 
                 if (response.status === 200) {
                     refetch();
@@ -113,12 +111,28 @@ const ProductDetails = () => {
                 <ProductImageGallery images={product.images} />
 
                 {/* Details Section */}
-                <div className="p-6 lg:p-8 space-y-6">
+                <div className="p-6 lg:p-8 space-y-4">
 
                     <div className="space-y-1">
-                        <h2 className="text-2xl lg:text-3xl font-semibold text-gray-900 dark:text-gray-50">{product.name}</h2>
+                        <h2 className="text-2xl lg:text-3xl font-semibold text-gray-900 font-serif dark:text-gray-50">{product.name}</h2>
                         <p className="text-xs">SKU: <span className="font-medium">{product.skuCode}</span></p>
                     </div>
+
+                    {product.flavor?.length > 0 && (
+                        <div>
+                            <p className="font-medium text-gray-900 dark:text-gray-100 mb-1">Available flavours:</p>
+                            <div className="flex flex-wrap gap-2">
+                                {product.flavor.map((flavor, index) => (
+                                    <span
+                                        key={index}
+                                        className="px-3 py-1 bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary text-xs font-semibold rounded-full"
+                                    >
+                                        {flavor}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    )}
 
                     {/* Rating */}
                     <div className="flex items-center gap-3">
@@ -216,7 +230,6 @@ const ProductDetails = () => {
                     </div>
                 )
             }
-
 
             {/* Description */}
             <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow mt-5">

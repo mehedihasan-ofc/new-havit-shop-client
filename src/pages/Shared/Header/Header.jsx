@@ -57,7 +57,13 @@ const Header = () => {
                             icon: "success"
                         });
                     })
-                    .catch(err => console.log(err.message));
+                    .catch(err => {
+                        Swal.fire({
+                            title: "Error",
+                            text: "Something went wrong while signing out.",
+                            icon: "error"
+                        });
+                    })
             }
         });
     }

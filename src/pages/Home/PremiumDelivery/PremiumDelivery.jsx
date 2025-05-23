@@ -54,7 +54,7 @@ const PremiumDelivery = () => {
                     <img
                         src={pdImg}
                         alt="Premium Delivery"
-                        className="w-full max-w-md"
+                        className="w-full h096"
                     />
                 </div>
             </div>
