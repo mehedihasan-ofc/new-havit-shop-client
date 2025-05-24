@@ -1,5 +1,5 @@
 import { FaBoxOpen, FaShippingFast, FaUndo, FaHeadset } from "react-icons/fa";
-import pdImg from "../../../assets/static/pd.png";
+import pdImg from "../../../assets/static/pd.jpg";
 
 const PremiumDelivery = () => {
     return (
@@ -54,7 +54,7 @@ const PremiumDelivery = () => {
                     <img
                         src={pdImg}
                         alt="Premium Delivery"
-                        className="w-full h096"
+                        className="w-full max-w-sm"
                     />
                 </div>
             </div>
