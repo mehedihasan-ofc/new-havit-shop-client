@@ -6,7 +6,7 @@ const BreakingMarquee = () => {
     const { data: breakingTextData = {}, isLoading } = useQuery({
         queryKey: ['breakingTextData'],
         queryFn: async () => {
-            const res = await fetch('https://new-havit-shop-server.vercel.app/breaking-text');
+            const res = await fetch('https://server.havitshopbd.com/breaking-text');
             return res.json();
         }
     });

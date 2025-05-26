@@ -33,7 +33,7 @@ const ProductDetails = () => {
     const { data: product, isLoading } = useQuery({
         queryKey: ['product', productId],
         queryFn: async () => {
-            const response = await axios.get(`https://new-havit-shop-server.vercel.app/products/${productId}`);
+            const response = await axios.get(`https://server.havitshopbd.com/products/${productId}`);
             return response.data;
         },
         enabled: !!productId,
@@ -67,7 +67,7 @@ const ProductDetails = () => {
             setLoading(true);
 
             try {
-                const response = await axios.post("https://new-havit-shop-server.vercel.app/carts", newCart);
+                const response = await axios.post("https://server.havitshopbd.com/carts", newCart);
 
                 if (response.status === 200) {
                     refetch();

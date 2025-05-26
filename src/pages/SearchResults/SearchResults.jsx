@@ -10,7 +10,7 @@ const SearchResults = () => {
     const { data: searchProducts = [], isLoading, isError, error } = useQuery({
         queryKey: ['searchProducts', query], // Include query in the key for dynamic fetching
         queryFn: async () => {
-            const res = await fetch(`https://new-havit-shop-server.vercel.app/api/products/search?query=${query}`);
+            const res = await fetch(`https://server.havitshopbd.com/api/products/search?query=${query}`);
             if (!res.ok) {
                 throw new Error("Failed to fetch search results.");
             }

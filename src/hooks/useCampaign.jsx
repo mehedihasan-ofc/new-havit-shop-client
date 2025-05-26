@@ -4,7 +4,7 @@ const useCampaign = () => {
     const { data: campaignData = {}, isLoading: loading, refetch } = useQuery({
         queryKey: ['campaignData'],
         queryFn: async () => {
-            const res = await fetch('https://new-havit-shop-server.vercel.app/campaign');
+            const res = await fetch('https://server.havitshopbd.com/campaign');
             return res.json();
         }
     });
