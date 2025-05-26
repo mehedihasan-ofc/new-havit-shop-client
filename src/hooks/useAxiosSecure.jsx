@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../provider/AuthProvider'
 
 const axiosSecure = axios.create({
-    baseURL: 'https://server.havitshopbd.com',
+    baseURL: 'https://new-havit-shop-server.vercel.app',
 })
 
 const useAxiosSecure = () => {

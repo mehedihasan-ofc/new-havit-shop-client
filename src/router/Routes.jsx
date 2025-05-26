@@ -82,6 +82,7 @@ import RoleDetails from "../pages/Dashboard/Users/RoleDetails/RoleDetails";
 import Donation from "../pages/Dashboard/Donation/Donation";
 import CustomOrder from "../pages/Dashboard/CustomOrder/CustomOrder";
 import AddNewOrder from "../pages/Dashboard/CustomOrder/AddNewOrder";
+import CustomOrderConfirm from "../pages/Dashboard/CustomOrder/CustomOrderConfirm";
 
 const router = createBrowserRouter([
     {
@@ -288,7 +289,7 @@ const router = createBrowserRouter([
                 path: "donation",
                 element: <Donation />
             },
-            // ORDER MANAGEMENT
+            // CUSTOM ORDER MANAGEMENT
             {
                 path: "custom-order",
                 element: <CustomOrder />
@@ -297,6 +298,11 @@ const router = createBrowserRouter([
                 path: "add-custom-order",
                 element: <AddNewOrder />
             },
+            {
+                path: "confirm-custom-order",
+                element: <CustomOrderConfirm />
+            },
+            // ORDER MANAGEMENT
             {
                 path: "orders/all",
                 element: <AllOrders />

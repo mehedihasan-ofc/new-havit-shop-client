@@ -3,10 +3,12 @@ import MySpinner from "../../../components/Shared/MySpinner/MySpinner";
 import useProducts from "../../../hooks/useProducts";
 import { Button } from "@material-tailwind/react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const AddNewOrder = () => {
     const [products, loading] = useProducts();
-    console.log(products);
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         name: "",
@@ -16,8 +18,6 @@ const AddNewOrder = () => {
         address: "",
         additionalInfo: "",
     });
-
-    const [isSubmitting, setIsSubmitting] = useState(false);
     const [cities, setCities] = useState([]);
     const [areas, setAreas] = useState([]);
     const [selectedCityId, setSelectedCityId] = useState(null);
@@ -96,25 +96,33 @@ const AddNewOrder = () => {
         );
     };
 
-    const handleSubmit = async (e) => {
+    const handleNext = (e) => {
         e.preventDefault();
-        setIsSubmitting(true);
-        try {
-            const payload = {
-                ...formData,
-                products: selectedProducts.map(({ _id, selectedFlavor, quantity }) => ({
-                    productId: _id,
-                    flavor: selectedFlavor,
-                    quantity: parseInt(quantity),
-                })),
-            };
-            console.log("Submitting order:", payload);
-            // You can send `payload` to your backend here
-        } catch (error) {
-            console.error("Submission error:", error);
-        } finally {
-            setIsSubmitting(false);
+
+        if (selectedProducts.length === 0) {
+            Swal.fire({
+                icon: "warning",
+                title: "No product selected",
+                text: "Please select at least one product to proceed.",
+                confirmButtonColor: "#3BB77E",
+            });
+            return;
         }
+
+        const payload = {
+            ...formData,
+            products: selectedProducts.map(({ _id, skuCode, name, price, selectedFlavor, quantity, images }) => ({
+                productId: _id,
+                skuCode,
+                name,
+                price,
+                image: images?.[0]?.url || "",
+                flavor: selectedFlavor,
+                quantity: parseInt(quantity),
+            })),
+        };
+
+        navigate("/dashboard/confirm-custom-order", { state: payload });
     };
 
     const filteredProducts = products.filter((product) =>
@@ -127,7 +135,7 @@ const AddNewOrder = () => {
 
     return (
         <div className="border shadow rounded">
-            <form onSubmit={handleSubmit} className="space-y-4 p-8">
+            <form onSubmit={handleNext} className="space-y-4 p-8">
                 <h2 className="text-xl font-semibold text-center mb-4">Add Custom Order</h2>
 
                 <div>
@@ -137,7 +145,8 @@ const AddNewOrder = () => {
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full px-3 py-2 border rounded-md"
+                        placeholder="Enter full name"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                         required
                     />
                 </div>
@@ -149,7 +158,8 @@ const AddNewOrder = () => {
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        className="w-full px-3 py-2 border rounded-md"
+                        placeholder="01XXXXXXXXX"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                         required
                     />
                 </div>
@@ -161,7 +171,7 @@ const AddNewOrder = () => {
                             name="city"
                             value={formData.city}
                             onChange={handleCityChange}
-                            className="w-full px-3 py-2 border rounded-md"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                             required
                         >
                             <option value="">Select City</option>
@@ -177,7 +187,7 @@ const AddNewOrder = () => {
                             name="area"
                             value={formData.area}
                             onChange={handleChange}
-                            className="w-full px-3 py-2 border rounded-md"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                             required
                             disabled={!formData.city}
                         >
@@ -196,7 +206,8 @@ const AddNewOrder = () => {
                         name="address"
                         value={formData.address}
                         onChange={handleChange}
-                        className="w-full px-3 py-2 border rounded-md"
+                        placeholder="Enter street/house/road"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                         required
                     />
                 </div>
@@ -207,7 +218,8 @@ const AddNewOrder = () => {
                         name="additionalInfo"
                         value={formData.additionalInfo}
                         onChange={handleChange}
-                        className="w-full px-3 py-2 border rounded-md"
+                        placeholder="Any extra instruction?"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                         rows="3"
                     />
                 </div>
@@ -216,10 +228,10 @@ const AddNewOrder = () => {
                     <label className="block mb-1 font-medium">Search Products</label>
                     <input
                         type="text"
-                        placeholder="Search by name"
+                        placeholder="Search by product name"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full px-3 py-2 border rounded-md mb-3"
+                        className="w-full mb-3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                     />
                     <div className="h-60 overflow-y-auto border rounded p-2">
                         {filteredProducts.length > 0 ? (
@@ -302,7 +314,7 @@ const AddNewOrder = () => {
                                                 onChange={(e) =>
                                                     handleProductInputChange(product._id, "selectedFlavor", e.target.value)
                                                 }
-                                                className="w-full px-3 py-2 border rounded-md"
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                                                 required
                                             >
                                                 <option value="">Select flavor</option>
@@ -320,12 +332,13 @@ const AddNewOrder = () => {
                                         <label className="block text-sm font-medium">Quantity</label>
                                         <input
                                             type="number"
+                                            placeholder="Quantity"
                                             value={product.quantity}
                                             onChange={(e) =>
                                                 handleProductInputChange(product._id, "quantity", e.target.value)
                                             }
                                             min="1"
-                                            className="w-full px-3 py-2 border rounded-md"
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                                             required
                                         />
                                     </div>
@@ -339,10 +352,8 @@ const AddNewOrder = () => {
                     <Button
                         type="submit"
                         className="rounded-none bg-primary font-medium px-10"
-                        loading={isSubmitting}
-                        disabled={isSubmitting}
                     >
-                        {isSubmitting ? "Submitting..." : "Submit Order"}
+                        Next
                     </Button>
                 </div>
             </form>
