@@ -8,7 +8,6 @@ import {
     Button,
     CardBody,
     Chip,
-    CardFooter,
     Tabs,
     TabsHeader,
     Tab,
@@ -18,20 +17,22 @@ import {
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { MdAddShoppingCart } from "react-icons/md";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../../provider/AuthProvider";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
+import MySpinner from "../../../components/Shared/MySpinner/MySpinner";
 
 const TABS = [
-    {
-        label: "All",
-        value: "all",
-    },
-    {
-        label: "Monitored",
-        value: "monitored",
-    },
-    {
-        label: "Unmonitored",
-        value: "unmonitored",
-    },
+    { label: "All", value: "all" },
+    { label: "Pending", value: "pending" },
+    { label: "Confirmed", value: "confirmed" },
+    { label: "Packaging", value: "packaging" },
+    { label: "Out for Delivery", value: "out_for_delivery" },
+    { label: "Delivered", value: "delivered" },
+    { label: "Returned", value: "returned" },
+    { label: "Failed to Deliver", value: "failed_to_deliver" },
+    { label: "Canceled", value: "canceled" }
 ];
 
 const TABLE_HEAD = ["#", "Order ID", "Order Date", "Pay Method", "Del Status", "Total", "Pay Status", "Actions"];
@@ -85,17 +86,35 @@ const TABLE_ROWS = [
 ];
 
 const CustomOrder = () => {
+
+    const [selectedStatus, setSelectedStatus] = useState("all");
+
+    const { user } = useContext(AuthContext);
+    const token = localStorage.getItem('access-token');
+    const [axiosSecure] = useAxiosSecure();
+
+    const { data: customOrders = [], isLoading, refetch } = useQuery({
+        queryKey: ['customOrders', user?.email, selectedStatus],
+        enabled: !!user?.email && !!token,
+        queryFn: async () => {
+            const res = await axiosSecure(`/custom-orders/${selectedStatus}`);
+            return res.data;
+        },
+    });
+
+    console.log(customOrders);
+
+
     return (
         <Card className="h-full w-full">
             <CardHeader floated={false} shadow={false} className="rounded-none">
-                <div className="mb-8 flex items-center justify-between gap-8">
-                    <div>
-                        <Typography variant="h5" color="blue-gray">
-                            Custom Order
-                        </Typography>
-                        <Typography color="gray" className="mt-1 font-normal">
-                            See information about all custom orders
-                        </Typography>
+                <div className="mb-6 flex items-center justify-between gap-8">
+
+                    <div className="w-full md:w-72">
+                        <Input
+                            label="Search"
+                            icon={<MagnifyingGlassIcon className="h-5 w-5" />}
+                        />
                     </div>
 
                     <div>
@@ -107,22 +126,25 @@ const CustomOrder = () => {
                         </Link>
                     </div>
                 </div>
-                <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-                    <Tabs value="all" className="w-full md:w-max">
-                        <TabsHeader>
+
+                <div className="space-y-4">
+                    <Tabs value={selectedStatus}>
+                        <TabsHeader
+                            className="rounded-none bg-secondary"
+                            indicatorProps={{
+                                className:
+                                    "shadow rounded-none",
+                            }}
+                        >
                             {TABS.map(({ label, value }) => (
-                                <Tab key={value} value={value}>
-                                    &nbsp;&nbsp;{label}&nbsp;&nbsp;
+                                <Tab key={value} value={value} onClick={() => setSelectedStatus(value)}
+                                    className={`text-xs font-semibold font-serif px-0 ${selectedStatus === value && "text-primary"}`}
+                                >
+                                    {label}
                                 </Tab>
                             ))}
                         </TabsHeader>
                     </Tabs>
-                    <div className="w-full md:w-72">
-                        <Input
-                            label="Search"
-                            icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-                        />
-                    </div>
                 </div>
             </CardHeader>
             <CardBody className="overflow-scroll px-0">
@@ -227,19 +249,6 @@ const CustomOrder = () => {
                     </tbody>
                 </table>
             </CardBody>
-            <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-                <Typography variant="small" color="blue-gray" className="font-normal">
-                    Page 1 of 10
-                </Typography>
-                <div className="flex gap-2">
-                    <Button variant="outlined" size="sm">
-                        Previous
-                    </Button>
-                    <Button variant="outlined" size="sm">
-                        Next
-                    </Button>
-                </div>
-            </CardFooter>
         </Card>
     );
 };

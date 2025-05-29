@@ -12,10 +12,10 @@ const CustomOrderConfirm = () => {
   const navigate = useNavigate();
 
   const [discount, setDiscount] = useState(0);
-  const [paymentMethod, setPaymentMethod] = useState("Cash on delivery");
-  const [paymentStatus, setPaymentStatus] = useState("Pending");
+  const [paymentMethod, setPaymentMethod] = useState("cash_on_delivery");
+  const [paymentStatus, setPaymentStatus] = useState("pending");
   const [paidAmount, setPaidAmount] = useState(0);
-  const [deliveryStatus, setDeliveryStatus] = useState("Pending");
+  const [deliveryStatus, setDeliveryStatus] = useState("pending");
   const [loading, setLoading] = useState(false);
 
   const subtotal = useMemo(() => {
@@ -33,7 +33,7 @@ const CustomOrderConfirm = () => {
   const handleSubmit = async () => {
     setLoading(true);
 
-    const orderData = {
+    const customOrderPayload = {
       customer: { name, phone, city, area, address, additionalInfo },
       products: products.map(p => ({ productId: p.productId, quantity: p.quantity })),
       discount,
@@ -44,10 +44,11 @@ const CustomOrderConfirm = () => {
       subtotal,
       shipping,
       total,
+      createdAt: new Date().toISOString()
     };
 
     try {
-      const { data } = await axiosSecure.post("/custom-orders", orderData);
+      const { data } = await axiosSecure.post("/custom-orders", customOrderPayload);
 
       if (data.insertedId) {
         toast.success("Order Confirmed!", {
@@ -131,8 +132,8 @@ const CustomOrderConfirm = () => {
               onChange={(e) => setPaymentMethod(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
             >
-              <option value="Cash on delivery">Cash on delivery</option>
-              <option value="Bkash Payment">Bkash Payment</option>
+              <option value="cash_on_delivery">Cash on delivery</option>
+              <option value="bkash_payment">Bkash Payment</option>
             </select>
           </div>
           <div>
@@ -142,10 +143,10 @@ const CustomOrderConfirm = () => {
               onChange={(e) => setPaymentStatus(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
             >
-              <option value="Pending">Pending</option>
-              <option value="Due">Due</option>
-              <option value="Paid">Paid</option>
-              <option value="Unpaid">Unpaid</option>
+              <option value="pending">Pending</option>
+              <option value="due">Due</option>
+              <option value="paid">Paid</option>
+              <option value="unpaid">Unpaid</option>
             </select>
           </div>
           {paymentStatus === "Due" && (
@@ -169,7 +170,7 @@ const CustomOrderConfirm = () => {
               onChange={(e) => setDeliveryStatus(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
             >
-              {["Pending", "Confirmed", "Packaging", "Out For Delivery", "Delivered", "Returned", "Failed To Deliver", "Canceled"].map(status => (
+              {["pending", "confirmed", "packaging", "out_for_delivery", "delivered", "returned", "failed_to_deliver", "canceled"].map(status => (
                 <option key={status} value={status}>{status}</option>
               ))}
             </select>

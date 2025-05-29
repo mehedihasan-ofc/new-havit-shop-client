@@ -136,7 +136,7 @@ const AddNewOrder = () => {
     return (
         <div className="border shadow rounded">
             <form onSubmit={handleNext} className="space-y-4 p-8">
-                <h2 className="text-xl font-semibold text-center mb-4">Add Custom Order</h2>
+                <h2 className="text-3xl font-bold text-center mb-4 font-serif">Add Custom Order</h2>
 
                 <div>
                     <label className="block mb-1 font-medium">Name</label>

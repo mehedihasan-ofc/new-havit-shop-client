@@ -67,7 +67,6 @@ const ProfileOrders = () => {
                             key={value}
                             value={value}
                             onClick={() => setActiveTab(value)}
-                            // className="text-sm"
                             className={`text-xs md:text-base font-medium ${activeTab === value && "text-primary"}`}
                         >
                             {label}
