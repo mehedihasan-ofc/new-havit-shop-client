@@ -21,7 +21,6 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../../provider/AuthProvider";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
-import MySpinner from "../../../components/Shared/MySpinner/MySpinner";
 
 const TABS = [
     { label: "All", value: "all" },
