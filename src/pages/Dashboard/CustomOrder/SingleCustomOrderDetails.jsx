@@ -5,6 +5,7 @@ import { AuthContext } from "../../../provider/AuthProvider";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { Card, Typography, Select, Option, Button } from "@material-tailwind/react";
 import MySpinner from "../../../components/Shared/MySpinner/MySpinner";
+import { toast } from "react-toastify";
 
 const SingleCustomOrderDetails = () => {
     const { id } = useParams();
@@ -14,6 +15,7 @@ const SingleCustomOrderDetails = () => {
 
     const [deliveryStatus, setDeliveryStatus] = useState("pending");
     const [paymentStatus, setPaymentStatus] = useState("unpaid");
+    const [isUpdating, setIsUpdating] = useState(false);
 
     const { data: singleCustomOrder = {}, isLoading, refetch } = useQuery({
         queryKey: ["singleCustomOrder", user?.email, id],
@@ -27,18 +29,26 @@ const SingleCustomOrderDetails = () => {
         },
     });
 
-    console.log(singleCustomOrder);
+    const handleUpdate = async () => {
+        setIsUpdating(true);
+        try {
+            const { data } = await axiosSecure.patch(`/single-custom-orders/${id}`, {
+                deliveryStatus,
+                paymentStatus,
+            });
 
-    const handleStatusUpdate = async () => {
-        // try {
-        //     await axiosSecure.patch(`/single-custom-orders/${id}`, {
-        //         deliveryStatus,
-        //         paymentStatus,
-        //     });
-        //     refetch();
-        // } catch (err) {
-        //     console.error(err);
-        // }
+            if (data?.modifiedCount) {
+                refetch();
+                toast.success("Order updated successfully!", {
+                    autoClose: 1600,
+                });
+            }
+        } catch (error) {
+            toast.error("Failed to update order.");
+            console.error("Update Error:", error);
+        } finally {
+            setIsUpdating(false);
+        }
     };
 
     if (isLoading) return <MySpinner />;
@@ -109,7 +119,7 @@ const SingleCustomOrderDetails = () => {
                         </Select>
                     </div>
                 </div>
-                <Button onClick={handleStatusUpdate} color="green" className="mt-6 w-full md:w-max">Update Status</Button>
+                <Button loading={isUpdating} onClick={handleUpdate} color="green" className="mt-6 w-full md:w-max">Update Status</Button>
             </Card>
         </div>
     );

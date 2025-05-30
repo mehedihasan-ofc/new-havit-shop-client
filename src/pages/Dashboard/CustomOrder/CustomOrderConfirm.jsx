@@ -26,7 +26,7 @@ const CustomOrderConfirm = () => {
   const total = subtotal - discount + shipping;
 
   const payableTotal = useMemo(() => {
-    const paid = paymentStatus === "Due" ? paidAmount : 0;
+    const paid = paymentStatus === "due" ? paidAmount : 0;
     return Math.max(total - paid, 0);
   }, [total, paymentStatus, paidAmount]);
 
@@ -39,7 +39,7 @@ const CustomOrderConfirm = () => {
       discount,
       paymentMethod,
       paymentStatus,
-      paidAmount: paymentStatus === "Due" ? paidAmount : paymentStatus === "Paid" ? total : 0,
+      paidAmount: paymentStatus === "due" ? paidAmount : paymentStatus === "paid" ? total : 0,
       deliveryStatus,
       subtotal,
       shipping,
@@ -149,7 +149,7 @@ const CustomOrderConfirm = () => {
               <option value="unpaid">Unpaid</option>
             </select>
           </div>
-          {paymentStatus === "Due" && (
+          {paymentStatus === "due" && (
             <div>
               <label className="block text-sm font-medium mb-1">Already Paid (৳)</label>
               <input
@@ -192,10 +192,10 @@ const CustomOrderConfirm = () => {
           <p><strong>Shipping:</strong> ৳{shipping}</p>
           <hr className="my-2" />
           <p><strong>Total:</strong> ৳{total}</p>
-          {paymentStatus === "Due" && (
+          {paymentStatus === "due" && (
             <p><strong>Already Paid:</strong> ৳{paidAmount}</p>
           )}
-          {paymentStatus === "Due" && (
+          {paymentStatus === "due" && (
             <>
               <hr className="my-2" />
               <p className="text-2xl font-bold text-emerald-600">
