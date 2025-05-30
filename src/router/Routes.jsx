@@ -83,6 +83,7 @@ import Donation from "../pages/Dashboard/Donation/Donation";
 import CustomOrder from "../pages/Dashboard/CustomOrder/CustomOrder";
 import AddNewOrder from "../pages/Dashboard/CustomOrder/AddNewOrder";
 import CustomOrderConfirm from "../pages/Dashboard/CustomOrder/CustomOrderConfirm";
+import SingleCustomOrderDetails from "../pages/Dashboard/CustomOrder/SingleCustomOrderDetails";
 
 const router = createBrowserRouter([
     {
@@ -301,6 +302,10 @@ const router = createBrowserRouter([
             {
                 path: "confirm-custom-order",
                 element: <CustomOrderConfirm />
+            },
+            {
+                path: "single-custom-order-details/:id",
+                element: <SingleCustomOrderDetails />
             },
             // ORDER MANAGEMENT
             {

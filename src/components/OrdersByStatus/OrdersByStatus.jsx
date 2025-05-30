@@ -103,7 +103,7 @@ const OrdersByStatus = ({ activeStatus }) => {
                                         <Typography
                                             variant="small"
                                             color="blue-gray"
-                                            className="font-normal leading-none opacity-70"
+                                            className="font-normal leading-none font-serif opacity-70"
                                         >
                                             {head}
                                         </Typography>

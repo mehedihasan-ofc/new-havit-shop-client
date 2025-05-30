@@ -163,6 +163,7 @@ const CustomOrderConfirm = () => {
               />
             </div>
           )}
+
           <div>
             <label className="block text-sm font-medium mb-1">Delivery Status</label>
             <select
@@ -170,11 +171,15 @@ const CustomOrderConfirm = () => {
               onChange={(e) => setDeliveryStatus(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
             >
+              <option value="">Select a status</option>
               {["pending", "confirmed", "packaging", "out_for_delivery", "delivered", "returned", "failed_to_deliver", "canceled"].map(status => (
-                <option key={status} value={status}>{status}</option>
+                <option key={status} value={status}>
+                  {status.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+                </option>
               ))}
             </select>
           </div>
+
         </div>
       </div>
 
