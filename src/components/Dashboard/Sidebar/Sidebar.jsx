@@ -217,7 +217,7 @@ const Sidebar = () => {
                                     </AccordionHeader>
                                 </ListItem>
                                 <AccordionBody className="py-1">
-                                    <List className="p-0">{renderSubFeatures(feature.name, feature.subFeatures)}</List>
+                                    <List className="p-0 font-serif">{renderSubFeatures(feature.name, feature.subFeatures)}</List>
                                 </AccordionBody>
                             </Accordion>
                         );
