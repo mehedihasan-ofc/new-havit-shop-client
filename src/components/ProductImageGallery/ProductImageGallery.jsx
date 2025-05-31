@@ -10,12 +10,12 @@ const ProductImageGallery = ({ images }) => {
     return (
         <div className="flex flex-col items-center md:items-start p-5 rounded-lg overflow-hidden">
             {/* Main Image */}
-            <div className="w-80 mx-auto mb-2">
+            <div className="w-full md:w-80 mx-auto mb-2">
                 <img
                     src={mainImage}
                     alt="Main Product Image"
                     onClick={() => setIsLightboxOpen(true)}
-                    className="rounded-lg shadow-md border cursor-pointer"
+                    className="w-full h-auto aspect-square object-contain rounded-lg shadow-md border cursor-pointer"
                 />
             </div>
 

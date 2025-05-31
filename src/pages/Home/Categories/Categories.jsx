@@ -34,7 +34,7 @@ const Categories = () => {
             </div>
 
             <Swiper
-                slidesPerView={3}
+                slidesPerView={2}
                 spaceBetween={10}
                 pagination={{ clickable: true }}
                 loop={enableLoopMode}
