@@ -186,6 +186,15 @@ const MobileNavigation = ({ openNav, closeDrawer, handleLogOut, user, role }) =>
                                     </ListItem>
                                 </Link>
 
+                                <Link to="/profile/billing-details">
+                                    <ListItem
+                                        className="rounded-none hover:text-primary hover:bg-secondary p-2"
+                                        onClick={closeDrawer}
+                                    >
+                                        Billing Details
+                                    </ListItem>
+                                </Link>
+
                                 <ListItem
                                     onClick={() => {
                                         closeDrawer();

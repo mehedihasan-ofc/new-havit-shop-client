@@ -168,23 +168,54 @@ const Checkout = () => {
             <div className="border p-6 rounded-lg shadow-md space-y-4">
                 {/* Shipping Address Section */}
                 <h2 className="text-lg md:text-xl font-semibold">Shipping Address</h2>
-                <div className="space-y-2 border-b border-gray-300 pb-4">
+                <div className="border-b border-gray-300 pb-4">
                     {billingDetails ? (
-                        <div className="flex justify-between items-center">
-                            <div className="space-y-1">
-                                <p className="text-gray-700"><span className="font-semibold">Name:</span> {billingDetails.name}</p>
-                                <p className="text-gray-700"><span className="font-semibold">Phone:</span> {billingDetails.phoneNumber}</p>
-                                <div className="text-gray-700 space-y-1">
+                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+                            <div className="text-sm sm:text-base space-y-1 text-gray-700">
+                                <p><span className="font-semibold">Name:</span> {billingDetails.name}</p>
+                                <p><span className="font-semibold">Phone:</span> {billingDetails.phoneNumber}</p>
+                                <div>
                                     <p className="font-semibold">Address:</p>
-                                    <p>{billingDetails.address}, {billingDetails.area}, {billingDetails.city}</p>
+                                    <p className="text-gray-600">
+                                        {billingDetails.address}, {billingDetails.area}, {billingDetails.city}
+                                    </p>
                                 </div>
                             </div>
-                            {/* <Button onClick={() => navigate("/add-address")} className="rounded-full" variant="outlined">Edit Shipping Address</Button> */}
+                            <div className="flex justify-start sm:justify-end">
+                                <Button
+                                    size="sm"
+                                    // onClick={() => navigate("/profile/my-address")}
+                                    onClick={() =>
+                                        navigate("/profile/my-address", {
+                                            state: { from: location },
+                                            replace: true,
+                                        })
+                                    }
+                                    className="rounded-full py-2"
+                                    variant="outlined"
+                                >
+                                    Edit Shipping Address
+                                </Button>
+                            </div>
                         </div>
                     ) : (
-                        <div className="flex justify-between items-center">
-                            <p className="text-red-500">No shipping address found!</p>
-                            <Button onClick={() => navigate("/profile/my-address")} className="rounded-full" variant="outlined">Add Shipping Address</Button>
+                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+                            <p className="text-red-500 text-sm sm:text-base">
+                                No shipping address found!
+                            </p>
+                            <Button
+                                // onClick={() => navigate("/profile/my-address")}
+                                onClick={() =>
+                                    navigate("/profile/my-address", {
+                                        state: { from: location },
+                                        replace: true,
+                                    })
+                                }
+                                className="rounded-full py-2"
+                                variant="outlined"
+                            >
+                                Add Shipping Address
+                            </Button>
                         </div>
                     )}
                 </div>

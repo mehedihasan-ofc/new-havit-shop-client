@@ -132,8 +132,8 @@ const ViewCart = () => {
     if (cart?.length === 0) {
         return (
             <div className="max-w-5xl w-full mx-auto px-6 my-5 py-10 rounded shadow border text-center ">
-                <h2 className="text-4xl font-extrabold tracking-wide font-sans mb-4 sm:text-3xl">Your Cart is Empty</h2>
-                <p className="text-lg text-gray-600 mb-6 sm:text-base">It looks like you haven't added any items yet. Start shopping and add some great products to your cart!</p>
+                <h2 className="text-xl md:text-2xl font-extrabold tracking-wide font-sans mb-4 font-serif">Your Cart is Empty</h2>
+                <p className="text-base md:text-lg mb-6">It looks like you haven't added any items yet. Start shopping and add some great products to your cart!</p>
                 <Button onClick={() => navigate("/")} className="bg-primary rounded-none flex items-center gap-2 mx-auto sm:px-4 sm:py-2">
                     <FaArrowLeftLong size={16} />
                     Continue Shopping
