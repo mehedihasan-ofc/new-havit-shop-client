@@ -35,7 +35,7 @@ const CustomOrderConfirm = () => {
 
     const customOrderPayload = {
       customer: { name, phone, city, area, address, additionalInfo },
-      products: products.map(p => ({ productId: p.productId, quantity: p.quantity })),
+      products: products.map(p => ({ productId: p.productId, quantity: p.quantity, flavour: p.flavor || "N/A" })),
       discount,
       paymentMethod,
       paymentStatus,
@@ -43,7 +43,8 @@ const CustomOrderConfirm = () => {
       deliveryStatus,
       subtotal,
       shipping,
-      total,
+      totalAmount: total,
+      payableAmount: paymentStatus === "due" ? payableTotal : total,
       createdAt: new Date().toISOString()
     };
 
@@ -94,7 +95,7 @@ const CustomOrderConfirm = () => {
           <div className="space-y-3 h-80 overflow-scroll">
             {products.map((product) => (
               <div
-                key={product?.skuCode}
+                key={product?.productId}
                 className="flex justify-between items-center bg-gray-50 p-3 rounded-xl shadow-sm"
               >
                 <div className="flex items-center gap-3">
@@ -102,7 +103,7 @@ const CustomOrderConfirm = () => {
                   <div>
                     <p className="text-sm text-gray-600 font-medium">SKU: {product.skuCode}</p>
                     <p className="font-medium line-clamp-2">{product.name}</p>
-                    <p className="text-sm text-gray-500">Flavor: {product.flavor || "N/A"}</p>
+                    <p className="text-sm text-gray-500">Flavour: {product.flavor || "N/A"}</p>
                   </div>
                 </div>
                 <p className="font-semibold">x{product.quantity}</p>

@@ -152,7 +152,7 @@ const Sidebar = () => {
             };
         }
 
-        return null; // Return null if no chip should be rendered
+        return null;
     };
 
     const renderSubFeatures = (name, subFeatures) => {
@@ -211,7 +211,7 @@ const Sidebar = () => {
                                 <ListItem className="p-0" selected={open === feature.index}>
                                     <AccordionHeader onClick={() => handleOpen(feature.index)} className="border-b-0 p-3">
                                         <ListItemPrefix>{IconComponent}</ListItemPrefix>
-                                        <Typography color="blue-gray" className="mr-auto font-normal">
+                                        <Typography color="blue-gray" className="mr-auto font-normal font-serif">
                                             {feature.name}
                                         </Typography>
                                     </AccordionHeader>
@@ -225,7 +225,7 @@ const Sidebar = () => {
 
                     return (
                         <Link to={feature.path} key={feature.index}>
-                            <ListItem>
+                            <ListItem className="font-serif">
                                 <ListItemPrefix>{IconComponent}</ListItemPrefix>
                                 {feature.name}
                                 {(feature?.name === "Subscriptions" || feature?.name === "Messages") && (
@@ -245,7 +245,7 @@ const Sidebar = () => {
                 })}
 
                 <hr className="border-blue-gray-50" />
-                <ListItem onClick={handleLogOut}>
+                <ListItem onClick={handleLogOut} className="font-serif">
                     <ListItemPrefix>
                         <PowerIcon className="h-5 w-5" />
                     </ListItemPrefix>

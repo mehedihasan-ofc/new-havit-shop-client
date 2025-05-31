@@ -41,6 +41,7 @@ const TABLE_HEAD = ["#", "Order ID", "Order Date", "Pay Method", "Del Status", "
 const CustomOrder = () => {
 
     const [selectedStatus, setSelectedStatus] = useState("all");
+    const [searchText, setSearchText] = useState("");
 
     const { user } = useContext(AuthContext);
     const token = localStorage.getItem('access-token');
@@ -56,6 +57,10 @@ const CustomOrder = () => {
             return res.data;
         },
     });
+
+    const filteredOrders = customOrders.filter(order =>
+        order.orderId?.toLowerCase().includes(searchText.toLowerCase())
+    );
 
     const getStatusColor = (status) => {
         switch (status.toLowerCase()) {
@@ -129,10 +134,13 @@ const CustomOrder = () => {
             <CardHeader floated={false} shadow={false} className="rounded-none">
                 <div className="mb-6 flex items-center justify-between gap-8">
 
-                    <div className="w-full md:w-72">
+                    <div className="w-1/2">
                         <Input
-                            label="Search"
+                            color="green"
+                            label="Search by Order ID"
                             icon={<MagnifyingGlassIcon className="h-5 w-5" />}
+                            value={searchText}
+                            onChange={(e) => setSearchText(e.target.value)}
                         />
                     </div>
 
@@ -156,7 +164,11 @@ const CustomOrder = () => {
                             }}
                         >
                             {TABS.map(({ label, value }) => (
-                                <Tab key={value} value={value} onClick={() => setSelectedStatus(value)}
+                                <Tab key={value} value={value} onClick={() => {
+                                    setSelectedStatus(value);
+                                    setSearchText("");
+                                }}
+
                                     className={`text-xs font-semibold font-serif px-0 ${selectedStatus === value && "text-primary"}`}
                                 >
                                     {label}
@@ -170,7 +182,7 @@ const CustomOrder = () => {
             {isLoading ? (
                 <MySpinner />
             ) : (
-                <CardBody className="px-0 overflow-x-auto">
+                <CardBody className="p-0 overflow-x-auto">
                     <table className="mt-4 w-full min-w-max table-auto text-left">
                         <thead>
                             <tr>
@@ -191,20 +203,16 @@ const CustomOrder = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {customOrders.length === 0 ? (
+                            {filteredOrders.length === 0 ? (
                                 <tr>
                                     <td colSpan={TABLE_HEAD.length} className="p-4 text-center">
-                                        <Typography
-                                            variant="small"
-                                            color="blue-gray"
-                                            className="font-normal opacity-70"
-                                        >
+                                        <Typography variant="small" color="blue-gray" className="font-normal opacity-70">
                                             No orders found.
                                         </Typography>
                                     </td>
                                 </tr>
                             ) : (
-                                customOrders.map(
+                                filteredOrders.map(
                                     (
                                         {
                                             _id,
@@ -212,7 +220,7 @@ const CustomOrder = () => {
                                             createdAt,
                                             paymentMethod,
                                             deliveryStatus,
-                                            total,
+                                            totalAmount,
                                             paymentStatus,
                                         },
                                         index
@@ -240,7 +248,7 @@ const CustomOrder = () => {
                                                         color="blue-gray"
                                                         className="font-normal"
                                                     >
-                                                        #{orderId}
+                                                        {orderId}
                                                     </Typography>
                                                 </td>
 
@@ -281,7 +289,7 @@ const CustomOrder = () => {
                                                         color="blue-gray"
                                                         className="font-normal"
                                                     >
-                                                        ৳{total}
+                                                        ৳{totalAmount}
                                                     </Typography>
                                                 </td>
 
