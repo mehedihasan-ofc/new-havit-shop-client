@@ -8,9 +8,9 @@ import useAboutUs from "../../hooks/useAboutUs";
 const OrderSuccess = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const [copied, setCopied] = useState(false); // State to track copy status
+    const [copied, setCopied] = useState(false);
     const orderId = location.state?.orderId;
-    const [aboutUsData] = useAboutUs(); // Fetch About Us data
+    const [aboutUsData] = useAboutUs();
 
     useEffect(() => {
         if (!orderId) {
@@ -20,16 +20,16 @@ const OrderSuccess = () => {
 
     const handleCopyOrderId = () => {
         navigator.clipboard.writeText(orderId).then(() => {
-            setCopied(true); // Set copied to true
-            setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
         });
     };
 
     return (
-        <div className="my-5">
-            <div className="flex flex-col items-center justify-center space-y-4 px-5 md:px-0">
+        <div className="my-5 px-4 sm:px-6">
+            <div className="flex flex-col items-center justify-center space-y-6">
 
-                <div className="bg-white shadow-md rounded-lg p-8 max-w-4xl text-center border">
+                <div className="bg-white shadow-md rounded-lg p-6 sm:p-8 w-full max-w-2xl text-center border">
                     <div className="mb-6">
                         <svg
                             className="w-16 h-16 text-green-500 mx-auto"
@@ -46,13 +46,13 @@ const OrderSuccess = () => {
                             />
                         </svg>
                     </div>
-                    <h2 className="text-2xl font-bold text-gray-800 mb-2">Order Placed Successfully!</h2>
-                    <p className="text-gray-600 mb-4">
+                    <h2 className="text-xl sm:text-2xl font-bold font-serif mb-2">Order Placed Successfully!</h2>
+                    <p className="text-sm sm:text-base mb-4">
                         Thank you for your order. Your order has been placed successfully.
                     </p>
-                    <div className="bg-gray-100 p-4 rounded-md text-sm text-gray-700 mb-6 flex items-center justify-between">
-                        <span>
-                            <span className="font-semibold">Order ID:</span> #{orderId}
+                    <div className="bg-gray-100 p-3 rounded-md text-sm text-gray-700 mb-6 flex items-center justify-between gap-2">
+                        <span className="text-center sm:text-left">
+                            <span className="font-semibold text-sm md:text-base">Order ID:</span> #{orderId}
                         </span>
                         <button
                             onClick={handleCopyOrderId}
@@ -73,7 +73,7 @@ const OrderSuccess = () => {
                     </div>
                     <button
                         onClick={() => navigate("/")}
-                        className="w-full bg-primary text-white py-2 rounded-lg font-semibold shadow-md hover:bg-primary-dark transition duration-300"
+                        className="w-full bg-primary text-white py-2 rounded font-semibold shadow-md hover:bg-primary-dark transition duration-300"
                     >
                         Back to Home
                     </button>
@@ -81,16 +81,15 @@ const OrderSuccess = () => {
 
                 {/* About Us Video Section */}
                 {aboutUsData?.aboutUs && (
-                    <div className="bg-white shadow-md rounded-lg max-w-4xl w-full">
-                        <div className="rounded-lg shadow border p-2">
-                            <div className="w-full h-96">
-                                <ReactPlayer
-                                    controls
-                                    width="100%"
-                                    height="100%"
-                                    url={aboutUsData.aboutUs}
-                                />
-                            </div>
+                    <div className="bg-white shadow-md rounded-lg w-full max-w-4xl border p-2">
+                        <div className="w-full aspect-video">
+                            <ReactPlayer
+                                controls
+                                width="100%"
+                                height="100%"
+                                url={aboutUsData.aboutUs}
+                                className="rounded-lg"
+                            />
                         </div>
                     </div>
                 )}

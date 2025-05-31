@@ -48,9 +48,9 @@ const ProfileOrders = () => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto p-6 shadow rounded border space-y-4">
+        <div className="max-w-4xl mx-auto py-6 px-2 shadow rounded border space-y-4">
 
-            <h2 className="text-2xl font-semibold text-gray-800 text-center">
+            <h2 className="text-xl md:text-2xl font-semibold text-gray-800 text-center font-serif">
                 My Orders
             </h2>
 
@@ -67,7 +67,7 @@ const ProfileOrders = () => {
                             key={value}
                             value={value}
                             onClick={() => setActiveTab(value)}
-                            className={`text-xs md:text-base font-medium ${activeTab === value && "text-primary"}`}
+                            className={`text-[10px] md:text-base font-medium ${activeTab === value && "text-primary"}`}
                         >
                             {label}
                         </Tab>

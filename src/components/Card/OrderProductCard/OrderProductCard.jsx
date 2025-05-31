@@ -44,7 +44,7 @@ const OrderProductCard = ({ order }) => {
             className="flex items-center justify-between border p-4 rounded shadow"
         >
             <div className="flex-1">
-                <p className="font-medium text-primary text-sm md:text-base">
+                <p className="font-medium text-primary text-xs md:text-base">
                     Order ID: #{order.orderId}
                     <button
                         onClick={() => handleCopyOrderId(order.orderId)}
@@ -57,7 +57,7 @@ const OrderProductCard = ({ order }) => {
                         )}
                     </button>
                 </p>
-                <p className="text-gray-600 text-sm md:text-base">
+                <p className="text-gray-600 text-xs md:text-base">
                     Order: {formattedDate(order.orderDate)}
                 </p>
                 {
@@ -67,7 +67,7 @@ const OrderProductCard = ({ order }) => {
                         </p>
                     )
                 }
-                <p className="text-gray-800 text-sm md:text-base">
+                <p className="text-gray-800 text-xs md:text-base">
                     Total: ৳{order.payableTotal} for {order.products.length} item
                     {order.products.length > 1 ? "s" : ""}
                 </p>

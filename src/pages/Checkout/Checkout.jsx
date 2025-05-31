@@ -161,13 +161,13 @@ const Checkout = () => {
     return (
         <div className="max-w-5xl mx-auto px-6 my-5">
             <div className="space-y-1 mb-4">
-                <h2 className="text-4xl font-extrabold tracking-wide">Checkout</h2>
-                <p>There are <span className="text-primary">{products?.length}</span> products in your cart!</p>
+                <h2 className="text-xl md:text-3xl font-extrabold tracking-wide font-serif">Checkout</h2>
+                <p className="text-xs md:text-base">There are <span className="text-primary">{products?.length}</span> products in your cart!</p>
             </div>
 
             <div className="border p-6 rounded-lg shadow-md space-y-4">
                 {/* Shipping Address Section */}
-                <h2 className="text-xl font-semibold">Shipping Address</h2>
+                <h2 className="text-lg md:text-xl font-semibold">Shipping Address</h2>
                 <div className="space-y-2 border-b border-gray-300 pb-4">
                     {billingDetails ? (
                         <div className="flex justify-between items-center">
@@ -190,7 +190,7 @@ const Checkout = () => {
                 </div>
 
                 {/* Order Summary Section */}
-                <h2 className="text-xl font-semibold">Order Summary</h2>
+                <h2 className="text-lg md:text-xl font-semibold">Order Summary</h2>
                 <div className="space-y-2 border-b border-gray-300 pb-4">
                     <div className="flex justify-between">
                         <p className="text-gray-700">Subtotal</p>
@@ -218,7 +218,7 @@ const Checkout = () => {
                     </div>
                 </div>
                 <div className="flex justify-between items-center pt-4">
-                    <p className="text-lg font-semibold">Payable Total</p>
+                    <p className="text-lg md:text-xl font-semibold">Payable Total</p>
                     <p className="text-lg font-bold text-primary">৳{payableTotal.toFixed(2)}</p>
                 </div>
 
@@ -229,7 +229,7 @@ const Checkout = () => {
                         <input
                             type="text"
                             placeholder="Enter your code here"
-                            className="flex-1 px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-primary focus:border-primary"
+                            className="flex-1 w-full px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-primary focus:border-primary"
                             value={couponCode}
                             onChange={handleCouponChange}
                         />
@@ -252,7 +252,7 @@ const Checkout = () => {
                         onChange={handleCoinUsage}
                         className="mr-2"
                     />
-                    <label htmlFor="use-coins" className="text-gray-700">Use Coins ({myData?.coin || 0} available, 200 coins = ৳1)</label>
+                    <label htmlFor="use-coins" className="text-gray-700 text-sm md:text-base">Use Coins ({myData?.coin || 0} available, 200 coins = ৳1)</label>
                 </div>
 
                 {/* Payment Options */}

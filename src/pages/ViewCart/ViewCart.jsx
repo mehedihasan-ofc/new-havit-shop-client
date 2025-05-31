@@ -147,8 +147,8 @@ const ViewCart = () => {
 
             <div className="flex justify-between items-end mb-4">
                 <div className="space-y-1">
-                    <h2 className="text-4xl font-extrabold tracking-wide font-sans">Your Cart</h2>
-                    <p>There are <span className="text-primary">{cart?.length}</span> products in your cart!</p>
+                    <h2 className="text-xl md:text-3xl font-extrabold tracking-wide font-serif">Your Cart</h2>
+                    <p className="text-xs md:text-base">There are <span className="text-primary">{cart?.length}</span> products in your cart!</p>
                 </div>
                 <Button onClick={handleClearCart} variant="text" className="flex items-center rounded-none p-2 gap-2 text-red-600">
                     {allClear ? "Clearing..." : <><RiDeleteBin6Line size={16} /> Clear Cart</>}
@@ -178,13 +178,13 @@ const ViewCart = () => {
                 </div>
             </div>
 
-            <div className="flex justify-between items-center gap-5 mt-5">
-                <Button onClick={() => navigate("/")} className="rounded-none bg-primary flex items-center gap-2">
+            <div className="flex flex-col-reverse sm:flex-row justify-between items-center gap-4">
+                <Button onClick={() => navigate("/")} className="rounded-none bg-primary flex items-center gap-2 px-4 py-2 w-full sm:w-auto justify-center">
                     <FaArrowLeftLong size={16} />
                     Continue Shopping
                 </Button>
 
-                <Button onClick={handleProceedToCheckout} className="rounded-none bg-primary flex items-center gap-2">
+                <Button onClick={handleProceedToCheckout} className="rounded-none bg-primary flex items-center gap-2 px-4 py-2 w-full sm:w-auto justify-center">
                     Proceed To Checkout
                     <TbLogout size={18} />
                 </Button>
