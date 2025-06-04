@@ -178,7 +178,7 @@ const AddProduct = () => {
                     <h2 className="text-xl font-semibold text-center mb-4">Add New Product</h2>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Upload Product Images</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Upload Product Images* <strong className='font-serif'>Recommended size: 1200 x 1200 pixels</strong></label>
                         <input
                             type="file"
                             ref={fileInputRef}
@@ -186,7 +186,6 @@ const AddProduct = () => {
                             onChange={handleFileChange}
                             className="w-full text-gray-900 focus:outline-none"
                         />
-
 
                         {formData.images.length > 0 ? (
                             <p className="mt-2 text-sm text-gray-500">

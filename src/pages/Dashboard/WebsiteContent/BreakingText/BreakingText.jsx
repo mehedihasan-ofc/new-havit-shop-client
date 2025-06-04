@@ -69,11 +69,11 @@ const BreakingText = () => {
     };
 
     return (
-        <div className="border shadow max-w-xl mx-auto">
+        <div className="border shadow">
             <div className="relative">
                 <img className="absolute top-0 right-0" src={SVG} alt="background" />
 
-                <form onSubmit={handleSubmit} className="space-y-6 max-w-md p-8">
+                <form onSubmit={handleSubmit} className="space-y-6 max-w-4xl p-8">
                     <div>
                         <label
                             htmlFor="breakingText"
@@ -88,7 +88,7 @@ const BreakingText = () => {
                             onChange={(e) => setText(e.target.value)}
                             placeholder="Type Breaking Text here"
                             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
-                            rows="4"
+                            rows="10"
                             required
                         ></textarea>
                     </div>

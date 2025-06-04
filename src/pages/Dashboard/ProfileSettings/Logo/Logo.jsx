@@ -75,7 +75,8 @@ const Logo = () => {
                 <form onSubmit={handleSubmit} className="space-y-6 max-w-md p-8">
                     {/* Logo Preview */}
                     <div className="flex flex-col items-center">
-                        <div className="w-[250px] h-[150px] border border-gray-300 rounded-md bg-gray-100 flex items-center justify-center overflow-hidden">
+                        <p className="font-serif text-lg font-bold mb-3">Recommended size: 150 x 70 pixels</p>
+                        <div className="w-[225px] h-[105px] border border-gray-300 rounded-md bg-gray-100 flex items-center justify-center overflow-hidden">
                             {logoFile || logoData?.logo ? (
                                 <img
                                     src={logoFile ? URL.createObjectURL(logoFile) : logoData?.logo}
@@ -83,7 +84,7 @@ const Logo = () => {
                                     className="w-full h-full object-contain"
                                 />
                             ) : (
-                                <span className="text-gray-400">250 x 150 pixels</span>
+                                <span className="text-gray-400">150 x 70 pixels</span>
                             )}
                         </div>
 

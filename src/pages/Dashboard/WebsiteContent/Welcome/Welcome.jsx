@@ -70,9 +70,7 @@ const Welcome = () => {
             <h1 className="text-2xl font-bold text-center mb-2">Welcome</h1>
             <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="flex flex-col gap-4">
-                    <label htmlFor="imageInput" className="block text-lg text-center font-medium text-gray-700">
-                        Upload Image (501×264 pixels)
-                    </label>
+                    <label htmlFor="imageInput" className="block text-lg text-center font-bold font-serif">Recommended size: 501 x 264 pixels</label>
                     <div className="relative group w-[501px] h-[264px] bg-gray-100 border border-gray-300 rounded-md overflow-hidden flex items-center justify-center mx-auto">
                         {!selectedImage && !welcomeData?.image ? (
                             <label

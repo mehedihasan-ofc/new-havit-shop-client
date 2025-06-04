@@ -67,7 +67,8 @@ const CtreateNocModal = ({ open, handleOpen, refetch }) => {
             <form onSubmit={handleSubmit}>
                 <DialogHeader className="pb-0">Create a New NOC</DialogHeader>
                 <DialogBody>
-                    <div className="space-y-4">
+                    <div className="space-y-2">
+                        <p className="font-serif text-lg font-bold">Recommended size: 501px x 264px pixels</p>
                         <div>
                             <label className="block mb-2 text-sm font-medium text-gray-700">Upload Image</label>
                             <input

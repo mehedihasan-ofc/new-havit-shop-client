@@ -125,7 +125,8 @@ const CreateBlog = () => {
                         className="mt-1 block w-full text-gray-700"
                         required
                     />
-                    <p className="mt-2 text-sm text-gray-500">Please upload an image for your blog. Only image files are allowed.</p>
+                    <p className="font-serif text-lg font-bold mt-1">Recommended size: 1200 x 800 pixels</p>
+                    <p className="text-sm text-gray-500">Please upload an image for your blog. Only image files are allowed.</p>
                     {formData.imagePreview && (
                         <img src={formData.imagePreview} alt="Preview" className="mt-2 h-40 w-full object-cover rounded-md" />
                     )}

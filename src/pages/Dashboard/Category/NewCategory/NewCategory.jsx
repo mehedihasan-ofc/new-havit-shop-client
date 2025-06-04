@@ -28,7 +28,18 @@ const NewCategory = () => {
 
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
-        if (file && file.type.startsWith("image/")) {
+
+        if (file) {
+            if (file.type !== "image/png") {
+                toast.error("Only PNG files are allowed.", {
+                    position: "top-right",
+                    autoClose: 1500,
+                    pauseOnHover: false,
+                });
+                fileInputRef.current.value = null;
+                return;
+            }
+
             const imagePreviewUrl = URL.createObjectURL(file);
             setFormData((prevData) => ({
                 ...prevData,
@@ -44,17 +55,14 @@ const NewCategory = () => {
         if (formData.categoryImage) {
             setLoading(true);
             try {
-                // Upload the image and get the download URL
                 const imageLink = await uploadImageToStorage(formData.categoryImage);
 
-                // Prepare the data to be sent to the API
                 const newCategory = {
                     name: formData.categoryName,
                     image: imageLink,
                     createdAt: new Date().toISOString(),
                 };
 
-                // Make an API call to send the data to the database
                 const { data } = await axiosSecure.post('/category', newCategory)
 
                 if (data.insertedId) {
@@ -72,7 +80,6 @@ const NewCategory = () => {
                     });
                     fileInputRef.current.value = null;
                 }
-
 
             } catch (error) {
                 console.error('Error uploading image:', error);
@@ -95,15 +102,16 @@ const NewCategory = () => {
                         <input
                             type="file"
                             ref={fileInputRef}
-                            accept="image/*"
+                            accept="image/png"
                             onChange={handleImageUpload}
                             className="block w-full text-gray-900 focus:outline-none"
                             required
                         />
 
                         <p className="mt-2 text-sm text-gray-500">
-                            Please upload a square image with a maximum size of 160x160 pixels to ensure the best display quality.
+                            Please upload a <strong className="text-gray-700">PNG</strong> image with a maximum size of 160x160 pixels for best display quality.
                         </p>
+
                     </div>
                     {formData.categoryImagePreview && (
                         <div className="mt-4 flex justify-center">
