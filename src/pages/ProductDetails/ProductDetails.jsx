@@ -216,7 +216,12 @@ const ProductDetails = () => {
 
             <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow mt-5">
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Product Description</h3>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm sm:text-base">{product.description}</p>
+                {product?.content?.map((item) => (
+                    <div key={item?._id} className="space-y-2">
+                        <h4 className="font-bold">{item?.title}</h4>
+                        <p>{item?.description}</p>
+                    </div>
+                ))}
             </div>
 
             <RelatedProducts categoryId={product?.categoryId} />
