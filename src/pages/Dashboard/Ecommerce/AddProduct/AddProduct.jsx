@@ -61,7 +61,6 @@ const AddProduct = () => {
             imagePreviews: [...prev.imagePreviews, preview],
         }));
 
-        // Clear the input value so the same file can be selected again if needed
         fileInputRef.current.value = null;
     };
 
@@ -85,7 +84,7 @@ const AddProduct = () => {
                     flavor: [...prev.flavor, newFlavor],
                 }));
             }
-            e.target.value = ''; // Clear input
+            e.target.value = '';
         }
     };
 
@@ -99,6 +98,12 @@ const AddProduct = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (formData.rating < 0 || formData.rating > 5) {
+            toast.error("Rating must be between 0 and 5");
+            return;
+        }
+
         setLoading(true);
 
         try {
@@ -169,7 +174,7 @@ const AddProduct = () => {
     };
 
     return (
-        <div className="border shadow max-w-3xl mx-auto">
+        <div className="border shadow">
             <div className="relative">
                 {/* Background SVG/Image */}
                 <img className="absolute top-0 right-0" src={SVG} alt="background" />
