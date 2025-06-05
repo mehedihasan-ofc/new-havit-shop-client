@@ -25,7 +25,7 @@ const AddProduct = () => {
         availableStock: '',
         rating: '',
         videoLink: '',
-        description: '',
+        content: [{ _id: 1, title: '', description: '' }],
         brand: '',
         madeIn: '',
         flavor: [],
@@ -43,6 +43,13 @@ const AddProduct = () => {
         if (name === 'categoryId') {
             setFormData((prev) => ({ ...prev, subcategoryId: '' }));
         }
+    };
+
+    const handleContentChange = (index, e) => {
+        const { name, value } = e.target;
+        const newContent = [...formData.content];
+        newContent[index][name] = value;
+        setFormData({ ...formData, content: newContent });
     };
 
     // Filter subcategories based on selected category ID
@@ -96,6 +103,21 @@ const AddProduct = () => {
         });
     };
 
+    const addContentSection = () => {
+        const newId = formData.content.length ? formData.content[formData.content.length - 1]._id + 1 : 1;
+        setFormData({
+            ...formData,
+            content: [...formData.content, { _id: newId, title: '', description: '' }]
+        });
+    };
+
+    const removeContentSection = (id) => {
+        setFormData({
+            ...formData,
+            content: formData.content.filter((section) => section._id !== id),
+        });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -120,7 +142,7 @@ const AddProduct = () => {
                 soldCount: 0,
                 rating: parseFloat(formData.rating),
                 videoLink: formData.videoLink,
-                description: formData.description,
+                content: formData.content,
                 brand: formData.brand,
                 madeIn: formData.madeIn,
                 skuCode: formData.skuCode,
@@ -153,7 +175,7 @@ const AddProduct = () => {
                     availableStock: '',
                     rating: '',
                     videoLink: '',
-                    description: '',
+                    content: [{ _id: 1, title: '', description: '' }],
                     madeIn: '',
                     brand: '',
                     flavor: [],
@@ -418,17 +440,41 @@ const AddProduct = () => {
                         )}
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                        <textarea
-                            name="description"
-                            placeholder="Enter description"
-                            value={formData.description}
-                            onChange={handleChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-                            required
-                        />
+                    <div className='text-end'>
+                        <Button size='sm' type='button' onClick={addContentSection} className='rounded-none bg-primary font-medium'>Add Content Section</Button>
                     </div>
+
+                    {formData.content.map((section, index) => (
+                        <div key={section._id} className="mb-4 relative border p-3 rounded-md mt-2">
+                            {section._id !== 1 && (
+                                <button
+                                    type="button"
+                                    className="absolute top-2 right-2 text-red-500 hover:text-red-700"
+                                    onClick={() => removeContentSection(section._id)}
+                                >
+                                    ✕
+                                </button>
+                            )}
+                            <label className="block text-gray-700">Content Section {index + 1}</label>
+                            <input
+                                type="text"
+                                name="title"
+                                value={section.title}
+                                onChange={(e) => handleContentChange(index, e)}
+                                placeholder="Enter section title"
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                                required
+                            />
+                            <textarea
+                                name="description"
+                                value={section.description}
+                                onChange={(e) => handleContentChange(index, e)}
+                                placeholder="Enter section description"
+                                className="mt-2 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                                required
+                            ></textarea>
+                        </div>
+                    ))}
 
                     <div className='flex items-center justify-center'>
                         <Button type="submit" loading={loading} className='rounded-none bg-primary font-medium px-10'>
