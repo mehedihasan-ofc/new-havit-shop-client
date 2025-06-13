@@ -30,7 +30,7 @@ const ProductEdit = () => {
         availableStock: '',
         rating: '',
         videoLink: '',
-        description: '',
+        content: [],
         brand: '',
         madeIn: '',
         flavor: [],
@@ -41,18 +41,16 @@ const ProductEdit = () => {
     const fileInputRef = useRef();
 
     useEffect(() => {
-        // Fetch product data by ID
         const fetchProduct = async () => {
             try {
                 const { data } = await axiosSecure.get(`/products/${id}`);
-                // Map fetched product data to the form
                 setFormData({
                     ...data,
                     categoryId: data.categoryId || '',
                     subcategoryId: data.subcategoryId || '',
                     flavor: data.flavor || [],
-                    images: [], // Images will be replaced during editing
-                    imagePreviews: data.images.map((img) => img.url), // For preview
+                    images: [],
+                    imagePreviews: data.images.map((img) => img.url),
                 });
             } catch (error) {
                 console.error("Error fetching product:", error);
@@ -60,21 +58,19 @@ const ProductEdit = () => {
                 setFetching(false);
             }
         };
-
         fetchProduct();
+
     }, [id, axiosSecure]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
 
-        // Clear subcategory selection if category changes
         if (name === 'categoryId') {
             setFormData((prev) => ({ ...prev, subcategoryId: '' }));
         }
     };
 
-    // Filter subcategories based on selected category ID
     const filteredSubcategories = subcategories.filter(
         (sub) => sub.categoryId === formData.categoryId
     );
@@ -104,7 +100,7 @@ const ProductEdit = () => {
                     flavor: [...prev.flavor, newFlavor],
                 }));
             }
-            e.target.value = ''; // Clear input
+            e.target.value = '';
         }
     };
 
@@ -115,12 +111,33 @@ const ProductEdit = () => {
         });
     };
 
+    const handleContentChange = (index, e) => {
+        const { name, value } = e.target;
+        const newContent = [...formData.content];
+        newContent[index][name] = value;
+        setFormData({ ...formData, content: newContent });
+    };
+
+    const addContentSection = () => {
+        const newId = formData.content.length ? formData.content[formData.content.length - 1]._id + 1 : 1;
+        setFormData({
+            ...formData,
+            content: [...formData.content, { _id: newId, title: '', description: '' }]
+        });
+    };
+
+    const removeContentSection = (id) => {
+        setFormData({
+            ...formData,
+            content: formData.content.filter((section) => section._id !== id),
+        });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
 
         try {
-            // Upload new images, if any
             const downloadURLs =
                 formData.images.length > 0
                     ? await uploadMultipleImagesToStorage(formData.images)
@@ -145,7 +162,6 @@ const ProductEdit = () => {
                 }))
             };
 
-            // Make an API call to send the data to the database
             const { data } = await axiosSecure.put(`/product/${id}`, updatedProduct);
 
             if (data.modifiedCount) {
@@ -162,7 +178,6 @@ const ProductEdit = () => {
                 });
             }
 
-
         } catch (error) {
             console.error("Error during API call:", error);
         } finally {
@@ -173,16 +188,16 @@ const ProductEdit = () => {
     if (fetching) return <MySpinner />
 
     return (
-        <div className="border shadow max-w-3xl mx-auto">
+        <div className="border shadow">
             <div className="relative">
                 {/* Background SVG/Image */}
                 <img className="absolute top-0 right-0" src={SVG} alt="background" />
 
                 <form onSubmit={handleSubmit} className="space-y-6 max-w-full p-8">
-                    <h2 className="text-xl font-semibold text-center mb-4">Edit Product</h2>
+                    <h2 className="text-xl font-semibold text-center font-serif border-b mb-4">Edit Product</h2>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Upload Product Images</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Upload Product Images* <strong className='font-serif'>Recommended size: 1200 x 1200 pixels</strong></label>
                         <input
                             type="file"
                             ref={fileInputRef}
@@ -198,13 +213,13 @@ const ProductEdit = () => {
                     </div>
 
                     {formData.imagePreviews.length > 0 && (
-                        <div className="mt-4 grid grid-cols-3 gap-4">
+                        <div className="mt-4 grid grid-cols-5 gap-5">
                             {formData.imagePreviews.map((src, index) => (
                                 <div key={index} className="relative">
                                     <img
                                         src={src}
                                         alt="Product Preview"
-                                        className="h-32 w-full object-cover rounded-md border border-gray-300"
+                                        className="w-40 h-40 object-contain rounded-md border border-gray-300"
                                     />
                                     <button
                                         type="button"
@@ -415,17 +430,41 @@ const ProductEdit = () => {
                         )}
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                        <textarea
-                            name="description"
-                            placeholder="Enter description"
-                            value={formData.description}
-                            onChange={handleChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
-                            required
-                        />
+                    <div className='text-end'>
+                        <Button size='sm' type='button' onClick={addContentSection} className='rounded-none bg-primary font-medium'>Add Content Section</Button>
                     </div>
+
+                    {formData.content.map((section, index) => (
+                        <div key={section._id} className="mb-4 relative border p-3 rounded-md mt-2">
+                            {section._id !== 1 && (
+                                <button
+                                    type="button"
+                                    className="absolute top-2 right-2 text-red-500 hover:text-red-700"
+                                    onClick={() => removeContentSection(section._id)}
+                                >
+                                    ✕
+                                </button>
+                            )}
+                            <label className="block text-gray-700">Content Section {index + 1}</label>
+                            <input
+                                type="text"
+                                name="title"
+                                value={section.title}
+                                onChange={(e) => handleContentChange(index, e)}
+                                placeholder="Enter section title"
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                                required
+                            />
+                            <textarea
+                                name="description"
+                                value={section.description}
+                                onChange={(e) => handleContentChange(index, e)}
+                                placeholder="Enter section description"
+                                className="mt-2 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                                required
+                            ></textarea>
+                        </div>
+                    ))}
 
                     <div className='flex items-center justify-center'>
                         <Button type="submit" loading={loading} className='rounded-none bg-primary font-medium px-10'>

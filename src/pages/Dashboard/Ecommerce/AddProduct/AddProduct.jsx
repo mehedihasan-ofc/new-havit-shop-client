@@ -121,6 +121,11 @@ const AddProduct = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (!formData.images || formData.images.length === 0) {
+            toast.error("Please upload at least one image.");
+            return;
+        }
+
         if (formData.rating < 0 || formData.rating > 5) {
             toast.error("Rating must be between 0 and 5");
             return;
@@ -202,7 +207,7 @@ const AddProduct = () => {
                 <img className="absolute top-0 right-0" src={SVG} alt="background" />
 
                 <form onSubmit={handleSubmit} className="space-y-6 max-w-full p-8">
-                    <h2 className="text-xl font-semibold text-center mb-4">Add New Product</h2>
+                    <h2 className="text-xl font-semibold text-center border-b font-serif mb-4">Add New Product</h2>
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">Upload Product Images* <strong className='font-serif'>Recommended size: 1200 x 1200 pixels</strong></label>
@@ -224,13 +229,13 @@ const AddProduct = () => {
                     </div>
 
                     {formData.imagePreviews.length > 0 && (
-                        <div className="mt-4 grid grid-cols-3 gap-4">
+                        <div className="mt-4 grid grid-cols-5 gap-5">
                             {formData.imagePreviews.map((src, index) => (
                                 <div key={index} className="relative">
                                     <img
                                         src={src}
                                         alt="Product Preview"
-                                        className="h-32 w-full object-cover rounded-md border border-gray-300"
+                                        className="w-40 h-40 object-contain rounded-md border border-gray-300"
                                     />
                                     <button
                                         type="button"
