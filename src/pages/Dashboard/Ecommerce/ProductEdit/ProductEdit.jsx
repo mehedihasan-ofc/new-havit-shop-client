@@ -461,6 +461,7 @@ const ProductEdit = () => {
                                 onChange={(e) => handleContentChange(index, e)}
                                 placeholder="Enter section description"
                                 className="mt-2 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                                rows="10"
                                 required
                             ></textarea>
                         </div>
