@@ -184,10 +184,9 @@ const Checkout = () => {
                             <div className="flex justify-start sm:justify-end">
                                 <Button
                                     size="sm"
-                                    // onClick={() => navigate("/profile/my-address")}
                                     onClick={() =>
                                         navigate("/profile/my-address", {
-                                            state: { from: location },
+                                            state: { from: location, checkoutData: location.state?.checkoutData },
                                             replace: true,
                                         })
                                     }
@@ -204,10 +203,9 @@ const Checkout = () => {
                                 No shipping address found!
                             </p>
                             <Button
-                                // onClick={() => navigate("/profile/my-address")}
                                 onClick={() =>
                                     navigate("/profile/my-address", {
-                                        state: { from: location },
+                                        state: { from: location, checkoutData: location.state?.checkoutData },
                                         replace: true,
                                     })
                                 }

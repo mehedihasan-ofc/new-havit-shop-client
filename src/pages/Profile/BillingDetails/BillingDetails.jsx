@@ -14,7 +14,7 @@ const BillingDetails = () => {
 
     const { user } = useContext(AuthContext);
     const [axiosSecure] = useAxiosSecure();
-    
+
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || '/profile/billing-details';
@@ -94,7 +94,12 @@ const BillingDetails = () => {
                         position: "top-right",
                         autoClose: 1000,
                     });
-                    navigate(from, { replace: true });
+                    navigate(from, {
+                        replace: true,
+                        state: {
+                            checkoutData: location.state?.from?.state?.checkoutData
+                        }
+                    });
                 }
 
             } else {
@@ -104,7 +109,12 @@ const BillingDetails = () => {
                         position: "top-right",
                         autoClose: 1000,
                     });
-                    navigate(from, { replace: true });
+                    navigate(from, {
+                        replace: true,
+                        state: {
+                            checkoutData: location.state?.from?.state?.checkoutData
+                        }
+                    });
                 }
             }
 
