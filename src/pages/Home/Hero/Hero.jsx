@@ -6,7 +6,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 
 // import required modules
-import { Autoplay } from 'swiper/modules';
+import { Autoplay, Pagination } from 'swiper/modules';
 import { useState } from "react";
 import WelcomeModal from "../../../components/Modal/WelcomeModal/WelcomeModal";
 import useBanners from '../../../hooks/useBanners';
@@ -22,8 +22,8 @@ const Hero = () => {
 
     const enableLoopMode = banners?.length > 1;
 
-     // Early return if no categories exist
-     if (!banners || banners.length === 0) return null;
+    // Early return if no categories exist
+    if (!banners || banners.length === 0) return null;
 
     return (
         <>
@@ -32,13 +32,13 @@ const Hero = () => {
                     spaceBetween={20}
                     loop={enableLoopMode}
                     pagination={{
-                        dynamicBullets: true,
+                        clickable: true,
                     }}
                     autoplay={{
                         delay: 5000,
                         disableOnInteraction: false,
                     }}
-                    modules={[Autoplay]}
+                    modules={[Autoplay, Pagination]}
                 >
 
                     {
