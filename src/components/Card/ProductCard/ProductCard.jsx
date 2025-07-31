@@ -70,7 +70,7 @@ const ProductCard = ({ product }) => {
 
     return (
         <div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-full border rounded-lg shadow hover:shadow-md transition-all duration-300 group font-sans bg-white flex flex-col mx-auto">
-            <Link to={`/products/product-details/${product?._id}`}>
+            <Link to={`/products/product-details/${product?.name.replace(/\s+/g, '-').toLowerCase()}/${product?._id}`}>
                 <div className="relative overflow-hidden rounded-t-lg h-44 sm:h-52 md:h-56 lg:h-60">
                     <div className="p-3 sm:p-4">
                         <img

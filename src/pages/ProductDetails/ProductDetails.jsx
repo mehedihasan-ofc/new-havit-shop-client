@@ -129,9 +129,11 @@ const ProductDetails = () => {
                     )}
 
                     <div className="flex items-center gap-3">
+                        <p className="text-gray-700 dark:text-gray-300 text-sm">Product Rating:</p>
                         <Rating style={{ maxWidth: 100 }} value={product.rating} readOnly />
                         <span className="text-sm text-gray-500 dark:text-gray-400">({product.rating})</span>
                     </div>
+
 
                     <div className="flex flex-wrap items-center gap-2 text-lg sm:text-xl font-bold text-primary dark:text-white">
                         <span>৳{product.price.toFixed(2)}</span>
