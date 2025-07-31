@@ -21,9 +21,14 @@ const CreateCampaign = () => {
   // Submission state
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const filteredProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredProducts = products.filter((product) => {
+    const query = searchQuery.toLowerCase();
+    return (
+      product.name.toLowerCase().includes(query) ||
+      product.skuCode?.toLowerCase().includes(query)
+    );
+  });
+
 
   const resetForm = () => {
     setTitle("");
@@ -90,7 +95,7 @@ const CreateCampaign = () => {
     <div className="border shadow max-w-4xl mx-auto bg-white rounded-md">
       <div className="relative">
         <img className="absolute top-0 right-0" src={SVG} alt="background" />
-        
+
         <form onSubmit={handleSubmit} className="space-y-6 p-8">
           <h2 className="text-xl font-semibold text-center mb-4">Create Campaign</h2>
 
@@ -170,7 +175,7 @@ const CreateCampaign = () => {
                 type="text"
                 id="searchProducts"
                 className="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary mb-4"
-                placeholder="Search products..."
+                placeholder="Search products by name or sku code..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
