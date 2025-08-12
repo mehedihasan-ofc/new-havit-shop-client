@@ -1,7 +1,7 @@
 // save a user to mongodb
 export const saveUser = userInfo => {
 
-    fetch('https://server.havitshopbd.com/users', {
+    fetch('http://localhost:5000/users', {
         method: 'POST',
         headers: {
             'content-type': 'application/json',

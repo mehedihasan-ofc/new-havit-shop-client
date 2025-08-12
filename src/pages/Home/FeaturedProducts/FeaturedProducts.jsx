@@ -16,7 +16,7 @@ const FeaturedProducts = () => {
     const { data: newArrivalsProducts = [] } = useQuery({
         queryKey: ['newArrivalsProducts'],
         queryFn: async () => {
-            const res = await fetch('https://server.havitshopbd.com/products/new-arrivals');
+            const res = await fetch('http://localhost:5000/products/new-arrivals');
             return res.json();
         }
     });

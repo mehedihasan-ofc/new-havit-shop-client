@@ -4,7 +4,7 @@ const useCampaign = () => {
     const { data: campaignData = {}, isLoading: loading, refetch } = useQuery({
         queryKey: ['campaignData'],
         queryFn: async () => {
-            const res = await fetch('https://server.havitshopbd.com/campaign');
+            const res = await fetch('http://localhost:5000/campaign');
             return res.json();
         }
     });

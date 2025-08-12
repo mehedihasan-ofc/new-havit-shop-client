@@ -4,7 +4,7 @@ const useAds = () => {
     const { data: adsData = {}, isLoading: loading, refetch } = useQuery({
         queryKey: ['adsData'],
         queryFn: async () => {
-            const res = await fetch('https://server.havitshopbd.com/ads');
+            const res = await fetch('http://localhost:5000/ads');
             return res.json();
         }
     });

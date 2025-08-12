@@ -1,11 +1,16 @@
+import { useState } from "react";
 import ProductCard from "../../components/Card/ProductCard/ProductCard";
 import MySpinner from "../../components/Shared/MySpinner/MySpinner";
 import PageHeader from "../../components/Shared/PageHeader/PageHeader";
 import useDiscountedProducts from "../../hooks/useDiscountedProducts";
+import { Button } from "@material-tailwind/react";
 
 const DiscountedProducts = () => {
+    const [page, setPage] = useState(1);
+    const limit = 12;
 
-    const [discountedProducts, isLoading] = useDiscountedProducts();
+    const [data, isLoading] = useDiscountedProducts(page, limit);
+    const { products = [], totalPages = 1, total = 0 } = data;
 
     if (isLoading) {
         return <MySpinner />;
@@ -15,12 +20,37 @@ const DiscountedProducts = () => {
         <div className="my-container mb-5">
             <PageHeader title="Discounted Products" />
 
-            <p className="mb-6 text-center sm:text-left">We found <span className="text-primary">{discountedProducts?.length}</span> items for you!</p>
+            <p className="mb-6 text-center sm:text-left">
+                We found <span className="text-primary">{total}</span> items for you!
+            </p>
 
             <div className="mt-5 grid grid-cols-2 md:grid-cols-4 gap-5">
-                {discountedProducts.map(product => (
+                {products.map(product => (
                     <ProductCard key={product._id} product={product} />
                 ))}
+            </div>
+
+            {/* Pagination */}
+            <div className="flex justify-center items-center gap-4 mt-10">
+
+                <Button
+                    className="font-serif text-sm px-8 py-2 bg-primary rounded"
+                    onClick={() => setPage(prev => prev - 1)}
+                    disabled={page === 1}
+                >
+                    Prev
+                </Button>
+
+                <span>Page {page} of {totalPages}</span>
+
+                <Button
+                    className="font-serif text-sm px-8 py-2 bg-primary rounded"
+                    onClick={() => setPage(prev => prev + 1)}
+                    disabled={page === totalPages}
+                >
+                    Next
+                </Button>
+
             </div>
         </div>
     );

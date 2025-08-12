@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import MySpinner from "../../components/Shared/MySpinner/MySpinner";
 import PageHeader from "../../components/Shared/PageHeader/PageHeader";
 import useCategories from "../../hooks/useCategories";
+import CategorySkeleton from "../../components/Card/CategorySkeleton/CategorySkeleton";
 
 const AllCategories = () => {
     const [categories, loading] = useCategories();
@@ -15,13 +15,19 @@ const AllCategories = () => {
         '#E8E0FF',
     ];
 
-    // Function to randomly select a color
-    const getRandomColor = () => {
-        return colors[Math.floor(Math.random() * colors.length)];
-    };
+    const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)];
 
     if (loading) {
-        return <MySpinner />;
+        return (
+            <div className="my-container mb-5">
+                <PageHeader title="All Categories" />
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
+                    {Array.from({ length: 8 }).map((_, i) => (
+                        <CategorySkeleton key={i} />
+                    ))}
+                </div>
+            </div>
+        );
     }
 
     return (

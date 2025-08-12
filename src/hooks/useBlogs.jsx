@@ -5,7 +5,7 @@ const useBlogs = () => {
     const { data: blogs = [], isLoading: loading, refetch } = useQuery({
         queryKey: ['blogs'],
         queryFn: async () => {
-            const res = await fetch('https://server.havitshopbd.com/blogs');
+            const res = await fetch('http://localhost:5000/blogs');
             return res.json();
         }
     });

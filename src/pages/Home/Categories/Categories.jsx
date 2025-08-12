@@ -5,12 +5,11 @@ import 'swiper/css';
 import useCategories from '../../../hooks/useCategories';
 import { FaArrowRightLong } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
+import CategorySkeleton from "../../../components/Card/CategorySkeleton/CategorySkeleton";
 
 const Categories = () => {
-    const [categories] = useCategories();
+    const [categories, loading] = useCategories();
     const navigate = useNavigate();
-
-    if (!categories || categories.length === 0) return null;
 
     const bgColors = [
         '#F5F7FA',
@@ -20,6 +19,8 @@ const Categories = () => {
         '#FFDDE3',
         '#E8E0FF',
     ];
+
+    if (!loading && categories.length === 0) return null;
 
     const enableLoopMode = categories.length > 1;
 
@@ -44,10 +45,14 @@ const Categories = () => {
                     1024: { slidesPerView: 6, spaceBetween: 20 },
                 }}
             >
-                {
-                    categories.map((category, index) => {
-                        const bgColor = bgColors[index % 6];
-
+                {loading
+                    ? Array.from({ length: 6 }).map((_, index) => (
+                        <SwiperSlide key={`skeleton-${index}`}>
+                            <CategorySkeleton />
+                        </SwiperSlide>
+                    ))
+                    : categories.map((category, index) => {
+                        const bgColor = bgColors[index % bgColors.length];
                         return (
                             <SwiperSlide key={category._id}>
                                 <Link to={`/products/categories/${category._id}`}>
@@ -74,8 +79,7 @@ const Categories = () => {
                                 </Link>
                             </SwiperSlide>
                         );
-                    })
-                }
+                    })}
             </Swiper>
         </div>
     );

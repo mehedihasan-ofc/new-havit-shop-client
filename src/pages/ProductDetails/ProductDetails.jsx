@@ -32,7 +32,7 @@ const ProductDetails = () => {
     const { data: product, isLoading } = useQuery({
         queryKey: ['product', productId],
         queryFn: async () => {
-            const response = await axios.get(`https://server.havitshopbd.com/products/${productId}`);
+            const response = await axios.get(`http://localhost:5000/products/${productId}`);
             return response.data;
         },
         enabled: !!productId,
@@ -64,7 +64,7 @@ const ProductDetails = () => {
             setLoading(true);
 
             try {
-                const response = await axios.post("https://server.havitshopbd.com/carts", newCart);
+                const response = await axios.post("http://localhost:5000/carts", newCart);
 
                 if (response.status === 200) {
                     refetch();

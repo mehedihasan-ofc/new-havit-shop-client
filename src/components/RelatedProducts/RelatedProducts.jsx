@@ -8,7 +8,7 @@ const RelatedProducts = ({ categoryId }) => {
     const { data: relatedProducts, isLoading } = useQuery({
         queryKey: ['relatedProducts', categoryId],
         queryFn: async () => {
-            const response = await axios.get(`https://server.havitshopbd.com/products/related/${categoryId}`);
+            const response = await axios.get(`http://localhost:5000/products/related/${categoryId}`);
             return response.data;
         },
         enabled: !!categoryId,

@@ -13,16 +13,24 @@ import useBanners from '../../../hooks/useBanners';
 import useWelcome from '../../../hooks/useWelcome';
 
 const Hero = () => {
-
-    const [welcomeData, isLoading] = useWelcome();
-    const [banners] = useBanners();
+    const [welcomeData, isLoadingWelcome] = useWelcome();
+    const [banners, isLoadingBanners] = useBanners();
 
     const [open, setOpen] = useState(true);
     const handleOpen = () => setOpen(!open);
 
     const enableLoopMode = banners?.length > 1;
 
-    // Early return if no categories exist
+    // Skeleton loader while banners are loading
+    const BannerSkeleton = () => (
+        <div className="my-container">
+            <div className="w-full h-56 sm:h-72 md:h-96 bg-gray-300 rounded-2xl animate-pulse"></div>
+        </div>
+    );
+
+    if (isLoadingBanners) return <BannerSkeleton />;
+
+    // Early return if no banners
     if (!banners || banners.length === 0) return null;
 
     return (
@@ -31,28 +39,25 @@ const Hero = () => {
                 <Swiper
                     spaceBetween={20}
                     loop={enableLoopMode}
-                    pagination={{
-                        clickable: true,
-                    }}
-                    autoplay={{
-                        delay: 5000,
-                        disableOnInteraction: false,
-                    }}
+                    pagination={{ clickable: true }}
+                    autoplay={{ delay: 5000, disableOnInteraction: false }}
                     modules={[Autoplay, Pagination]}
                 >
-
-                    {
-                        banners?.map(banner => (
-                            <SwiperSlide key={banner?._id}>
-                                <img className='w-full h-full object-cover rounded-2xl' src={banner?.image} alt="banner img" />
-                            </SwiperSlide>
-                        ))
-                    }
-
+                    {banners.map(banner => (
+                        <SwiperSlide key={banner?._id}>
+                            <img
+                                className='w-full h-full object-cover rounded-2xl'
+                                src={banner?.image}
+                                alt="banner img"
+                            />
+                        </SwiperSlide>
+                    ))}
                 </Swiper>
             </div>
 
-            {!isLoading && <WelcomeModal open={open} handleOpen={handleOpen} welcomeData={welcomeData} />}
+            {!isLoadingWelcome && (
+                <WelcomeModal open={open} handleOpen={handleOpen} welcomeData={welcomeData} />
+            )}
         </>
     );
 };

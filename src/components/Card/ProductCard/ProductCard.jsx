@@ -37,7 +37,7 @@ const ProductCard = ({ product }) => {
             setLoading(true);
 
             try {
-                const response = await axios.post("https://server.havitshopbd.com/carts", newCart);
+                const response = await axios.post("http://localhost:5000/carts", newCart);
                 if (response.status === 200) {
                     refetch();
                     toast.success(`${product?.name} added to cart!`, { autoClose: 1000 });

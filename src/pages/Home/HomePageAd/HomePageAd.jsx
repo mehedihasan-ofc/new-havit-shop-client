@@ -3,7 +3,7 @@ import useAds from "../../../hooks/useAds";
 import { Link } from "react-router-dom";
 
 const HomePageAd = () => {
-    const [adsData] = useAds();
+    const [adsData, loading] = useAds();
     const [homePageAd, setHomePageAd] = useState(null);
 
     useEffect(() => {
@@ -12,6 +12,14 @@ const HomePageAd = () => {
             setHomePageAd(homeAd);
         }
     }, [adsData]);
+
+    if (loading) {
+        return (
+            <div className="my-container">
+                <div className="w-full h-40 bg-gray-300 rounded animate-pulse"></div>
+            </div>
+        );
+    }
 
     if (!adsData?.ads) return null;
 
