@@ -64,7 +64,7 @@ const Register = () => {
                             };
                             saveUser(userInfo);
 
-                            toast.success("You have successfully signed up!", {
+                            toast.success("Success! You're in.", {
                                 position: "top-right",
                                 autoClose: 1600,
                             });

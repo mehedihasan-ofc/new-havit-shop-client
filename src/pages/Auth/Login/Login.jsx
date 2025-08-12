@@ -59,6 +59,11 @@ const Login = () => {
                 };
                 saveUser(userInfo);
 
+                toast.success("Success! You're in.", {
+                    position: "top-right",
+                    autoClose: 1600,
+                });
+
                 navigate(from, { replace: true });
             })
             .catch(err => {
