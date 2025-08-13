@@ -38,7 +38,7 @@ export const uploadSingleImage = async (file, url = "http://localhost:5000/singl
  * @param {string} url - Backend upload endpoint
  * @returns {Promise<Array<{_id: string, url: string}>>}
  */
-export const uploadMultipleImages = async (files, url = "http://localhost:5000/upload-multiple") => {
+export const uploadMultipleImages = async (files, url = "http://localhost:5000/multiple-images-upload") => {
     if (!files || files.length === 0) throw new Error("No files provided");
 
     const formData = new FormData();

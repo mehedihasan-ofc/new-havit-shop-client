@@ -5,7 +5,7 @@ import useCategories from '../../../../hooks/useCategories';
 import useSubcategories from '../../../../hooks/useSubcategories';
 import useAxiosSecure from '../../../../hooks/useAxiosSecure';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
-import { uploadMultipleImagesToStorage } from '../../../../utils';
+import { uploadMultipleImages } from '../../../../utils';
 import { toast } from 'react-toastify';
 
 const AddProduct = () => {
@@ -135,7 +135,8 @@ const AddProduct = () => {
 
         try {
             // Upload multiple images
-            const downloadURLs = await uploadMultipleImagesToStorage(formData.images);
+            const productImagesURLs = await uploadMultipleImages(formData.images);
+            console.log(productImagesURLs);
 
             const newProduct = {
                 name: formData.name,
@@ -153,10 +154,7 @@ const AddProduct = () => {
                 skuCode: formData.skuCode,
                 flavor: formData.flavor,
                 createdAt: new Date().toISOString(),
-                images: downloadURLs.map((url, index) => ({
-                    _id: new Date().getTime() + index,
-                    url: url
-                }))
+                images: productImagesURLs
             };
 
             // Make an API call to send the data to the database
