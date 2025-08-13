@@ -12,7 +12,7 @@ import { PiFlagBannerFold } from "react-icons/pi";
 import CreateBannerModal from "../../../../components/Modal/CreateBannerModal/CreateBannerModal";
 import useBanners from "../../../../hooks/useBanners";
 import MySpinner from "../../../../components/Shared/MySpinner/MySpinner";
-import { formattedDate } from "../../../../utils";
+import { formattedDate, deleteImage } from "../../../../utils";
 import { AiOutlineDelete } from "react-icons/ai";
 import { LuEye } from "react-icons/lu";
 import Swal from "sweetalert2";
@@ -30,9 +30,8 @@ const BannerManagement = () => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(!open);
 
-    const handleDeleteBanner = (id) => {
-
-        Swal.fire({
+    const handleDeleteBanner = async (id, imageUrl) => {
+        const confirm = await Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
             icon: "warning",
@@ -40,23 +39,34 @@ const BannerManagement = () => {
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-
-                axiosSecure.delete(`/banners/${id}`)
-                    .then(res => {
-                        if (res.data.deletedCount > 0) {
-                            refetch();
-                            Swal.fire({
-                                title: "Deleted!",
-                                text: "Your file has been deleted.",
-                                icon: "success"
-                            });
-                        }
-                    })
-            }
         });
-    }
+
+        if (confirm.isConfirmed) {
+            try {
+                // First delete the image file from /image/:id
+                await deleteImage(imageUrl);
+
+                // Then delete the banner document from DB
+                const res = await axiosSecure.delete(`/banners/${id}`);
+
+                if (res.data.deletedCount > 0) {
+                    refetch();
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Your file has been deleted.",
+                        icon: "success"
+                    });
+                }
+            } catch (err) {
+                console.error("Error deleting banner:", err);
+                Swal.fire({
+                    title: "Error",
+                    text: "Failed to delete banner",
+                    icon: "error"
+                });
+            }
+        }
+    };
 
     if (loading) {
         return <MySpinner />;
@@ -83,7 +93,7 @@ const BannerManagement = () => {
                         </div>
                     </div>
                 </CardHeader>
-                
+
                 {banners?.length > 0 ? <CardBody className="overflow-scroll p-0 mt-5">
                     <table className="w-full min-w-max table-auto text-left">
                         <thead>
@@ -145,7 +155,7 @@ const BannerManagement = () => {
                                                     </IconButton>
                                                 </Link>
 
-                                                <IconButton onClick={() => handleDeleteBanner(_id)} size="sm" variant="text" className="rounded-full">
+                                                <IconButton onClick={() => handleDeleteBanner(_id, image)} size="sm" variant="text" className="rounded-full">
                                                     <AiOutlineDelete className="text-red-600" size={18} />
                                                 </IconButton>
                                             </td>

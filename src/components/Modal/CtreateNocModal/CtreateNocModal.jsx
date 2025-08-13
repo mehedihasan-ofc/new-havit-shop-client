@@ -1,7 +1,7 @@
 import { Button, Dialog, DialogBody, DialogFooter, DialogHeader } from "@material-tailwind/react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useState } from "react";
-import { uploadImageToStorage } from "../../../utils";
+import { uploadSingleImage } from "../../../utils";
 import { toast } from "react-toastify";
 
 const CtreateNocModal = ({ open, handleOpen, refetch }) => {
@@ -31,7 +31,7 @@ const CtreateNocModal = ({ open, handleOpen, refetch }) => {
             setLoading(true);
             try {
                 // Upload the image and get the download URL
-                const imageLink = await uploadImageToStorage(selectedFile);
+                const imageLink = await uploadSingleImage(selectedFile);
 
                 // Prepare the data to be sent to the API
                 const newNoc = {

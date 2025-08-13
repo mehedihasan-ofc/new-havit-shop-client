@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { toast } from "react-toastify";
-import { uploadImageToStorage } from "../../../../utils";
+import { deleteImage, uploadSingleImage } from "../../../../utils";
 import useWelcome from "../../../../hooks/useWelcome";
 import { Button } from "@material-tailwind/react";
 
@@ -26,7 +26,7 @@ const Welcome = () => {
         try {
             let imageLink = welcomeData?.image;
             if (selectedImage) {
-                imageLink = await uploadImageToStorage(selectedImage);
+                imageLink = await uploadSingleImage(selectedImage);
             }
 
             const welcomePayload = {
@@ -34,6 +34,9 @@ const Welcome = () => {
             };
 
             if (welcomeData?._id) {
+                
+                await deleteImage(welcomeData?.image);
+                
                 const { data } = await axiosSecure.put(`/welcome/${welcomeData._id}`, welcomePayload);
 
                 if (data.modifiedCount > 0) {

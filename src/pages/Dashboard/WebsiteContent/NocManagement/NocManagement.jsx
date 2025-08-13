@@ -8,7 +8,7 @@ import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { useState } from "react";
 import CtreateNocModal from "../../../../components/Modal/CtreateNocModal/CtreateNocModal";
 import useNoc from "../../../../hooks/useNoc";
-import { formattedDate } from "../../../../utils";
+import { deleteImage, formattedDate } from "../../../../utils";
 import MySpinner from "../../../../components/Shared/MySpinner/MySpinner";
 import Swal from "sweetalert2";
 
@@ -21,38 +21,49 @@ const NocManagement = () => {
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(!open);
-    
-    const handleDeleteNOC = (id) => {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
-            if (result.isConfirmed) {
 
-                axiosSecure.delete(`/noc/${id}`)
-                    .then(res => {
-                        if (res.data.deletedCount > 0) {
-                            refetch();
-                            Swal.fire({
-                                title: "Deleted!",
-                                text: "Your file has been deleted.",
-                                icon: "success"
-                            });
-                        }
-                    })
+    const handleDeleteNOC = async (id, imageUrl) => {
+        try {
+            const result = await Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            });
+
+            if (result.isConfirmed) {
+                // First delete the image file from /image/:id
+                await deleteImage(imageUrl);
+
+                // Then delete the NOC document
+                const res = await axiosSecure.delete(`/noc/${id}`);
+
+                if (res.data.deletedCount > 0) {
+                    refetch();
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Your file has been deleted.",
+                        icon: "success"
+                    });
+                }
             }
-        });
-    }
+        } catch (err) {
+            console.error("Failed to delete NOC:", err);
+            Swal.fire({
+                title: "Error",
+                text: "Failed to delete NOC",
+                icon: "error"
+            });
+        }
+    };
 
     if (loading) {
         return <MySpinner />;
     }
-    
+
     return (
         <>
             <Card className="h-full w-full">
@@ -74,7 +85,7 @@ const NocManagement = () => {
                         </div>
                     </div>
                 </CardHeader>
-                
+
                 {noc?.length > 0 ? <CardBody className="overflow-scroll p-0 mt-5">
                     <table className="w-full min-w-max table-auto text-left">
                         <thead>
@@ -136,7 +147,7 @@ const NocManagement = () => {
                                                     </IconButton>
                                                 </Link>
 
-                                                <IconButton onClick={() => handleDeleteNOC(_id)} size="sm" variant="text" className="rounded-full">
+                                                <IconButton onClick={() => handleDeleteNOC(_id, image)} size="sm" variant="text" className="rounded-full">
                                                     <AiOutlineDelete className="text-red-600" size={18} />
                                                 </IconButton>
                                             </td>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import SVG from "../../../../assets/svg/img-status-9.svg";
 import { Button } from "@material-tailwind/react";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
-import { uploadImageToStorage } from "../../../../utils";
+import { deleteImage, uploadSingleImage } from "../../../../utils";
 import { toast } from "react-toastify";
 import useLogo from "../../../../hooks/useLogo";
 
@@ -25,11 +25,14 @@ const Logo = () => {
 
         try {
             // Upload logo if a new file is selected
-            const logoLink = logoFile ? await uploadImageToStorage(logoFile) : logoData?.logo;
+            const logoLink = logoFile ? await uploadSingleImage(logoFile) : logoData?.logo;
 
             const logoPayload = { logo: logoLink };
 
             if (logoData?._id) {
+
+                await deleteImage(logoData.logo);
+
                 // Update existing logo
                 const { data } = await axiosSecure.put(`/logo/${logoData._id}`, logoPayload);
                 if (data?.modifiedCount > 0) {
@@ -50,6 +53,7 @@ const Logo = () => {
                 // Save new logo
                 const { data } = await axiosSecure.post("/logo", logoPayload);
                 if (data?.insertedId) {
+                    refetch();
                     toast.success("Logo saved successfully!", {
                         position: "top-right",
                         autoClose: 1000,

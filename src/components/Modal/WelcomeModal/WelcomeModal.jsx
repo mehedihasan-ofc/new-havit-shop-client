@@ -15,9 +15,9 @@ const WelcomeModal = ({ open, handleOpen, welcomeData }) => {
             <DialogBody className="p-0">
                 {/* Top Section - Welcome Text & Close Icon */}
                 <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 bg-gray-50">
-                    
-                <h2 className="text-lg font-bold text-primary">{user?.displayName ? `Welcome, ${user.displayName}!` : "Welcome, Guest!"}</h2>
-                    
+
+                    <h2 className="text-lg font-bold text-primary">{user?.displayName ? `Welcome, ${user.displayName}!` : "Welcome, Guest!"}</h2>
+
                     <button
                         onClick={handleOpen}
                         className="text-gray-400 hover:text-gray-600 focus:outline-none"
@@ -45,7 +45,7 @@ const WelcomeModal = ({ open, handleOpen, welcomeData }) => {
                         <img
                             src={welcomeData.image}
                             alt="Welcome"
-                            className="w-full h-[264px]"
+                            className="w-full h-[280px] object-cover"
                         />
                     ) : (
                         <div className="flex items-center justify-center h-[264px] bg-gray-200">
