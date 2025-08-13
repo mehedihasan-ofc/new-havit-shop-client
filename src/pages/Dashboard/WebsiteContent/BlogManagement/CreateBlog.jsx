@@ -1,6 +1,6 @@
 import { Button } from '@material-tailwind/react';
 import { useRef, useState } from 'react';
-import { uploadImageToStorage } from '../../../../utils';
+import { uploadSingleImage } from '../../../../utils';
 import useAxiosSecure from '../../../../hooks/useAxiosSecure';
 import { toast } from 'react-toastify';
 
@@ -64,7 +64,7 @@ const CreateBlog = () => {
             setLoading(true);
             try {
                 // Upload the image and get the download URL
-                const imageLink = await uploadImageToStorage(formData.image);
+                const imageLink = await uploadSingleImage(formData.image);
 
                 // Prepare the data to be sent to the API
                 const newBlog = {
@@ -76,33 +76,29 @@ const CreateBlog = () => {
                     link: formData.link,
                     createdAt: new Date().toISOString(),
                     content: formData.content
-                };                
+                };
 
-                // Make an API call to send the data to the database
-                axiosSecure.post('/blog', newBlog)
-                    .then(data => {
-                        if (data.data.insertedId) {
+                const response = await axiosSecure.post('/blog', newBlog);
 
-                            toast.success('🎉 Blog created successfully!', {
-                                position: "top-right",
-                                autoClose: 1600,
-                                pauseOnHover: false,
-                            });
+                if (response.data.insertedId) {
+                    toast.success('🎉 Blog created successfully!', {
+                        position: "top-right",
+                        autoClose: 1600,
+                        pauseOnHover: false,
+                    });
 
-                            setFormData({
-                                headline: '',
-                                description: '',
-                                category: '',
-                                image: null,
-                                imagePreview: null,
-                                readTime: '',
-                                link: '',
-                                content: [{ _id: 1, title: '', description: '' }]
-                            });
-                            fileInputRef.current.value = null;
-                        }
-                    })
-
+                    setFormData({
+                        headline: '',
+                        description: '',
+                        category: '',
+                        image: null,
+                        imagePreview: null,
+                        readTime: '',
+                        link: '',
+                        content: [{ _id: 1, title: '', description: '' }]
+                    });
+                    fileInputRef.current.value = null;
+                }
 
             } catch (error) {
                 console.error('Error uploading image:', error);

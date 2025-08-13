@@ -9,7 +9,7 @@ import {
 } from "@material-tailwind/react";
 import useCategories from "../../../../hooks/useCategories";
 import MySpinner from "../../../../components/Shared/MySpinner/MySpinner";
-import { formattedDate } from "../../../../utils";
+import { deleteImage, formattedDate } from "../../../../utils";
 // import { CiEdit } from "react-icons/ci";
 import { AiOutlineDelete } from "react-icons/ai";
 import { TbCategoryPlus } from "react-icons/tb";
@@ -24,33 +24,42 @@ const CategoryList = () => {
     const [categories, loading, refetch] = useCategories();
     const [axiosSecure] = useAxiosSecure();
 
-    const handleDeleteCategory = (id) => {
+    const handleDeleteCategory = async (id, imageUrl) => {
+        try {
+            const result = await Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            });
 
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
             if (result.isConfirmed) {
+                await deleteImage(imageUrl);
 
-                axiosSecure.delete(`/categories/${id}`)
-                    .then(res => {
-                        if (res.data.deletedCount > 0) {
-                            refetch();
-                            Swal.fire({
-                                title: "Deleted!",
-                                text: "Your file has been deleted.",
-                                icon: "success"
-                            });
-                        }
-                    })
+                // Then delete the category
+                const res = await axiosSecure.delete(`/categories/${id}`);
+
+                if (res.data.deletedCount > 0) {
+                    refetch();
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Your category and image have been deleted.",
+                        icon: "success"
+                    });
+                }
             }
-        });
-    }
+        } catch (err) {
+            console.error("Failed to delete category:", err);
+            Swal.fire({
+                title: "Error",
+                text: "Failed to delete category",
+                icon: "error"
+            });
+        }
+    };
 
     if (loading) return <MySpinner />
 
@@ -142,7 +151,7 @@ const CategoryList = () => {
                                                     <CiEdit className="text-amber-800" size={20} />
                                                 </IconButton> */}
 
-                                                <IconButton onClick={() => handleDeleteCategory(_id)} size="sm" variant="text" className="rounded-full">
+                                                <IconButton onClick={() => handleDeleteCategory(_id, image)} size="sm" variant="text" className="rounded-full">
                                                     <AiOutlineDelete className="text-red-600" size={20} />
                                                 </IconButton>
                                             </td>

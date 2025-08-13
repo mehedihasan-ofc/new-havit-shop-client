@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { Button } from "@material-tailwind/react";
-import { uploadImageToStorage } from "../../../../utils";
+import { uploadSingleImage } from "../../../../utils";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 import SVG from "../../../../assets/svg/img-status-7.svg";
@@ -55,7 +55,7 @@ const NewCategory = () => {
         if (formData.categoryImage) {
             setLoading(true);
             try {
-                const imageLink = await uploadImageToStorage(formData.categoryImage);
+                const imageLink = await uploadSingleImage(formData.categoryImage);
 
                 const newCategory = {
                     name: formData.categoryName,

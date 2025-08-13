@@ -11,7 +11,7 @@ import {
     IconButton,
 } from "@material-tailwind/react";
 import useBlogs from "../../../../hooks/useBlogs";
-import { formattedDate } from "../../../../utils";
+import { deleteImage, formattedDate } from "../../../../utils";
 import { AiOutlineDelete } from "react-icons/ai";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
@@ -19,41 +19,52 @@ import MySpinner from "../../../../components/Shared/MySpinner/MySpinner";
 import NoDataFound from "../../../Static/NoDataFound/NoDataFound";
 // -----------------------------------------------
 
-const TABLE_HEAD = [ "#", "Image", "Category", "Read Time", "Created At", "Action"];
+const TABLE_HEAD = ["#", "Image", "Category", "Read Time", "Created At", "Action"];
 
 const BlogManagement = () => {
 
     const [blogs, loading, refetch] = useBlogs();
     const [axiosSecure] = useAxiosSecure();
 
-    const handleDeleteBlog = (id) => {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-          }).then((result) => {
+    const handleDeleteBlog = async (id, imageUrl) => {
+        try {
+            const result = await Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            });
+
             if (result.isConfirmed) {
-              
-                axiosSecure.delete(`/blogs/${id}`)
-                .then(res => {
-                    if(res.data.deletedCount > 0) {
-                        refetch();
-                        Swal.fire({
-                            title: "Deleted!",
-                            text: "Your file has been deleted.",
-                            icon: "success"
-                          });
-                    }
-                })
+                // Delete the image first
+                await deleteImage(imageUrl);
+
+                // Delete the blog document
+                const res = await axiosSecure.delete(`/blogs/${id}`);
+
+                if (res.data.deletedCount > 0) {
+                    refetch();
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Your blog and image have been deleted.",
+                        icon: "success"
+                    });
+                }
             }
-          });
+        } catch (err) {
+            console.error("Failed to delete blog:", err);
+            Swal.fire({
+                title: "Error",
+                text: "Failed to delete blog",
+                icon: "error"
+            });
+        }
     };
 
-    if(loading) {
+    if (loading) {
         return <MySpinner />;
     }
 
@@ -79,7 +90,7 @@ const BlogManagement = () => {
                     </div>
                 </div>
             </CardHeader>
-            
+
             {blogs?.length > 0 ? <CardBody className="overflow-scroll p-0 mt-5">
                 <table className="w-full min-w-max table-auto text-left">
                     <thead>
@@ -150,7 +161,7 @@ const BlogManagement = () => {
                                             </Typography>
                                         </td>
                                         <td className={classes}>
-                                            <IconButton onClick={() => handleDeleteBlog(_id)} size="sm" variant="text" className="rounded-full">
+                                            <IconButton onClick={() => handleDeleteBlog(_id, image)} size="sm" variant="text" className="rounded-full">
                                                 <AiOutlineDelete className="text-red-600" size={18} />
                                             </IconButton>
                                         </td>
