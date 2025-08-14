@@ -162,20 +162,9 @@ const ProductList = () => {
                                                 variant="small"
                                                 color="blue-gray"
                                                 className="font-normal text-xs"
-                                                dangerouslySetInnerHTML={{
-                                                    __html: name
-                                                        .split(" ")
-                                                        .reduce((acc, word, i) => {
-                                                            return (
-                                                                acc +
-                                                                word +
-                                                                ((i + 1) % 3 === 0
-                                                                    ? "<br/>"
-                                                                    : " ")
-                                                            );
-                                                        }, ""),
-                                                }}
-                                            />
+                                            >
+                                                {name}
+                                            </Typography>
                                         </td>
                                         <td className={classes}>
                                             <Avatar

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import useCategories from "../../../../hooks/useCategories";
 import useSubcategories from "../../../../hooks/useSubcategories";
-import { uploadMultipleImagesToStorage } from "../../../../utils";
+import { uploadMultipleImages, uploadMultipleImagesToStorage } from "../../../../utils";
 import SVG from "../../../../assets/svg/img-status-8.svg";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { Button } from "@material-tailwind/react";
@@ -36,6 +36,7 @@ const ProductEdit = () => {
         flavor: [],
         images: [],
         imagePreviews: [],
+        existImages: []
     });
 
     const fileInputRef = useRef();
@@ -51,7 +52,9 @@ const ProductEdit = () => {
                     flavor: data.flavor || [],
                     images: [],
                     imagePreviews: data.images.map((img) => img.url),
+                    existImages: data.images.map((img) => img),
                 });
+
             } catch (error) {
                 console.error("Error fetching product:", error);
             } finally {
@@ -78,7 +81,14 @@ const ProductEdit = () => {
     const handleFileChange = (e) => {
         const files = Array.from(e.target.files);
         const previews = files.map((file) => URL.createObjectURL(file));
-        setFormData((prev) => ({ ...prev, images: files, imagePreviews: previews }));
+
+        setFormData((prev) => ({
+            ...prev,
+            images: [...prev.images, ...files],
+            imagePreviews: [...prev.imagePreviews, ...previews],
+        }));
+
+        fileInputRef.current.value = null;
     };
 
     const handleDeleteImage = (index) => {
@@ -138,10 +148,13 @@ const ProductEdit = () => {
         setLoading(true);
 
         try {
-            const downloadURLs =
-                formData.images.length > 0
-                    ? await uploadMultipleImagesToStorage(formData.images)
-                    : formData.imagePreviews;
+
+            const newImages = formData.images.length > 0 ? await uploadMultipleImages(formData.images) : [];
+
+            const mergedImages = [
+                ...formData.existImages.filter(img => img._id),
+                ...newImages
+            ];
 
             const updatedProduct = {
                 name: formData.name,
@@ -157,10 +170,10 @@ const ProductEdit = () => {
                 madeIn: formData.madeIn,
                 skuCode: formData.skuCode,
                 flavor: formData.flavor,
-                images: downloadURLs.map((url) => ({
-                    url: url
-                }))
+                images: mergedImages
             };
+
+            console.log(updatedProduct);
 
             const { data } = await axiosSecure.put(`/product/${id}`, updatedProduct);
 

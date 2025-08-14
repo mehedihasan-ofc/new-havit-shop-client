@@ -136,7 +136,6 @@ const AddProduct = () => {
         try {
             // Upload multiple images
             const productImagesURLs = await uploadMultipleImages(formData.images);
-            console.log(productImagesURLs);
 
             const newProduct = {
                 name: formData.name,
