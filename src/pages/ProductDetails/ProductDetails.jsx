@@ -216,14 +216,9 @@ const ProductDetails = () => {
                 </div>
             )}
 
-            <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow mt-5">
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Product Description</h3>
-                {product?.content?.map((item) => (
-                    <div key={item?._id} className="space-y-2 my-5">
-                        <h4 className="font-bold">{item?.title}</h4>
-                        <p>{item?.description}</p>
-                    </div>
-                ))}
+            <div className="p-6 rounded-lg shadow mt-5">
+                <h3 className="text-lg md:text-xl font-semibold font-serif mb-4 border-b-2">Product Description</h3>
+                <div className="font-serif leading-relaxed text-sm md:text-base text-justify" dangerouslySetInnerHTML={{ __html: product.productDescription }} />
             </div>
 
             <RelatedProducts categoryId={product?.categoryId} />

@@ -26,7 +26,6 @@ const AddProduct = () => {
         availableStock: '',
         rating: '',
         videoLink: '',
-        // content: [{ _id: 1, title: '', description: '' }],
         brand: '',
         madeIn: '',
         flavor: [],
@@ -45,13 +44,6 @@ const AddProduct = () => {
         if (name === 'categoryId') {
             setFormData((prev) => ({ ...prev, subcategoryId: '' }));
         }
-    };
-
-    const handleContentChange = (index, e) => {
-        const { name, value } = e.target;
-        const newContent = [...formData.content];
-        newContent[index][name] = value;
-        setFormData({ ...formData, content: newContent });
     };
 
     // Filter subcategories based on selected category ID
@@ -105,103 +97,85 @@ const AddProduct = () => {
         });
     };
 
-    const addContentSection = () => {
-        const newId = formData.content.length ? formData.content[formData.content.length - 1]._id + 1 : 1;
-        setFormData({
-            ...formData,
-            content: [...formData.content, { _id: newId, title: '', description: '' }]
-        });
-    };
-
-    const removeContentSection = (id) => {
-        setFormData({
-            ...formData,
-            content: formData.content.filter((section) => section._id !== id),
-        });
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const productData = { description };
-        console.log(productData);
+        if (!formData.images || formData.images.length === 0) {
+            toast.error("Please upload at least one image.");
+            return;
+        }
 
-        // if (!formData.images || formData.images.length === 0) {
-        //     toast.error("Please upload at least one image.");
-        //     return;
-        // }
+        if (formData.rating < 0 || formData.rating > 5) {
+            toast.error("Rating must be between 0 and 5");
+            return;
+        }
 
-        // if (formData.rating < 0 || formData.rating > 5) {
-        //     toast.error("Rating must be between 0 and 5");
-        //     return;
-        // }
+        setLoading(true);
 
-        // setLoading(true);
+        try {
+            // Upload multiple images
+            const productImagesURLs = await uploadMultipleImages(formData.images);
 
-        // try {
-        //     // Upload multiple images
-        //     const productImagesURLs = await uploadMultipleImages(formData.images);
+            const newProduct = {
+                name: formData.name,
+                categoryId: formData.categoryId,
+                subcategoryId: formData.subcategoryId,
+                regularPrice: parseFloat(formData.regularPrice),
+                price: parseFloat(formData.price),
+                availableStock: parseInt(formData.availableStock, 10),
+                soldCount: 0,
+                rating: parseFloat(formData.rating),
+                videoLink: formData.videoLink,
+                productDescription: description,
+                brand: formData.brand,
+                madeIn: formData.madeIn,
+                skuCode: formData.skuCode,
+                flavor: formData.flavor,
+                createdAt: new Date().toISOString(),
+                images: productImagesURLs
+            };
 
-        //     const newProduct = {
-        //         name: formData.name,
-        //         categoryId: formData.categoryId,
-        //         subcategoryId: formData.subcategoryId,
-        //         regularPrice: parseFloat(formData.regularPrice),
-        //         price: parseFloat(formData.price),
-        //         availableStock: parseInt(formData.availableStock, 10),
-        //         soldCount: 0,
-        //         rating: parseFloat(formData.rating),
-        //         videoLink: formData.videoLink,
-        //         // content: formData.content,
-        //         content: description,
-        //         brand: formData.brand,
-        //         madeIn: formData.madeIn,
-        //         skuCode: formData.skuCode,
-        //         flavor: formData.flavor,
-        //         createdAt: new Date().toISOString(),
-        //         images: productImagesURLs
-        //     };
+            console.log(newProduct);
 
-        //     // Make an API call to send the data to the database
-        //     const { data } = await axiosSecure.post('/product', newProduct);
+            // Make an API call to send the data to the database
+            const { data } = await axiosSecure.post('/product', newProduct);
 
-        //     if (data.insertedId) {
-        //         toast.success('New Product Added successfully!', {
-        //             position: "top-right",
-        //             autoClose: 1000,
-        //             pauseOnHover: false,
-        //         });
+            if (data.insertedId) {
+                toast.success('New Product Added successfully!', {
+                    position: "top-right",
+                    autoClose: 1000,
+                    pauseOnHover: false,
+                });
 
-        //         // Reset form data after successful upload
-        //         setFormData({
-        //             skuCode: '',
-        //             name: '',
-        //             categoryId: '',
-        //             subcategoryId: '',
-        //             regularPrice: '',
-        //             price: '',
-        //             availableStock: '',
-        //             rating: '',
-        //             videoLink: '',
-        //             // content: [{ _id: 1, title: '', description: '' }],
-        //             madeIn: '',
-        //             brand: '',
-        //             flavor: [],
-        //             images: [],
-        //             imagePreviews: []
-        //         });
-        //         setDescription("");
-        //         fileInputRef.current.value = null;
-        //     }
-        //     else {
-        //         console.error("No insertedId in response");
-        //     }
+                // Reset form data after successful upload
+                setFormData({
+                    skuCode: '',
+                    name: '',
+                    categoryId: '',
+                    subcategoryId: '',
+                    regularPrice: '',
+                    price: '',
+                    availableStock: '',
+                    rating: '',
+                    videoLink: '',
+                    madeIn: '',
+                    brand: '',
+                    flavor: [],
+                    images: [],
+                    imagePreviews: []
+                });
+                setDescription("");
+                fileInputRef.current.value = null;
+            }
+            else {
+                console.error("No insertedId in response");
+            }
 
-        // } catch (error) {
-        //     console.error("Error during API call:", error);
-        // } finally {
-        //     setLoading(false);
-        // }
+        } catch (error) {
+            console.error("Error during API call:", error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -450,42 +424,6 @@ const AddProduct = () => {
                     </div>
 
                     <TextEditor value={description} onChange={setDescription} />
-
-                    {/* <div className='text-end'>
-                        <Button size='sm' type='button' onClick={addContentSection} className='rounded-none bg-primary font-medium'>Add Content Section</Button>
-                    </div> */}
-
-                    {/* {formData.content.map((section, index) => (
-                        <div key={section._id} className="mb-4 relative border p-3 rounded-md mt-2">
-                            {section._id !== 1 && (
-                                <button
-                                    type="button"
-                                    className="absolute top-2 right-2 text-red-500 hover:text-red-700"
-                                    onClick={() => removeContentSection(section._id)}
-                                >
-                                    ✕
-                                </button>
-                            )}
-                            <label className="block text-gray-700">Content Section {index + 1}</label>
-                            <input
-                                type="text"
-                                name="title"
-                                value={section.title}
-                                onChange={(e) => handleContentChange(index, e)}
-                                placeholder="Enter section title"
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
-                                required
-                            />
-                            <textarea
-                                name="description"
-                                value={section.description}
-                                onChange={(e) => handleContentChange(index, e)}
-                                placeholder="Enter section description"
-                                className="mt-2 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
-                                required
-                            ></textarea>
-                        </div>
-                    ))} */}
 
                     <div className='flex items-center justify-center'>
                         <Button type="submit" loading={loading} className='rounded-none bg-primary font-medium px-10'>
