@@ -2,13 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import useCategories from "../../../../hooks/useCategories";
 import useSubcategories from "../../../../hooks/useSubcategories";
-import { uploadMultipleImages, uploadMultipleImagesToStorage } from "../../../../utils";
+import { deleteImage, uploadMultipleImages } from "../../../../utils";
 import SVG from "../../../../assets/svg/img-status-8.svg";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { Button } from "@material-tailwind/react";
 import { useParams } from "react-router-dom";
 import MySpinner from "../../../../components/Shared/MySpinner/MySpinner";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const ProductEdit = () => {
 
@@ -91,11 +92,54 @@ const ProductEdit = () => {
         fileInputRef.current.value = null;
     };
 
-    const handleDeleteImage = (index) => {
-        setFormData((prev) => {
-            const newImages = prev.images.filter((_, i) => i !== index);
-            const newPreviews = prev.imagePreviews.filter((_, i) => i !== index);
-            return { ...prev, images: newImages, imagePreviews: newPreviews };
+    const handleDeleteImage = async (index) => {
+        const imageToDelete = formData.imagePreviews[index];
+        const isOldImage = formData.existImages?.some(existImg => existImg.url === imageToDelete);
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you want to remove this image?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then(async (result) => {
+            if (!result.isConfirmed) return;
+
+            // If it's an old image, delete from server
+            if (isOldImage) {
+                try {
+                    const res = await deleteImage(imageToDelete);
+
+                    if (res?.result?.deletedCount > 0) {
+                        // Update product images in DB
+                        const newExistImages = formData.existImages?.filter(existImg => existImg.url !== imageToDelete);
+                        const { data } = await axiosSecure.put(`/product/${id}`, { images: newExistImages });
+
+                        if (data.modifiedCount) {
+                            toast.success('Deleted!', {
+                                position: "top-right",
+                                autoClose: 1000,
+                                pauseOnHover: false,
+                            });
+                        }
+                    }
+
+                } catch (error) {
+                    console.error("Error deleting old image:", error);
+                    Swal.fire('Error!', 'Failed to delete the image from server.', 'error');
+                    return;
+                }
+            }
+
+            // Remove from formData state
+            setFormData(prev => {
+                const newImages = prev.images.filter((_, i) => i !== index);
+                const newPreviews = prev.imagePreviews.filter((_, i) => i !== index);
+                return { ...prev, images: newImages, imagePreviews: newPreviews };
+            });
         });
     };
 
@@ -172,8 +216,6 @@ const ProductEdit = () => {
                 flavor: formData.flavor,
                 images: mergedImages
             };
-
-            console.log(updatedProduct);
 
             const { data } = await axiosSecure.put(`/product/${id}`, updatedProduct);
 

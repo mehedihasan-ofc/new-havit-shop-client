@@ -9,8 +9,8 @@ import {
     Typography,
 } from "@material-tailwind/react";
 import { TbCategoryPlus } from "react-icons/tb";
-import { Link, useNavigate } from "react-router-dom";
-import { formattedDate } from "../../../../utils";
+import { useNavigate } from "react-router-dom";
+import { deleteMultipleImages, formattedDate } from "../../../../utils";
 import { AiOutlineDelete } from "react-icons/ai";
 import useProducts from "../../../../hooks/useProducts";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
@@ -37,7 +37,7 @@ const ProductList = () => {
     const [axiosSecure] = useAxiosSecure();
     const navigate = useNavigate();
 
-    const handleDeleteProduct = (id) => {
+    const handleDeleteProduct = async (id, images) => {
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -46,21 +46,38 @@ const ProductList = () => {
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!",
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                axiosSecure.delete(`/products/${id}`).then((res) => {
-                    if (res.data.deletedCount > 0) {
-                        refetch();
-                        Swal.fire({
-                            title: "Deleted!",
-                            text: "Your file has been deleted.",
-                            icon: "success",
-                        });
+                try {
+                    if (images?.length) {
+                        const imageUrls = images.map(img => img.url);
+                        const res = await deleteMultipleImages(imageUrls);
+
+                        if (res?.message) {
+                            const productRes = await axiosSecure.delete(`/products/${id}`);
+                            if (productRes.data.deletedCount > 0) {
+                                refetch();
+                                Swal.fire({
+                                    title: "Deleted!",
+                                    text: "Your file has been deleted.",
+                                    icon: "success",
+                                });
+                            }
+                        }
                     }
-                });
+
+                } catch (err) {
+                    console.error("Error deleting product:", err);
+                    Swal.fire({
+                        title: "Error!",
+                        text: "Something went wrong while deleting.",
+                        icon: "error",
+                    });
+                }
             }
         });
     };
+
 
     if (loading) {
         return <MySpinner />;
@@ -229,7 +246,7 @@ const ProductList = () => {
                                             </IconButton>
 
                                             <IconButton
-                                                onClick={() => handleDeleteProduct(_id)}
+                                                onClick={() => handleDeleteProduct(_id, images)}
                                                 size="sm"
                                                 variant="text"
                                                 className="rounded-full"

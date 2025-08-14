@@ -68,6 +68,26 @@ export async function deleteImage(imageUrl) {
         throw error;
     }
 }
+
+/**
+ * Delete multiple images by IDs from the server
+ * @param {string[]} imageUrls - Array of image URLs
+ * @returns {Promise<string[]>} - Array of success messages from the server
+ */
+export async function deleteMultipleImages(imageUrls) {
+    try {
+        // Extract only the image IDs from URLs
+        const imageIds = imageUrls.map(url => url.split("/").pop());
+
+        const res = await axios.delete(`http://localhost:5000/delete-multiple-images`, {
+            data: { ids: imageIds }
+        });
+        return res.data;
+    } catch (error) {
+        console.error("Failed to delete multiple images:", error);
+        throw error;
+    }
+}
 // ============================================
 
 // export const uploadImageToStorage = (image) => {

@@ -7,6 +7,7 @@ import useAxiosSecure from '../../../../hooks/useAxiosSecure';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { uploadMultipleImages } from '../../../../utils';
 import { toast } from 'react-toastify';
+import TextEditor from '../../../../components/TextEditor/TextEditor';
 
 const AddProduct = () => {
     const [categories] = useCategories();
@@ -25,13 +26,14 @@ const AddProduct = () => {
         availableStock: '',
         rating: '',
         videoLink: '',
-        content: [{ _id: 1, title: '', description: '' }],
+        // content: [{ _id: 1, title: '', description: '' }],
         brand: '',
         madeIn: '',
         flavor: [],
         images: [],
         imagePreviews: [],
     });
+    const [description, setDescription] = useState("");
 
     const fileInputRef = useRef();
 
@@ -121,80 +123,85 @@ const AddProduct = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!formData.images || formData.images.length === 0) {
-            toast.error("Please upload at least one image.");
-            return;
-        }
+        const productData = { description };
+        console.log(productData);
 
-        if (formData.rating < 0 || formData.rating > 5) {
-            toast.error("Rating must be between 0 and 5");
-            return;
-        }
+        // if (!formData.images || formData.images.length === 0) {
+        //     toast.error("Please upload at least one image.");
+        //     return;
+        // }
 
-        setLoading(true);
+        // if (formData.rating < 0 || formData.rating > 5) {
+        //     toast.error("Rating must be between 0 and 5");
+        //     return;
+        // }
 
-        try {
-            // Upload multiple images
-            const productImagesURLs = await uploadMultipleImages(formData.images);
+        // setLoading(true);
 
-            const newProduct = {
-                name: formData.name,
-                categoryId: formData.categoryId,
-                subcategoryId: formData.subcategoryId,
-                regularPrice: parseFloat(formData.regularPrice),
-                price: parseFloat(formData.price),
-                availableStock: parseInt(formData.availableStock, 10),
-                soldCount: 0,
-                rating: parseFloat(formData.rating),
-                videoLink: formData.videoLink,
-                content: formData.content,
-                brand: formData.brand,
-                madeIn: formData.madeIn,
-                skuCode: formData.skuCode,
-                flavor: formData.flavor,
-                createdAt: new Date().toISOString(),
-                images: productImagesURLs
-            };
+        // try {
+        //     // Upload multiple images
+        //     const productImagesURLs = await uploadMultipleImages(formData.images);
 
-            // Make an API call to send the data to the database
-            const { data } = await axiosSecure.post('/product', newProduct);
+        //     const newProduct = {
+        //         name: formData.name,
+        //         categoryId: formData.categoryId,
+        //         subcategoryId: formData.subcategoryId,
+        //         regularPrice: parseFloat(formData.regularPrice),
+        //         price: parseFloat(formData.price),
+        //         availableStock: parseInt(formData.availableStock, 10),
+        //         soldCount: 0,
+        //         rating: parseFloat(formData.rating),
+        //         videoLink: formData.videoLink,
+        //         // content: formData.content,
+        //         content: description,
+        //         brand: formData.brand,
+        //         madeIn: formData.madeIn,
+        //         skuCode: formData.skuCode,
+        //         flavor: formData.flavor,
+        //         createdAt: new Date().toISOString(),
+        //         images: productImagesURLs
+        //     };
 
-            if (data.insertedId) {
-                toast.success('New Product Added successfully!', {
-                    position: "top-right",
-                    autoClose: 1000,
-                    pauseOnHover: false,
-                });
+        //     // Make an API call to send the data to the database
+        //     const { data } = await axiosSecure.post('/product', newProduct);
 
-                // Reset form data after successful upload
-                setFormData({
-                    skuCode: '',
-                    name: '',
-                    categoryId: '',
-                    subcategoryId: '',
-                    regularPrice: '',
-                    price: '',
-                    availableStock: '',
-                    rating: '',
-                    videoLink: '',
-                    content: [{ _id: 1, title: '', description: '' }],
-                    madeIn: '',
-                    brand: '',
-                    flavor: [],
-                    images: [],
-                    imagePreviews: []
-                });
-                fileInputRef.current.value = null;
-            }
-            else {
-                console.error("No insertedId in response");
-            }
+        //     if (data.insertedId) {
+        //         toast.success('New Product Added successfully!', {
+        //             position: "top-right",
+        //             autoClose: 1000,
+        //             pauseOnHover: false,
+        //         });
 
-        } catch (error) {
-            console.error("Error during API call:", error);
-        } finally {
-            setLoading(false);
-        }
+        //         // Reset form data after successful upload
+        //         setFormData({
+        //             skuCode: '',
+        //             name: '',
+        //             categoryId: '',
+        //             subcategoryId: '',
+        //             regularPrice: '',
+        //             price: '',
+        //             availableStock: '',
+        //             rating: '',
+        //             videoLink: '',
+        //             // content: [{ _id: 1, title: '', description: '' }],
+        //             madeIn: '',
+        //             brand: '',
+        //             flavor: [],
+        //             images: [],
+        //             imagePreviews: []
+        //         });
+        //         setDescription("");
+        //         fileInputRef.current.value = null;
+        //     }
+        //     else {
+        //         console.error("No insertedId in response");
+        //     }
+
+        // } catch (error) {
+        //     console.error("Error during API call:", error);
+        // } finally {
+        //     setLoading(false);
+        // }
     };
 
     return (
@@ -442,11 +449,13 @@ const AddProduct = () => {
                         )}
                     </div>
 
-                    <div className='text-end'>
-                        <Button size='sm' type='button' onClick={addContentSection} className='rounded-none bg-primary font-medium'>Add Content Section</Button>
-                    </div>
+                    <TextEditor value={description} onChange={setDescription} />
 
-                    {formData.content.map((section, index) => (
+                    {/* <div className='text-end'>
+                        <Button size='sm' type='button' onClick={addContentSection} className='rounded-none bg-primary font-medium'>Add Content Section</Button>
+                    </div> */}
+
+                    {/* {formData.content.map((section, index) => (
                         <div key={section._id} className="mb-4 relative border p-3 rounded-md mt-2">
                             {section._id !== 1 && (
                                 <button
@@ -476,7 +485,7 @@ const AddProduct = () => {
                                 required
                             ></textarea>
                         </div>
-                    ))}
+                    ))} */}
 
                     <div className='flex items-center justify-center'>
                         <Button type="submit" loading={loading} className='rounded-none bg-primary font-medium px-10'>
