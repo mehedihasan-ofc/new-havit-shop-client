@@ -89,7 +89,7 @@ const DashboardHome = () => {
     return (
         <div className="space-y-5">
             <div className="rounded shadow border py-2">
-                <h2 className="text-2xl font-extrabold text-center uppercase">
+                <h2 className="text-2xl font-extrabold text-center uppercase font-serif">
                     Dashboard Overview
                 </h2>
             </div>
@@ -102,7 +102,7 @@ const DashboardHome = () => {
                             <img className="absolute top-0 right-0" src={getRandomSVG()} alt="background" />
 
                             <div className="space-y-3 p-5">
-                                <h2 className="text-xl font-bold mb-4">{stat.title}</h2>
+                                <h2 className="text-lg font-bold mb-4 font-serif">{stat.title}</h2>
                                 {Object.entries(stat.stats).map(([key, value]) => (
                                     <div key={key} className="flex justify-between items-center">
                                         <span className="capitalize">{key.replace(/([A-Z])/g, " $1")}</span>
@@ -121,7 +121,7 @@ const DashboardHome = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Customer Overview */}
                 <div className="bg-white p-6 rounded-lg shadow-md">
-                    <h2 className="text-xl font-semibold mb-4">Customer Overview</h2>
+                    <h2 className="text-lg font-semibold mb-4 font-serif">Customer Overview</h2>
                     <ResponsiveContainer width="100%" height={300}>
                         <BarChart data={customerData}>
                             <CartesianGrid strokeDasharray="3 3" />
@@ -136,7 +136,7 @@ const DashboardHome = () => {
 
                 {/* Promo Code Overview */}
                 <div className="bg-white p-6 rounded-lg shadow-md">
-                    <h2 className="text-xl font-semibold mb-4">Promo Code Overview</h2>
+                    <h2 className="text-lg font-semibold mb-4 font-serif">Promo Code Overview</h2>
                     <ResponsiveContainer width="100%" height={300}>
                         <BarChart data={promoData}>
                             <CartesianGrid strokeDasharray="3 3" />
@@ -151,7 +151,7 @@ const DashboardHome = () => {
 
                 {/* Product Overview */}
                 <div className="bg-white p-6 rounded-lg shadow-md">
-                    <h2 className="text-xl font-semibold mb-4">Product Overview</h2>
+                    <h2 className="text-lg font-semibold mb-4 font-serif">Product Overview</h2>
                     <ResponsiveContainer width="100%" height={300}>
                         <BarChart data={productData}>
                             <CartesianGrid strokeDasharray="3 3" />
@@ -166,7 +166,7 @@ const DashboardHome = () => {
 
                 {/* Order Overview */}
                 <div className="bg-white p-6 rounded-lg shadow-md">
-                    <h2 className="text-xl font-semibold mb-4">Order Overview</h2>
+                    <h2 className="text-lg font-semibold mb-4 font-serif">Order Overview</h2>
                     <ResponsiveContainer width="100%" height={300}>
                         <BarChart data={orderData}>
                             <CartesianGrid strokeDasharray="3 3" />
@@ -181,7 +181,7 @@ const DashboardHome = () => {
 
                 {/* // In the Sales Overview section */}
                 <div className="bg-white p-6 rounded-lg shadow-md">
-                    <h2 className="text-xl font-semibold mb-4">Sales Overview</h2>
+                    <h2 className="text-lg font-semibold mb-4 font-serif">Sales Overview</h2>
                     <ResponsiveContainer width="100%" height={300}>
                         <BarChart data={salesData}>
                             <CartesianGrid strokeDasharray="3 3" />

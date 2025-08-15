@@ -6,8 +6,8 @@ import { formattedDate } from "../../../utils";
 import { AiOutlineCalendar } from "react-icons/ai";
 import { useQuery } from "@tanstack/react-query";
 import MySpinner from "../../../components/Shared/MySpinner/MySpinner";
-import BlogDetailsAd from "../../../components/Ads/BlogDetailsAd/BlogDetailsAd";
 import { FaExternalLinkAlt } from "react-icons/fa";
+import ShowAd from "../../../components/Ads/ShowAd/ShowAd";
 
 const ReadBlog = () => {
     const { id } = useParams();
@@ -85,7 +85,7 @@ const ReadBlog = () => {
 
                 <Newsletter />
 
-                <BlogDetailsAd />
+                <ShowAd name="Blog Details Page Ad" />
             </div>
         </div>
     );

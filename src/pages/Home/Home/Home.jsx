@@ -1,6 +1,5 @@
 import Categories from "../Categories/Categories";
 import Hero from "../Hero/Hero";
-import HomePageAd from "../HomePageAd/HomePageAd";
 import NowOffers from "../NowOffers/NowOffers";
 import OurPromises from "../OurPromises/OurPromises";
 import PopularProducts from "../PopularProducts/PopularProducts";
@@ -8,6 +7,7 @@ import FeaturedProducts from "../FeaturedProducts/FeaturedProducts";
 import SpecialOffers from "../SpecialOffers/SpecialOffers";
 import CountDown from "../CountDown/CountDown";
 import PremiumDelivery from "../PremiumDelivery/PremiumDelivery";
+import ShowAd from "../../../components/Ads/ShowAd/ShowAd";
 
 const Home = () => {
     return (
@@ -22,7 +22,7 @@ const Home = () => {
                 <CountDown />
                 <OurPromises />
                 <PremiumDelivery />
-                <HomePageAd />
+                <ShowAd name="Home Page Ad" />
             </div>
         </>
     );

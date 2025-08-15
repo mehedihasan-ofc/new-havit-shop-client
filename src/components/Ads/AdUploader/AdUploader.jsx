@@ -87,7 +87,7 @@ const AdUploader = ({ adName, adItem, refetch }) => {
                     type="file"
                     accept="image/*"
                     onChange={handleFileChange}
-                    className="w-full px-3 py-1 border border-gray-300 rounded-md"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                 />
 
                 <input
@@ -95,13 +95,13 @@ const AdUploader = ({ adName, adItem, refetch }) => {
                     placeholder={`Enter link for ${adName} (optional)`}
                     value={adLink}
                     onChange={handleLinkChange}
-                    className="w-full px-3 py-1 border border-gray-300 rounded-md"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                 />
 
                 <Button
                     type="submit"
                     loading={isLoading}
-                    className="w-full bg-primary rounded-none"
+                    className='w-full rounded-none bg-primary font-medium'
                 >
                     {isLoading ? `Saving ${adName}...` : `Save ${adName}`}
                 </Button>
