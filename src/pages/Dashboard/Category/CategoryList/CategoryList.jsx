@@ -147,10 +147,6 @@ const CategoryList = () => {
                                                 </Typography>
                                             </td>
                                             <td className={classes}>
-                                                {/* <IconButton size="sm" variant="text" className="rounded-full">
-                                                    <CiEdit className="text-amber-800" size={20} />
-                                                </IconButton> */}
-
                                                 <IconButton onClick={() => handleDeleteCategory(_id, image)} size="sm" variant="text" className="rounded-full">
                                                     <AiOutlineDelete className="text-red-600" size={20} />
                                                 </IconButton>

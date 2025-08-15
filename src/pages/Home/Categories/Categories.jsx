@@ -72,7 +72,7 @@ const Categories = () => {
                                                 alt={category.name}
                                             />
                                         </div>
-                                        <p className="text-center text-sm font-semibold leading-snug">
+                                        <p className="text-center text-sm font-semibold font-sans">
                                             {category.name}
                                         </p>
                                     </div>
