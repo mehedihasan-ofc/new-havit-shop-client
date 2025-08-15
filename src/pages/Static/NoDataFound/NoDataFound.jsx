@@ -21,12 +21,12 @@ const NoDataFound = () => {
     return (
         <div className="flex flex-col items-center justify-center py-10 px-4 text-center bg-gray-50 rounded-lg shadow-sm">
             <div className="bg-[#DEF9EC] p-5 rounded-full mb-4">
-                <BsDatabaseFillX className="h-16 w-16 text-[#3BB77E]" />
+                <BsDatabaseFillX className="h-12 w-12 md:h-16 md:w-16 text-[#3BB77E]" />
             </div>
 
-            <h2 className="text-xl font-semibold font-serif">Oops! No Data Found</h2>
-            <p className="text-gray-500 mt-2 mb-5">
-                It looks like there's nothing here. Try refreshing the page or check back later.
+            <h2 className="text-base md:text-xl font-semibold font-serif">Oops! No Data Found</h2>
+            <p className="text-gray-500 italic mt-2 mb-5">
+                Try refreshing the page or check back later.
             </p>
 
             {/* Button */}
