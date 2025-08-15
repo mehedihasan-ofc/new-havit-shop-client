@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import Swal from "sweetalert2";
 
 const TextEditor = ({ value, onChange }) => {
     const editorRef = useRef(null);
@@ -12,17 +13,15 @@ const TextEditor = ({ value, onChange }) => {
         { cmd: "strikeThrough", label: "S", tooltip: "Strike" },
         { cmd: "justifyLeft", label: "⯇", tooltip: "Align Left" },
         { cmd: "justifyCenter", label: "⇔", tooltip: "Align Center" },
-        { cmd: "justifyRight", label: "⯈", tooltip: "Align Right" },
-        { cmd: "insertUnorderedList", label: "•", tooltip: "Bullet List" },
-        { cmd: "insertOrderedList", label: "1.", tooltip: "Numbered List" },
+        { cmd: "justifyRight", label: "⯈", tooltip: "Align Right" }
     ];
 
     useEffect(() => {
-        if (editorRef.current && value) editorRef.current.innerHTML = value;
-        try {
-            document.execCommand("defaultParagraphSeparator", false, "p");
-        } catch { }
-    }, []);
+        if (editorRef.current && editorRef.current.innerHTML !== value) {
+            editorRef.current.innerHTML = value || "";
+        }
+    }, [value]);
+
 
     const saveSelection = () => {
         const sel = document.getSelection();
@@ -41,31 +40,17 @@ const TextEditor = ({ value, onChange }) => {
     };
 
     const execCmd = (command, arg = null) => {
-        editorRef.current.focus();
+        saveSelection();
         restoreSelection();
         document.execCommand(command, false, arg);
         updateActiveFormats();
+        editorRef.current.focus();
     };
+
 
     const handleInput = () => {
         onChange(editorRef.current.innerHTML);
         updateActiveFormats();
-    };
-
-    const isInList = (type) => {
-        const sel = document.getSelection();
-        if (!sel || sel.rangeCount === 0) return false;
-        let node = sel.anchorNode;
-        if (!node) return false;
-        if (node.nodeType === 3) node = node.parentNode;
-        while (node && node !== editorRef.current) {
-            if (node.nodeName === "LI") {
-                const parent = node.parentElement;
-                return type === "ul" ? parent.nodeName === "UL" : parent.nodeName === "OL";
-            }
-            node = node.parentNode;
-        }
-        return false;
     };
 
     const currentTextAlign = () => {
@@ -90,8 +75,6 @@ const TextEditor = ({ value, onChange }) => {
             italic: document.queryCommandState("italic"),
             underline: document.queryCommandState("underline"),
             strikeThrough: document.queryCommandState("strikeThrough"),
-            insertUnorderedList: isInList("ul"),
-            insertOrderedList: isInList("ol"),
             justifyLeft: align === "left" || align === "start" || align === "",
             justifyCenter: align === "center",
             justifyRight: align === "right" || align === "end",
@@ -127,21 +110,57 @@ const TextEditor = ({ value, onChange }) => {
                     </button>
                 ))}
 
-                {/* Link */}
                 <button
                     type="button"
                     title="Insert Link"
-                    onMouseDown={(e) => {
+                    onMouseDown={async (e) => {
                         e.preventDefault();
-                        let url = prompt("Enter link URL:");
+                        saveSelection();
+
+                        // SweetAlert input
+                        const { value: url } = await Swal.fire({
+                            title: "Insert Link",
+                            input: "url",
+                            inputLabel: "Enter the URL",
+                            inputPlaceholder: "https://example.com",
+                            showCancelButton: true,
+                            inputValidator: (value) => {
+                                if (!value) return "Please enter a URL";
+                                if (!/^https?:\/\//i.test(value)) return "URL must start with http:// or https://";
+                                return null;
+                            },
+                        });
+
                         if (!url) return;
-                        if (!/^https?:\/\//i.test(url)) url = "https://" + url;
-                        execCmd("createLink", url);
+
+                        restoreSelection();
+                        const sel = document.getSelection();
+                        if (!sel || sel.rangeCount === 0) return;
+
+                        const range = sel.getRangeAt(0);
+
+                        // Create link element
+                        const anchor = document.createElement("a");
+                        anchor.href = url;
+                        anchor.style.color = "blue";
+                        anchor.appendChild(range.extractContents());
+
+                        // Insert the link
+                        range.insertNode(anchor);
+
+                        // Move caret to after the link
+                        range.setStartAfter(anchor);
+                        range.collapse(true);
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+
+                        updateActiveFormats();
                     }}
                     className="px-3 py-1 rounded text-sm font-medium bg-white border border-gray-300 hover:bg-gray-100"
                 >
                     🔗
                 </button>
+
             </div>
 
             {/* Editable Area */}
@@ -152,7 +171,7 @@ const TextEditor = ({ value, onChange }) => {
                 onInput={handleInput}
                 onKeyUp={saveSelection}
                 onMouseUp={saveSelection}
-                className="min-h-[260px] p-3 text-gray-800 text-sm leading-relaxed focus:outline-none"
+                className="min-h-[260px] p-3 text-gray-800 text-sm leading-relaxed focus:outline-none [&_a]:text-blue-500 [&_a]:underline"
             />
         </div>
     );

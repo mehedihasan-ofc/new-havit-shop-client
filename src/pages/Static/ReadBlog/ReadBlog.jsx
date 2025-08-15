@@ -57,7 +57,7 @@ const ReadBlog = () => {
                                 <img className="w-full h-full object-contain rounded-md" src={image} alt="blog image" />
                             </div>
 
-                            <div className="font-serif leading-relaxed text-sm md:text-base text-justify" dangerouslySetInnerHTML={{ __html: description }} />
+                            <div className="font-serif leading-relaxed text-sm md:text-base text-justify [&_a]:text-blue-500 [&_a]:underline" dangerouslySetInnerHTML={{ __html: description }} />
 
                             {/* Link Section */}
                             {link && (

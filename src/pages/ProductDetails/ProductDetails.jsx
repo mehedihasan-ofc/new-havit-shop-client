@@ -219,7 +219,7 @@ const ProductDetails = () => {
 
                 <div className="p-6 rounded-lg shadow mt-5">
                     <h3 className="text-lg md:text-xl font-semibold font-serif mb-4 border-b-2">Product Description</h3>
-                    <div className="font-serif leading-relaxed text-sm md:text-base text-justify" dangerouslySetInnerHTML={{ __html: product.productDescription }} />
+                    <div className="font-serif leading-relaxed text-sm md:text-base text-justify [&_a]:text-blue-500 [&_a]:underline" dangerouslySetInnerHTML={{ __html: product.productDescription }} />
                 </div>
 
                 <RelatedProducts categoryId={product?.categoryId} />
