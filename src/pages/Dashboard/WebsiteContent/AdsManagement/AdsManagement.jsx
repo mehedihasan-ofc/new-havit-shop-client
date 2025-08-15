@@ -1,142 +1,190 @@
-import { useState } from "react";
-import { deleteImage, uploadSingleImage } from "../../../../utils";
-import { Button } from "@material-tailwind/react";
-import useAxiosSecure from "../../../../hooks/useAxiosSecure";
-import { toast } from "react-toastify";
+import AdUploader from "../../../../components/Ads/AdUploader/AdUploader";
 import useAds from "../../../../hooks/useAds";
+
+const adConfigs = [
+    { adName: "Home Page Ad", id: "homePageAd" },
+    { adName: "Product Details Page Ad", id: "productDetailsPageAd" },
+    { adName: "Blog Page Ad", id: "blogPageAd" },
+    { adName: "Blog Details Page Ad", id: "blogDetailsPageAd" },
+];
 
 const AdsManagement = () => {
     const [adsData, loading, refetch] = useAds();
-    const [axiosSecure] = useAxiosSecure();
 
-    const [homePageAdFile, setHomePageAdFile] = useState(null);
-    const [homePageAdLink, setHomePageAdLink] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
+    console.log(adsData);
 
-    if (loading) return;
-
-    // Find homepage ad from array
-    const homePageAd = adsData?.find(ad => ad.name === "Home Page Ad");
-
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) setHomePageAdFile(file);
-    };
-
-    const handleLinkChange = (e) => {
-        setHomePageAdLink(e.target.value);
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setIsLoading(true);
-
-        try {
-            const homePageAdURL = homePageAdFile ? await uploadSingleImage(homePageAdFile) : homePageAd?.homePageAdURL;
-
-            const homePageAdPayload = {
-                name: "Home Page Ad",
-                homePageAdURL,
-                homePageAdLink
-            };
-
-            if (homePageAd?._id) {
-
-                await deleteImage(homePageAd.homePageAdURL);
-
-                // Update existing logo
-                const { data } = await axiosSecure.put(`/ads/${homePageAd?._id}`, homePageAdPayload);
-                if (data?.modifiedCount > 0) {
-                    refetch();
-                    toast.success("Ad updated successfully!", {
-                        position: "top-right",
-                        autoClose: 1000,
-                        pauseOnHover: false,
-                    });
-                } else {
-                    toast.info("No changes were made to the logo.", {
-                        position: "top-right",
-                        autoClose: 1000,
-                        pauseOnHover: false,
-                    });
-                }
-            } else {
-                const { res } = await axiosSecure.post("/ads", homePageAdPayload);
-
-                if (res.insertedId) {
-                    toast.success("Ads created successfully!", {
-                        position: "top-right",
-                        autoClose: 1000,
-                        pauseOnHover: false,
-                    });
-                } else {
-                    throw new Error("Failed to save the logo.");
-                }
-            }
-
-        } catch (error) {
-            console.error("Error saving ads:", error);
-            toast.error("Failed to save ads. Please try again.");
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    if (loading) return null;
 
     return (
-        <div className="max-w-5xl mx-auto p-8 bg-gray-50 shadow rounded border">
-            <form className="space-y-8" onSubmit={handleSubmit}>
-                <div className="flex flex-col gap-4">
-                    <label className="block text-lg font-medium text-gray-700">
-                        Home Page Ad (728 x 90 pixels)
-                    </label>
+        <div className="max-w-5xl mx-auto p-8 bg-gray-50 shadow rounded border space-y-10">
 
-                    {/* Image preview or placeholder */}
-                    <div className="w-full h-[90px] border border-dashed border-gray-300 rounded flex items-center justify-center overflow-hidden bg-white">
+            {adConfigs.map((ad) => (
+                <AdUploader
+                    key={ad.id}
+                    adName={ad.adName}
+                    adItem={adsData?.find(a => a.name === ad.adName)}
+                    refetch={refetch}
+                />
+            ))}
 
-                        {homePageAdFile || homePageAd?.homePageAdURL ? (
-                            <img
-                                src={homePageAdFile ? URL.createObjectURL(homePageAdFile) : homePageAd?.homePageAdURL}
-                                alt="Uploaded Logo"
-                                className="w-full h-full object-cover"
-                            />
-                        ) : (
-                            <span className="text-gray-400 text-sm">
-                                No image selected
-                            </span>
-                        )}
-                    </div>
+            {/* <AdUploader
+                title="Home Page Ad"
+                name="Home Page Ad"
+                adsData={adsData}
+                refetch={refetch}
+            /> */}
 
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleFileChange}
-                        className="w-full px-3 py-1 border border-gray-300 rounded-md"
-                    />
-
-                    <input
-                        type="text"
-                        placeholder="If home page ad link is available, please enter"
-                        value={homePageAdLink}
-                        onChange={handleLinkChange}
-                        className="w-full px-3 py-1 border border-gray-300 rounded-md"
-                    />
-                </div>
-
-                <div className="flex items-center justify-center">
-                    <Button
-                        type="submit"
-                        loading={isLoading}
-                        className="w-1/3 rounded-none bg-primary font-medium"
-                    >
-                        {isLoading ? "Saving Ads..." : "Save Ads"}
-                    </Button>
-                </div>
-            </form>
+            {/* <AdUploader
+                title="Sidebar Ad"
+                name="Sidebar Ad"
+                adsData={adsData}
+                refetch={refetch}
+            /> */}
         </div>
     );
 };
 
 export default AdsManagement;
+
+// import { useState } from "react";
+// import { deleteImage, uploadSingleImage } from "../../../../utils";
+// import { Button } from "@material-tailwind/react";
+// import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+// import { toast } from "react-toastify";
+// import useAds from "../../../../hooks/useAds";
+
+// const AdsManagement = () => {
+//     const [adsData, loading, refetch] = useAds();
+//     const [axiosSecure] = useAxiosSecure();
+
+//     const [homePageAdFile, setHomePageAdFile] = useState(null);
+//     const [homePageAdLink, setHomePageAdLink] = useState("");
+//     const [isLoading, setIsLoading] = useState(false);
+
+//     if (loading) return;
+
+//     // Find homepage ad from array
+//     const homePageAd = adsData?.find(ad => ad.name === "Home Page Ad");
+
+//     const handleFileChange = (e) => {
+//         const file = e.target.files[0];
+//         if (file) setHomePageAdFile(file);
+//     };
+
+//     const handleLinkChange = (e) => {
+//         setHomePageAdLink(e.target.value);
+//     };
+
+//     const handleSubmit = async (e) => {
+//         e.preventDefault();
+//         setIsLoading(true);
+
+//         try {
+//             const homePageAdURL = homePageAdFile ? await uploadSingleImage(homePageAdFile) : homePageAd?.homePageAdURL;
+
+//             const homePageAdPayload = {
+//                 name: "Home Page Ad",
+//                 homePageAdURL,
+//                 homePageAdLink
+//             };
+
+//             if (homePageAd?._id) {
+
+//                 await deleteImage(homePageAd.homePageAdURL);
+
+//                 // Update existing logo
+//                 const { data } = await axiosSecure.put(`/ads/${homePageAd?._id}`, homePageAdPayload);
+//                 if (data?.modifiedCount > 0) {
+//                     refetch();
+//                     toast.success("Ad updated successfully!", {
+//                         position: "top-right",
+//                         autoClose: 1000,
+//                         pauseOnHover: false,
+//                     });
+//                 } else {
+//                     toast.info("No changes were made to the logo.", {
+//                         position: "top-right",
+//                         autoClose: 1000,
+//                         pauseOnHover: false,
+//                     });
+//                 }
+//             } else {
+//                 const { res } = await axiosSecure.post("/ads", homePageAdPayload);
+
+//                 if (res.insertedId) {
+//                     toast.success("Ads created successfully!", {
+//                         position: "top-right",
+//                         autoClose: 1000,
+//                         pauseOnHover: false,
+//                     });
+//                 } else {
+//                     throw new Error("Failed to save the logo.");
+//                 }
+//             }
+
+//         } catch (error) {
+//             console.error("Error saving ads:", error);
+//             toast.error("Failed to save ads. Please try again.");
+//         } finally {
+//             setIsLoading(false);
+//         }
+//     };
+
+//     return (
+//         <div className="max-w-5xl mx-auto p-8 bg-gray-50 shadow rounded border">
+//             <form className="space-y-8" onSubmit={handleSubmit}>
+//                 <div className="flex flex-col gap-4">
+//                     <label className="block text-lg font-medium text-gray-700">
+//                         Home Page Ad (728 x 90 pixels)
+//                     </label>
+
+//                     {/* Image preview or placeholder */}
+//                     <div className="w-full h-[90px] border border-dashed border-gray-300 rounded flex items-center justify-center overflow-hidden bg-white">
+
+//                         {homePageAdFile || homePageAd?.homePageAdURL ? (
+//                             <img
+//                                 src={homePageAdFile ? URL.createObjectURL(homePageAdFile) : homePageAd?.homePageAdURL}
+//                                 alt="Uploaded Logo"
+//                                 className="w-full h-full object-cover"
+//                             />
+//                         ) : (
+//                             <span className="text-gray-400 text-sm">
+//                                 No image selected
+//                             </span>
+//                         )}
+//                     </div>
+
+//                     <input
+//                         type="file"
+//                         accept="image/*"
+//                         onChange={handleFileChange}
+//                         className="w-full px-3 py-1 border border-gray-300 rounded-md"
+//                     />
+
+//                     <input
+//                         type="text"
+//                         placeholder="If home page ad link is available, please enter"
+//                         value={homePageAdLink}
+//                         onChange={handleLinkChange}
+//                         className="w-full px-3 py-1 border border-gray-300 rounded-md"
+//                     />
+//                 </div>
+
+//                 <div className="flex items-center justify-center">
+//                     <Button
+//                         type="submit"
+//                         loading={isLoading}
+//                         className="w-1/3 rounded-none bg-primary font-medium"
+//                     >
+//                         {isLoading ? "Saving Ads..." : "Save Ads"}
+//                     </Button>
+//                 </div>
+//             </form>
+//         </div>
+//     );
+// };
+
+// export default AdsManagement;
 
 // import { useState } from "react";
 // import { uploadAdsToStorage } from "../../../../utils";
