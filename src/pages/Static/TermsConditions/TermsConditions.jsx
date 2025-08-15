@@ -8,7 +8,7 @@ const TermsConditions = () => {
             <div className="my-container my-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-6 md:gap-10">
                     <div className="space-y-4">
-                        <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold">Terms & Conditions</h2>
+                        <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold font-serif">Terms & Conditions</h2>
                         <p className="text-sm sm:text-base font-medium">
                             Welcome to Havit Shop! These Terms & Conditions govern your use of our website and services, so please read them carefully before proceeding. By accessing or using Havit Shop, you agree to abide by these terms and conditions.
                         </p>

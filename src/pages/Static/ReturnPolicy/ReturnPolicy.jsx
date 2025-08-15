@@ -8,7 +8,7 @@ const ReturnPolicy = () => {
             {/* Header Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-10">
                 <div className="space-y-4">
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold">Return Policy</h2>
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold font-serif">Return Policy</h2>
                     <p className="text-sm sm:text-base font-medium">
                         At Havit Shop, we want you to be completely satisfied with your purchases. If for any reason you are not satisfied with an item, you may be eligible for a return or exchange, subject to the terms and conditions outlined in this Return Policy.
                     </p>

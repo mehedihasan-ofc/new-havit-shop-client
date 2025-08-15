@@ -13,10 +13,9 @@ import {
     FaFacebook, FaInstagram, FaYoutube, FaTwitter, FaLinkedin,
     FaPinterest, FaReddit, FaWhatsapp, FaSnapchat, FaTiktok
 } from "react-icons/fa";
-import MySpinner from "../../../components/Shared/MySpinner/MySpinner";
 
 const Contact = () => {
-    const [contactInfoData, isLoading] = useContactInfoData();
+    const [contactInfoData] = useContactInfoData();
     const [socialMediaData] = useSocialMedia();
 
     const [formData, setFormData] = useState({
@@ -88,70 +87,68 @@ const Contact = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                 {/* Left Section */}
                 <div className="bg-white shadow-md rounded-md p-8 space-y-8">
-                    {isLoading ? <MySpinner /> : <>
-                        {/* Visit Us */}
-                        <div>
-                            <div className="flex items-center gap-2 mb-3">
-                                <HiOutlineBuildingOffice2 size={24} className="text-primary" />
-                                <h2 className="text-lg lg:text-xl font-semibold">Visit Us</h2>
+                    {/* Visit Us */}
+                    <div>
+                        <div className="flex items-center gap-2 mb-3">
+                            <HiOutlineBuildingOffice2 size={24} className="text-primary" />
+                            <h2 className="text-base lg:text-lg font-semibold font-serif">Visit Us</h2>
+                        </div>
+                        <div className="space-y-2 text-gray-700">
+                            <div className="flex items-center gap-2">
+                                <FiMapPin className="text-primary" />
+                                <p>{contactInfoData?.address || "Address not available"}</p>
                             </div>
-                            <div className="space-y-2 text-gray-700">
-                                <div className="flex items-center gap-2">
-                                    <FiMapPin className="text-primary" />
-                                    <p>{contactInfoData?.address || "Address not available"}</p>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <HiOutlineMail className="text-primary" />
-                                    <p>{contactInfoData?.email || "Email not available"}</p>
-                                </div>
+                            <div className="flex items-center gap-2">
+                                <HiOutlineMail className="text-primary" />
+                                <p>{contactInfoData?.email || "Email not available"}</p>
                             </div>
                         </div>
+                    </div>
 
-                        {/* Support */}
-                        <div>
-                            <div className="flex items-center gap-2 mb-2">
-                                <BiSupport size={24} className="text-primary" />
-                                <h2 className="text-lg lg:text-xl font-semibold">We're Here to Help</h2>
-                            </div>
-                            <p className="text-gray-600 mb-2">Feel free to reach out to us at</p>
-                            <div className="space-y-1">
-                                {contactInfoData?.phone?.map((number, index) => (
-                                    <p key={index} className="text-primary font-medium">{number}</p>
-                                )) || "Phone not available"}
-                            </div>
-                            <p className="text-sm text-gray-500 mt-2">Always Here for You: 24/7 Support</p>
+                    {/* Support */}
+                    <div>
+                        <div className="flex items-center gap-2 mb-2">
+                            <BiSupport size={24} className="text-primary" />
+                            <h2 className="text-base lg:text-lg font-semibold font-serif">We're Here to Help</h2>
                         </div>
+                        <p className="text-gray-600 mb-2">Feel free to reach out to us at</p>
+                        <div className="space-y-1">
+                            {contactInfoData?.phone?.map((number, index) => (
+                                <p key={index} className="text-primary font-medium">{number}</p>
+                            )) || "Phone not available"}
+                        </div>
+                        <p className="text-sm text-gray-500 mt-2">Always Here for You: 24/7 Support</p>
+                    </div>
 
-                        {/* Social Media */}
-                        <div>
-                            <div className="flex items-center gap-2 mb-3">
-                                <AiOutlineLike size={24} className="text-primary" />
-                                <h2 className="text-lg lg:text-xl font-semibold">Follow Us</h2>
-                            </div>
-                            <div className="flex flex-wrap gap-3">
-                                {socialMediaData?.socialMedia?.slice(0, 10).map((social, index) => {
-                                    const Icon = socialIcons[social.platform];
-                                    return (
-                                        <Link
-                                            key={index}
-                                            to={social.url}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="p-2 rounded-full bg-gray-100 text-primary hover:bg-primary hover:text-white transition"
-                                            aria-label={social.platform}
-                                        >
-                                            {Icon}
-                                        </Link>
-                                    );
-                                })}
-                            </div>
+                    {/* Social Media */}
+                    <div>
+                        <div className="flex items-center gap-2 mb-3">
+                            <AiOutlineLike size={24} className="text-primary" />
+                            <h2 className="text-base lg:text-lg font-semibold font-serif">Follow Us</h2>
                         </div>
-                    </>}
+                        <div className="flex flex-wrap gap-3">
+                            {socialMediaData?.socialMedia?.slice(0, 10).map((social, index) => {
+                                const Icon = socialIcons[social.platform];
+                                return (
+                                    <Link
+                                        key={index}
+                                        to={social.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="p-2 rounded-full bg-gray-100 text-primary hover:bg-primary hover:text-white transition"
+                                        aria-label={social.platform}
+                                    >
+                                        {Icon}
+                                    </Link>
+                                );
+                            })}
+                        </div>
+                    </div>
                 </div>
 
                 {/* Right Section */}
                 <div className="bg-white shadow-md rounded-md p-8">
-                    <h2 className="text-xl lg:text-2xl font-semibold mb-6 text-primary">
+                    <h2 className="text-lg lg:text-xl font-semibold mb-6 text-primary font-serif border-b">
                         Contact Us For Any Questions
                     </h2>
                     <form className="space-y-5" onSubmit={handleSubmit}>
@@ -164,7 +161,7 @@ const Contact = () => {
                                 onChange={handleChange}
                                 placeholder="Enter Your Name"
                                 required
-                                className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-primary bg-gray-50"
+                                className="w-full border rounded px-4 py-2 focus:outline-none focus:border-primary bg-gray-50"
                             />
                         </div>
                         <div>
@@ -176,7 +173,7 @@ const Contact = () => {
                                 onChange={handleChange}
                                 placeholder="Enter Your Valid Email"
                                 required
-                                className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-primary bg-gray-50"
+                                className="w-full border rounded px-4 py-2 focus:outline-none focus:border-primary bg-gray-50"
                             />
                         </div>
                         <div>
@@ -187,13 +184,13 @@ const Contact = () => {
                                 onChange={handleChange}
                                 placeholder="Enter Your Message"
                                 required
-                                className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:border-primary bg-gray-50 h-28"
+                                className="w-full border rounded px-4 py-2 focus:outline-none focus:border-primary bg-gray-50 h-28"
                             ></textarea>
                         </div>
                         <button
                             disabled={loading}
                             type="submit"
-                            className="w-full py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition"
+                            className="w-full py-2 bg-primary text-white rounded hover:bg-primary/90 transition"
                         >
                             {loading ? "Submitting..." : "Submit"}
                         </button>

@@ -8,7 +8,7 @@ const PrivacyPolicy = () => {
             {/* Header Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-10">
                 <div className="space-y-4">
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold">Privacy Policy</h2>
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold font-serif">Privacy Policy</h2>
                     <p className="text-sm sm:text-base font-medium">
                         At Havit Shop, we take your privacy and the security of your personal information seriously. This Privacy Policy outlines how we collect, use, and protect the information you provide to us when you use our website or interact with our services.
                     </p>

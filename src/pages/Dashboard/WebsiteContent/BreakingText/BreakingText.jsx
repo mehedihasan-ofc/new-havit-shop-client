@@ -77,7 +77,7 @@ const BreakingText = () => {
                     <div>
                         <label
                             htmlFor="breakingText"
-                            className="block text-sm font-medium text-gray-700 mb-2"
+                            className="block text-lg font-medium mb-2 font-serif"
                         >
                             Enter Breaking Text
                         </label>

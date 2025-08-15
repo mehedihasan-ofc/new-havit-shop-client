@@ -6,7 +6,7 @@ const About = () => {
         <div className="my-container my-10">
             <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-6 md:gap-10">
                 <div className="space-y-4">
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold">About Us</h2>
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold font-serif">About Us</h2>
                     <p className="text-sm sm:text-base font-medium">
                         Welcome to Havit Shop, your premier online shopping destination in Bangladesh! Founded with a vision to redefine the online shopping experience, Havit Shop is more than just an e-commerce platform; it's a hub of innovation, quality, and customer-centricity.
                     </p>

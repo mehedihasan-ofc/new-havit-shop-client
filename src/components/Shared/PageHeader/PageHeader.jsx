@@ -11,7 +11,7 @@ const PageHeader = ({ title }) => {
             style={{ backgroundImage: `url(${HeaderBG})` }}
         >
             <div className="relative z-10 flex flex-col items-center text-center">
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-wide font-sans mb-2 sm:mb-4">
+                <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold font-serif mb-2 sm:mb-4">
                     {title}
                 </h1>
 

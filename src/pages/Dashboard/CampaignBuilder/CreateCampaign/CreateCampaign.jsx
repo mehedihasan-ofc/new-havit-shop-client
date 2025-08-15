@@ -97,7 +97,7 @@ const CreateCampaign = () => {
         <img className="absolute top-0 right-0" src={SVG} alt="background" />
 
         <form onSubmit={handleSubmit} className="space-y-6 p-8">
-          <h2 className="text-xl font-semibold text-center mb-4">Create Campaign</h2>
+          <h2 className="text-xl font-semibold text-center font-serif border-b mb-4">Create Campaign</h2>
 
           {/* Title */}
           <div>

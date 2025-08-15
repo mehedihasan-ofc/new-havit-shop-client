@@ -104,19 +104,19 @@ const RoleAssignment = () => {
                 <img className="absolute top-0 right-0" src={SVG} alt="background" />
 
                 <div className="space-y-6 p-10">
-                    <h2 className="text-2xl font-bold text-center text-primary">Role Assignment</h2>
+                    <h2 className="text-2xl font-bold text-center text-primary font-serif">Role Assignment</h2>
 
                     {/* Search User */}
                     <form onSubmit={handleSearch} className="w-2/3 mx-auto flex items-center gap-2">
                         <input
                             type="email"
                             placeholder="Enter user email"
-                            className="flex-1 px-4 py-2 border border-gray-300 shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                            className="flex-1 px-4 py-2 border border-gray-300 shadow-sm focus:outline-none focus:ring-primary focus:border-primary rounded"
                             value={searchEmail}
                             onChange={(e) => setSearchEmail(e.target.value)}
                             required
                         />
-                        <Button type="submit" className="rounded-none bg-primary shadow-sm hover:shadow-md">Search</Button>
+                        <Button type="submit" className="bg-primary shadow-sm rounded hover:shadow-md">Search</Button>
                     </form>
 
                     {/* Selected User Card */}
