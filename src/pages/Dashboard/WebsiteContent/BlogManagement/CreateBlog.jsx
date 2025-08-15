@@ -3,6 +3,7 @@ import { useRef, useState } from 'react';
 import { uploadSingleImage } from '../../../../utils';
 import useAxiosSecure from '../../../../hooks/useAxiosSecure';
 import { toast } from 'react-toastify';
+import TextEditor from '../../../../components/TextEditor/TextEditor';
 
 const CreateBlog = () => {
 
@@ -10,14 +11,13 @@ const CreateBlog = () => {
 
     const [formData, setFormData] = useState({
         headline: '',
-        description: '',
         category: '',
         image: null,
         imagePreview: null,
         readTime: '',
         link: '',
-        content: [{ _id: 1, title: '', description: '' }]
     });
+    const [description, setDescription] = useState("");
 
     const fileInputRef = useRef(null);
     const [loading, setLoading] = useState(false);
@@ -27,34 +27,12 @@ const CreateBlog = () => {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleContentChange = (index, e) => {
-        const { name, value } = e.target;
-        const newContent = [...formData.content];
-        newContent[index][name] = value;
-        setFormData({ ...formData, content: newContent });
-    };
-
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
         if (file && file.type.startsWith('image/')) {
             const imagePreview = URL.createObjectURL(file);
             setFormData({ ...formData, image: file, imagePreview });
         }
-    };
-
-    const addContentSection = () => {
-        const newId = formData.content.length ? formData.content[formData.content.length - 1]._id + 1 : 1;
-        setFormData({
-            ...formData,
-            content: [...formData.content, { _id: newId, title: '', description: '' }]
-        });
-    };
-
-    const removeContentSection = (id) => {
-        setFormData({
-            ...formData,
-            content: formData.content.filter((section) => section._id !== id),
-        });
     };
 
     const handleSubmit = async (e) => {
@@ -69,14 +47,15 @@ const CreateBlog = () => {
                 // Prepare the data to be sent to the API
                 const newBlog = {
                     headline: formData.headline,
-                    description: formData.description,
                     category: formData.category,
                     image: imageLink,
                     readTime: formData.readTime,
                     link: formData.link,
+                    description,
                     createdAt: new Date().toISOString(),
-                    content: formData.content
                 };
+
+                console.log(newBlog);
 
                 const response = await axiosSecure.post('/blog', newBlog);
 
@@ -89,14 +68,13 @@ const CreateBlog = () => {
 
                     setFormData({
                         headline: '',
-                        description: '',
                         category: '',
                         image: null,
                         imagePreview: null,
                         readTime: '',
                         link: '',
-                        content: [{ _id: 1, title: '', description: '' }]
                     });
+                    setDescription("")
                     fileInputRef.current.value = null;
                 }
 
@@ -109,7 +87,7 @@ const CreateBlog = () => {
     };
 
     return (
-        <div className="border p-5 shadow">
+        <div className="border p-5 shadow font-serif">
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                     <label className="block text-gray-700">Upload Image</label>
@@ -121,10 +99,10 @@ const CreateBlog = () => {
                         className="mt-1 block w-full text-gray-700"
                         required
                     />
-                    <p className="font-serif text-lg font-bold mt-1">Recommended size: 1200 x 800 pixels</p>
+                    <p className="font-serif text-lg font-bold mt-1">Recommended size: 600 x 315 pixels</p>
                     <p className="text-sm text-gray-500">Please upload an image for your blog. Only image files are allowed.</p>
                     {formData.imagePreview && (
-                        <img src={formData.imagePreview} alt="Preview" className="mt-2 h-40 w-full object-cover rounded-md" />
+                        <img src={formData.imagePreview} alt="Preview" className="mt-3 h-[315px] w-[600px] object-contain rounded-md" />
                     )}
                 </div>
 
@@ -139,17 +117,6 @@ const CreateBlog = () => {
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                         required
                     />
-                </div>
-                <div className="mb-4">
-                    <label className="block text-gray-700">Description</label>
-                    <textarea
-                        name="description"
-                        value={formData.description}
-                        onChange={handleChange}
-                        placeholder="Enter a brief description of your blog"
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
-                        required
-                    ></textarea>
                 </div>
                 <div className='grid grid-cols-2 gap-5 mb-4'>
                     <div>
@@ -190,44 +157,10 @@ const CreateBlog = () => {
                     />
                 </div>
 
-                <div className='text-end'>
-                    <Button size='sm' type='button' onClick={addContentSection} className='rounded-none bg-primary font-medium'>Add Content Section</Button>
-                </div>
+                <TextEditor value={description} onChange={setDescription} />
 
-                {formData.content.map((section, index) => (
-                    <div key={section._id} className="mb-4 relative border p-3 rounded-md mt-2">
-                        {section._id !== 1 && (
-                            <button
-                                type="button"
-                                className="absolute top-2 right-2 text-red-500 hover:text-red-700"
-                                onClick={() => removeContentSection(section._id)}
-                            >
-                                ✕
-                            </button>
-                        )}
-                        <label className="block text-gray-700">Content Section {index + 1}</label>
-                        <input
-                            type="text"
-                            name="title"
-                            value={section.title}
-                            onChange={(e) => handleContentChange(index, e)}
-                            placeholder="Enter section title"
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
-                            required
-                        />
-                        <textarea
-                            name="description"
-                            value={section.description}
-                            onChange={(e) => handleContentChange(index, e)}
-                            placeholder="Enter section description"
-                            className="mt-2 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
-                            required
-                        ></textarea>
-                    </div>
-                ))}
-
-                <div className='flex justify-center items-center'>
-                    <Button size='sm' type="submit" loading={loading} className='rounded-none bg-primary font-medium px-10'>Submit</Button>
+                <div className='flex justify-center items-center mt-4'>
+                    <Button size='sm' type="submit" loading={loading} className='rounded-none bg-primary font-medium px-10'>PUBLISH</Button>
                 </div>
             </form>
         </div>

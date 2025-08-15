@@ -13,6 +13,7 @@ import {
     FaFacebook, FaInstagram, FaYoutube, FaTwitter, FaLinkedin,
     FaPinterest, FaReddit, FaWhatsapp, FaSnapchat, FaTiktok
 } from "react-icons/fa";
+import MySpinner from "../../../components/Shared/MySpinner/MySpinner";
 
 const Contact = () => {
     const [contactInfoData, isLoading] = useContactInfoData();
@@ -69,8 +70,6 @@ const Contact = () => {
         }
     };
 
-    if (isLoading) return null;
-
     const socialIcons = {
         Facebook: <FaFacebook />,
         Instagram: <FaInstagram />,
@@ -89,63 +88,65 @@ const Contact = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                 {/* Left Section */}
                 <div className="bg-white shadow-md rounded-md p-8 space-y-8">
-                    {/* Visit Us */}
-                    <div>
-                        <div className="flex items-center gap-2 mb-3">
-                            <HiOutlineBuildingOffice2 size={24} className="text-primary" />
-                            <h2 className="text-lg lg:text-xl font-semibold">Visit Us</h2>
-                        </div>
-                        <div className="space-y-2 text-gray-700">
-                            <div className="flex items-center gap-2">
-                                <FiMapPin className="text-primary" />
-                                <p>{contactInfoData?.address || "Address not available"}</p>
+                    {isLoading ? <MySpinner /> : <>
+                        {/* Visit Us */}
+                        <div>
+                            <div className="flex items-center gap-2 mb-3">
+                                <HiOutlineBuildingOffice2 size={24} className="text-primary" />
+                                <h2 className="text-lg lg:text-xl font-semibold">Visit Us</h2>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <HiOutlineMail className="text-primary" />
-                                <p>{contactInfoData?.email || "Email not available"}</p>
+                            <div className="space-y-2 text-gray-700">
+                                <div className="flex items-center gap-2">
+                                    <FiMapPin className="text-primary" />
+                                    <p>{contactInfoData?.address || "Address not available"}</p>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <HiOutlineMail className="text-primary" />
+                                    <p>{contactInfoData?.email || "Email not available"}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    {/* Support */}
-                    <div>
-                        <div className="flex items-center gap-2 mb-2">
-                            <BiSupport size={24} className="text-primary" />
-                            <h2 className="text-lg lg:text-xl font-semibold">We're Here to Help</h2>
+                        {/* Support */}
+                        <div>
+                            <div className="flex items-center gap-2 mb-2">
+                                <BiSupport size={24} className="text-primary" />
+                                <h2 className="text-lg lg:text-xl font-semibold">We're Here to Help</h2>
+                            </div>
+                            <p className="text-gray-600 mb-2">Feel free to reach out to us at</p>
+                            <div className="space-y-1">
+                                {contactInfoData?.phone?.map((number, index) => (
+                                    <p key={index} className="text-primary font-medium">{number}</p>
+                                )) || "Phone not available"}
+                            </div>
+                            <p className="text-sm text-gray-500 mt-2">Always Here for You: 24/7 Support</p>
                         </div>
-                        <p className="text-gray-600 mb-2">Feel free to reach out to us at</p>
-                        <div className="space-y-1">
-                            {contactInfoData?.phone?.map((number, index) => (
-                                <p key={index} className="text-primary font-medium">{number}</p>
-                            )) || "Phone not available"}
-                        </div>
-                        <p className="text-sm text-gray-500 mt-2">Always Here for You: 24/7 Support</p>
-                    </div>
 
-                    {/* Social Media */}
-                    <div>
-                        <div className="flex items-center gap-2 mb-3">
-                            <AiOutlineLike size={24} className="text-primary" />
-                            <h2 className="text-lg lg:text-xl font-semibold">Follow Us</h2>
+                        {/* Social Media */}
+                        <div>
+                            <div className="flex items-center gap-2 mb-3">
+                                <AiOutlineLike size={24} className="text-primary" />
+                                <h2 className="text-lg lg:text-xl font-semibold">Follow Us</h2>
+                            </div>
+                            <div className="flex flex-wrap gap-3">
+                                {socialMediaData?.socialMedia?.slice(0, 10).map((social, index) => {
+                                    const Icon = socialIcons[social.platform];
+                                    return (
+                                        <Link
+                                            key={index}
+                                            to={social.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="p-2 rounded-full bg-gray-100 text-primary hover:bg-primary hover:text-white transition"
+                                            aria-label={social.platform}
+                                        >
+                                            {Icon}
+                                        </Link>
+                                    );
+                                })}
+                            </div>
                         </div>
-                        <div className="flex flex-wrap gap-3">
-                            {socialMediaData?.socialMedia?.slice(0, 10).map((social, index) => {
-                                const Icon = socialIcons[social.platform];
-                                return (
-                                    <Link
-                                        key={index}
-                                        to={social.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="p-2 rounded-full bg-gray-100 text-primary hover:bg-primary hover:text-white transition"
-                                        aria-label={social.platform}
-                                    >
-                                        {Icon}
-                                    </Link>
-                                );
-                            })}
-                        </div>
-                    </div>
+                    </>}
                 </div>
 
                 {/* Right Section */}
