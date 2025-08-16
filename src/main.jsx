@@ -17,7 +17,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        {/* <PreventRightClick /> */}
+        <PreventRightClick />
         <RouterProvider router={router} />
         <ToastContainer />
       </AuthProvider>

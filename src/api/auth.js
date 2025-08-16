@@ -1,13 +1,21 @@
-// save a user to mongodb
-export const saveUser = userInfo => {
+// save a user to MongoDB
+export const saveUser = async (userInfo) => {
+    try {
+        const response = await fetch('http://localhost:5000/users', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userInfo),
+        });
 
-    fetch('http://localhost:5000/users', {
-        method: 'POST',
-        headers: {
-            'content-type': 'application/json',
-        },
-        body: JSON.stringify(userInfo),
-    })
-        .then(res => res.json())
-        .then(data => console.log(data))
-}
+        // optionally, return response data without logging
+        const data = await response.json();
+        return data;
+
+    } catch (error) {
+        // handle errors silently or throw
+        console.error('Error saving user:', error);
+        throw error;
+    }
+};

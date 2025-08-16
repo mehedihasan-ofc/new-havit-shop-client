@@ -10,7 +10,6 @@ import {
 import useCategories from "../../../../hooks/useCategories";
 import MySpinner from "../../../../components/Shared/MySpinner/MySpinner";
 import { deleteImage, formattedDate } from "../../../../utils";
-// import { CiEdit } from "react-icons/ci";
 import { AiOutlineDelete } from "react-icons/ai";
 import { TbCategoryPlus } from "react-icons/tb";
 import { Link } from "react-router-dom";

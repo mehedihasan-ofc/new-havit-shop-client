@@ -54,8 +54,6 @@ const SingleCustomOrderDetails = () => {
 
     if (isLoading) return <MySpinner />;
 
-    console.log(singleCustomOrder);
-
     return (
         <Card className="p-6 space-y-2">
             <Typography variant="h3" className="mb-4 text-center font-serif font-bold">

@@ -84,6 +84,7 @@ import CustomOrder from "../pages/Dashboard/CustomOrder/CustomOrder";
 import AddNewOrder from "../pages/Dashboard/CustomOrder/AddNewOrder";
 import CustomOrderConfirm from "../pages/Dashboard/CustomOrder/CustomOrderConfirm";
 import SingleCustomOrderDetails from "../pages/Dashboard/CustomOrder/SingleCustomOrderDetails";
+import CreateInvoice from "../pages/Dashboard/CreateInvoice/CreateInvoice";
 
 const router = createBrowserRouter([
     {
@@ -135,7 +136,7 @@ const router = createBrowserRouter([
                 path: "/order-success",
                 element: <OrderSuccess />
             },
-            // ===============================================================================
+            // ===============================================
             // Static
             {
                 path: "/terms-conditions",
@@ -233,6 +234,10 @@ const router = createBrowserRouter([
             {
                 path: "*",
                 element: <Error />
+            },
+            {
+                path: "create-invoice",
+                element: <CreateInvoice />
             },
             // Dashboard Home
             {

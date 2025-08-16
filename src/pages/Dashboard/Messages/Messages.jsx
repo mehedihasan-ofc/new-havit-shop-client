@@ -14,7 +14,7 @@ const TABLE_HEAD = ["#", "Name", "Email", "Date", "Action"];
 const Messages = () => {
     const [messages, loading, refetch] = useMessages();
     const [axiosSecure] = useAxiosSecure();
-    const [selectedMessage, setSelectedMessage] = useState(null); // State to store the selected message
+    const [selectedMessage, setSelectedMessage] = useState(null);
 
     const handleDeleteMessage = (id) => {
         Swal.fire({

@@ -23,25 +23,28 @@ const Login = () => {
         setShowPassword(!showPassword);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        signIn(email, password)
-            .then(result => {
-                const loggedUser = result.user;
-                toast.success("You are successfully logged in!", {
-                    position: "top-center",
-                    autoClose: 2000,
-                });
-                navigate(from, { replace: true });
-            })
-            .catch(error => {
-                toast.error("User Not Found!", {
-                    position: "top-center",
-                    autoClose: 2000,
-                })
-            })
+        try {
+            const result = await signIn(email, password);
+            const loggedUser = result.user;
+
+            toast.success("You are successfully logged in!", {
+                position: "top-center",
+                autoClose: 2000,
+            });
+
+            navigate(from, { replace: true });
+
+        } catch (error) {
+            toast.error("User Not Found!", {
+                position: "top-center",
+                autoClose: 2000,
+            });
+        }
     };
+
 
     const handleGoogleLogin = () => {
         signInWithGoogle()

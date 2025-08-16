@@ -32,92 +32,82 @@ const Register = () => {
         setShowConfirmPassword(!showConfirmPassword);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!agreeTerms) {
-            return;
-        }
+        if (!agreeTerms) return;
 
         if (password !== confirmPassword) {
             setPasswordError("Passwords do not match");
             return;
-        } else {
-            setPasswordError('');
+        }
 
-            createUser(email, password)
-                .then(result => {
-                    const loggedUser = result.user;
+        setPasswordError('');
+        setLoading(true);
 
-                    updateUserProfile(loggedUser, fullName)
-                        .then(() => {
-                            setLoading(true);
+        try {
+            const result = await createUser(email, password);
+            const loggedUser = result.user;
 
-                            // save user database
-                            const userInfo = {
-                                fullName,
-                                email,
-                                coin: 0,
-                                role: 'customer',
-                                profileImage: loggedUser?.photoURL,
-                                createdAt: new Date().toISOString()
-                            };
-                            saveUser(userInfo);
+            await updateUserProfile(loggedUser, fullName);
 
-                            toast.success("Success! You're in.", {
-                                position: "top-right",
-                                autoClose: 1600,
-                            });
+            // save user to database
+            const userInfo = {
+                fullName,
+                email,
+                coin: 0,
+                role: 'customer',
+                profileImage: loggedUser?.photoURL,
+                createdAt: new Date().toISOString()
+            };
+            await saveUser(userInfo);
 
-                            navigate(from, { replace: true })
-                        })
-                        .catch(err => {
-                            toast.error(`Error: ${err.message}`, {
-                                position: "top-center",
-                                autoClose: 2000,
-                            })
-                        })
+            toast.success("Success! You're in.", {
+                position: "top-right",
+                autoClose: 1600,
+            });
 
-                })
-                .catch(error => {
-                    toast.error(`Error: ${error.message}`, {
-                        position: "top-center",
-                        autoClose: 2000,
-                    })
-                })
+            navigate(from, { replace: true });
+
+        } catch (error) {
+            toast.error(`Error: ${error.message}`, {
+                position: "top-center",
+                autoClose: 2000,
+            });
+        } finally {
+            setLoading(false);
         }
     };
 
-    const handleGoogleLogin = () => {
-        signInWithGoogle()
-            .then(result => {
+    const handleGoogleLogin = async () => {
+        try {
+            const result = await signInWithGoogle();
+            const loggedUser = result.user;
 
-                const loggedUser = result.user;
+            // save user to database (silent, no need to wait)
+            const userInfo = {
+                fullName: loggedUser.displayName,
+                email: loggedUser.email,
+                role: 'customer',
+                coin: 0,
+                profileImage: loggedUser?.photoURL,
+                createdAt: new Date().toISOString()
+            };
+            saveUser(userInfo); // fire-and-forget
 
-                // save user database
-                const userInfo = {
-                    fullName: loggedUser.displayName,
-                    email: loggedUser.email,
-                    role: 'customer',
-                    coin: 0,
-                    profileImage: loggedUser?.photoURL,
-                    createdAt: new Date().toISOString()
-                };
-                saveUser(userInfo);
+            // navigate immediately
+            navigate(from, { replace: true });
 
-                navigate(from, { replace: true });
-            })
-            .catch(err => {
-                toast.error(`Error: ${err.message}`, {
-                    position: "top-center",
-                    autoClose: 2000,
-                })
-            })
-    }
+        } catch (err) {
+            toast.error(`Error: ${err.message}`, {
+                position: "top-center",
+                autoClose: 2000,
+            });
+        }
+    };
 
     return (
         <div className="flex justify-center items-center h-full p-4">
-            {/* <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8"> */}
 
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
                 <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 space-y-4">

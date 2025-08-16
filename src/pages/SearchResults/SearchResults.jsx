@@ -8,7 +8,7 @@ const SearchResults = () => {
     const query = new URLSearchParams(search).get("q");
 
     const { data: searchProducts = [], isLoading, isError, error } = useQuery({
-        queryKey: ['searchProducts', query], // Include query in the key for dynamic fetching
+        queryKey: ['searchProducts', query],
         queryFn: async () => {
             const res = await fetch(`http://localhost:5000/api/products/search?query=${query}`);
             if (!res.ok) {
@@ -16,7 +16,7 @@ const SearchResults = () => {
             }
             return res.json();
         },
-        enabled: !!query, // Only fetch if the query is not null or empty
+        enabled: !!query,
     });
 
     if (isLoading) return <MySpinner />;

@@ -33,7 +33,7 @@ const PromoCodes = () => {
     const updatedPromoCodes = promoCodes.map(promo => {
         const expiryDate = new Date(promo.expiryDate);
         if (expiryDate < currentDate) {
-            return { ...promo, status: "expired" }; // Set status to expired if the promo code is expired
+            return { ...promo, status: "expired" };
         }
         return promo;
     });

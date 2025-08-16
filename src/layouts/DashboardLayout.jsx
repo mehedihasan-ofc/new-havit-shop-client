@@ -1,7 +1,7 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "../components/Dashboard/Sidebar/Sidebar";
-import { Avatar, Button } from "@material-tailwind/react";
-import { MdOutlineArrowForward } from "react-icons/md";
+import { Avatar, Button, IconButton } from "@material-tailwind/react";
+import { MdOutlineArrowForward, MdOutlineShoppingCartCheckout } from "react-icons/md";
 import useAdminAuth from "../hooks/useAdminAuth";
 
 const DashboardLayout = () => {
@@ -92,6 +92,10 @@ const DashboardLayout = () => {
                             </>
                         )}
                     </div>
+
+                    <IconButton onClick={() => navigate("create-invoice")} className="bg-[#DEF9EC] text-[#3BB77E] rounded-full shadow-none hover:shadow-none">
+                        <MdOutlineShoppingCartCheckout size={20} />
+                    </IconButton>
 
                     <div className="flex items-center gap-3">
                         <Avatar size="sm" src={user?.photoURL} alt={user?.displayName} />
